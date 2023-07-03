@@ -1,4 +1,8 @@
+import { userInfo } from 'os';
+import { s } from 'vitest/dist/types-b7007192';
+import { getCurrentProjectProposal } from '@/helpers/project-proposal-form';
 import { delayRes, sleep } from '@/helpers/promise';
+import { useAuthStore } from '@/stores/auth/useAuthStore';
 import { Project } from '@/models/Project';
 import {
   CreatedProjectProposal,
@@ -6,6 +10,7 @@ import {
 } from '@/models/ProjectProposal';
 import { Specialty } from '@/models/Specialty';
 import { Tag } from '@/models/Tag';
+import { mockProjectList } from '@/models/mock/project';
 import { themeSources } from '@/models/mock/project-proposal';
 import { specialties } from '@/models/mock/specialties';
 import SupervisorApiType, {
@@ -59,6 +64,10 @@ export default class SupervisorApiMock implements SupervisorApiType {
   }
 
   async getProjectList(): Promise<Project[]> {
-    return [];
+    return mockProjectList.filter((project) => {
+      return project.supervisors.some(
+        (supervisor) => supervisor.id === useAuthStore().profileData?.id,
+      );
+    });
   }
 }
