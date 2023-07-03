@@ -58,29 +58,49 @@
   }
 
   .meta-info {
-    display: flex;
-    align-items: center;
-    min-width: 300px;
-    width: 50%;
+    width: 15.9375rem;
+    @media (max-width: 900px) {
+      & {
+        display: flex;
+        align-items: center;
+        min-width: 300px;
+        width: 50%;
+      }
+    }
   }
 
   .title {
     display: inline;
     font-size: 1.25rem;
     font-weight: 600;
+    line-height: 130%;
+
+    @media (max-width: 900px) {
+      & {
+        margin-left: 20px;
+      }
+    }
   }
 
   .tag {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 4.625rem;
-    min-height: 4.625rem;
-    margin-right: 1.125rem;
-    font-size: 2.25rem;
+    width: 4.625rem;
+    height: 4.625rem;
+    margin-bottom: 1.125rem;
+    font-size: 2rem;
     color: var(--accent-color-1);
     background: #f1f4fe;
     border-radius: 50%;
+
+    @media (max-width: 900px) {
+      & {
+        margin-bottom: 0;
+        min-width: 4.625rem;
+        min-height: 4.625rem;
+      }
+    }
   }
 
   .content {
