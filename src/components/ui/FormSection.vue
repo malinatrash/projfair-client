@@ -43,9 +43,13 @@
 <style lang="scss" scoped>
   .section {
     display: flex;
-    flex-direction: column;
     gap: 1.875rem;
     margin-bottom: 1.875rem;
+    @media (max-width: 900px) {
+      & {
+        flex-direction: column;
+      }
+    }
   }
 
   .divider {
