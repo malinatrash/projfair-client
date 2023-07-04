@@ -2,6 +2,13 @@ import { LocationAsRelativeRaw, RouteLocationRaw } from 'vue-router';
 import { RouteNames } from '../types/route-names';
 import { ProjectProposalStateId } from '@/models/ProjectProposal';
 
+export function toProjectResultRoute(projectId: number): RouteLocationRaw {
+  return {
+    name: RouteNames.SUPERVISOR_PROJECT_PROPOSAL_RESULT,
+    params: { id: projectId },
+  };
+}
+
 export function toProjectRoute(projectId: number): RouteLocationRaw {
   return { name: RouteNames.PROJECT_DETAILS, params: { id: projectId } };
 }

@@ -64,7 +64,7 @@
           variant="outlined"
           is="router-link"
           case="uppercase"
-          :to="toProjectRoute(project.id)"
+          :to="toProjectResultRoute(project.id)"
         >
           Результаты проекта
         </BaseButton>
@@ -87,7 +87,7 @@
     useMobile,
     useSmallDevice,
   } from '@/hooks/useBreakpoints';
-  import { toProjectRoute } from '@/router/utils/routes';
+  import { toProjectResultRoute, toProjectRoute } from '@/router/utils/routes';
   import { Project } from '@/models/Project';
   import { StateClass } from '@/models/ProjectState';
   import OpenFeedbackModalButton from '../feedback/OpenFeedbackModalButton.vue';

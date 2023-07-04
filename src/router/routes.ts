@@ -15,6 +15,7 @@ import ProjectDetails from '@/pages/ProjectPage/ProjectDetails.vue';
 import ProjectParticipantsList from '@/pages/ProjectPage/ProjectParticipantsList.vue';
 import ProjectParticipationList from '@/pages/ProjectPage/ProjectParticipationList.vue';
 import ProjectPage from '@/pages/ProjectPage/index.vue';
+import ResultProjectPage from '@/pages/ResultProjectPage.vue';
 // User page
 import InstituteDirectorProjectProposals from '@/pages/UserPage/InstituteDirectorProjectProposals.vue';
 import UserParticipations from '@/pages/UserPage/UserParticipations.vue';
@@ -82,6 +83,16 @@ export const routes: RouteRecordRaw[] = [
     component: CreateProjectPage,
     meta: {
       title: 'Создать проектную заявку',
+      requiresAuth: true,
+      role: ['is_teacher'],
+    },
+  },
+  {
+    path: '/project/result/:id?',
+    name: RouteNames.SUPERVISOR_PROJECT_PROPOSAL_RESULT,
+    component: ResultProjectPage,
+    meta: {
+      title: 'Сформировать результат проекта',
       requiresAuth: true,
       role: ['is_teacher'],
     },
