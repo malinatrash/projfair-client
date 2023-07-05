@@ -15,6 +15,9 @@ export interface State {
   confirmModalDisagree?: string;
   confirmModalAgreeAction?: () => void;
   confirmModalDisagreeAction?: () => void;
+  // EvaluateStudentModal
+  evaluateStudentModal?: boolean;
+  evaluateStudentModalTitle?: string;
 }
 
 export const state = (): State => ({

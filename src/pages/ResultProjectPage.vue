@@ -46,6 +46,12 @@
       >
         Сбросить и выйти
       </BaseButton>
+      <BaseButton
+        variant="outlined"
+        @click="modalStore.evaluateStudentModal = true"
+      >
+        тест модалки
+      </BaseButton>
 
       <BaseButton
         v-if="canUserEdit"
@@ -102,7 +108,7 @@
   import { RouteNames } from '@/router/types/route-names';
   import { toProjectProposalCreateRoute } from '@/router/utils/routes';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
-  import { useModalsStore } from '@/stores/modals/useModalsStore';
+  import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
   import { ProjectDifficulty } from '@/models/ProjectDifficulty';
   import {
     CreatedProjectProposal,
@@ -118,7 +124,7 @@
   const router = useRouter();
   const route = useRoute();
   const authStore = useAuthStore();
-  const modalsStore = useModalsStore();
+  const modalStore = useEvaluationModal();
   const { profileData, isInstDirector } = storeToRefs(authStore);
   const projectId = computed(() => route.params.id);
   const navigateBack = useNavigateBack({

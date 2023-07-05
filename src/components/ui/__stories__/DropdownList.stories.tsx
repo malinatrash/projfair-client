@@ -33,12 +33,12 @@ export const Default: Story = {
   args: {
     isOpen: true,
     itemList: [
-      { content: 'Кнопка', type: 'button', action: noop },
-      {
-        content: 'Ссылка на google.com',
-        type: 'link',
-        href: 'https://www.google.com/',
-      },
+      { content: '0', type: 'button', action: noop },
+      { content: '1', type: 'button', action: noop },
+      { content: '2', type: 'button', action: noop },
+      { content: '3', type: 'button', action: noop },
+      { content: '4', type: 'button', action: noop },
+      { content: '5', type: 'button', action: noop },
     ],
     position: { left: '0' },
   },
