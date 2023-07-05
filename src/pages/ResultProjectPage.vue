@@ -19,10 +19,8 @@
         :state="currentProjectProposalComputed.state"
       />
     </header>
-    <ProjectProposalResultForm
-      v-model:project-proposal-result-form-value="
-        projectProposalResultFormValue
-      "
+    <ProjectResultForm
+      v-model:project-result-form-value="projectResultFormValue"
       :is-loading="isLoading"
       :can-user-edit="canUserEdit"
       :prev-project-list="prevProjectList"
@@ -31,6 +29,8 @@
       :project-skill-list="projectSkillsQuery.data.value"
       :project-job-developer="projectJobDeveloperComputed"
       :theme-source-list="themeSourcesQuery.data.value"
+      :data-project="dataProjectQuery"
+      :check-data-project="checkDataProject"
     />
     <div :class="$style.actions">
       <BaseButton
@@ -44,7 +44,7 @@
         variant="outlined"
         @click="onCancel"
       >
-        Сбросить и выйти
+        Отмена
       </BaseButton>
 
       <BaseButton
@@ -72,13 +72,14 @@
   import { useRoute, useRouter } from 'vue-router';
   import { useToast } from 'vue-toastification';
   import PageLayout from '@/components/layout/PageLayout.vue';
-  import ProjectProposalResultForm from '@/components/project-proposal/ProjectProposalResultForm.vue';
+  import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
   import ProjectProposalStatus from '@/components/project/ProjectProposalStatus.vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import {
-    ProjectProposalResultFormValue,
+    ProjectDuration,
+    ProjectProposalFormValue,
     ProjectResultGoal,
-  } from '@/models/components/ProjectProposalResultForm';
+  } from '@/models/components/ProjectProposalForm';
   import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
   import { useGetProjectSkillsQuery } from '@/api/ProjectApi/hooks/useGetAllProjectTagsQuery';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
@@ -90,19 +91,22 @@
   import { useGetSpecialtiesQuery } from '@/api/SupervisorApi/hooks/useGetSpecialtiesQuery';
   import { useGetThemeSourcesQuery } from '@/api/SupervisorApi/hooks/useGetThemeSourcesQuery';
   import { useUpdateProjectProposalMutation } from '@/api/SupervisorApi/hooks/useUpdateProjectProposalMutation';
-  import { useProjectProposalResultMetaData } from '@/hooks/useProjectProposalResultMetaData';
+  import { useProjectProposalMetaData } from '@/hooks/useProjectProposalMetaData';
   import { useNavigateBack } from '@/hooks/useRoutes';
   import { useWatchAuthorization } from '@/hooks/useWatchAuthorization';
   import {
+    collectProjectProposal,
     getCurrentProjectProposal,
     mapProjectProposalTeam,
     mapSpecialtyList,
+    projectDurationFromDate,
   } from '@/helpers/project-proposal-form';
   import { isSupervisor } from '@/helpers/typeCheck';
   import { RouteNames } from '@/router/types/route-names';
   import { toProjectProposalCreateRoute } from '@/router/utils/routes';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
+  import { Project } from '@/models/Project';
   import { ProjectDifficulty } from '@/models/ProjectDifficulty';
   import {
     CreatedProjectProposal,
@@ -113,41 +117,41 @@
   import { SpecialtyPriority } from '@/models/Specialty';
 
   useWatchAuthorization();
-
+  const props = defineProps<{ project: Project }>();
   const toast = useToast();
   const router = useRouter();
   const route = useRoute();
   const authStore = useAuthStore();
   const modalsStore = useModalsStore();
   const { profileData, isInstDirector } = storeToRefs(authStore);
-  const projectId = computed(() => route.params.id);
+  const projectId = computed(() => Number(route.params.id));
   const navigateBack = useNavigateBack({
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS,
   });
 
-  const defaultProjectProposalResultFormValue: ProjectProposalResultFormValue =
-    {
-      isNewProject: true,
-      prevProjectId: null,
-      projectName: '',
-      projectGoal: '',
-      projectCustomer: '',
-      projectThemeSourceId: null,
-      projectResultGoal: ProjectResultGoal.AllGoals,
-      projectDifficulty: ProjectDifficulty.Low,
-      skillsToBeFormed: '',
-      projectExpectedResult: '',
-      projectDescription: '',
-      specialtyList: [],
-      additionalSpecialtyList: [],
-      skillList: [],
-      team: initTeam(),
-      sharedRoleList: [MemberRole.CoMentor],
-      currentUserRoleList: [MemberRole.Mentor],
-    };
+  const defaultProjectProposalFormValue: ProjectProposalFormValue = {
+    isNewProject: true,
+    prevProjectId: null,
+    projectName: '',
+    projectGoal: '',
+    projectCustomer: '',
+    projectThemeSourceId: null,
+    projectDuration: ProjectDuration.FallSemester,
+    projectResultGoal: ProjectResultGoal.AllGoals,
+    projectDifficulty: ProjectDifficulty.Low,
+    skillsToBeFormed: '',
+    projectExpectedResult: '',
+    projectDescription: '',
+    specialtyList: [],
+    additionalSpecialtyList: [],
+    skillList: [],
+    team: initTeam(),
+    sharedRoleList: [MemberRole.CoMentor],
+    currentUserRoleList: [MemberRole.Mentor],
+  };
 
-  const projectProposalResultFormValue = ref<ProjectProposalResultFormValue>({
-    ...defaultProjectProposalResultFormValue,
+  const projectResultFormValue = ref<ProjectProposalFormValue>({
+    ...defaultProjectProposalFormValue,
   });
 
   const instituteProjectProposalsQuery = useGetInstituteProjectProposalsQuery({
@@ -170,11 +174,10 @@
   const deleteProjectProposalMutation = useDeleteProjectProposalMutation({
     onError,
   });
-  const { mentorSpecialties, projectDepartment } =
-    useProjectProposalResultMetaData(
-      projectProposalResultFormValue,
-      specialtyListQuery.data,
-    );
+  const { mentorSpecialties, projectDepartment } = useProjectProposalMetaData(
+    projectResultFormValue,
+    specialtyListQuery.data,
+  );
   const currentProjectProposalComputed = computed(() =>
     getCurrentProjectProposal(Number(projectId.value), [
       ...(userProjectProposalListQuery.data.value || []),
@@ -193,6 +196,31 @@
         ),
       ),
   });
+
+  const dataProjectQuery = useGetSingleProjectQuery(projectId);
+  // const projectList = computed(() => {
+  //   const projects = prevUserProjectsQuery.data.value;
+  //   const projectId = currentProjectProposalComputed.value?.id;
+  //   if (!projects) return [];
+  //   if (projects.find((project) => project.id === projectId)) {
+  //     return projects;
+  //   }
+  //   const singleProject = dataProjectQuery.data.value?.project;
+  //   if (!singleProject) return projects;
+  //   return [...projects, singleProject];
+  // });
+  const checkDataProject = computed(() =>
+    dataProjectQuery.data.value?.project.supervisors.some(
+      (supervisor) => supervisor.id === authStore.profileData?.id,
+    ),
+  );
+  setTimeout(() => {
+    console.log(checkDataProject.value);
+    if (!checkDataProject.value) {
+      return router.push({ name: RouteNames.HOME });
+    }
+  }, 500); // Костыль, но рабочий :D
+
   const enableSingleProjectQuery = computed(
     () => typeof prevProjectId.value === 'number' && prevProjectId.value !== -1,
   );
@@ -246,7 +274,9 @@
       specialtyListQuery.isFetching.value ||
       themeSourcesQuery.isFetching.value ||
       prevUserProjectsQuery.isFetching.value ||
-      singleProjectQuery.isFetching.value,
+      singleProjectQuery.isFetching.value ||
+      dataProjectQuery.isFetching.value ||
+      !checkDataProject.value,
   );
 
   const projectJobDeveloperComputed = computed(
@@ -275,7 +305,7 @@
       projectDescription,
       specialtyList,
       additionalSpecialtyList,
-    } = projectProposalResultFormValue.value;
+    } = projectResultFormValue.value;
 
     if (!projectName) {
       return 'Введите название проекта';
@@ -308,17 +338,17 @@
     return undefined;
   }
 
-  function setProjectProposalResultFormValue(
-    formValue: Partial<ProjectProposalResultFormValue>,
+  function setProjectProposalFormValue(
+    formValue: Partial<ProjectProposalFormValue>,
   ): void {
-    projectProposalResultFormValue.value = {
-      ...projectProposalResultFormValue.value,
+    projectResultFormValue.value = {
+      ...projectResultFormValue.value,
       ...formValue,
     };
   }
 
   function fillFromProjectProposal(projectProposal: CreatedProjectProposal) {
-    setProjectProposalResultFormValue({
+    setProjectProposalFormValue({
       prevProjectId: projectProposal.prevProjectId,
       isNewProject: !projectProposal.prevProjectId,
       projectName: projectProposal.title,
@@ -330,10 +360,10 @@
       skillsToBeFormed: projectProposal.study_result,
       projectDescription: projectProposal.description,
       skillList: projectProposal.skills,
-      // projectDuration: projectDurationFromDate({
-      //   start: projectProposal.date_start,
-      //   end: projectProposal.date_end,
-      // }),
+      projectDuration: projectDurationFromDate({
+        start: projectProposal.date_start,
+        end: projectProposal.date_end,
+      }),
       specialtyList: mapSpecialtyList(
         projectProposal.project_specialities,
         SpecialtyPriority.High,
@@ -344,8 +374,8 @@
       ),
       team: mapProjectProposalTeam(
         projectProposal.supervisors,
-        projectProposalResultFormValue.value.sharedRoleList,
-        projectProposalResultFormValue.value.currentUserRoleList,
+        projectResultFormValue.value.sharedRoleList,
+        projectResultFormValue.value.currentUserRoleList,
       ),
     });
   }
@@ -366,8 +396,8 @@
   }
 
   function clearAllFields() {
-    projectProposalResultFormValue.value = {
-      ...defaultProjectProposalResultFormValue,
+    projectResultFormValue.value = {
+      ...defaultProjectProposalFormValue,
     };
   }
 
@@ -382,29 +412,29 @@
       return;
     }
 
-    // const projectProposal = collectProjectProposal(
-    //   projectProposalResultFormValue.value,
-    //   projectProposalState,
-    //   projectDepartment.value!.id,
-    // );
-    // const id = currentProjectProposalComputed.value?.id;
+    const projectProposal = collectProjectProposal(
+      projectResultFormValue.value,
+      projectProposalState,
+      projectDepartment.value!.id,
+    );
+    const id = currentProjectProposalComputed.value?.id;
 
-    // if (id) {
-    //   updateProjectProposalMutation.mutate(
-    //     { projectProposal, id },
-    //     {
-    //       onSuccess: isRejectedToDraft
-    //         ? onSuccessUpdateRejectedToDraft
-    //         : isDraft
-    //         ? onSuccessUpdateDraft
-    //         : onSuccessCreateForReview,
-    //     },
-    //   );
-    // } else {
-    //   createProjectProposalMutation.mutate(projectProposal, {
-    //     onSuccess: isDraft ? onSuccessCreateDraft : onSuccessCreateForReview,
-    //   });
-    // }
+    if (id) {
+      updateProjectProposalMutation.mutate(
+        { projectProposal, id },
+        {
+          onSuccess: isRejectedToDraft
+            ? onSuccessUpdateRejectedToDraft
+            : isDraft
+            ? onSuccessUpdateDraft
+            : onSuccessCreateForReview,
+        },
+      );
+    } else {
+      createProjectProposalMutation.mutate(projectProposal, {
+        onSuccess: isDraft ? onSuccessCreateDraft : onSuccessCreateForReview,
+      });
+    }
   }
 
   function onCreateDraft() {
@@ -476,7 +506,7 @@
   function onCancel() {
     function agree() {
       modalsStore.openConfirmModal();
-      router.push({ name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS });
+      router.push({ name: RouteNames.USER_PROJECTS });
     }
 
     function disagree() {
@@ -485,7 +515,7 @@
 
     modalsStore.openConfirmModal(
       'Последние введенные данные не сохранятся, перейти в личный кабинет?',
-      'сбросить и выйти',
+      'отменить и выйти',
       'остаться',
       agree,
       disagree,
