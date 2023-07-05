@@ -60,6 +60,15 @@
         <OpenParticipationModalButton :project="props.project" />
         <OpenFeedbackModalButton :project="props.project" />
         <BaseButton
+          v-if="props.project.state.id === 2 && isCurrentSupervisor"
+          variant="outlined"
+          is="router-link"
+          case="uppercase"
+          :to="toProjectResultRoute(project.id)"
+        >
+          Сформировать результаты проекта
+        </BaseButton>
+        <BaseButton
           v-if="props.project.state.id === 4"
           variant="outlined"
           is="router-link"
@@ -88,6 +97,7 @@
     useSmallDevice,
   } from '@/hooks/useBreakpoints';
   import { toProjectResultRoute, toProjectRoute } from '@/router/utils/routes';
+  import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { Project } from '@/models/Project';
   import { StateClass } from '@/models/ProjectState';
   import OpenFeedbackModalButton from '../feedback/OpenFeedbackModalButton.vue';
@@ -101,6 +111,9 @@
   const isSmallDevice = useSmallDevice();
   const isDesktop = useDesktop();
   const isMobile = useMobile();
+  const isCurrentSupervisor = props.project.supervisors.some((supervisor) => {
+    return supervisor.id === useAuthStore().profileData?.id;
+  });
 
   const stateClass = StateClass[props.project.state.id];
 </script>
