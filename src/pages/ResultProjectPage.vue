@@ -216,7 +216,6 @@
     ),
   );
   setTimeout(() => {
-    console.log(checkDataProject.value);
     if (!checkDataProject.value) {
       return router.push({ name: RouteNames.HOME });
     }
