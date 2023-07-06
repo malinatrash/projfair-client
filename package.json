@@ -43,6 +43,7 @@
     "vue": "^3.2.31",
     "vue-query": "^1.26.0",
     "vue-router": "^4.0.12",
+    "vue-star-rating": "^2.1.0",
     "vue-toastification": "^2.0.0-rc.5",
     "vuedraggable": "^4.1.0"
   },
