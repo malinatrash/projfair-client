@@ -32,7 +32,8 @@
       :project-job-developer="projectJobDeveloperComputed"
       :theme-source-list="themeSourcesQuery.data.value"
       :data-project="dataProjectQuery.data.value"
-      :check-data-project="checkDataProject"
+      :is-data-project="isDataProject"
+      :check-load-data-project="checkLoadDataProject"
     />
     <div :class="$style.actions">
       <BaseButton
@@ -199,27 +200,11 @@
   });
 
   const dataProjectQuery = useGetSingleProjectQuery(projectId);
-  // const projectList = computed(() => {
-  //   const projects = prevUserProjectsQuery.data.value;
-  //   const projectId = currentProjectProposalComputed.value?.id;
-  //   if (!projects) return [];
-  //   if (projects.find((project) => project.id === projectId)) {
-  //     return projects;
-  //   }
-  //   const singleProject = dataProjectQuery.data.value?.project;
-  //   if (!singleProject) return projects;
-  //   return [...projects, singleProject];
-  // });
-  const checkDataProject = computed(() =>
+  const isDataProject = computed(() =>
     dataProjectQuery.data.value?.project.supervisors.some(
       (supervisor) => supervisor.id === authStore.profileData?.id,
     ),
   );
-  setTimeout(() => {
-    if (!checkDataProject.value) {
-      return router.push({ name: RouteNames.HOME });
-    }
-  }, 500); // Костыль, но рабочий :D
 
   const enableSingleProjectQuery = computed(
     () => typeof prevProjectId.value === 'number' && prevProjectId.value !== -1,
@@ -275,9 +260,14 @@
       themeSourcesQuery.isFetching.value ||
       prevUserProjectsQuery.isFetching.value ||
       singleProjectQuery.isFetching.value ||
-      dataProjectQuery.isFetching.value ||
-      !checkDataProject.value,
+      dataProjectQuery.isFetching.value,
   );
+
+  const checkLoadDataProject = computed(() => {
+    if (!isDataProject.value && !isLoading.value) {
+      return router.push({ name: RouteNames.HOME });
+    }
+  });
 
   const projectJobDeveloperComputed = computed(
     () =>
