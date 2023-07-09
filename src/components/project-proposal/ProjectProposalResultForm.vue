@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/attribute-hyphenation -->
 <template>
   <SkillsEditModal
     v-if="props.projectSkillList"
@@ -37,7 +38,7 @@
           :disabled="!isEditable"
           :class="$style['large-textarea']"
           placeholder="Опишите результат проделанной работы над проектом"
-          :max-length="1200"
+          :maxLength="1200"
           resize="vertical"
         />
       </BaseLabel>

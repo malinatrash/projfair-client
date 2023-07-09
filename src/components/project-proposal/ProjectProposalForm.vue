@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/attribute-hyphenation -->
 <template>
   <SkillsEditModal
     v-if="props.projectSkillList"
