@@ -37,7 +37,7 @@
           :disabled="!isEditable"
           :class="$style['large-textarea']"
           placeholder="Опишите результат проделанной работы над проектом"
-          :maxLength="1200"
+          :max-length="1200"
           resize="vertical"
         />
       </BaseLabel>
@@ -99,7 +99,7 @@
       title="Оценка участников проекта"
     >
       <!-- <Project team> -->
-      <BaseTable
+      <BaseResultTable
         v-if="
           projectData &&
           sortedParticipants.length > 0 &&
@@ -107,8 +107,9 @@
           !isError
         "
         class="table"
-        :headers="['№', 'ФИО', 'Группа']"
+        :headers="['№', 'ФИО', 'Группа', 'Оценка']"
         :rows="tableRows"
+        :ids="tableIds"
       />
 
       <BasePanel v-else>
@@ -135,8 +136,11 @@
   import BaseInput from '@/components/ui/BaseInput.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseRadioButton from '@/components/ui/BaseRadioButton.vue';
+  import BaseResultTable, {
+    RowData,
+    idData,
+  } from '@/components/ui/BaseResultTable.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
-  import BaseTable, { RowData } from '@/components/ui/BaseTable.vue';
   import BaseTextarea from '@/components/ui/BaseTextarea.vue';
   import BaseTooltip from '@/components/ui/BaseTooltip.vue';
   import FormSection from '@/components/ui/FormSection.vue';
@@ -288,6 +292,15 @@
       compareString(a.fio.toLowerCase(), b.fio.toLowerCase()),
     );
   });
+
+  const tableIds = computed<idData[]>(() =>
+    sortedParticipants.value.map(({ id, fio }) => ({
+      key: String(id),
+      id: [id],
+      name: [fio],
+    })),
+  );
+  console.log(tableIds);
 
   const tableRows = computed<RowData[]>(() =>
     sortedParticipants.value.map(({ fio, training_group, id }, index) => ({

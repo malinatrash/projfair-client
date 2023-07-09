@@ -5,7 +5,7 @@
       Вы достигли максимума по символам
     </p>
     <textarea
-      v-bind:maxlength="props.maxLength"
+      :maxlength="props.maxLength"
       v-bind="$attrs"
       :value="props.modelValue"
       :class="[
@@ -20,7 +20,7 @@
     >
     </textarea>
     <span
-      v-bind:class="[
+      :class="[
         'maxlength',
         {
           'lenght-limit': !isValid,
@@ -123,12 +123,12 @@
 
   .label-full-text {
     position: relative;
-    margin-top: -20px;
     padding-bottom: 5px;
+    margin-top: -20px;
     margin-right: 0.25rem;
     font-size: 0.85rem;
-    text-align: end;
     color: var(--red-color-1);
+    text-align: end;
   }
 
   .input {
@@ -166,8 +166,8 @@
   }
 
   .input.lenght-limit {
-    margin-left: -1px;
     margin-top: -4px;
+    margin-left: -1px;
     border: 2px solid var(--red-color-1);
   }
 

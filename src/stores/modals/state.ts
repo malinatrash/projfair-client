@@ -17,7 +17,8 @@ export interface State {
   confirmModalDisagreeAction?: () => void;
   // EvaluateStudentModal
   evaluateStudentModal?: boolean;
-  evaluateStudentModalTitle?: string;
+  evaluateStudentModalId?: number;
+  evaluateStudentModalName?: string;
 }
 
 export const state = (): State => ({
@@ -35,4 +36,8 @@ export const state = (): State => ({
   confirmModalDisagree: '',
   confirmModalAgreeAction: undefined,
   confirmModalDisagreeAction: undefined,
+  // EvaluateStudentModal
+  evaluateStudentModal: undefined,
+  evaluateStudentModalId: undefined,
+  evaluateStudentModalName: undefined,
 });

@@ -4,13 +4,16 @@ import { state } from './state';
 export const useEvaluationModal = defineStore('evaluationModals', {
   state,
   actions: {
-    openEvaluateStudentModal(title?: string) {
-      this.evaluateStudentModalTitle = title;
+    openEvaluateStudentModal(id?: number, name?: string) {
+      this.evaluateStudentModalId = id;
+      this.evaluateStudentModalName = name;
       this.evaluateStudentModal = true;
     },
 
     closeEvaluateStudentModal() {
-      this.evaluateStudentModalTitle = undefined;
+      this.evaluateStudentModalId = undefined;
+      this.evaluateStudentModalName = undefined;
+      this.evaluateStudentModal = false;
     },
   },
 });

@@ -60,9 +60,9 @@
         <OpenParticipationModalButton :project="props.project" />
         <OpenFeedbackModalButton :project="props.project" />
         <BaseButton
+          is="router-link"
           v-if="props.project.state.id === 4"
           variant="outlined"
-          is="router-link"
           case="uppercase"
           :to="toProjectResultRoute(project.id)"
         >
