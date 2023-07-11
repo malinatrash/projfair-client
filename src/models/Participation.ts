@@ -25,6 +25,8 @@ export interface Participation {
   state: State<ParticipationState>;
   created_at: string;
   updated_at: string;
+  rating: number;
+  review: string;
 }
 
 export type ParticipationWithProject = Participation & { project?: Project };

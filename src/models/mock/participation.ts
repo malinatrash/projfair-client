@@ -11,6 +11,8 @@ export const participationList: Participation[] = [
     updated_at: '2021-01-29',
     created_at: '2021-01-29',
     candidate: userCandidate,
+    rating: 3,
+    review: 'Супер полезный мужик',
   },
   {
     id: 2,
@@ -20,6 +22,8 @@ export const participationList: Participation[] = [
     updated_at: '2021-01-29',
     created_at: '2021-01-29',
     candidate: userCandidate,
+    rating: 3,
+    review: 'Супер полезный мужик',
   },
   {
     id: 3,
@@ -29,5 +33,7 @@ export const participationList: Participation[] = [
     updated_at: '2021-01-29',
     created_at: '2021-01-29',
     candidate: userCandidate,
+    rating: 3,
+    review: 'Супер полезный мужик',
   },
 ];

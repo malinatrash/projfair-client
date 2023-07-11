@@ -19,6 +19,9 @@ export interface State {
   evaluateStudentModal?: boolean;
   evaluateStudentModalId?: number;
   evaluateStudentModalName?: string;
+  projectID?: number;
+  rating?: number;
+  review?: string;
 }
 
 export const state = (): State => ({
