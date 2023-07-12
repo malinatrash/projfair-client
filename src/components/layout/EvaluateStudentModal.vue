@@ -8,19 +8,18 @@
     <div class="success-modal">
       <h1>Оценить студента</h1>
       <h3>
-        {{ modalsStore.evaluateStudentModalName }} под id
-        {{ modalsStore.evaluateStudentModalId }}
+        {{ modalsStore.evaluateStudentModalName }}
       </h3>
       <div class="wrapper">
-        <StarRating v-model:rating="rating"></StarRating>
+        <StarRating v-model:rating="modalsStore.rating"></StarRating>
       </div>
       <BaseTextarea
-        v-model="review"
+        v-model="modalsStore.review"
         placeholder="Опишите работу, проделанную студентом..."
-        :max-length="255"
+        :max-length="300"
       />
       <div>
-        <BaseButton @click="evaluate" :full-width="true" case="uppercase">
+        <BaseButton :full-width="true" case="uppercase" @click="evaluate()">
           Оценить
         </BaseButton>
       </div>
@@ -31,43 +30,24 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue';
-  import StarRating from 'vue-star-rating';
+  //import StarRating from 'vue-star-rating';
+  import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
-  import { participationList } from '@/models/mock/participation';
   import BaseButton from '../ui/BaseButton.vue';
   import BaseModal from '../ui/BaseModal.vue';
   import BaseTextarea from '../ui/BaseTextarea.vue';
 
   const modalsStore = useEvaluationModal();
-
-  type Props = {
-    id?: number;
-    name?: string;
-    review?: string;
-    rating?: number;
-    projectID?: number;
-  };
-  const props = defineProps<Props>();
-
-  const rating = ref(props.rating ?? 0);
-  const review = ref(props.review ?? '');
-  const projectID = props.projectID ?? 1;
-  const id = computed((id) => modalsStore.evaluateStudentModalId ?? 2);
+  const projectData = useGetSingleProjectQuery(modalsStore.projectID ?? 0);
 
   const evaluate = () => {
-    console.log(projectID);
-    console.log(id);
-    console.log(participationList);
-    for (const participation of participationList) {
-      if (
-        participation.project_id == projectID &&
-        participation.candidate.id == id.value
-      ) {
-        console.log(participation);
-        participation.rating = rating.value;
-        participation.review = review.value;
-        rating.value = 0;
-        review.value = '';
+    if (!projectData.data.value?.project?.participations)
+      throw new Error('participations в проекте отсутсвуют');
+    for (const participation of projectData.data.value?.project
+      ?.participations) {
+      if (participation.id == modalsStore.evaluateStudentModalId) {
+        participation.rating = modalsStore.rating ?? participation.rating;
+        participation.review = modalsStore.review ?? participation.review;
       }
     }
     modalsStore.closeEvaluateStudentModal();

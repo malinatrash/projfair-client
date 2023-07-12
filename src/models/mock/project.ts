@@ -76,6 +76,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '100',
+        rating: 5,
       },
       {
         id: 1,
@@ -85,6 +87,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '1',
+        rating: 1,
       },
       {
         id: 2,
@@ -94,6 +98,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '2',
+        rating: 2,
       },
       {
         id: 3,
@@ -103,6 +109,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '3',
+        rating: 3,
       },
       {
         id: 4,
@@ -112,6 +120,8 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '4',
+        rating: 4,
       },
       {
         id: 5,
@@ -121,9 +131,16 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '5',
+        rating: 5,
       },
     ],
-    participants: [userCandidate, candidateList[0], candidateList[1]],
+    participants: [
+      userCandidate,
+      candidateList[0],
+      candidateList[1],
+      candidateList[2],
+    ],
     places: 4,
     product_result:
       'Автоматизированная «дорожная карта» подготовки и проведения мероприятий в ИРНИТУ, адаптированная под разные их виды',
@@ -166,6 +183,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
       {
         id: 1,
@@ -175,6 +194,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
       {
         id: 2,
@@ -184,6 +205,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
       {
         id: 3,
@@ -193,6 +216,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
       {
         id: 4,
@@ -202,6 +227,8 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
       {
         id: 5,
@@ -211,6 +238,8 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
     ],
     participants: [userCandidate, candidateList[0], candidateList[1]],
@@ -256,6 +285,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
       {
         id: 1,
@@ -265,6 +296,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
       {
         id: 2,
@@ -274,6 +307,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
       {
         id: 3,
@@ -283,6 +318,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
       {
         id: 4,
@@ -292,6 +329,8 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
       {
         id: 5,
@@ -301,6 +340,8 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        rating: 0,
       },
     ],
     participants: [userCandidate, candidateList[0], candidateList[1]],
@@ -536,7 +577,7 @@ export const mockProjectList: Project[] = [
 Студент-практикант Ф.И.О. в период с 29.06.2015 г. по 12.07.2015 г.
 проходил учебно-ознакомительную практику в магазине ООО «Центральное»,
 расположенном по адресу: г. Южно-Сахалинск, ул. Ленина 218 в качестве
-помощника руководителя. 
+помощника руководителя.
 
 В течение всего периода практики, Ф.И.О. внимательно и ответственно
 относился к выполняемой работе. Изучал методы управления и основные методы
@@ -544,12 +585,12 @@ export const mockProjectList: Project[] = [
 анализ хозяйственной деятельности организации за последние три года,
 ознакомился с порядком ведения различных распорядительных документов,
 учетной документации, изучал организационную структуру предприятия,
-участвовал в различной повседневной работе. 
+участвовал в различной повседневной работе.
 
 Всю порученную работу выполнял добросовестно и в срок. Стремился
 приобретать новые знания, чтобы быть ещё более полезным на месте практики.
 Неоднократно оказывал помощь сотрудникам организации. Руководство
-организации оценивают работу Ф.И.О. на «отлично». 
+организации оценивают работу Ф.И.О. на «отлично».
 
 Замечаний по прохождению практики к Ф.И.О. нет.
 `,

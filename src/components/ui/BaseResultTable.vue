@@ -26,6 +26,7 @@
           <td>
             <OpenEvaluateStudentModalButton
               :id="ids[rowIndex].id[0]"
+              :project-i-d="projectId"
               :name="ids[rowIndex].name[0]"
             />
           </td>
@@ -36,9 +37,10 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue';
+  import { useRoute } from 'vue-router';
   import OpenEvaluateStudentModalButton from '@/components/project-proposal/OpenEvaluateStudentModalButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
-  import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
 
   export type ColumnData = string | number;
   export type ParticipantsId = number;
@@ -49,6 +51,9 @@
     name: ParticipantsName[];
   };
   export type RowData = { key?: string; data: ColumnData[] };
+
+  const route = useRoute();
+  const projectId = computed(() => Number(route.params.id));
 
   interface Props {
     /**
@@ -64,8 +69,6 @@
      */
     ids: idData[];
   }
-
-  const modalsStore = useEvaluationModal();
 
   defineProps<Props>();
 </script>

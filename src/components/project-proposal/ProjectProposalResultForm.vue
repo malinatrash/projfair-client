@@ -301,7 +301,6 @@
       name: [fio],
     })),
   );
-  console.log(tableIds);
 
   const tableRows = computed<RowData[]>(() =>
     sortedParticipants.value.map(({ fio, training_group, id }, index) => ({

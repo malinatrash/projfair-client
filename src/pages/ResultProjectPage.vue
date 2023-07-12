@@ -31,6 +31,13 @@
       :project-skill-list="projectSkillsQuery.data.value"
       :project-job-developer="projectJobDeveloperComputed"
       :theme-source-list="themeSourcesQuery.data.value"
+      :data-project="dataProjectQuery.data.value"
+      :is-data-project="isDataProject"
+      :check-load-data-project="
+        checkLoadDataProject
+          ? router.push({ name: RouteNames.HOME })
+          : undefined
+      "
     />
     <div :class="$style.actions">
       <BaseButton
@@ -44,7 +51,7 @@
         variant="outlined"
         @click="onCancel"
       >
-        Сбросить и выйти
+        Отмена
       </BaseButton>
 
       <BaseButton
@@ -102,8 +109,8 @@
   import { RouteNames } from '@/router/types/route-names';
   import { toProjectProposalCreateRoute } from '@/router/utils/routes';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
-  import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
+  import { Project } from '@/models/Project';
   import { ProjectDifficulty } from '@/models/ProjectDifficulty';
   import {
     CreatedProjectProposal,
@@ -114,15 +121,15 @@
   import { SpecialtyPriority } from '@/models/Specialty';
 
   useWatchAuthorization();
-
+  const props = defineProps<{ project: Project }>();
   const toast = useToast();
   const router = useRouter();
   const route = useRoute();
   const authStore = useAuthStore();
-  const modalStore = useEvaluationModal();
   const modalsStore = useModalsStore();
   const { profileData, isInstDirector } = storeToRefs(authStore);
-  const projectId = computed(() => route.params.id);
+  const projectId = computed(() => Number(route.params.id));
+  const { data: projectData } = useGetSingleProjectQuery(projectId);
   const navigateBack = useNavigateBack({
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS,
   });
@@ -195,6 +202,14 @@
         ),
       ),
   });
+
+  const dataProjectQuery = useGetSingleProjectQuery(projectId);
+  const isDataProject = computed(() =>
+    dataProjectQuery.data.value?.project.supervisors.some(
+      (supervisor) => supervisor.id === authStore.profileData?.id,
+    ),
+  );
+
   const enableSingleProjectQuery = computed(
     () => typeof prevProjectId.value === 'number' && prevProjectId.value !== -1,
   );
@@ -248,8 +263,16 @@
       specialtyListQuery.isFetching.value ||
       themeSourcesQuery.isFetching.value ||
       prevUserProjectsQuery.isFetching.value ||
-      singleProjectQuery.isFetching.value,
+      singleProjectQuery.isFetching.value ||
+      dataProjectQuery.isFetching.value,
   );
+
+  const checkLoadDataProject = computed(() => {
+    if (!isDataProject.value && !isLoading.value) {
+      return true;
+    }
+    return false;
+  });
 
   const projectJobDeveloperComputed = computed(
     () =>
@@ -478,7 +501,7 @@
   function onCancel() {
     function agree() {
       modalsStore.openConfirmModal();
-      router.push({ name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS });
+      router.push({ name: RouteNames.USER_PROJECTS });
     }
 
     function disagree() {
@@ -487,7 +510,7 @@
 
     modalsStore.openConfirmModal(
       'Последние введенные данные не сохранятся, перейти в личный кабинет?',
-      'сбросить и выйти',
+      'отменить и выйти',
       'остаться',
       agree,
       disagree,

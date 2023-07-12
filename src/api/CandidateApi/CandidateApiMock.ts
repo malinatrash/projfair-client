@@ -118,6 +118,8 @@ export default class CandidateApiMock implements CandidateApiType {
       state: { id: ParticipationState.Active, state: 'активный' },
       created_at: new Date(Date.now()).toISOString(),
       updated_at: new Date(Date.now()).toISOString(),
+      rating: Math.floor(Math.random() * 5),
+      review: 'test message',
     });
     return delayRes(undefined, 300);
   }
