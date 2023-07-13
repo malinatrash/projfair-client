@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue';
-  //import StarRating from 'vue-star-rating';
+  import StarRating from 'vue-star-rating';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
   import BaseButton from '../ui/BaseButton.vue';
@@ -54,7 +54,7 @@
   };
 </script>
 
-<style scoped>
+<style>
   .success-modal {
     display: flex;
     flex-direction: column;
@@ -65,7 +65,9 @@
   .wrapper {
     display: flex;
     justify-content: center;
-    color: #fff;
-    user-select: none;
+  }
+
+  .vue-star-rating-rating-text {
+    display: none !important;
   }
 </style>
