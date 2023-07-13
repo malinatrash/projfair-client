@@ -35,14 +35,11 @@
       :project-job-developer="projectJobDeveloperComputed"
       :theme-source-list="themeSourcesQuery.data.value"
       :data-project="dataProjectQuery.data.value"
+      :project-state-id="dataProjectQuery.data.value?.project.state.id"
       :is-data-project="isDataProject"
-      :check-load-data-project="
-        checkLoadDataProject
-          ? router.push({ name: RouteNames.HOME })
-          : undefined
-      "
+      :check-load-data-project="checkLoadDataProject ? navigateBack : undefined"
     />
-    <div :class="$style.actions">
+    <div v-show="!isProjectStateArchived" :class="$style.actions">
       <BaseButton
         v-if="
           canUserEdit &&
@@ -71,6 +68,21 @@
           Заявка отправляется...
         </template>
         <template v-else>Сохранить</template>
+      </BaseButton>
+    </div>
+    <div v-show="isProjectStateArchived" :class="$style.actions">
+      <BaseButton
+        v-if="
+          canUserEdit &&
+          !userProjectProposalListQuery.isFetching.value &&
+          !instituteProjectProposalsQuery.isFetching.value
+        "
+        :disabled="isLoading"
+        color="red"
+        variant="outlined"
+        @click="navigateBack"
+      >
+        Назад
       </BaseButton>
     </div>
   </PageLayout>
@@ -520,6 +532,10 @@
     );
   }
 
+  function onPrev() {
+    router.push({ name: RouteNames.HOME });
+  }
+
   function onSuccessCreateDraft(
     createdProjectProposal: CreatedProjectProposal,
   ) {
@@ -610,6 +626,11 @@
   function onError(error: unknown) {
     toast.error('Ошибка: ' + String(error));
   }
+
+  const isProjectStateArchived = computed(() => {
+    if (dataProjectQuery.data.value?.project.state.id == 4) return true;
+    return false;
+  });
 </script>
 
 <style lang="scss" module>
