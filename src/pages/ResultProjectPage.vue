@@ -148,30 +148,15 @@
   const modalsStore = useModalsStore();
   const { profileData, isInstDirector } = storeToRefs(authStore);
   const projectId = computed(() => Number(route.params.id));
-  const { data: projectData } = useGetSingleProjectQuery(projectId);
   const navigateBack = useNavigateBack({
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS,
   });
 
   const defaultProjectProposalResultFormValue: ProjectProposalResultFormValue =
     {
-      isNewProject: true,
-      prevProjectId: null,
-      projectName: '',
-      projectGoal: '',
-      projectCustomer: '',
-      projectThemeSourceId: null,
+      projectResultDescription: '',
       projectResultGoal: ProjectResultGoal.AllGoals,
-      projectDifficulty: ProjectDifficulty.Low,
-      skillsToBeFormed: '',
-      projectExpectedResult: '',
-      projectDescription: '',
-      specialtyList: [],
-      additionalSpecialtyList: [],
-      skillList: [],
-      team: initTeam(),
-      sharedRoleList: [MemberRole.CoMentor],
-      currentUserRoleList: [MemberRole.Mentor],
+      candidateTeam: [],
     };
 
   const projectProposalResultFormValue = ref<ProjectProposalResultFormValue>({
@@ -298,6 +283,10 @@
     ) {
       return true;
     }
+    projectProposalResultFormValue.value.candidateTeam =
+      dataProjectQuery.data.value?.project.participations?.filter(
+        (participation) => participation.priority === 1,
+      );
     return false;
   });
 
@@ -308,53 +297,21 @@
       )?.supervisor.fio || profileData?.value?.fio,
   );
 
-  watch(
-    () => currentProjectProposalComputed.value,
-    (currentProjectProposal, prevCurrentProjectProposal) => {
-      if (currentProjectProposal?.id === prevCurrentProjectProposal?.id) return;
-      if (!currentProjectProposal) return;
-      fillFromProjectProposal(currentProjectProposal);
-    },
-    { deep: true, immediate: true },
-  );
+  // watch(
+  //   () => currentProjectProposalComputed.value,
+  //   (currentProjectProposal, prevCurrentProjectProposal) => {
+  //     if (currentProjectProposal?.id === prevCurrentProjectProposal?.id) return;
+  //     if (!currentProjectProposal) return;
+  //     fillFromProjectProposal(currentProjectProposal);
+  //   },
+  //   { deep: true, immediate: true },
+  // );
 
   function validateProjectProposal(): string | undefined {
-    const {
-      projectName,
-      projectGoal,
-      projectExpectedResult,
-      skillsToBeFormed,
-      projectDescription,
-      specialtyList,
-      additionalSpecialtyList,
-    } = projectProposalResultFormValue.value;
+    const { projectResultDescription } = projectProposalResultFormValue.value;
 
-    if (!projectName) {
-      return 'Введите название проекта';
-    }
-    if (!projectGoal) {
-      return 'Введите цель проекта';
-    }
-    if (!projectDepartment.value) {
-      return 'Подразделение наставника проекта не найдено, выберите другого наставника, или обратитесь в службу поддержки';
-    }
-    if (!projectExpectedResult) {
-      return 'Введите ожидаемый результат проекта';
-    }
-    if (!skillsToBeFormed) {
-      return 'Введите формируемые в результате проекта навыки студентов';
-    }
-    if (!projectDescription) {
-      return 'Введите описание проекта';
-    }
-    if (mentorSpecialties.value.length > 0 && specialtyList.length === 0) {
-      return 'Выберите основные специальности участников проекта';
-    }
-    if (
-      mentorSpecialties.value.length === 0 &&
-      additionalSpecialtyList.length === 0
-    ) {
-      return 'Выберите приглашённые специальности участников проекта';
+    if (!projectResultDescription) {
+      return 'Введите результат проекта';
     }
 
     return undefined;
@@ -369,38 +326,38 @@
     };
   }
 
-  function fillFromProjectProposal(projectProposal: CreatedProjectProposal) {
-    setProjectProposalResultFormValue({
-      prevProjectId: projectProposal.prevProjectId,
-      isNewProject: !projectProposal.prevProjectId,
-      projectName: projectProposal.title,
-      projectGoal: projectProposal.goal,
-      projectCustomer: projectProposal.customer,
-      projectThemeSourceId: projectProposal.theme_source?.id || null,
-      projectDifficulty: projectProposal.difficulty,
-      projectExpectedResult: projectProposal.product_result,
-      skillsToBeFormed: projectProposal.study_result,
-      projectDescription: projectProposal.description,
-      skillList: projectProposal.skills,
-      // projectDuration: projectDurationFromDate({
-      //   start: projectProposal.date_start,
-      //   end: projectProposal.date_end,
-      // }),
-      specialtyList: mapSpecialtyList(
-        projectProposal.project_specialities,
-        SpecialtyPriority.High,
-      ),
-      additionalSpecialtyList: mapSpecialtyList(
-        projectProposal.project_specialities,
-        SpecialtyPriority.Low,
-      ),
-      team: mapProjectProposalTeam(
-        projectProposal.supervisors,
-        projectProposalResultFormValue.value.sharedRoleList,
-        projectProposalResultFormValue.value.currentUserRoleList,
-      ),
-    });
-  }
+  // function fillFromProjectProposal(projectProposal: CreatedProjectProposal) {
+  //   setProjectProposalResultFormValue({
+  //     prevProjectId: projectProposal.prevProjectId,
+  //     isNewProject: !projectProposal.prevProjectId,
+  //     projectName: projectProposal.title,
+  //     projectGoal: projectProposal.goal,
+  //     projectCustomer: projectProposal.customer,
+  //     projectThemeSourceId: projectProposal.theme_source?.id || null,
+  //     projectDifficulty: projectProposal.difficulty,
+  //     projectExpectedResult: projectProposal.product_result,
+  //     skillsToBeFormed: projectProposal.study_result,
+  //     projectDescription: projectProposal.description,
+  //     skillList: projectProposal.skills,
+  //     // projectDuration: projectDurationFromDate({
+  //     //   start: projectProposal.date_start,
+  //     //   end: projectProposal.date_end,
+  //     // }),
+  //     specialtyList: mapSpecialtyList(
+  //       projectProposal.project_specialities,
+  //       SpecialtyPriority.High,
+  //     ),
+  //     additionalSpecialtyList: mapSpecialtyList(
+  //       projectProposal.project_specialities,
+  //       SpecialtyPriority.Low,
+  //     ),
+  //     team: mapProjectProposalTeam(
+  //       projectProposal.supervisors,
+  //       projectProposalResultFormValue.value.sharedRoleList,
+  //       projectProposalResultFormValue.value.currentUserRoleList,
+  //     ),
+  //   });
+  // }
 
   function initTeam() {
     const userData = profileData?.value;
