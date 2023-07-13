@@ -8,6 +8,9 @@
         <template v-if="isLoading">Загрузка...</template>
         <template v-else-if="!currentProjectProposalComputed">
           Результаты проекта
+          <h6 style="font-weight: 500; line-height: normal">
+            {{ dataProjectQuery.data.value?.project.title }}
+          </h6>
         </template>
         <template v-else-if="canUserEdit">
           Редактирование проектной заявки
