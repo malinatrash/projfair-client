@@ -1,8 +1,7 @@
 import { TeamMember } from '@/components/project/ProjectTeamCollect.vue';
-import { EditedSkill } from '@/components/skill/SkillsEditModal.vue';
-import { ProjectDifficulty } from '../ProjectDifficulty';
-import { MemberRole } from '../ProjectProposal';
-import { SelectedSpecialty } from '../Specialty';
+import { ParticipantsId } from '@/components/ui/BaseResultTable.vue';
+import { Candidate } from '../Candidate';
+import { Participation } from '../Participation';
 
 export const enum ProjectResultGoal {
   AllGoals = 1,
@@ -12,21 +11,7 @@ export const enum ProjectResultGoal {
 }
 
 export type ProjectProposalResultFormValue = {
-  isNewProject: boolean;
-  prevProjectId: number | null;
-  projectName: string;
-  projectGoal: string;
+  projectResultDescription: string;
   projectResultGoal: ProjectResultGoal;
-  projectCustomer: string;
-  projectThemeSourceId: number | null;
-  projectDifficulty: ProjectDifficulty;
-  skillsToBeFormed: string;
-  projectExpectedResult: string;
-  projectDescription: string;
-  specialtyList: SelectedSpecialty<number | string>[];
-  additionalSpecialtyList: SelectedSpecialty<number | string>[];
-  skillList: EditedSkill[];
-  team: TeamMember[];
-  sharedRoleList: MemberRole[];
-  currentUserRoleList: MemberRole[];
+  candidateTeam: Participation[] | undefined;
 };
