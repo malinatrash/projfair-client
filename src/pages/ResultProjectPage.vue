@@ -13,9 +13,9 @@
           </h6>
         </template>
         <template v-else-if="canUserEdit">
-          Редактирование проектной заявки
+          Редактирование результатов проекта
         </template>
-        <template v-else>Просмотр проектной заявки</template>
+        <template v-else>Просмотр результатов проекта</template>
       </h1>
       <ProjectProposalStatus
         v-if="currentProjectProposalComputed"
@@ -35,6 +35,12 @@
       :project-job-developer="projectJobDeveloperComputed"
       :theme-source-list="themeSourcesQuery.data.value"
       :data-project="dataProjectQuery.data.value"
+      :is-data-project="isDataProject"
+      :check-load-data-project="
+        checkLoadDataProject
+          ? router.push({ name: RouteNames.USER_PROJECTS })
+          : undefined
+      "
       :project-state-id="dataProjectQuery.data.value?.project.state.id"
     />
     <div v-show="!isProjectStateArchived" :class="$style.actions">
@@ -221,6 +227,11 @@
     if (dataProjectQuery.data.value?.project.state.id == 4) return true;
     return false;
   });
+  const isDataProject = computed(() =>
+    dataProjectQuery.data.value?.project.supervisors.some(
+      (supervisor) => supervisor.id === authStore.profileData?.id,
+    ),
+  );
 
   const enableSingleProjectQuery = computed(
     () => typeof prevProjectId.value === 'number' && prevProjectId.value !== -1,
@@ -278,6 +289,17 @@
       singleProjectQuery.isFetching.value ||
       dataProjectQuery.isFetching.value,
   );
+
+  const checkLoadDataProject = computed(() => {
+    if (
+      !isLoading.value &&
+      !isDataProject.value &&
+      !isProjectStateArchived.value
+    ) {
+      return true;
+    }
+    return false;
+  });
 
   const projectJobDeveloperComputed = computed(
     () =>
