@@ -9,7 +9,7 @@
     }"
   >
     <!-- @slot Контент внутри кнопки -->
-    <slot></slot>
+    <slot> </slot>
   </component>
 </template>
 
@@ -22,7 +22,8 @@
     | 'inline-link'
     | 'primary'
     | 'tag'
-    | 'tag-outlined';
+    | 'tag-outlined'
+    | 'rating';
   export type Is = 'button' | 'router-link' | 'a';
   export type Case = 'uppercase' | 'lowercase' | 'none';
   export type Color = 'red' | 'white';

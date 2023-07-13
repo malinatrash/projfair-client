@@ -29,8 +29,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue';
-  import StarRating from 'vue-star-rating';
+  import StarRating from 'vue-star-rating/dist/VueStarRating.umd.js';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
   import BaseButton from '../ui/BaseButton.vue';

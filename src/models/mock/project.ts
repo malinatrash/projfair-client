@@ -77,7 +77,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '100',
-        rating: 5,
+        rating: 0,
       },
       {
         id: 1,
