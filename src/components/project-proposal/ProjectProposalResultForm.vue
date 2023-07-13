@@ -1,28 +1,5 @@
 <!-- eslint-disable vue/attribute-hyphenation -->
 <template>
-  <SkillsEditModal
-    v-if="props.projectSkillList"
-    v-model:is-show="showSkillsEditModal"
-    v-model:skill-list="projectProposalResultForm.skillList"
-    :shared-skill-list="props.projectSkillList"
-  />
-  <SpecialtyEditModal
-    v-if="mentorSpecialties"
-    v-model:is-show="showSpecialtyEditModal"
-    v-model:specialty-list="projectProposalResultForm.specialtyList"
-    :shared-specialty-list="mentorSpecialties"
-  />
-  <SpecialtyEditModal
-    v-if="props.specialtyList"
-    v-model:is-show="showAdditionalSpecialtyEditModal"
-    v-model:specialty-list="projectProposalResultForm.additionalSpecialtyList"
-    :shared-specialty-list="props.specialtyList"
-  >
-    <template #title>
-      <h1>Редактирование приглашённых специальностей</h1>
-    </template>
-  </SpecialtyEditModal>
-
   <BasePanel>
     <FormSection
       :class="$style['project-result-section']"
@@ -49,7 +26,7 @@
       :class="$style['project-data-section']"
       tag="2"
       title="Достижение целей"
-      divider
+      :divider="!isProjectStateArchived"
     >
       <!-- <Project name> -->
       <BaseLabel
@@ -95,6 +72,7 @@
     </FormSection>
 
     <FormSection
+      v-show="!isProjectStateArchived"
       :class="$style['project-result-section']"
       tag="3"
       title="Оценка участников проекта"
@@ -125,16 +103,10 @@
 </template>
 
 <script setup lang="ts">
-  import VMultiselect from '@vueform/multiselect';
   import { toRefs } from '@vueuse/core';
   import { computed, reactive, ref, watch } from 'vue';
   import { watchEffect } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import ProjectTeamCollect from '@/components/project/ProjectTeamCollect.vue';
-  import SkillsEditModal from '@/components/skill/SkillsEditModal.vue';
-  import SpecialtyEditModal from '@/components/specialty/SpecialtyEditModal.vue';
-  import BaseButton from '@/components/ui/BaseButton.vue';
-  import BaseInput from '@/components/ui/BaseInput.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseRadioButton from '@/components/ui/BaseRadioButton.vue';
   import BaseResultTable, {
@@ -143,9 +115,7 @@
   } from '@/components/ui/BaseResultTable.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
   import BaseTextarea from '@/components/ui/BaseTextarea.vue';
-  import BaseTooltip from '@/components/ui/BaseTooltip.vue';
   import FormSection from '@/components/ui/FormSection.vue';
-  import TagList from '@/components/ui/TagList.vue';
   import BaseLabel from '@/components/ui/label/BaseLabel.vue';
   import {
     ProjectProposalResultFormValue,
@@ -160,7 +130,6 @@
   import { toProjectRoute } from '@/router/utils/routes';
   import { Candidate } from '@/models/Candidate';
   import { Project, Skill } from '@/models/Project';
-  import { ProjectDifficulty } from '@/models/ProjectDifficulty';
   import { Specialty } from '@/models/Specialty';
   import { Supervisor } from '@/models/Supervisor';
   import { Tag } from '@/models/Tag';
@@ -175,6 +144,7 @@
     specialtyList?: Specialty<number>[];
     themeSourceList?: Tag<number>[];
     projectJobDeveloper?: string;
+    projectStateId: number | undefined;
   };
   type Emits = {
     (
@@ -192,6 +162,7 @@
     supervisorList: undefined,
     themeSourceList: undefined,
     projectJobDeveloper: undefined,
+    dataProjectInfo: undefined,
   });
   const emit = defineEmits<Emits>();
 
@@ -267,7 +238,6 @@
   );
 
   //////////////////////////////////////////////////////////////////////////
-
   const router = useRouter();
 
   const route = useRoute();
@@ -308,6 +278,12 @@
       data: [index + 1, fio, training_group],
     })),
   );
+  //////////////////////////////////////////////////////////////////////////
+
+  const isProjectStateArchived = computed(() => {
+    if (props.projectStateId == 4) return true;
+    return false;
+  });
 </script>
 
 <style lang="scss" module>
