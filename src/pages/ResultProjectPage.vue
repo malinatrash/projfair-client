@@ -36,8 +36,6 @@
       :theme-source-list="themeSourcesQuery.data.value"
       :data-project="dataProjectQuery.data.value"
       :project-state-id="dataProjectQuery.data.value?.project.state.id"
-      :is-data-project="isDataProject"
-      :check-load-data-project="checkLoadDataProject ? navigateBack : undefined"
     />
     <div v-show="!isProjectStateArchived" :class="$style.actions">
       <BaseButton
@@ -219,11 +217,10 @@
   });
 
   const dataProjectQuery = useGetSingleProjectQuery(projectId);
-  const isDataProject = computed(() =>
-    dataProjectQuery.data.value?.project.supervisors.some(
-      (supervisor) => supervisor.id === authStore.profileData?.id,
-    ),
-  );
+  const isProjectStateArchived = computed(() => {
+    if (dataProjectQuery.data.value?.project.state.id == 4) return true;
+    return false;
+  });
 
   const enableSingleProjectQuery = computed(
     () => typeof prevProjectId.value === 'number' && prevProjectId.value !== -1,
@@ -281,13 +278,6 @@
       singleProjectQuery.isFetching.value ||
       dataProjectQuery.isFetching.value,
   );
-
-  const checkLoadDataProject = computed(() => {
-    if (!isDataProject.value && !isLoading.value) {
-      return true;
-    }
-    return false;
-  });
 
   const projectJobDeveloperComputed = computed(
     () =>
@@ -532,10 +522,6 @@
     );
   }
 
-  function onPrev() {
-    router.push({ name: RouteNames.HOME });
-  }
-
   function onSuccessCreateDraft(
     createdProjectProposal: CreatedProjectProposal,
   ) {
@@ -626,11 +612,6 @@
   function onError(error: unknown) {
     toast.error('Ошибка: ' + String(error));
   }
-
-  const isProjectStateArchived = computed(() => {
-    if (dataProjectQuery.data.value?.project.state.id == 4) return true;
-    return false;
-  });
 </script>
 
 <style lang="scss" module>
