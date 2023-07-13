@@ -10,7 +10,7 @@
       <!-- <Project result> -->
       <BaseLabel required label="Результат проекта">
         <BaseTextarea
-          v-model="projectProposalResultForm.projectDescription"
+          v-model="projectProposalResultForm.projectResultDescription"
           data-test-id="projectDescription"
           :disabled="!isEditable"
           :class="$style['large-textarea']"
@@ -229,21 +229,21 @@
       emit('update:projectProposalResultFormValue', projectProposalResultForm),
     { deep: true },
   );
-  watch(
-    () => [projectDepartment.value?.id, isEditable.value],
-    ([departmentId, isEditable], [prevDepartmentId]) => {
-      if (!isEditable) return;
-      if (!prevDepartmentId) return;
-      if (departmentId === prevDepartmentId) return;
-      projectProposalResultForm.specialtyList = [];
-    },
-  );
-  watch(
-    () => projectProposalResultForm.isNewProject,
-    (isNewProject) => {
-      if (isNewProject) projectProposalResultForm.prevProjectId = null;
-    },
-  );
+  // watch(
+  //   () => [projectDepartment.value?.id, isEditable.value],
+  //   ([departmentId, isEditable], [prevDepartmentId]) => {
+  //     if (!isEditable) return;
+  //     if (!prevDepartmentId) return;
+  //     if (departmentId === prevDepartmentId) return;
+  //     projectProposalResultForm.specialtyList = [];
+  //   },
+  // );
+  // watch(
+  //   () => projectProposalResultForm.isNewProject,
+  //   (isNewProject) => {
+  //     if (isNewProject) projectProposalResultForm.prevProjectId = null;
+  //   },
+  // );
 
   //////////////////////////////////////////////////////////////////////////
   const router = useRouter();
