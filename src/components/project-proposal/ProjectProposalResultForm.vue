@@ -162,7 +162,7 @@
     supervisorList: undefined,
     themeSourceList: undefined,
     projectJobDeveloper: undefined,
-    dataProjectInfo: undefined,
+    projectStateId: undefined,
   });
   const emit = defineEmits<Emits>();
 
@@ -178,7 +178,15 @@
     props.projectProposalResultFormValue,
   );
 
-  const isEditable = computed(() => !props.isLoading && props.canUserEdit);
+  const isProjectStateArchived = computed(() => {
+    if (props.projectStateId == 4) return true;
+    return false;
+  });
+
+  const isEditable = computed(
+    () =>
+      !props.isLoading && props.canUserEdit && !isProjectStateArchived.value,
+  );
 
   const { mentorSpecialties, projectDepartment, projectMentor } =
     useProjectProposalResultMetaData(
@@ -279,11 +287,6 @@
     })),
   );
   //////////////////////////////////////////////////////////////////////////
-
-  const isProjectStateArchived = computed(() => {
-    if (props.projectStateId == 4) return true;
-    return false;
-  });
 </script>
 
 <style lang="scss" module>
