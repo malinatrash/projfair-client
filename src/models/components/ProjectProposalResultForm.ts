@@ -1,6 +1,3 @@
-import { TeamMember } from '@/components/project/ProjectTeamCollect.vue';
-import { ParticipantsId } from '@/components/ui/BaseResultTable.vue';
-import { Candidate } from '../Candidate';
 import { Participation } from '../Participation';
 
 export const enum ProjectResultGoal {
@@ -9,6 +6,13 @@ export const enum ProjectResultGoal {
   LessGoals = 3,
   NoGoals = 4,
 }
+
+export const ProjectResultGoalName: Record<ProjectResultGoal, string> = {
+  [ProjectResultGoal.AllGoals]: 'Проект достиг всех поставленных целей',
+  [ProjectResultGoal.MoreGoals]: 'Проект достиг большинство поставленных целей',
+  [ProjectResultGoal.LessGoals]: 'Проект достиг минимальное количество целей',
+  [ProjectResultGoal.NoGoals]: 'Проект не достиг поставленных целей',
+};
 
 export type ProjectProposalResultFormValue = {
   projectResultDescription: string;
