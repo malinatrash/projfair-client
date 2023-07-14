@@ -137,7 +137,6 @@
   import { MultiselectObjectItem } from '@/models/components/VMultiselect';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { useSmallDevice } from '@/hooks/useBreakpoints';
-  import { useProjectProposalResultMetaData } from '@/hooks/useProjectProposalResultMetaData';
   import { canViewParticipants } from '@/helpers/project';
   import { compareString } from '@/helpers/string';
   import { toProjectRoute } from '@/router/utils/routes';
@@ -157,7 +156,6 @@
     specialtyList?: Specialty<number>[];
     themeSourceList?: Tag<number>[];
     projectJobDeveloper?: string;
-    projectStateId: number | undefined;
   };
   type Emits = {
     (
@@ -199,32 +197,6 @@
   const isEditable = computed(
     () =>
       !props.isLoading && props.canUserEdit && !isProjectStateArchived.value,
-  );
-
-  const { mentorSpecialties, projectDepartment, projectMentor } =
-    useProjectProposalResultMetaData(
-      projectProposalResultFormValue,
-      specialtyList,
-    );
-
-  const prevProjectsMultiselectItems = computed<
-    MultiselectObjectItem<number>[]
-  >(
-    () =>
-      props.prevProjectList?.map((project) => ({
-        label: `${project.date_start} ${project.title}`,
-        value: project.id,
-      })) || [],
-  );
-
-  const themeSourcesMultiselectItems = computed<
-    MultiselectObjectItem<number>[]
-  >(
-    () =>
-      props.themeSourceList?.map((source) => ({
-        label: source.name,
-        value: source.id,
-      })) || [],
   );
 
   watch(

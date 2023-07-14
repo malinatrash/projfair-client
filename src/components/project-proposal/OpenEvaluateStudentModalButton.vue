@@ -85,18 +85,21 @@
     position: relative;
     bottom: -1.2rem;
   }
+
   .content {
     gap: 0;
-    margin: 0;
     padding: 0;
+    margin: 0;
   }
+
   .star-rating {
     position: relative;
     top: 0.1rem;
   }
+
   button.button.outlined {
     width: 7rem;
-    height: 4rem;
+    height: 3rem;
     padding: 1rem;
   }
 </style>

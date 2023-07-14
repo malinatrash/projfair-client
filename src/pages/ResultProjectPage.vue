@@ -116,31 +116,22 @@
   import { useGetSpecialtiesQuery } from '@/api/SupervisorApi/hooks/useGetSpecialtiesQuery';
   import { useGetThemeSourcesQuery } from '@/api/SupervisorApi/hooks/useGetThemeSourcesQuery';
   import { useUpdateProjectProposalMutation } from '@/api/SupervisorApi/hooks/useUpdateProjectProposalMutation';
-  import { useProjectProposalResultMetaData } from '@/hooks/useProjectProposalResultMetaData';
   import { useNavigateBack } from '@/hooks/useRoutes';
   import { useWatchAuthorization } from '@/hooks/useWatchAuthorization';
-  import {
-    getCurrentProjectProposal,
-    mapProjectProposalTeam,
-    mapSpecialtyList,
-  } from '@/helpers/project-proposal-form';
+  import { getCurrentProjectProposal } from '@/helpers/project-proposal-form';
   import { isSupervisor } from '@/helpers/typeCheck';
   import { RouteNames } from '@/router/types/route-names';
   import { toProjectProposalCreateRoute } from '@/router/utils/routes';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
-  import { Project } from '@/models/Project';
-  import { ProjectDifficulty } from '@/models/ProjectDifficulty';
   import {
     CreatedProjectProposal,
     MemberRole,
     ProjectProposalStateId,
   } from '@/models/ProjectProposal';
   import { ProjectStateID } from '@/models/ProjectState';
-  import { SpecialtyPriority } from '@/models/Specialty';
 
   useWatchAuthorization();
-  const props = defineProps<{ project: Project }>();
   const toast = useToast();
   const router = useRouter();
   const route = useRoute();
@@ -183,11 +174,6 @@
   const deleteProjectProposalMutation = useDeleteProjectProposalMutation({
     onError,
   });
-  const { mentorSpecialties, projectDepartment } =
-    useProjectProposalResultMetaData(
-      projectProposalResultFormValue,
-      specialtyListQuery.data,
-    );
   const currentProjectProposalComputed = computed(() =>
     getCurrentProjectProposal(Number(projectId.value), [
       ...(userProjectProposalListQuery.data.value || []),
@@ -282,12 +268,9 @@
       !isProjectStateArchived.value
     ) {
       return true;
+    } else {
+      return false;
     }
-    projectProposalResultFormValue.value.candidateTeam =
-      dataProjectQuery.data.value?.project.participations?.filter(
-        (participation) => participation.priority === 1,
-      );
-    return false;
   });
 
   const projectJobDeveloperComputed = computed(
@@ -315,15 +298,6 @@
     }
 
     return undefined;
-  }
-
-  function setProjectProposalResultFormValue(
-    formValue: Partial<ProjectProposalResultFormValue>,
-  ): void {
-    projectProposalResultFormValue.value = {
-      ...projectProposalResultFormValue.value,
-      ...formValue,
-    };
   }
 
   // function fillFromProjectProposal(projectProposal: CreatedProjectProposal) {
@@ -358,21 +332,6 @@
   //     ),
   //   });
   // }
-
-  function initTeam() {
-    const userData = profileData?.value;
-
-    if (!userData || !isSupervisor(userData)) return [];
-
-    const { is_student, is_teacher, ...currentUser } = userData;
-    return [
-      {
-        memberData: currentUser,
-        isCurrentUser: true,
-        role: MemberRole.Mentor,
-      },
-    ];
-  }
 
   function clearAllFields() {
     projectProposalResultFormValue.value = {
@@ -416,25 +375,6 @@
     // }
   }
 
-  function onCreateDraft() {
-    function agree() {
-      modalsStore.openConfirmModal();
-      sendProjectProposal(ProjectProposalStateId.Draft);
-    }
-
-    function disagree() {
-      modalsStore.openConfirmModal();
-    }
-
-    modalsStore.openConfirmModal(
-      'Сохранить черновик заявки?',
-      'сохранить черновик',
-      'отмена',
-      agree,
-      disagree,
-    );
-  }
-
   function onCreateUnderReview() {
     function agree() {
       modalsStore.openConfirmModal();
@@ -446,9 +386,9 @@
     }
 
     modalsStore.openConfirmModal(
-      'Подать заявку на проект?',
-      'подать заявку',
-      'отмена',
+      'Сохранить результаты проекта?',
+      'Сохранить',
+      'Отмена',
       agree,
       disagree,
     );
@@ -501,32 +441,6 @@
     );
   }
 
-  function onSuccessCreateDraft(
-    createdProjectProposal: CreatedProjectProposal,
-  ) {
-    router.replace(toProjectProposalCreateRoute(createdProjectProposal.id));
-    const title = 'Черновик успешно сохранён, вернуться в личный кабинет?';
-    const agreeButtonTitle = 'вернуться в личный кабинет';
-    const disagreeButtonTitle = 'продолжить редактирование';
-
-    function agree() {
-      modalsStore.openConfirmModal();
-      router.push({ name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS });
-    }
-
-    function disagree() {
-      modalsStore.openConfirmModal();
-    }
-
-    modalsStore.openConfirmModal(
-      title,
-      agreeButtonTitle,
-      disagreeButtonTitle,
-      agree,
-      disagree,
-    );
-  }
-
   function onSuccessCreateForReview(
     createdProjectProposal: CreatedProjectProposal,
   ) {
@@ -552,39 +466,6 @@
       disagreeButtonTitle,
       agree,
       disagree,
-    );
-  }
-
-  function onSuccessUpdateDraft() {
-    const title = 'Черновик успешно сохранён, вернуться в личный кабинет?';
-    const agreeButtonTitle = 'вернуться в личный кабинет';
-    const disagreeButtonTitle = 'продолжить редактирование';
-
-    function agree() {
-      modalsStore.openConfirmModal();
-      router.push({ name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS });
-    }
-
-    function disagree() {
-      modalsStore.openConfirmModal();
-    }
-
-    modalsStore.openConfirmModal(
-      title,
-      agreeButtonTitle,
-      disagreeButtonTitle,
-      agree,
-      disagree,
-    );
-  }
-
-  function onSuccessUpdateRejectedToDraft(
-    createdProjectProposal: CreatedProjectProposal,
-  ) {
-    router.push(toProjectProposalCreateRoute(createdProjectProposal.id));
-    modalsStore.openAlertModal(
-      'Черновик создан',
-      'Заявка сохранена как черновик, вы можете отредактировать заявку и отправить её ещё раз',
     );
   }
 
