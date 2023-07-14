@@ -8,7 +8,7 @@
       divider
     >
       <!-- <Project result> -->
-      <BaseLabel required label="Результат проекта">
+      <BaseLabel :required="!isProjectStateArchived" label="Результат проекта">
         <BaseTextarea
           v-model="projectProposalResultForm.projectResultDescription"
           data-test-id="projectDescription"
@@ -33,40 +33,51 @@
         is="fieldset"
         :class="$style['radio-buttons-label']"
         label="Достиг ли проект поставленных целей?"
-        required
+        :required="!isProjectStateArchived"
       >
-        <BaseRadioButton
-          v-model="projectProposalResultForm.projectResultGoal"
-          data-test-id="projectResultGoalAllGoalsRadioButton"
+        <template v-if="!isProjectStateArchived">
+          <BaseRadioButton
+            v-model="projectProposalResultForm.projectResultGoal"
+            data-test-id="projectResultGoalAllGoalsRadioButton"
+            :disabled="!isEditable"
+            :value="ProjectResultGoal.AllGoals"
+          >
+            Проект достиг всех поставленных целей
+          </BaseRadioButton>
+          <BaseRadioButton
+            v-model="projectProposalResultForm.projectResultGoal"
+            data-test-id="projectResultGoalMoreGoalsRadioButton"
+            :disabled="!isEditable"
+            :value="ProjectResultGoal.MoreGoals"
+          >
+            Проект достиг большинство поставленных целей
+          </BaseRadioButton>
+          <BaseRadioButton
+            v-model="projectProposalResultForm.projectResultGoal"
+            data-test-id="projectResultGoalLessGoalsRadioButton"
+            :disabled="!isEditable"
+            :value="ProjectResultGoal.LessGoals"
+          >
+            Проект достиг минимальное количество целей
+          </BaseRadioButton>
+          <BaseRadioButton
+            v-model="projectProposalResultForm.projectResultGoal"
+            data-test-id="projectResultGoalNoGoalsRadioButton"
+            :disabled="!isEditable"
+            :value="ProjectResultGoal.NoGoals"
+          >
+            Проект не достиг поставленных целей
+          </BaseRadioButton>
+        </template>
+        <BaseTextarea
+          v-else
+          data-test-id="projectDescription"
           :disabled="!isEditable"
-          :value="ProjectResultGoal.AllGoals"
-        >
-          Проект достиг всех поставленных целей
-        </BaseRadioButton>
-        <BaseRadioButton
-          v-model="projectProposalResultForm.projectResultGoal"
-          data-test-id="projectResultGoalMoreGoalsRadioButton"
-          :disabled="!isEditable"
-          :value="ProjectResultGoal.MoreGoals"
-        >
-          Проект достиг большинство поставленных целей
-        </BaseRadioButton>
-        <BaseRadioButton
-          v-model="projectProposalResultForm.projectResultGoal"
-          data-test-id="projectResultGoalLessGoalsRadioButton"
-          :disabled="!isEditable"
-          :value="ProjectResultGoal.LessGoals"
-        >
-          Проект достиг минимальное количество целей
-        </BaseRadioButton>
-        <BaseRadioButton
-          v-model="projectProposalResultForm.projectResultGoal"
-          data-test-id="projectResultGoalNoGoalsRadioButton"
-          :disabled="!isEditable"
-          :value="ProjectResultGoal.NoGoals"
-        >
-          Проект не достиг поставленных целей
-        </BaseRadioButton>
+          style="width: 28rem"
+          :placeholder="
+            ProjectResultGoalName[projectProposalResultForm.projectResultGoal]
+          "
+        />
       </BaseLabel>
       <!-- </Project name> -->
     </FormSection>
@@ -107,6 +118,7 @@
   import { computed, reactive, ref, watch } from 'vue';
   import { watchEffect } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
+  import BaseInput from '@/components/ui/BaseInput.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseRadioButton from '@/components/ui/BaseRadioButton.vue';
   import BaseResultTable, {
@@ -121,6 +133,7 @@
     ProjectProposalResultFormValue,
     ProjectResultGoal,
   } from '@/models/components/ProjectProposalResultForm';
+  import { ProjectResultGoalName } from '@/models/components/ProjectProposalResultForm';
   import { MultiselectObjectItem } from '@/models/components/VMultiselect';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { useSmallDevice } from '@/hooks/useBreakpoints';
