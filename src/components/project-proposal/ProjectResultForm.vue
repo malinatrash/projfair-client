@@ -114,11 +114,9 @@
 </template>
 
 <script setup lang="ts">
-  import { toRefs } from '@vueuse/core';
-  import { computed, reactive, ref, watch } from 'vue';
-  import { watchEffect } from 'vue';
+  import { computed, reactive, ref, watch } from '@vue/runtime-core';
+  import { watchEffect } from '@vue/runtime-core';
   import { useRoute, useRouter } from 'vue-router';
-  import BaseInput from '@/components/ui/BaseInput.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseRadioButton from '@/components/ui/BaseRadioButton.vue';
   import BaseResultTable, {
@@ -134,28 +132,16 @@
     ProjectResultGoal,
   } from '@/models/components/ProjectResultForm';
   import { ProjectResultGoalName } from '@/models/components/ProjectResultForm';
-  import { MultiselectObjectItem } from '@/models/components/VMultiselect';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
-  import { useSmallDevice } from '@/hooks/useBreakpoints';
   import { canViewParticipants } from '@/helpers/project';
   import { compareString } from '@/helpers/string';
   import { toProjectRoute } from '@/router/utils/routes';
   import { Candidate } from '@/models/Candidate';
-  import { Project, Skill } from '@/models/Project';
-  import { Specialty } from '@/models/Specialty';
-  import { Supervisor } from '@/models/Supervisor';
-  import { Tag } from '@/models/Tag';
 
   type Props = {
     projectResultFormValue: ProjectResultFormValue;
     canUserEdit?: boolean;
     isLoading?: boolean;
-    prevProjectList?: Project[];
-    supervisorList: Supervisor[];
-    projectSkillList?: Skill[];
-    specialtyList?: Specialty<number>[];
-    themeSourceList?: Tag<number>[];
-    projectJobDeveloper?: string;
   };
   type Emits = {
     (
@@ -167,12 +153,6 @@
   const props = withDefaults(defineProps<Props>(), {
     canUserEdit: true,
     isLoading: false,
-    prevProjectList: undefined,
-    projectSkillList: undefined,
-    specialtyList: undefined,
-    supervisorList: undefined,
-    themeSourceList: undefined,
-    projectJobDeveloper: undefined,
   });
   const emit = defineEmits<Emits>();
 
@@ -195,23 +175,7 @@
       emit('update:projectResultFormValue', projectResultForm),
     { deep: true },
   );
-  // watch(
-  //   () => [projectDepartment.value?.id, isEditable.value],
-  //   ([departmentId, isEditable], [prevDepartmentId]) => {
-  //     if (!isEditable) return;
-  //     if (!prevDepartmentId) return;
-  //     if (departmentId === prevDepartmentId) return;
-  //     projectResultForm.specialtyList = [];
-  //   },
-  // );
-  // watch(
-  //   () => projectResultForm.isNewProject,
-  //   (isNewProject) => {
-  //     if (isNewProject) projectResultForm.prevProjectId = null;
-  //   },
-  // );
 
-  //////////////////////////////////////////////////////////////////////////
   const router = useRouter();
 
   const route = useRoute();
@@ -262,7 +226,6 @@
       data: [index + 1, fio, training_group],
     })),
   );
-  //////////////////////////////////////////////////////////////////////////
 </script>
 
 <style lang="scss" module>
