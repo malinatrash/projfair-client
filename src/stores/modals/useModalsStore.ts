@@ -55,7 +55,7 @@ export const useModalsStore = defineStore('modals', {
       const projectsStore = useProjectsStore();
 
       if (!authStore.profileData) {
-        this.authModal = true;
+        this.authModalNewProject = true;
         return;
       }
 

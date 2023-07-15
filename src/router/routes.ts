@@ -94,7 +94,6 @@ export const routes: RouteRecordRaw[] = [
     meta: {
       title: 'Сформировать результат проекта',
       requiresAuth: true,
-      role: ['is_teacher'],
     },
   },
   {

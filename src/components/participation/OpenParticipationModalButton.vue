@@ -47,7 +47,7 @@
       },
       onError: (error) => {
         if (error === AUTH_REQUIRED) {
-          modalsStore.authModal = true;
+          modalsStore.authModalNewProject = true;
           return;
         }
         if (typeof error === 'string') {

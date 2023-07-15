@@ -8,7 +8,10 @@ export const requiresAuth: NavigationGuard = (to, from, next) => {
   const modalsStore = useModalsStore();
 
   if (to.meta.requiresAuth && !authStore.profileData) {
-    modalsStore.authModal = true;
+    if (to.name === RouteNames.SUPERVISOR_PROJECT_PROPOSAL_RESULT)
+      modalsStore.authModalResultProject = true;
+    else modalsStore.authModalNewProject = true;
+
     return next(
       from || {
         name: RouteNames.HOME,

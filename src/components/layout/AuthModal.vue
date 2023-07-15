@@ -1,15 +1,25 @@
 <template>
   <!-- auth modal -->
   <BaseModal
-    :is-show="modalsStore.authModal"
-    @close="modalsStore.authModal = false"
+    :is-show="
+      modalsStore.authModalNewProject || modalsStore.authModalResultProject
+    "
+    @close="
+      (modalsStore.authModalNewProject = false),
+        (modalsStore.authModalResultProject = false)
+    "
   >
     <!-- MAIN CONTENT -->
     <div class="success-modal">
       <h1>Вы не авторизованы</h1>
       <p class="message">
-        Чтобы подавать заявки на проекты, Вам необходимо войти в свой профиль
-        через систему «Кампус»
+        Чтобы
+        <span v-show="modalsStore.authModalNewProject"
+          >подавать заявки на проекты</span
+        >
+        <span v-show="modalsStore.authModalResultProject"
+          >перейти к результатам проекта</span
+        >, Вам необходимо войти в свой профиль через систему «Кампус»
       </p>
       <div class="modal-buttons">
         <BaseButton case="uppercase" @click="auth">
@@ -33,7 +43,8 @@
   const authMutation = useAuthMutation({ onError });
 
   function auth() {
-    modalsStore.authModal = false;
+    modalsStore.authModalNewProject = false;
+    modalsStore.authModalResultProject = false;
     authMutation.mutate();
   }
 
