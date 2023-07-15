@@ -173,30 +173,11 @@
     supervisorList: undefined,
     themeSourceList: undefined,
     projectJobDeveloper: undefined,
-    projectStateId: undefined,
   });
   const emit = defineEmits<Emits>();
 
-  const { projectProposalResultFormValue, specialtyList } = toRefs(props);
-
-  const isSmallDevice = useSmallDevice();
-  const showSkillsEditModal = ref<boolean>(false);
-  const showSpecialtyEditModal = ref<boolean>(false);
-  const showAdditionalSpecialtyEditModal = ref<boolean>(false);
-
-  const currentYear = new Date(Date.now()).getFullYear();
   const projectProposalResultForm = reactive<ProjectProposalResultFormValue>(
     props.projectProposalResultFormValue,
-  );
-
-  const isProjectStateArchived = computed(() => {
-    if (props.projectStateId == 4) return true;
-    return false;
-  });
-
-  const isEditable = computed(
-    () =>
-      !props.isLoading && props.canUserEdit && !isProjectStateArchived.value,
   );
 
   watch(
@@ -240,6 +221,16 @@
     isError,
     data: projectData,
   } = useGetSingleProjectQuery(projectId);
+
+  const isProjectStateArchived = computed(() => {
+    if (projectData.value?.project.state.id == 4) return true;
+    return false;
+  });
+
+  const isEditable = computed(
+    () =>
+      !props.isLoading && props.canUserEdit && !isProjectStateArchived.value,
+  );
 
   watchEffect(() => {
     const stateId = projectData.value?.project?.state.id;
