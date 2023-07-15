@@ -37,9 +37,7 @@
       :data-project="dataProjectQuery.data.value"
       :is-data-project="isDataProject"
       :check-load-data-project="
-        checkLoadDataProject
-          ? router.push({ name: RouteNames.USER_PROJECTS })
-          : undefined
+        checkLoadDataProject ? notCorrectSupervisor() : undefined
       "
       :project-state-id="dataProjectQuery.data.value?.project.state.id"
     />
@@ -471,6 +469,13 @@
 
   function onError(error: unknown) {
     toast.error('Ошибка: ' + String(error));
+  }
+
+  function notCorrectSupervisor() {
+    router.push({ name: RouteNames.HOME });
+    modalsStore.alertModalTitle = 'Вы не можете просматривать эту страницу';
+    modalsStore.alertModalSubtitle =
+      'Чтобы сформировать результаты данного проекта, Вам необходимо быть руководителем этого проекта';
   }
 </script>
 
