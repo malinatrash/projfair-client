@@ -73,8 +73,8 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, ref, watch } from '@vue/runtime-core';
   import { storeToRefs } from 'pinia';
-  import { computed, ref, watch } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useToast } from 'vue-toastification';
   import PageLayout from '@/components/layout/PageLayout.vue';
@@ -87,7 +87,6 @@
   } from '@/models/components/ProjectResultForm';
   import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
-  import { useGetUserProjectsQuery } from '@/api/SharedApi/hooks/useGetUserProjectsQuery';
   import { useGetProjectProposalListQuery } from '@/api/SupervisorApi/hooks/useGetProjectProposalListQuery';
   import { useNavigateBack } from '@/hooks/useRoutes';
   import { useWatchAuthorization } from '@/hooks/useWatchAuthorization';
@@ -97,10 +96,8 @@
   import { useModalsStore } from '@/stores/modals/useModalsStore';
   import {
     CreatedProjectProposal,
-    MemberRole,
     ProjectProposalStateId,
   } from '@/models/ProjectProposal';
-  import { ProjectStateID } from '@/models/ProjectState';
 
   useWatchAuthorization();
   const toast = useToast();
