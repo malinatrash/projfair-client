@@ -14,7 +14,7 @@ export const ProjectResultGoalName: Record<ProjectResultGoal, string> = {
   [ProjectResultGoal.NoGoals]: 'Проект не достиг поставленных целей',
 };
 
-export type ProjectProposalResultFormValue = {
+export type ProjectResultFormValue = {
   projectResultDescription: string;
   projectResultGoal: ProjectResultGoal;
   candidateTeam: Participation[] | undefined;

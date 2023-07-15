@@ -10,7 +10,7 @@
       <!-- <Project result> -->
       <BaseLabel :required="!isProjectStateArchived" label="Результат проекта">
         <BaseTextarea
-          v-model="projectProposalResultForm.projectResultDescription"
+          v-model="projectResultForm.projectResultDescription"
           data-test-id="projectDescription"
           :disabled="!isEditable"
           :class="$style['large-textarea']"
@@ -37,7 +37,7 @@
       >
         <template v-if="!isProjectStateArchived">
           <BaseRadioButton
-            v-model="projectProposalResultForm.projectResultGoal"
+            v-model="projectResultForm.projectResultGoal"
             data-test-id="projectResultGoalAllGoalsRadioButton"
             :disabled="!isEditable"
             :value="ProjectResultGoal.AllGoals"
@@ -45,7 +45,7 @@
             Проект достиг всех поставленных целей
           </BaseRadioButton>
           <BaseRadioButton
-            v-model="projectProposalResultForm.projectResultGoal"
+            v-model="projectResultForm.projectResultGoal"
             data-test-id="projectResultGoalMoreGoalsRadioButton"
             :disabled="!isEditable"
             :value="ProjectResultGoal.MoreGoals"
@@ -53,7 +53,7 @@
             Проект достиг большинство поставленных целей
           </BaseRadioButton>
           <BaseRadioButton
-            v-model="projectProposalResultForm.projectResultGoal"
+            v-model="projectResultForm.projectResultGoal"
             data-test-id="projectResultGoalLessGoalsRadioButton"
             :disabled="!isEditable"
             :value="ProjectResultGoal.LessGoals"
@@ -61,7 +61,7 @@
             Проект достиг минимальное количество целей
           </BaseRadioButton>
           <BaseRadioButton
-            v-model="projectProposalResultForm.projectResultGoal"
+            v-model="projectResultForm.projectResultGoal"
             data-test-id="projectResultGoalNoGoalsRadioButton"
             :disabled="!isEditable"
             :value="ProjectResultGoal.NoGoals"
@@ -75,7 +75,7 @@
           :disabled="!isEditable"
           style="width: 28rem"
           :placeholder="
-            ProjectResultGoalName[projectProposalResultForm.projectResultGoal]
+            ProjectResultGoalName[projectResultForm.projectResultGoal]
           "
         />
       </BaseLabel>
@@ -130,10 +130,10 @@
   import FormSection from '@/components/ui/FormSection.vue';
   import BaseLabel from '@/components/ui/label/BaseLabel.vue';
   import {
-    ProjectProposalResultFormValue,
+    ProjectResultFormValue,
     ProjectResultGoal,
-  } from '@/models/components/ProjectProposalResultForm';
-  import { ProjectResultGoalName } from '@/models/components/ProjectProposalResultForm';
+  } from '@/models/components/ProjectResultForm';
+  import { ProjectResultGoalName } from '@/models/components/ProjectResultForm';
   import { MultiselectObjectItem } from '@/models/components/VMultiselect';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { useSmallDevice } from '@/hooks/useBreakpoints';
@@ -147,7 +147,7 @@
   import { Tag } from '@/models/Tag';
 
   type Props = {
-    projectProposalResultFormValue: ProjectProposalResultFormValue;
+    projectResultFormValue: ProjectResultFormValue;
     canUserEdit?: boolean;
     isLoading?: boolean;
     prevProjectList?: Project[];
@@ -159,8 +159,8 @@
   };
   type Emits = {
     (
-      event: 'update:projectProposalResultFormValue',
-      projectProposalResultFormValue: ProjectProposalResultFormValue,
+      event: 'update:projectResultFormValue',
+      projectResultFormValue: ProjectResultFormValue,
     ): void;
   };
 
@@ -176,23 +176,23 @@
   });
   const emit = defineEmits<Emits>();
 
-  const projectProposalResultForm = reactive<ProjectProposalResultFormValue>(
-    props.projectProposalResultFormValue,
+  const projectResultForm = reactive<ProjectResultFormValue>(
+    props.projectResultFormValue,
   );
 
   watch(
-    () => props.projectProposalResultFormValue,
-    (projectProposalResultFormValue) =>
-      Object.assign<
-        ProjectProposalResultFormValue,
-        ProjectProposalResultFormValue
-      >(projectProposalResultForm, projectProposalResultFormValue),
+    () => props.projectResultFormValue,
+    (projectResultFormValue) =>
+      Object.assign<ProjectResultFormValue, ProjectResultFormValue>(
+        projectResultForm,
+        projectResultFormValue,
+      ),
     { deep: true },
   );
   watch(
-    () => projectProposalResultForm,
-    (projectProposalResultForm) =>
-      emit('update:projectProposalResultFormValue', projectProposalResultForm),
+    () => projectResultForm,
+    (projectResultForm) =>
+      emit('update:projectResultFormValue', projectResultForm),
     { deep: true },
   );
   // watch(
@@ -201,13 +201,13 @@
   //     if (!isEditable) return;
   //     if (!prevDepartmentId) return;
   //     if (departmentId === prevDepartmentId) return;
-  //     projectProposalResultForm.specialtyList = [];
+  //     projectResultForm.specialtyList = [];
   //   },
   // );
   // watch(
-  //   () => projectProposalResultForm.isNewProject,
+  //   () => projectResultForm.isNewProject,
   //   (isNewProject) => {
-  //     if (isNewProject) projectProposalResultForm.prevProjectId = null;
+  //     if (isNewProject) projectResultForm.prevProjectId = null;
   //   },
   // );
 

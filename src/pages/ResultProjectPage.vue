@@ -22,10 +22,8 @@
         :state="currentProjectProposalComputed.state"
       />
     </header>
-    <ProjectProposalResultForm
-      v-model:project-proposal-result-form-value="
-        projectProposalResultFormValue
-      "
+    <ProjectResultForm
+      v-model:project-result-form-value="projectResultFormValue"
       :is-loading="isLoading"
       :can-user-edit="canUserEdit"
       :prev-project-list="prevProjectList"
@@ -96,13 +94,13 @@
   import { useRoute, useRouter } from 'vue-router';
   import { useToast } from 'vue-toastification';
   import PageLayout from '@/components/layout/PageLayout.vue';
-  import ProjectProposalResultForm from '@/components/project-proposal/ProjectProposalResultForm.vue';
+  import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
   import ProjectProposalStatus from '@/components/project/ProjectProposalStatus.vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import {
-    ProjectProposalResultFormValue,
+    ProjectResultFormValue,
     ProjectResultGoal,
-  } from '@/models/components/ProjectProposalResultForm';
+  } from '@/models/components/ProjectResultForm';
   import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
   import { useGetProjectSkillsQuery } from '@/api/ProjectApi/hooks/useGetAllProjectTagsQuery';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
@@ -141,15 +139,14 @@
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS,
   });
 
-  const defaultProjectProposalResultFormValue: ProjectProposalResultFormValue =
-    {
-      projectResultDescription: '',
-      projectResultGoal: ProjectResultGoal.AllGoals,
-      candidateTeam: [],
-    };
+  const defaultProjectResultFormValue: ProjectResultFormValue = {
+    projectResultDescription: '',
+    projectResultGoal: ProjectResultGoal.AllGoals,
+    candidateTeam: [],
+  };
 
-  const projectProposalResultFormValue = ref<ProjectProposalResultFormValue>({
-    ...defaultProjectProposalResultFormValue,
+  const projectResultFormValue = ref<ProjectResultFormValue>({
+    ...defaultProjectResultFormValue,
   });
 
   const instituteProjectProposalsQuery = useGetInstituteProjectProposalsQuery({
@@ -289,7 +286,7 @@
   // );
 
   function validateProjectProposal(): string | undefined {
-    const { projectResultDescription } = projectProposalResultFormValue.value;
+    const { projectResultDescription } = projectResultFormValue.value;
 
     if (!projectResultDescription) {
       return 'Введите результат проекта';
@@ -299,7 +296,7 @@
   }
 
   // function fillFromProjectProposal(projectProposal: CreatedProjectProposal) {
-  //   setProjectProposalResultFormValue({
+  //   setProjectResultFormValue({
   //     prevProjectId: projectProposal.prevProjectId,
   //     isNewProject: !projectProposal.prevProjectId,
   //     projectName: projectProposal.title,
@@ -325,15 +322,15 @@
   //     ),
   //     team: mapProjectProposalTeam(
   //       projectProposal.supervisors,
-  //       projectProposalResultFormValue.value.sharedRoleList,
-  //       projectProposalResultFormValue.value.currentUserRoleList,
+  //       projectResultFormValue.value.sharedRoleList,
+  //       projectResultFormValue.value.currentUserRoleList,
   //     ),
   //   });
   // }
 
   function clearAllFields() {
-    projectProposalResultFormValue.value = {
-      ...defaultProjectProposalResultFormValue,
+    projectResultFormValue.value = {
+      ...defaultProjectResultFormValue,
     };
   }
 
@@ -349,7 +346,7 @@
     }
 
     // const projectProposal = collectProjectProposal(
-    //   projectProposalResultFormValue.value,
+    //   projectResultFormValue.value,
     //   projectProposalState,
     //   projectDepartment.value!.id,
     // );
