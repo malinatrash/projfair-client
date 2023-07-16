@@ -20,9 +20,9 @@ export interface State {
   evaluateStudentModal?: boolean;
   evaluateStudentModalId?: number;
   evaluateStudentModalName?: string;
-  projectID?: number;
-  rating?: number;
-  review?: string;
+  projectID: number | undefined;
+  rating: number | undefined;
+  review: string | undefined;
 }
 
 export const state = (): State => ({
@@ -45,4 +45,7 @@ export const state = (): State => ({
   evaluateStudentModal: undefined,
   evaluateStudentModalId: undefined,
   evaluateStudentModalName: undefined,
+  projectID: undefined,
+  rating: undefined,
+  review: undefined,
 });

@@ -16,7 +16,7 @@ export const useEvaluationModal = defineStore('evaluationModals', {
       this.evaluateStudentModalName = name;
       this.evaluateStudentModal = true;
       this.rating = rating;
-      this.review = reivew ?? '';
+      this.review = reivew;
     },
 
     closeEvaluateStudentModal() {

@@ -1,17 +1,16 @@
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
 import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
 
 export default function useEvaluation() {
   const evaluateStore = useEvaluationModal();
-  const projId = ref(evaluateStore.projectID ?? 0);
-
-  const projectData = useGetSingleProjectQuery(projId.value);
+  const projId = computed(() => evaluateStore.projectID ?? -1);
+  const projectData = useGetSingleProjectQuery(projId);
 
   console.log(evaluateStore.projectID);
 
   const evaluate = () => {
-    if (!projectData.data.value?.project.participations) throw Error('нету');
+    if (!projectData.data.value?.project.participations) return;
     for (const participation of projectData.data.value?.project
       .participations) {
       if (participation.id == evaluateStore.evaluateStudentModalId) {
