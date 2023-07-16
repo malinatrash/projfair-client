@@ -8,7 +8,7 @@ export default function useEvaluation() {
 
   const projectData = useGetSingleProjectQuery(projId.value);
 
-  alert(evaluateStore.projectID);
+  console.log(evaluateStore.projectID);
 
   const evaluate = () => {
     if (!projectData.data.value?.project.participations) throw Error('нету');

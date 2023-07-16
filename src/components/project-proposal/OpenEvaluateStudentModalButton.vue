@@ -83,7 +83,7 @@
 <style scoped>
   .evaluate {
     position: relative;
-    bottom: -1.2rem;
+    bottom: -1.4rem;
   }
 
   .content {
