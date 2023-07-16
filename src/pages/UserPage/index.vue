@@ -3,7 +3,7 @@
     <UserNavigation v-if="isSmallDevice" variant="mobile" />
     <header class="header">
       <h1 class="title page-title">Профиль пользователя</h1>
-      <UserCreateProjectLink />
+      <UserCreateProjectLink v-if="isTime" />
     </header>
     <SidebarContainer class="sidebar-container">
       <template #sidebar>
@@ -36,6 +36,7 @@
   import PageLayout from '@/components/layout/PageLayout.vue';
   import SidebarContainer from '@/components/layout/SidebarContainer.vue';
   import { useSmallDevice } from '@/hooks/useBreakpoints';
+  import { useDuration } from '@/hooks/useDuration';
   import { useUserTimer } from '@/hooks/useUserTimer';
   import { useWatchAuthorization } from '@/hooks/useWatchAuthorization';
   import UserCreateProjectLink from './UserCreateProjectLink.vue';
@@ -43,6 +44,11 @@
 
   const isSmallDevice = useSmallDevice();
   const time = useUserTimer();
+  const { isTime } = useDuration(
+    new Date(time.value?.[0] ?? new Date(Date.now())),
+    new Date(time.value?.[1] ?? new Date(Date.now())),
+  );
+  console.log(isTime);
 
   useWatchAuthorization();
 </script>
