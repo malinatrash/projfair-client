@@ -10,7 +10,7 @@
       <h3>
         {{ evaluation.evaluateStore.evaluateStudentModalName }}
       </h3>
-      <div class="wrapper">
+      <div class="center">
         <StarRating
           v-model:rating="evaluation.evaluateStore.rating"
         ></StarRating>
@@ -52,7 +52,7 @@
     text-align: center;
   }
 
-  .wrapper {
+  .center {
     display: flex;
     justify-content: center;
   }
