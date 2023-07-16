@@ -66,7 +66,7 @@
           case="uppercase"
           :to="toProjectResultRoute(project.id)"
         >
-          Сформировать результаты проекта
+          Сформировать результаты
         </BaseButton>
         <BaseButton
           is="router-link"

@@ -1,7 +1,7 @@
 <template>
   <PageLayout>
     <button :class="$style['back-link']" @click="navigateBack">
-      &lt;&nbsp;&nbsp;К списку заявок
+      &lt;&nbsp;&nbsp;Вернуться
     </button>
     <header :class="$style.header">
       <h1 class="page-title">

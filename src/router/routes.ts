@@ -92,7 +92,7 @@ export const routes: RouteRecordRaw[] = [
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSAL_RESULT,
     component: ResultProjectPage,
     meta: {
-      title: 'Сформировать результат проекта',
+      title: 'Сформировать результаты',
       requiresAuth: true,
     },
   },
