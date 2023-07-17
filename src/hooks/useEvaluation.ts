@@ -1,4 +1,6 @@
 import { computed, ref } from 'vue';
+import { useQueryClient } from 'vue-query';
+import { useUpdateParticipationListMutation } from '@/api/CandidateApi/hooks/useUpdateParticipationListMutation';
 import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
 import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
 
@@ -7,13 +9,14 @@ export default function useEvaluation() {
   const projId = computed(() => evaluateStore.projectID ?? -1);
   const projectData = useGetSingleProjectQuery(projId);
 
-  console.log(evaluateStore.projectID);
-
   const evaluate = () => {
-    if (!projectData.data.value?.project.participations) return;
-    for (const participation of projectData.data.value?.project
-      .participations) {
-      if (participation.id == evaluateStore.evaluateStudentModalId) {
+    const filteredParticipations =
+      projectData.data.value?.project.participations?.filter(
+        (part) => part.priority == 1,
+      );
+    if (!filteredParticipations) return;
+    for (const participation of filteredParticipations) {
+      if (participation.candidate.id == evaluateStore.evaluateStudentModalId) {
         participation.rating = evaluateStore.rating ?? participation.rating;
         participation.review = evaluateStore.review ?? participation.review;
       }

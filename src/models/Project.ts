@@ -1,3 +1,4 @@
+import { ProjectResultGoal } from './components/ProjectResultForm';
 import { Candidate } from './Candidate';
 import { Participation } from './Participation';
 import { ProjectDifficulty } from './ProjectDifficulty';
@@ -58,6 +59,8 @@ export interface Project {
   participations?: Participation[];
   participants?: Candidate[];
   participant_feedback?: string;
+  result_description: string;
+  result_goal?: ProjectResultGoal;
 }
 
 export interface ProjectFilters {
