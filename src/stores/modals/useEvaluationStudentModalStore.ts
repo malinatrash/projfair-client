@@ -9,14 +9,14 @@ export const useEvaluationModal = defineStore('evaluationModals', {
       id?: number,
       name?: string,
       rating?: number,
-      reivew?: string,
+      review?: string,
     ) {
       this.projectID = projectID;
       this.evaluateStudentModalId = id;
       this.evaluateStudentModalName = name;
       this.evaluateStudentModal = true;
       this.rating = rating;
-      this.review = reivew;
+      this.review = review;
     },
 
     closeEvaluateStudentModal() {
