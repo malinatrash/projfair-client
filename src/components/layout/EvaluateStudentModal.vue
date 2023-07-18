@@ -26,7 +26,7 @@
           case="uppercase"
           @click="evaluation.evaluate()"
         >
-          Запомнить
+          Отправить
         </BaseButton>
       </div>
     </div>
