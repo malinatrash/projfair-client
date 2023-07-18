@@ -1,27 +1,36 @@
-import { computed, ref } from 'vue';
-import { useQueryClient } from 'vue-query';
-import { useUpdateParticipationListMutation } from '@/api/CandidateApi/hooks/useUpdateParticipationListMutation';
 import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
 import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
+import { useResultStore } from '@/stores/resultPage/useResultStore';
 
 export default function useEvaluation() {
   const evaluateStore = useEvaluationModal();
-  const projId = computed(() => evaluateStore.projectID ?? -1);
-  const projectData = useGetSingleProjectQuery(projId);
+
+  const projectData = useGetSingleProjectQuery(evaluateStore.projectID!);
+
+  const resultStore = useResultStore();
 
   const evaluate = () => {
-    const filteredParticipations =
-      projectData.data.value?.project.participations?.filter(
-        (part) => part.priority == 1,
-      );
-    if (!filteredParticipations) return;
-    for (const participation of filteredParticipations) {
+    resultStore.setResult(
+      evaluateStore.rating!,
+      evaluateStore.review!,
+      evaluateStore.evaluateStudentModalId!,
+    );
+    evaluateStore.closeEvaluateStudentModal();
+    return;
+
+    if (!projectData.data.value) {
+      console.log('sdfsf');
+    }
+
+    for (const participation of projectData.data.value?.project
+      .participations!) {
       if (participation.candidate.id == evaluateStore.evaluateStudentModalId) {
         participation.rating = evaluateStore.rating ?? participation.rating;
         participation.review = evaluateStore.review ?? participation.review;
+        console.log(participation.rating);
+        console.log(participation.review);
       }
     }
-    evaluateStore.closeEvaluateStudentModal();
   };
 
   return {

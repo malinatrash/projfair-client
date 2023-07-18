@@ -114,8 +114,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, reactive, ref, watch } from '@vue/runtime-core';
-  import { watchEffect } from '@vue/runtime-core';
+  import { computed, reactive, watch, watchEffect } from '@vue/runtime-core';
   import { useRoute, useRouter } from 'vue-router';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseRadioButton from '@/components/ui/BaseRadioButton.vue';
@@ -130,8 +129,8 @@
   import {
     ProjectResultFormValue,
     ProjectResultGoal,
+    ProjectResultGoalName,
   } from '@/models/components/ProjectResultForm';
-  import { ProjectResultGoalName } from '@/models/components/ProjectResultForm';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { canViewParticipants } from '@/helpers/project';
   import { compareString } from '@/helpers/string';
@@ -226,6 +225,8 @@
       data: [index + 1, fio, training_group],
     })),
   );
+
+  console.log(tableIds);
 </script>
 
 <style lang="scss" module>

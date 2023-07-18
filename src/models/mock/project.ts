@@ -69,7 +69,7 @@ export const mockProjectList: Project[] = [
     ],
     participations: [
       {
-        id: 100,
+        id: 0,
         candidate: userCandidate,
         created_at: '2022-11-12T08:10:37.891Z',
         updated_at: '2022-11-12T08:10:37.891Z',

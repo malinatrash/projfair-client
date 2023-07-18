@@ -41,6 +41,9 @@
   import { useRoute } from 'vue-router';
   import OpenEvaluateStudentModalButton from '@/components/project-proposal/OpenEvaluateStudentModalButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
+  import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
+  import { useResultStore } from '@/stores/resultPage/useResultStore';
+  import { StudentsResult } from '@/models/StudentsResult';
 
   export type ColumnData = string | number;
   export type ParticipantsId = number;
@@ -70,7 +73,24 @@
     ids: idData[];
   }
 
-  defineProps<Props>();
+  const props = defineProps<Props>();
+
+  const resultStore = useResultStore();
+  const projectData = useGetSingleProjectQuery(projectId);
+  const participations = computed(() => {
+    console.log(participations.value);
+    const s = projectData.data.value?.project.participations?.map((e) => {
+      return {
+        rating: e.rating,
+        review: e.review,
+        id: e.id,
+      };
+    });
+    return s;
+  });
+  resultStore.setResults(participations.value as StudentsResult[]);
+
+  console.log(props.ids);
 </script>
 
 <style lang="scss" scoped>
