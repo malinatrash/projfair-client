@@ -17,5 +17,5 @@ export const ProjectResultGoalName: Record<ProjectResultGoal, string> = {
 export type ProjectResultFormValue = {
   projectResultDescription: string;
   projectResultGoal: ProjectResultGoal;
-  candidateTeam: Participation[] | undefined;
+  projectParticipations: Participation[] | undefined;
 };

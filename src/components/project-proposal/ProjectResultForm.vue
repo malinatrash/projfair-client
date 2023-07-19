@@ -14,7 +14,11 @@
           data-test-id="projectDescription"
           :disabled="!isEditable"
           :class="$style['large-textarea']"
-          placeholder="Опишите результат проделанной работы над проектом"
+          :placeholder="
+            !isProjectStateArchived
+              ? 'Опишите результат проделанной работы над проектом'
+              : computedProject?.result_description
+          "
           :maxLength="1200"
           resize="vertical"
         />
@@ -75,7 +79,7 @@
           :disabled="!isEditable"
           style="width: 28rem"
           :placeholder="
-            ProjectResultGoalName[projectResultForm.projectResultGoal]
+            ProjectResultGoalName[computedProject?.result_goal ?? 1]
           "
         />
       </BaseLabel>
@@ -114,8 +118,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, reactive, ref, watch } from '@vue/runtime-core';
-  import { watchEffect } from '@vue/runtime-core';
+  import { computed, reactive, watch, watchEffect } from '@vue/runtime-core';
   import { useRoute, useRouter } from 'vue-router';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseRadioButton from '@/components/ui/BaseRadioButton.vue';
@@ -130,10 +133,10 @@
   import {
     ProjectResultFormValue,
     ProjectResultGoal,
+    ProjectResultGoalName,
   } from '@/models/components/ProjectResultForm';
-  import { ProjectResultGoalName } from '@/models/components/ProjectResultForm';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
-  import { canViewParticipants } from '@/helpers/project';
+  import { canViewParticipants, isArchivedState } from '@/helpers/project';
   import { compareString } from '@/helpers/string';
   import { toProjectRoute } from '@/router/utils/routes';
   import { Candidate } from '@/models/Candidate';
@@ -186,6 +189,8 @@
     data: projectData,
   } = useGetSingleProjectQuery(projectId);
 
+  const computedProject = computed(() => projectData.value?.project);
+
   const isProjectStateArchived = computed(() => {
     if (projectData.value?.project.state.id == 4) return true;
     return false;
@@ -226,6 +231,8 @@
       data: [index + 1, fio, training_group],
     })),
   );
+
+  console.log(tableIds);
 </script>
 
 <style lang="scss" module>

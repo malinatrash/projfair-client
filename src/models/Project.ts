@@ -59,7 +59,7 @@ export interface Project {
   participations?: Participation[];
   participants?: Candidate[];
   participant_feedback?: string;
-  result_description: string;
+  result_description?: string;
   result_goal?: ProjectResultGoal;
 }
 

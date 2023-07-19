@@ -94,6 +94,14 @@ export default class ProjectApiMock implements ProjectApiType {
     return delayRes(formatProjectDate(project), 400);
   }
 
+  async updateSingleProject(projectId: number): Promise<Project> {
+    const project = projectListResponse.data.find(
+      (singleProject) => singleProject.id === projectId,
+    );
+    if (!project) throw new Error('проект не найден');
+    return delayRes(formatProjectDate(project), 400);
+  }
+
   async getAllProjectTags(): Promise<ProjectTags> {
     return delayRes({ skills, specialties }, 300);
   }

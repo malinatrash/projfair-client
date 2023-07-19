@@ -1,4 +1,6 @@
+import { ProjectResultGoal } from './components/ProjectResultForm';
 import { Department } from './Department';
+import { Participation } from './Participation';
 import {
   ProjectSupervisor,
   ProjectType,
@@ -102,4 +104,10 @@ export interface CreatedProjectProposal extends ProjectProposal {
   specialities: Specialty[];
   project_specialities: SpecialtyGroup[];
   rejection_reason?: string;
+}
+
+export interface CreatedProjectResult extends ProjectProposal {
+  result_description?: string;
+  result_goal?: ProjectResultGoal;
+  participations?: Participation[];
 }

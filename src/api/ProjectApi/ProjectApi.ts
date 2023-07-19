@@ -26,6 +26,13 @@ export default class ProjectApi implements ProjectApiType {
     return formatProjectDate(project);
   }
 
+  async updateSingleProject(projectId: number): Promise<Project> {
+    const [project] = await Promise.all([
+      baseKyInstance.put(`api/projects/${projectId}`).json<Project>(),
+    ]);
+    return formatProjectDate(project);
+  }
+
   async filterProjectList(
     filters: ProjectFilters,
     onDownloadProgress?: OnDownloadProgress,

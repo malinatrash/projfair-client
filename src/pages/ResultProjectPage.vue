@@ -49,7 +49,7 @@
       <BaseButton
         v-if="canUserEdit"
         :disabled="isLoading"
-        @click="/*onCreateUnderReview*/ true"
+        @click="onCreateUnderReview"
       >
         Сохранить
       </BaseButton>
@@ -73,8 +73,8 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, ref, watch } from '@vue/runtime-core';
   import { storeToRefs } from 'pinia';
-  import { computed, ref, watch } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useToast } from 'vue-toastification';
   import PageLayout from '@/components/layout/PageLayout.vue';
@@ -88,16 +88,15 @@
   import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { useGetProjectProposalListQuery } from '@/api/SupervisorApi/hooks/useGetProjectProposalListQuery';
+  import { useUpdateProjectResultMutation } from '@/api/SupervisorApi/hooks/useUpdateProjectResultMutation';
   import { useNavigateBack } from '@/hooks/useRoutes';
   import { useWatchAuthorization } from '@/hooks/useWatchAuthorization';
   import { getCurrentProjectProposal } from '@/helpers/project-proposal-form';
+  import { collectProjectResult } from '@/helpers/project-result-form';
   import { RouteNames } from '@/router/types/route-names';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
-  import {
-    CreatedProjectProposal,
-    ProjectProposalStateId,
-  } from '@/models/ProjectProposal';
+  import { ProjectProposalStateId } from '@/models/ProjectProposal';
 
   useWatchAuthorization();
   const toast = useToast();
@@ -105,7 +104,7 @@
   const route = useRoute();
   const authStore = useAuthStore();
   const modalsStore = useModalsStore();
-  const { profileData, isInstDirector } = storeToRefs(authStore);
+  const { isInstDirector } = storeToRefs(authStore);
   const projectId = computed(() => Number(route.params.id));
   const navigateBack = useNavigateBack({
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS,
@@ -114,7 +113,7 @@
   const defaultProjectResultFormValue: ProjectResultFormValue = {
     projectResultDescription: '',
     projectResultGoal: ProjectResultGoal.AllGoals,
-    candidateTeam: [],
+    projectParticipations: [],
   };
 
   const projectResultFormValue = ref<ProjectResultFormValue>({
@@ -126,6 +125,9 @@
     onError,
   });
   const userProjectProposalListQuery = useGetProjectProposalListQuery({
+    onError,
+  });
+  const updateProjectResultMutation = useUpdateProjectResultMutation({
     onError,
   });
 
@@ -155,6 +157,7 @@
 
   const isLoading = computed(
     () =>
+      updateProjectResultMutation.isLoading.value ||
       userProjectProposalListQuery.isFetching.value ||
       instituteProjectProposalsQuery.isFetching.value ||
       dataProjectQuery.isFetching.value,
@@ -174,10 +177,10 @@
 
   // watch(
   //   () => currentProjectProposalComputed.value,
-  //   (currentProjectProposal, prevCurrentProjectProposal) => {
-  //     if (currentProjectProposal?.id === prevCurrentProjectProposal?.id) return;
-  //     if (!currentProjectProposal) return;
-  //     fillFromProjectResult(currentProjectProposal);
+  //   (currentProjectResult, prevCurrentProjectResult) => {
+  //     if (currentProjectResult?.id === prevCurrentProjectResult?.id) return;
+  //     if (!currentProjectResult) return;
+  //     fillFromProjectResult(currentProjectResult);
   //   },
   //   { deep: true, immediate: true },
   // );
@@ -231,59 +234,68 @@
     };
   }
 
-  // function sendProjectResult(projectProposalState: ProjectProposalStateId) {
-  //   const isDraft = projectProposalState === ProjectProposalStateId.Draft;
-  //   const isRejectedToDraft =
-  //     isDraft &&
-  //     currentProjectProposalState.value === ProjectProposalStateId.Rejected;
-  //   const errorMessage = validateProjectProposal();
-  //   if (errorMessage) {
-  //     toast(errorMessage);
-  //     return;
-  //   }
-  //   const projectProposal = collectProjectProposal(
-  //     projectResultFormValue.value,
-  //     projectProposalState,
-  //     projectDepartment.value!.id,
-  //   );
-  //   const id = currentProjectProposalComputed.value?.id;
+  function sendProjectResult() {
+    const errorMessage = validateProjectProposal();
+    if (errorMessage) {
+      toast(errorMessage);
+      return;
+    }
 
-  //   if (id) {
-  //     updateProjectProposalMutation.mutate(
-  //       { projectProposal, id },
-  //       {
-  //         onSuccess: isRejectedToDraft
-  //           ? onSuccessUpdateRejectedToDraft
-  //           : isDraft
-  //           ? onSuccessUpdateDraft
-  //           : onSuccessCreateForReview,
-  //       },
-  //     );
-  //   } else {
-  //     createProjectProposalMutation.mutate(projectProposal, {
-  //       onSuccess: isDraft ? onSuccessCreateDraft : onSuccessCreateForReview,
-  //     });
-  //   }
-  // }
+    const projectResult = collectProjectResult(
+      dataProjectQuery.data.value?.project!,
+      projectResultFormValue.value,
+    );
+    const id = dataProjectQuery.data.value?.project.id;
 
-  // function onCreateUnderReview() {
-  //   function agree() {
-  //     modalsStore.openConfirmModal();
-  //     sendProjectResult(ProjectProposalStateId.UnderReview);
-  //   }
+    if (id) {
+      updateProjectResultMutation.mutate({ projectResult, id });
+      onSuccessCreateForReview();
+    } else {
+      onError('проблема с обновлением данных проекта');
+    }
+  }
 
-  //   function disagree() {
-  //     modalsStore.openConfirmModal();
-  //   }
+  function onCreateUnderReview() {
+    function agree() {
+      modalsStore.openConfirmModal();
+      sendProjectResult();
+    }
 
-  //   modalsStore.openConfirmModal(
-  //     'Сохранить результаты проекта?',
-  //     'Сохранить',
-  //     'Отмена',
-  //     agree,
-  //     disagree,
-  //   );
-  // }
+    function disagree() {
+      modalsStore.openConfirmModal();
+    }
+
+    modalsStore.openConfirmModal(
+      'Сохранить результаты проекта?',
+      'Сохранить',
+      'Отмена',
+      agree,
+      disagree,
+    );
+  }
+
+  function onSuccessCreateForReview() {
+    const title = 'Результаты успешно созданы, вернуться в личный кабинет?';
+    const agreeButtonTitle = 'вернуться в личный кабинет';
+    const disagreeButtonTitle = 'редактировать результаты';
+
+    function agree() {
+      modalsStore.openConfirmModal();
+      router.push({ name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS });
+    }
+
+    function disagree() {
+      modalsStore.openConfirmModal();
+    }
+
+    modalsStore.openConfirmModal(
+      title,
+      agreeButtonTitle,
+      disagreeButtonTitle,
+      agree,
+      disagree,
+    );
+  }
 
   function onCancel() {
     function agree() {
@@ -303,34 +315,6 @@
       disagree,
     );
   }
-
-  // function onSuccessCreateForReview(
-  //   createdProjectProposal: CreatedProjectProposal,
-  // ) {
-  //   router.replace(toProjectProposalCreateRoute(createdProjectProposal.id));
-  //   const title = 'Заявка успешно отправлена, вернуться в личный кабинет?';
-  //   const agreeButtonTitle = 'вернуться в личный кабинет';
-  //   const disagreeButtonTitle = 'создать новую заявку';
-
-  //   function agree() {
-  //     modalsStore.openConfirmModal();
-  //     router.push({ name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS });
-  //   }
-
-  //   function disagree() {
-  //     modalsStore.openConfirmModal();
-  //     clearAllFields();
-  //     router.push(toProjectProposalCreateRoute());
-  //   }
-
-  //   modalsStore.openConfirmModal(
-  //     title,
-  //     agreeButtonTitle,
-  //     disagreeButtonTitle,
-  //     agree,
-  //     disagree,
-  //   );
-  // }
 
   function onError(error: unknown) {
     toast.error('Ошибка: ' + String(error));

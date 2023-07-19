@@ -3,6 +3,7 @@ import { useAuthStore } from '@/stores/auth/useAuthStore';
 import { Project } from '@/models/Project';
 import {
   CreatedProjectProposal,
+  CreatedProjectResult,
   NewProjectProposal,
 } from '@/models/ProjectProposal';
 import { Specialty } from '@/models/Specialty';
@@ -12,6 +13,7 @@ import { themeSources } from '@/models/mock/project-proposal';
 import { specialties } from '@/models/mock/specialties';
 import SupervisorApiType, {
   UpdateProjectProposalData,
+  UpdateProjectResultData,
 } from './SupervisorApiType';
 
 export default class SupervisorApiMock implements SupervisorApiType {
@@ -38,6 +40,28 @@ export default class SupervisorApiMock implements SupervisorApiType {
     console.log(projectProposal);
     console.log(id);
     return {} as CreatedProjectProposal;
+  }
+
+  async updateProjectResult({
+    projectResult,
+    id,
+  }: UpdateProjectResultData): Promise<CreatedProjectResult> {
+    await sleep(500);
+    console.log(projectResult);
+    console.log(id);
+
+    mockProjectList.forEach((project) => {
+      if (project.id == id) {
+        project.result_description = projectResult.result_description;
+        project.result_goal = projectResult.result_goal;
+        project.participations = projectResult.participations;
+        return;
+      }
+    });
+
+    console.log(mockProjectList.find((project) => project.id == id));
+
+    return {} as CreatedProjectResult;
   }
 
   async deleteProjectProposal(

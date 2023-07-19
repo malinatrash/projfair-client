@@ -3,6 +3,7 @@ import { formatProjectDate, isProject, isProposal } from '@/helpers/project';
 import { Project } from '@/models/Project';
 import {
   CreatedProjectProposal,
+  CreatedProjectResult,
   NewProjectProposal,
 } from '@/models/ProjectProposal';
 import { Specialty } from '@/models/Specialty';
@@ -11,6 +12,7 @@ import { sharedApi } from '../SharedApi';
 import { baseKyInstance } from '../baseKy';
 import SupervisorApiType, {
   UpdateProjectProposalData,
+  UpdateProjectResultData,
 } from './SupervisorApiType';
 
 export default class SupervisorApi implements SupervisorApiType {
@@ -45,6 +47,15 @@ export default class SupervisorApi implements SupervisorApiType {
   }: UpdateProjectProposalData): Promise<CreatedProjectProposal> {
     return baseKyInstance
       .patch(`api/supervisor/projects/${id}`, { json: projectProposal })
+      .json();
+  }
+
+  async updateProjectResult({
+    projectResult,
+    id,
+  }: UpdateProjectResultData): Promise<CreatedProjectResult> {
+    return baseKyInstance
+      .patch(`api/supervisor/projects/${id}`, { json: projectResult })
       .json();
   }
 
