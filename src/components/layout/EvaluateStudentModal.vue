@@ -26,7 +26,7 @@
           case="uppercase"
           @click="evaluation.evaluate()"
         >
-          Оценить
+          Отправить
         </BaseButton>
       </div>
     </div>
@@ -42,6 +42,8 @@
   import BaseTextarea from '../ui/BaseTextarea.vue';
 
   const evaluation = useEvaluation();
+
+  console.log(evaluation.evaluateStore.projectID);
 </script>
 
 <style>

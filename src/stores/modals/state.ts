@@ -20,7 +20,7 @@ export interface State {
   evaluateStudentModal?: boolean;
   evaluateStudentModalId?: number;
   evaluateStudentModalName?: string;
-  projectID: number | undefined;
+  projectID?: number;
   rating: number | undefined;
   review: string | undefined;
 }

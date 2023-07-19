@@ -5,18 +5,18 @@ export const useEvaluationModal = defineStore('evaluationModals', {
   state,
   actions: {
     openEvaluateStudentModal(
-      projectID?: number,
-      id?: number,
-      name?: string,
-      rating?: number,
-      review?: string,
+      projectID: number,
+      id: number,
+      name: string,
+      rating: number,
+      review: string,
     ) {
       this.projectID = projectID;
       this.evaluateStudentModalId = id;
       this.evaluateStudentModalName = name;
-      this.evaluateStudentModal = true;
       this.rating = rating;
       this.review = review;
+      this.evaluateStudentModal = true;
     },
 
     closeEvaluateStudentModal() {
