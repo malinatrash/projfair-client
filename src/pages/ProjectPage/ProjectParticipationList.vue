@@ -60,11 +60,13 @@
   }
 
   function sortParticipations(participations: Participation[]) {
-    return [...participations].sort(
-      (a, b) =>
-        new Date(a.updated_at).getTime() * a.priority -
-        new Date(b.updated_at).getTime() * b.priority,
-    );
+    return [...participations]
+      .sort(
+        (a, b) =>
+          new Date(a.updated_at).getTime() * a.priority -
+          new Date(b.updated_at).getTime() * b.priority,
+      )
+      .filter((e) => e.state.id !== 2);
   }
 
   const clearedParticipations = computed<Participation[]>(() => {
