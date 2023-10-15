@@ -22,6 +22,35 @@
       </div>
       <div v-if="project?.specialities.length > 0" class="subtitle">
         {{ project.specialities.map((ins) => ins.name).join(', ') }}
+        <br />
+        <br />
+        <div
+          v-for="(course, index) in [...courses].sort((a, b) => a - b)"
+          :key="index"
+        >
+          <b>
+            <span>{{ course }}</span> курс:
+          </b>
+          {{
+            [
+              ...new Set(
+                props.project.participants
+                  ?.map((part) => {
+                    return props.project.specialities
+                      .filter((ins) => {
+                        return (
+                          part.training_group.includes(ins.name) &&
+                          part.course === course
+                        );
+                      })
+                      .map((ins) => ins.name)[0];
+                  })
+                  .filter((item) => !isEmpty(item)),
+              ),
+            ].join(', ')
+          }}
+          <br />
+        </div>
       </div>
       <ProjectCardInfo
         v-if="isSmallDevice"
@@ -90,6 +119,7 @@
 </template>
 
 <script setup lang="ts">
+  import { isEmpty } from 'lodash';
   import { RouterLink } from 'vue-router';
   import {
     useDesktop,
@@ -116,6 +146,11 @@
   });
 
   const stateClass = StateClass[props.project.state.id];
+
+  const courses = new Set();
+  props.project.participants?.forEach((part) => {
+    courses.add(part.course);
+  });
 </script>
 
 <style lang="scss" scoped>
