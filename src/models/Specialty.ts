@@ -36,7 +36,7 @@ export interface SelectedSpecialty<T = number> extends Tag<T> {
 
 export interface SpecialtyGroup {
   id: number;
-  course: SpecialtyCourse;
+  course: SpecialtyCourse | null;
   priority: SpecialtyPriority;
   speciality: Specialty;
 }

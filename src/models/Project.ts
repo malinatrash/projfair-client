@@ -4,7 +4,7 @@ import { Participation } from './Participation';
 import { ProjectDifficulty } from './ProjectDifficulty';
 import { MemberRole } from './ProjectProposal';
 import { ProjectState, ProjectStateID } from './ProjectState';
-import { Specialty } from './Specialty';
+import { Specialty, SpecialtyGroup } from './Specialty';
 import { Supervisor } from './Supervisor';
 import { Tag } from './Tag';
 
@@ -56,6 +56,7 @@ export interface Project {
   type: ProjectType;
   skills: Skill[];
   specialities: Specialty[];
+  project_specialities: SpecialtyGroup[];
   participations?: Participation[];
   participants?: Candidate[];
   participant_feedback?: string;

@@ -21,10 +21,15 @@
         }}
       </div>
       <div v-if="project?.specialities.length > 0" class="subtitle">
-        {{ project.specialities.map((ins) => ins.name).join(', ') }}
-        <br />
-        <br />
         <div
+          v-if="
+            project.project_specialities.some((spec) => spec.course === null)
+          "
+        >
+          {{ project.specialities.map((ins) => ins.name).join(', ') }}
+        </div>
+        <div
+          v-else
           v-for="(course, index) in [...courses].sort((a, b) => a - b)"
           :key="index"
         >
@@ -34,18 +39,9 @@
           {{
             [
               ...new Set(
-                props.project.participants
-                  ?.map((part) => {
-                    return props.project.specialities
-                      .filter((ins) => {
-                        return (
-                          part.training_group.includes(ins.name) &&
-                          part.course === course
-                        );
-                      })
-                      .map((ins) => ins.name)[0];
-                  })
-                  .filter((item) => !isEmpty(item)),
+                props.project.project_specialities
+                  .filter((spec) => spec.course === course)
+                  .map((spec) => spec.speciality.name),
               ),
             ].join(', ')
           }}
@@ -148,8 +144,8 @@
   const stateClass = StateClass[props.project.state.id];
 
   const courses = new Set();
-  props.project.participants?.forEach((part) => {
-    courses.add(part.course);
+  props.project.project_specialities.forEach((spec) => {
+    courses.add(spec.course);
   });
 </script>
 

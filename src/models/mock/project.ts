@@ -67,6 +67,52 @@ export const mockProjectList: Project[] = [
       { id: 4, name: 'ЭВМ', department: null, institute: null },
       { id: 3, name: 'ИСТб', department: null, institute: null },
     ],
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [
       {
         id: 0,
@@ -176,6 +222,52 @@ export const mockProjectList: Project[] = [
       { id: 4, name: 'ЭВМ', department: null, institute: null },
       { id: 3, name: 'ИСТб', department: null, institute: null },
     ],
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [
       {
         id: 100,
@@ -280,6 +372,52 @@ export const mockProjectList: Project[] = [
       { id: 4, name: 'ЭВМ', department: null, institute: null },
       { id: 3, name: 'ИСТб', department: null, institute: null },
     ],
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [
       {
         id: 100,
@@ -379,6 +517,52 @@ export const mockProjectList: Project[] = [
     difficulty: 3,
     goal: 'На основе данных ИЭСБК создать профиль потребителя энергоресурсов',
     id: 2,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [
@@ -413,6 +597,52 @@ export const mockProjectList: Project[] = [
     difficulty: 3,
     goal: 'Применение знаний и получение навыков в организации работы предприятия',
     id: 3,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [
@@ -448,6 +678,52 @@ export const mockProjectList: Project[] = [
     difficulty: 2,
     goal: 'Исследование влияния предпринимательских качеств на профессиональные достижения, финансовое вознаграждение и нематериальную «выгоду» научных работников',
     id: 4,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [{ id: 1, name: 'НГДСз', department: null, institute: null }],
@@ -479,6 +755,52 @@ export const mockProjectList: Project[] = [
     difficulty: 3,
     goal: 'Стратегическое управление ключевыми потенциалами развития территориальных социально-экономических систем',
     id: 5,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [{ id: 1, name: 'НГДСз', department: null, institute: null }],
@@ -510,6 +832,52 @@ export const mockProjectList: Project[] = [
     difficulty: 3,
     goal: 'Применение знаний и получение навыков в организации работы предприятия',
     id: 6,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [{ id: 1, name: 'НГДСз', department: null, institute: null }],
@@ -541,6 +909,52 @@ export const mockProjectList: Project[] = [
     difficulty: 2,
     goal: 'Разработка развлекательных, познавательных и научных материалов в социальных сетях ИРНИТУ. ',
     id: 7,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [{ id: 1, name: 'НГДСз', department: null, institute: null }],
@@ -572,6 +986,52 @@ export const mockProjectList: Project[] = [
     difficulty: 2,
     goal: 'Разработка развлекательных, познавательных и научных материалов в социальных сетях ИРНИТУ. ',
     id: 8,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [userCandidate],
     specialities: [{ id: 1, name: 'НГДСз', department: null, institute: null }],

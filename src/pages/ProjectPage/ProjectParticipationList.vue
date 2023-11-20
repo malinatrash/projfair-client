@@ -66,7 +66,7 @@
           new Date(a.updated_at).getTime() * a.priority -
           new Date(b.updated_at).getTime() * b.priority,
       )
-      .filter((e) => e.state.id !== 2);
+      .filter((e) => e.state.id !== 3);
   }
 
   const clearedParticipations = computed<Participation[]>(() => {
