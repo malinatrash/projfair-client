@@ -13,6 +13,7 @@
           v-model="projectResultForm.projectResultDescription"
           data-test-id="projectDescription"
           :disabled="!isEditable"
+          :showMaxLength="isEditable"
           :class="$style['large-textarea']"
           :placeholder="
             !isProjectStateArchived
@@ -77,6 +78,7 @@
           v-else
           data-test-id="projectDescription"
           :disabled="!isEditable"
+          :showMaxLength="isEditable"
           style="width: 28rem"
           :placeholder="
             ProjectResultGoalName[computedProject?.result_goal ?? 1]

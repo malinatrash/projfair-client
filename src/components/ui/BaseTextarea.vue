@@ -20,6 +20,7 @@
     >
     </textarea>
     <span
+      v-if="showMaxLength"
       :class="[
         'maxlength',
         {
@@ -68,6 +69,10 @@
      * Максимальное кол-во символов
      */
     maxLength?: number;
+    /**
+     * Возможность редактирования
+     */
+    showMaxLength?: boolean;
   }
 
   interface Emits {
@@ -85,6 +90,7 @@
     label: '',
     resize: 'none',
     maxLength: 255,
+    showMaxLength: true,
   });
 
   const isValid = computed(() => props.maxLength > props.modelValue.length);
