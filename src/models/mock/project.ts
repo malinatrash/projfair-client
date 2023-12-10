@@ -93,7 +93,7 @@ export const mockProjectList: Project[] = [
       {
         id: 15,
         course: 3,
-        priority: 1,
+        priority: 2,
         speciality: {
           id: 3,
           name: 'ИСТб',

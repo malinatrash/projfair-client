@@ -36,15 +36,25 @@
           <b>
             <span>{{ course }}</span> курс:
           </b>
-          {{
-            [
-              ...new Set(
-                props.project.project_specialities
-                  .filter((spec) => spec.course === course)
-                  .map((spec) => spec.speciality.name),
-              ),
-            ].join(', ')
-          }}
+
+          <span
+            v-for="(spec, index) in getSpecialtyNameAndPriorityListFromCourse(
+              course,
+            )"
+            :key="index"
+          >
+            <span v-if="spec.priority === 1">{{ spec.name }}</span>
+            <span v-else>{{ spec.name }}</span>
+
+            <span
+              v-if="
+                index !==
+                getSpecialtyNameAndPriorityListFromCourse(course).length - 1
+              "
+              >,
+            </span>
+          </span>
+
           <br />
         </div>
       </div>
@@ -147,6 +157,21 @@
   props.project.project_specialities.forEach((spec) => {
     courses.add(spec.course);
   });
+
+  const getSpecialtyNameAndPriorityListFromCourse = (course: unknown) => {
+    return [
+      ...new Set(
+        props.project.project_specialities
+          .filter((spec) => spec.course === course)
+          .map((spec) => {
+            return {
+              name: spec.speciality.name,
+              priority: spec.priority,
+            };
+          }),
+      ),
+    ];
+  };
 </script>
 
 <style lang="scss" scoped>
