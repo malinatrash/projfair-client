@@ -95,10 +95,23 @@
 
   const isValid = computed(() => props.maxLength > props.modelValue.length);
 
+  // Добавил регулярку
   const onInput = (e: Event) => {
     const target = e.target as HTMLInputElement;
-    emit('update:modelValue', target.value);
+
+    const inputValue = target.value;
+    const sqlRegex =
+      /(\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bALTER\b|\bTRUNCATE\b|\bTABLE\b|\bCREATE\b)/gi;
+
+    if (sqlRegex.test(inputValue)) {
+      alert('Ввод SQL-запросов запрещен!');
+      target.value = '';
+    }
+
+    const cleanedValue = target.value.replace(/[\n\r\t]/g, '');
+    emit('update:modelValue', cleanedValue);
   };
+
   const emit = defineEmits<Emits>();
   const attrs = useAttrs();
 </script>

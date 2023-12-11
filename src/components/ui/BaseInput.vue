@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Ref, InputHTMLAttributes, withDefaults } from 'vue';
+  import { InputHTMLAttributes, Ref, withDefaults } from 'vue';
 
   interface Props extends InputHTMLAttributes {
     /**
@@ -55,10 +55,21 @@
   });
   const emit = defineEmits<Emits>();
 
-  function onInput(e: Event) {
+  const onInput = (e: Event) => {
     const target = e.target as HTMLInputElement;
-    emit('update:modelValue', target.value);
-  }
+
+    const inputValue = target.value;
+    const sqlRegex =
+      /(\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bALTER\b|\bTRUNCATE\b|\bTABLE\b|\bCREATE\b)/gi;
+
+    if (sqlRegex.test(inputValue)) {
+      alert('Ввод SQL-запросов запрещен!');
+      target.value = '';
+    }
+
+    const cleanedValue = target.value.replace(/[\n\r\t]/g, '');
+    emit('update:modelValue', cleanedValue);
+  };
 </script>
 
 <script lang="ts">
