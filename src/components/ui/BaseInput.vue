@@ -55,19 +55,25 @@
   });
   const emit = defineEmits<Emits>();
 
+  // Проверка ввода на SQL-инъекции
   const onInput = (e: Event) => {
     const target = e.target as HTMLInputElement;
 
+    // Получаем значение из поля ввода
     const inputValue = target.value;
+    // Регулярное выражение для поиска SQL-запросов
     const sqlRegex =
       /(\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bALTER\b|\bTRUNCATE\b|\bTABLE\b|\bCREATE\b)/gi;
 
+    // Если в тексте нашёлся SQL-запрос, то выводим предупреждение о запрете SQL-запросов
     if (sqlRegex.test(inputValue)) {
       alert('Ввод SQL-запросов запрещен!');
       target.value = '';
     }
 
+    // Очистка текста от SQL-запросов
     const cleanedValue = target.value.replace(/[\n\r\t]/g, '');
+    // Передаём очищенный текст в поле ввода
     emit('update:modelValue', cleanedValue);
   };
 </script>
