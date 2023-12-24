@@ -38,24 +38,35 @@
           </b>
 
           <span
-            v-for="(spec, index) in getSpecialtyNameAndPriorityListFromCourse(
-              course,
-            )"
+            v-for="(spec, index) in specialtistOfFirstPriority(course)"
             :key="index"
           >
-            <span v-if="spec.priority === 1">{{ spec.name }}</span>
-            <span v-else>{{ spec.name }}</span>
+            <span>{{ spec.name }}</span>
 
-            <span
-              v-if="
-                index !==
-                getSpecialtyNameAndPriorityListFromCourse(course).length - 1
-              "
+            <span v-if="index !== specialtistOfFirstPriority(course).length - 1"
               >,
             </span>
           </span>
+          <span
+            v-if="specialtistWithoutFirstPriority(course).length !== 0"
+            style="margin-bottom: 0.25rem"
+          >
+            |
+            <b>приглашённые: </b>
+            <span
+              v-for="(spec, index) in specialtistWithoutFirstPriority(course)"
+              :key="index"
+            >
+              <span>{{ spec.name }}</span>
 
-          <br />
+              <span
+                v-if="
+                  index !== specialtistWithoutFirstPriority(course).length - 1
+                "
+                >,
+              </span>
+            </span>
+          </span>
         </div>
       </div>
       <ProjectCardInfo
@@ -125,6 +136,7 @@
 </template>
 
 <script setup lang="ts">
+  import Cookies from 'js-cookie';
   import { isEmpty } from 'lodash';
   import { RouterLink } from 'vue-router';
   import {
@@ -172,6 +184,15 @@
       ),
     ];
   };
+
+  const specialtistOfFirstPriority = (course: unknown) =>
+    getSpecialtyNameAndPriorityListFromCourse(course).filter(
+      (spec) => spec.priority === 1,
+    );
+  const specialtistWithoutFirstPriority = (course: unknown) =>
+    getSpecialtyNameAndPriorityListFromCourse(course).filter(
+      (spec) => spec.priority !== 1,
+    );
 </script>
 
 <style lang="scss" scoped>
