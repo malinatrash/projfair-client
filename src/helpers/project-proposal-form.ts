@@ -19,6 +19,7 @@ import {
   SpecialtyGroup,
   SpecialtyPriority,
 } from '@/models/Specialty';
+import { getAcademicYear } from './date';
 import { sortByRolePriority } from './project-member-role';
 import { specialtyFullName } from './specialty';
 
@@ -99,7 +100,8 @@ export function collectProjectProposal(
 }
 
 export function projectDateFromDuration(duration: ProjectDuration): DateRange {
-  const currentYear = new Date(Date.now()).getFullYear();
+  const currentMonth = new Date(Date.now()).getMonth();
+  const currentYear = getAcademicYear(currentMonth);
 
   const fallStartDate = DateTime.fromObject({
     year: currentYear,

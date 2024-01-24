@@ -524,6 +524,7 @@
   import { MultiselectObjectItem } from '@/models/components/VMultiselect';
   import { useSmallDevice } from '@/hooks/useBreakpoints';
   import { useProjectProposalMetaData } from '@/hooks/useProjectProposalMetaData';
+  import { getAcademicYear } from '@/helpers/date';
   import { Project, Skill } from '@/models/Project';
   import { ProjectDifficulty } from '@/models/ProjectDifficulty';
   import { Specialty } from '@/models/Specialty';
@@ -567,7 +568,9 @@
   const showSpecialtyEditModal = ref<boolean>(false);
   const showAdditionalSpecialtyEditModal = ref<boolean>(false);
 
-  const currentYear = new Date(Date.now()).getFullYear();
+  const currentMonth = new Date(Date.now()).getMonth();
+  const currentYear = getAcademicYear(currentMonth);
+
   const projectProposalForm = reactive<ProjectProposalFormValue>(
     props.projectProposalFormValue,
   );
