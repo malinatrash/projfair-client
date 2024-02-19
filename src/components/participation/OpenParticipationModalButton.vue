@@ -5,7 +5,8 @@
     :variant="props.variant"
     :disabled="
       abilitySendParticipationsMutation.isLoading.value ||
-      participationListQuery.isFetching.value
+      participationListQuery.isFetching.value ||
+      new Date() > new Date(time?.[1] ?? new Date(-1000))
     "
     @click="openParticipationModal"
   >
@@ -19,6 +20,7 @@
   import { useToast } from 'vue-toastification';
   import { useGetAbilitySendParticipationsMutation } from '@/api/CandidateApi/hooks/useGetAbilitySendParticipationsMutation';
   import { useGetParticipationListQuery } from '@/api/CandidateApi/hooks/useGetParticipationListQuery';
+  import { useUserTimer } from '@/hooks/useUserTimer';
   import { isExtraState, isRecruitingState } from '@/helpers/project';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
@@ -38,6 +40,8 @@
   const participationListQuery = useGetParticipationListQuery({
     enabled: isStudent,
   });
+
+  const time = useUserTimer();
 
   const abilitySendParticipationsMutation =
     useGetAbilitySendParticipationsMutation({
