@@ -12,8 +12,6 @@ export const useResultStore = defineStore('result', {
       return this.results?.filter((result) => result.id === studentID)[0];
     },
     setResult(rating: number, review: string, id: number) {
-      this.results?.forEach((e) => {});
-
       this.results?.forEach((e) => {
         if (e.id === id) {
           e.rating = rating;

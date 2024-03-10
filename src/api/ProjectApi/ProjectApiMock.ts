@@ -154,4 +154,36 @@ export default class ProjectApiMock implements ProjectApiType {
 
     return history.map(formatProjectDate);
   }
+
+  async updateProjectCandidateMark(
+    projectId: number,
+    candidateId: number,
+    mark: number,
+    review: string,
+  ): Promise<Project> {
+    const projectToUpdate = projectListResponse.data.find(
+      (project) => project.id === projectId,
+    );
+
+    if (!projectToUpdate) {
+      throw new Error('Проект не найден');
+    }
+
+    const updatedProject = {
+      ...projectToUpdate,
+      mark: mark,
+      review: review,
+    };
+
+    const updatedProjectList = projectListResponse.data.map((project) => {
+      if (project.id === projectId) {
+        return updatedProject;
+      }
+      return project;
+    });
+
+    await delayRes(updatedProjectList, 200);
+
+    return formatProjectDate(updatedProject);
+  }
 }

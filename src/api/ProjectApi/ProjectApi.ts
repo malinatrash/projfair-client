@@ -82,6 +82,25 @@ export default class ProjectApi implements ProjectApiType {
     }
   }
 
+  async updateProjectCandidateMark(
+    projectId: number,
+    candidateId: number,
+    mark: number,
+    review: string,
+  ): Promise<Project> {
+    const [project] = await Promise.all([
+      baseKyInstance
+        .put(`api/projects/${projectId}/candidates/${candidateId}`, {
+          json: {
+            mark,
+            review,
+          },
+        })
+        .json<Project>(),
+    ]);
+    return formatProjectDate(project);
+  }
+
   async getProjectHistory(projectId: number): Promise<Project[]> {
     try {
       const projectList: Project[] = await baseKyInstance

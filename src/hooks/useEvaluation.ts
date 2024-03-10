@@ -1,35 +1,37 @@
-import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
+import { projectApi } from '@/api/ProjectApi';
 import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
+import { useModalsStore } from '@/stores/modals/useModalsStore';
 import { useResultStore } from '@/stores/resultPage/useResultStore';
 
 export default function useEvaluation() {
   const evaluateStore = useEvaluationModal();
-
-  const projectData = useGetSingleProjectQuery(evaluateStore.projectID!);
-
+  // const projectData = useGetSingleProjectQuery(evaluateStore.projectID!);
   const resultStore = useResultStore();
+  const modalsStore = useModalsStore();
 
-  const evaluate = () => {
-    resultStore.setResult(
-      evaluateStore.rating!,
-      evaluateStore.review!,
-      evaluateStore.evaluateStudentModalId!,
-    );
-    evaluateStore.closeEvaluateStudentModal();
-    return;
-
-    if (!projectData.data.value) {
-      console.log('sdfsf');
-    }
-
-    for (const participation of projectData.data.value?.project
-      .participations!) {
-      if (participation.candidate.id == evaluateStore.evaluateStudentModalId) {
-        participation.rating = evaluateStore.rating ?? participation.rating;
-        participation.review = evaluateStore.review ?? participation.review;
-        console.log(participation.rating);
-        console.log(participation.review);
+  // Кладем в стор оценку
+  const evaluate = async () => {
+    console.log(evaluateStore.projectID);
+    try {
+      if (evaluateStore.projectID) {
+        await projectApi.updateProjectCandidateMark(
+          evaluateStore.projectID,
+          evaluateStore.evaluateStudentModalId!,
+          evaluateStore.rating ?? 0,
+          evaluateStore.review ?? '',
+        );
+        resultStore.setResult(
+          evaluateStore.rating ?? 0,
+          evaluateStore.review ?? '',
+          evaluateStore.evaluateStudentModalId!,
+        );
+        evaluateStore.closeEvaluateStudentModal();
+      } else {
+        console.error('Не удалось получить id проекта');
       }
+    } catch (error) {
+      console.error('Произошла ошибка при отправке оценки:', error);
+      modalsStore.openAlertModal('Произошла ошибка');
     }
   };
 
