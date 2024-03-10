@@ -1,4 +1,5 @@
 import { projectApi } from '@/api/ProjectApi';
+import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
 import { useEvaluationModal } from '@/stores/modals/useEvaluationStudentModalStore';
 import { useModalsStore } from '@/stores/modals/useModalsStore';
 import { useResultStore } from '@/stores/resultPage/useResultStore';
