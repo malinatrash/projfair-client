@@ -13,45 +13,86 @@
             {{ link.meta.title }}
           </RouterLink>
           <template v-else>
-            <SimpleAccordion class="accordion" default-opened>
-              <template #title>
-                <p :class="['action', props.variant]">
-                  {{ link.meta.title }}
-                </p>
-              </template>
-              <template #content>
-                <ul :class="['list', props.variant]">
-                  <li
-                    v-for="childLink in link.meta.links"
-                    :key="childLink.title"
-                    :class="['item', props.variant]"
-                  >
-                    <RouterLink
-                      :class="['action', props.variant]"
-                      :to="childLink.location"
+            <template v-if="props.variant == 'desktop'">
+              <SimpleAccordion class="accordion" default-opened>
+                <template #title>
+                  <p :class="['action', props.variant]">
+                    {{ link.meta.title }}
+                  </p>
+                </template>
+                <template #content>
+                  <ul :class="['list', props.variant]">
+                    <li
+                      v-for="childLink in link.meta.links"
+                      :key="childLink.title"
+                      :class="['item', props.variant]"
                     >
-                      {{ childLink.title }}
-                      <OnReviewProposalsLabel
-                        v-if="
-                          childLink.name ===
-                          RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_NEW
-                        "
-                      />
-                      <IntituteProjectsQuota
-                        v-else-if="
-                          childLink.name ===
-                          RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED
-                        "
-                      />
-                    </RouterLink>
-                  </li>
-                </ul>
-              </template>
-            </SimpleAccordion>
+                      <RouterLink
+                        :class="['action', props.variant]"
+                        :to="childLink.location"
+                      >
+                        {{ childLink.title }}
+                        <OnReviewProposalsLabel
+                          v-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_NEW
+                          "
+                        />
+                        <IntituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED
+                          "
+                        />
+                      </RouterLink>
+                    </li>
+                  </ul>
+                </template>
+              </SimpleAccordion>
+            </template>
+            <template v-else>
+              <li :class="['item', props.variant]">
+                <RouterLink
+                  v-if="!link.meta.links"
+                  :class="['action', props.variant]"
+                  :to="{ name: link.name }"
+                >
+                  {{ link.meta.title }}
+                </RouterLink>
+                <template v-else>
+                  <ul :class="['list', props.variant]">
+                    <template
+                      v-for="childLink in link.meta.links"
+                      :key="childLink.title"
+                    >
+                      <li :class="['item', props.variant]">
+                        <RouterLink
+                          :class="['action', props.variant]"
+                          :to="childLink.location"
+                        >
+                          {{ childLink.title }}
+                          <OnReviewProposalsLabel
+                            v-if="
+                              childLink.name ===
+                              RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_NEW
+                            "
+                          />
+                          <IntituteProjectsQuota
+                            v-else-if="
+                              childLink.name ===
+                              RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED
+                            "
+                          />
+                        </RouterLink>
+                      </li>
+                    </template>
+                  </ul>
+                </template>
+              </li>
+            </template>
           </template>
         </li>
       </template>
-
       <li :class="['item', props.variant]">
         <button :class="['action', props.variant]" @click="logout">
           Выйти из профиля
@@ -107,7 +148,7 @@
       overflow-x: auto;
       border: none;
       border-radius: 0;
-      box-shadow: 0 0.25rem 0.3rem rgb(0 0 0 / 7%);
+      //box-shadow: 0 0.25rem 0.3rem rgb(0 0 0 / 7%);
     }
   }
 
