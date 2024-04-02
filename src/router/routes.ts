@@ -26,7 +26,9 @@ import UserPage from '@/pages/UserPage/index.vue';
 import { RouteNames } from './types/route-names';
 import {
   FilterInstituteProjectProposalsBy,
+  FilterInstituteProjectsBy,
   toInstituteProjectProposals,
+  toInstituteProjects,
 } from './utils/routes';
 
 export const routes: RouteRecordRaw[] = [
@@ -161,11 +163,27 @@ export const routes: RouteRecordRaw[] = [
                 1,
               ),
             },
+            // {
+            //   name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED,
+            //   title: 'Одобренные заявки',
+            //   location: toInstituteProjectProposals(
+            //     FilterInstituteProjectProposalsBy.Approved,
+            //     1,
+            //   ),
+            // },
             {
-              name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED,
-              title: 'Одобренные заявки',
+              name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_SPRING,
+              title: 'Одобренные на весну',
               location: toInstituteProjectProposals(
-                FilterInstituteProjectProposalsBy.Approved,
+                FilterInstituteProjectProposalsBy.ApprovedSpring,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN,
+              title: 'Одобренные на осень',
+              location: toInstituteProjectProposals(
+                FilterInstituteProjectProposalsBy.ApprovedAutumn,
                 1,
               ),
             },
@@ -181,12 +199,38 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: 'institute_projects',
+        name: RouteNames.INST_DIRECTOR_PROJECTS,
+        component: UserProjects,
+        meta: {
+          type: ['user-nav'],
+          order: 4,
+          title: 'Проекты института',
+          role: ['is_institute_director'],
+          links: [
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_ACTIVE,
+              title: 'Активные проекты',
+              location: toInstituteProjects(
+                FilterInstituteProjectsBy.Active,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_ALL,
+              title: 'Все проекты',
+              location: toInstituteProjects(FilterInstituteProjectsBy.All, 1),
+            },
+          ],
+        },
+      },
+      {
         path: 'projects',
         name: RouteNames.USER_PROJECTS,
         component: UserProjects,
         meta: {
           type: ['user-nav'],
-          order: 4,
+          order: 5,
           title: 'Мои проекты',
         },
       },

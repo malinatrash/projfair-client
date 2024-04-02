@@ -22,9 +22,34 @@ export function toProjectProposalCreateRoute(
   };
 }
 
+export const enum FilterInstituteProjectsBy {
+  All = 'all',
+  Active = 'active',
+}
+
+export const FilterByToProjectStateId: Record<
+  FilterInstituteProjectsBy,
+  ProjectProposalStateId
+> = {
+  [FilterInstituteProjectsBy.All]: ProjectProposalStateId.Approved,
+  [FilterInstituteProjectsBy.Active]: ProjectProposalStateId.Approved,
+};
+
+export function toInstituteProjects(
+  filterBy = FilterInstituteProjectsBy.All,
+  page = 1,
+): LocationAsRelativeRaw {
+  return {
+    name: RouteNames.INST_DIRECTOR_PROJECTS,
+    params: { filterBy, page },
+  };
+}
+
 export const enum FilterInstituteProjectProposalsBy {
   New = 'new',
   Approved = 'approved',
+  ApprovedSpring = 'approved_spring',
+  ApprovedAutumn = 'approved_autumn',
   Rejected = 'rejected',
 }
 
@@ -34,6 +59,10 @@ export const FilterByToProjectProposalStateId: Record<
 > = {
   [FilterInstituteProjectProposalsBy.New]: ProjectProposalStateId.UnderReview,
   [FilterInstituteProjectProposalsBy.Approved]: ProjectProposalStateId.Approved,
+  [FilterInstituteProjectProposalsBy.ApprovedSpring]:
+    ProjectProposalStateId.Approved,
+  [FilterInstituteProjectProposalsBy.ApprovedAutumn]:
+    ProjectProposalStateId.Approved,
   [FilterInstituteProjectProposalsBy.Rejected]: ProjectProposalStateId.Rejected,
 };
 

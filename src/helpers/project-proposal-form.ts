@@ -101,7 +101,7 @@ export function collectProjectProposal(
 
 export function projectDateFromDuration(duration: ProjectDuration): DateRange {
   const currentMonth = new Date(Date.now()).getMonth();
-  const currentYear = getAcademicYear(currentMonth);
+  const currentYear = getAcademicYear(currentMonth).academicYear();
 
   const fallStartDate = DateTime.fromObject({
     year: currentYear,

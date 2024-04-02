@@ -44,6 +44,26 @@
                             RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED
                           "
                         />
+                        <IntituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN
+                          "
+                          :class="{
+                            'disabled-autumn disabled':
+                              !academicYear.isAutumn(),
+                          }"
+                        />
+                        <IntituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_SPRING
+                          "
+                          :class="{
+                            'disabled-spring disabled':
+                              !academicYear.isSpring(),
+                          }"
+                        />
                       </RouterLink>
                     </li>
                   </ul>
@@ -108,12 +128,15 @@
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
   import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
   import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
+  import { getAcademicYear } from '@/helpers/date';
   import { RouteNames } from '@/router/types/route-names';
   import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue';
 
   type Props = { variant: 'desktop' | 'mobile' };
   const props = withDefaults(defineProps<Props>(), { variant: 'desktop' });
   const routes = useRoledUserNavigationRoutes();
+
+  const academicYear = getAcademicYear(new Date().getMonth());
 
   const { logout } = useLogoutWithModalMutation();
 </script>
@@ -129,11 +152,21 @@
       border: none;
       border-radius: 0;
     }
+
+    &::-webkit-scrollbar {
+      appearance: none;
+      width: 5px;
+      height: 5px;
+    }
   }
 
   .list {
     padding: 0 1.375rem;
     background: var(--light-color);
+
+    & > .item > .accordion > .content > .list {
+      padding-right: 0;
+    }
 
     &.mobile {
       position: sticky;
@@ -148,23 +181,16 @@
       overflow-x: auto;
       border: none;
       border-radius: 0;
-      //box-shadow: 0 0.25rem 0.3rem rgb(0 0 0 / 7%);
+
+      // box-shadow: 0 0.25rem 0.3rem rgb(0 0 0 / 7%);
     }
-  }
 
-  .item {
-    list-style: none;
-
-    &.mobile {
-      white-space: nowrap;
+    &::-webkit-scrollbar {
+      height: 2px;
     }
-  }
 
-  .item:not(:last-child) {
-    border-bottom: 1px solid var(--gray-color-1);
-
-    &.mobile {
-      border-bottom: none;
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--accent-color-2);
     }
   }
 
@@ -199,6 +225,63 @@
 
     &.mobile {
       border-bottom: 2px solid var(--accent-color-1);
+    }
+  }
+
+  .item {
+    list-style: none;
+
+    &:has(.disabled) > .action {
+      position: relative;
+      color: #38383833;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    &:has(.disabled-autumn) > .action {
+      --text: 'Недоступно в весеннем семестре';
+    }
+
+    &:has(.disabled-spring) > .action {
+      --text: 'Недоступно в осеннем семестре';
+    }
+
+    &:has(.disabled):hover > .action::after {
+      position: absolute;
+      bottom: 85%;
+      left: 50%;
+      display: block;
+      width: 85%;
+      height: auto;
+      padding: 15px;
+      font-size: 0.925rem;
+      color: #383838;
+      content: var(--text);
+      background-color: white;
+      border: 1px solid var(--gray-color-1);
+      border-radius: 0.75rem;
+      box-shadow: 0 0 15px 0 #38383822;
+      transform: translate(-50%, 0);
+    }
+
+    &:has(.disabled-autumn):hover > .action::after {
+      bottom: 85%;
+    }
+
+    &:has(.disabled-spring):hover > .action::after {
+      bottom: -105%;
+    }
+
+    &.mobile {
+      white-space: nowrap;
+    }
+  }
+
+  .item:not(:last-child) {
+    border-bottom: 1px solid var(--gray-color-1);
+
+    &.mobile {
+      border-bottom: none;
     }
   }
 

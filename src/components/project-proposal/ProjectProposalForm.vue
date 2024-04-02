@@ -569,7 +569,7 @@
   const showAdditionalSpecialtyEditModal = ref<boolean>(false);
 
   const currentMonth = new Date(Date.now()).getMonth();
-  const currentYear = getAcademicYear(currentMonth);
+  const currentYear = getAcademicYear(currentMonth).academicYear();
 
   const projectProposalForm = reactive<ProjectProposalFormValue>(
     props.projectProposalFormValue,

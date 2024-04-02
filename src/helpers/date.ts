@@ -7,6 +7,12 @@ export function isValidDate(
   return DateTime.fromFormat(dateString, format).isValid;
 }
 
+interface AcademicYear {
+  academicYear: () => number;
+  isSpring: () => boolean;
+  isAutumn: () => boolean;
+}
+
 /**
  * Возвращает академический год на основе текущего месяца.
  * Если текущий месяц <= 3 (апрель), возвращает предыдущий год,
@@ -15,7 +21,11 @@ export function isValidDate(
  * @param currentMonth - Текущий месяц в виде числа от 0 до 11
  * @returns Академический год в виде числа
  */
-export function getAcademicYear(currentMonth: number): number {
+export function getAcademicYear(currentMonth: number): AcademicYear {
   const currentYear = new Date(Date.now()).getFullYear();
-  return currentMonth <= 3 ? currentYear - 1 : currentYear;
+  return {
+    academicYear: () => (currentMonth <= 3 ? currentYear - 1 : currentYear), // возвращает академический год
+    isSpring: () => currentMonth >= 2 && currentMonth <= 4, // возвращает true, если сейчас весна
+    isAutumn: () => currentMonth >= 8 && currentMonth <= 10, // возвращает true, если сейчас осень
+  };
 }

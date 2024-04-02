@@ -29,8 +29,8 @@
           {{ project.specialities.map((ins) => ins.name).join(', ') }}
         </div>
         <div
+          v-for="(course, index) in [...courses].sort((a: any, b: any) => a - b)"
           v-else
-          v-for="(course, index) in [...courses].sort((a, b) => a - b)"
           :key="index"
         >
           <b>
@@ -38,12 +38,15 @@
           </b>
 
           <span
-            v-for="(spec, index) in specialtistOfFirstPriority(course)"
-            :key="index"
+            v-for="(spec, indexInner) in specialtistOfFirstPriority(course)"
+            :key="indexInner"
           >
             <span>{{ spec.name }}</span>
 
-            <span v-if="index !== specialtistOfFirstPriority(course).length - 1"
+            <span
+              v-if="
+                indexInner !== specialtistOfFirstPriority(course).length - 1
+              "
               >,
             </span>
           </span>
@@ -54,14 +57,17 @@
             |
             <b>приглашённые: </b>
             <span
-              v-for="(spec, index) in specialtistWithoutFirstPriority(course)"
-              :key="index"
+              v-for="(spec, indexInner) in specialtistWithoutFirstPriority(
+                course,
+              )"
+              :key="indexInner"
             >
               <span>{{ spec.name }}</span>
 
               <span
                 v-if="
-                  index !== specialtistWithoutFirstPriority(course).length - 1
+                  indexInner !==
+                  specialtistWithoutFirstPriority(course).length - 1
                 "
                 >,
               </span>
