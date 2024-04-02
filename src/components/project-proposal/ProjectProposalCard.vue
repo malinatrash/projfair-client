@@ -14,9 +14,6 @@
       <p :class="$style.subtitle">
         {{ props.projectProposal.goal }}
       </p>
-      {{ props.projectProposal.date_start }}
-      <br />
-      {{ props.projectProposal.date_end }}
       <div
         style="
           display: flex;
