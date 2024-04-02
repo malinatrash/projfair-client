@@ -53,6 +53,9 @@ export const PROJECT_PROPOSAL_IDS = [
   ProjectProposalStateId.Draft,
   ProjectProposalStateId.Rejected,
   ProjectProposalStateId.Approved,
+  ProjectProposalStateId.ApprovedOnYear,
+  ProjectProposalStateId.ApprovedAutumn,
+  ProjectProposalStateId.ApprovedSpring,
 ];
 
 export const StateClass: Record<ProjectProposalStateId, string> = {

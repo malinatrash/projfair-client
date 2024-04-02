@@ -16,7 +16,6 @@ declare module 'vue-router' {
       name: RouteNames;
       title: string;
       location: LocationAsRelativeRaw;
-      filter?: string;
     }[];
   }
 }

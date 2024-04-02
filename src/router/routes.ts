@@ -178,16 +178,6 @@ export const routes: RouteRecordRaw[] = [
                 FilterInstituteProjectProposalsBy.ApprovedOnYear,
                 1,
               ),
-              filter: 'approved_on_year',
-            },
-            {
-              name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_SPRING,
-              title: 'Одобренные на весну',
-              location: toInstituteProjectProposals(
-                FilterInstituteProjectProposalsBy.ApprovedSpring,
-                1,
-              ),
-              filter: 'approved_spring',
             },
             {
               name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN,
@@ -196,7 +186,14 @@ export const routes: RouteRecordRaw[] = [
                 FilterInstituteProjectProposalsBy.ApprovedAutumn,
                 1,
               ),
-              filter: 'approved_autumn',
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_SPRING,
+              title: 'Одобренные на весну',
+              location: toInstituteProjectProposals(
+                FilterInstituteProjectProposalsBy.ApprovedSpring,
+                1,
+              ),
             },
             {
               name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_REJECTED,
