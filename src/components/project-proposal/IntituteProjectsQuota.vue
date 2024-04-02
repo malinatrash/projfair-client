@@ -22,7 +22,7 @@
     stateId: {
       default: ProjectProposalStateId.ApprovedSpring,
       type: Number,
-      require: false,
+      require: true,
     },
     isLimit: {
       default: true,
