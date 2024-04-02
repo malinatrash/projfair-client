@@ -7,6 +7,7 @@ import { ProjectState, ProjectStateID } from './ProjectState';
 import { Specialty, SpecialtyGroup } from './Specialty';
 import { Supervisor } from './Supervisor';
 import { Tag } from './Tag';
+import { UserSupervisor } from './User';
 
 export interface Skill extends Tag {
   skillCategory?: Tag;
@@ -32,7 +33,7 @@ export interface ProjectType {
 export interface ProjectSupervisor {
   id: number;
   roles: Tag<MemberRole>[];
-  supervisor: Supervisor;
+  supervisor: UserSupervisor;
 }
 
 export interface Project {

@@ -6,6 +6,8 @@ export interface SharedUserData {
   fio: string;
   email: string;
   about: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface UserRole {

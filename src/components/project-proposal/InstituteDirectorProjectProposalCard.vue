@@ -29,6 +29,7 @@
       </BaseButton>
       <BaseButton
         v-if="proposalState !== ProjectProposalStateId.Approved"
+        color="green"
         variant="outlined"
         :disabled="reviewProjectProposalMutation.isLoading.value"
         @click="onApprove"

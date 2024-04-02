@@ -48,8 +48,9 @@ export function toInstituteProjects(
 export const enum FilterInstituteProjectProposalsBy {
   New = 'new',
   Approved = 'approved',
-  ApprovedSpring = 'approved_spring',
+  ApprovedOnYear = 'approved_on_year',
   ApprovedAutumn = 'approved_autumn',
+  ApprovedSpring = 'approved_spring',
   Rejected = 'rejected',
 }
 
@@ -59,10 +60,12 @@ export const FilterByToProjectProposalStateId: Record<
 > = {
   [FilterInstituteProjectProposalsBy.New]: ProjectProposalStateId.UnderReview,
   [FilterInstituteProjectProposalsBy.Approved]: ProjectProposalStateId.Approved,
-  [FilterInstituteProjectProposalsBy.ApprovedSpring]:
-    ProjectProposalStateId.Approved,
+  [FilterInstituteProjectProposalsBy.ApprovedOnYear]:
+    ProjectProposalStateId.ApprovedOnYear,
   [FilterInstituteProjectProposalsBy.ApprovedAutumn]:
-    ProjectProposalStateId.Approved,
+    ProjectProposalStateId.ApprovedAutumn,
+  [FilterInstituteProjectProposalsBy.ApprovedSpring]:
+    ProjectProposalStateId.ApprovedSpring,
   [FilterInstituteProjectProposalsBy.Rejected]: ProjectProposalStateId.Rejected,
 };
 

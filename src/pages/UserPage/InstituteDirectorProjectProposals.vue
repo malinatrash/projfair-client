@@ -37,12 +37,14 @@
   import BaseStub from '@/components/ui/BaseStub.vue';
   import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
   import { usePaginatedList } from '@/hooks/usePaginatedList';
+  import { getAcademicYear } from '@/helpers/date';
   import { RouteNames } from '@/router/types/route-names';
   import {
     FilterByToProjectProposalStateId,
     FilterInstituteProjectProposalsBy,
     toInstituteProjectProposals,
   } from '@/router/utils/routes';
+  import { mockProjectProposalList } from '../../models/mock/project-proposal';
   import { ProjectProposalStateId } from '@/models/ProjectProposal';
   import LoadingParticipationsList from './LoadingParticipationsList.vue';
 
@@ -74,11 +76,14 @@
     select: (list) => list.sort((a, b) => b.state.id - a.state.id),
   });
 
-  const filteredProjectProposalList = computed(() =>
-    projectProposalList.value?.filter(
-      (proposal) => proposal.state.id === filterBy.value,
-    ),
-  );
+  const filteredProjectProposalList = computed(() => {
+    return mockProjectProposalList?.filter((proposal) => {
+      return (
+        proposal.filter === route.params.filterBy ||
+        proposal.state.id === filterBy.value
+      );
+    });
+  });
 
   const PAGE_SIZE = 5;
   const PAGES_VISIBLE = 7;

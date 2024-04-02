@@ -1,5 +1,8 @@
 import { handleHttpError } from '@/helpers/error';
-import { CreatedProjectProposal } from '@/models/ProjectProposal';
+import {
+  CreatedProjectProposal,
+  CreatedProjectProposalWithFilter,
+} from '@/models/ProjectProposal';
 import { baseKyInstance } from '../baseKy';
 import InstituteDirectorApiType, {
   ReviewProjectProposalData,
@@ -8,7 +11,7 @@ import InstituteDirectorApiType, {
 export default class InstituteDirectorApi implements InstituteDirectorApiType {
   async reviewProjectProposal(
     data: ReviewProjectProposalData,
-  ): Promise<CreatedProjectProposal> {
+  ): Promise<CreatedProjectProposalWithFilter> {
     try {
       const { project_proposal_id: id, ...rest } = data;
 
@@ -20,7 +23,9 @@ export default class InstituteDirectorApi implements InstituteDirectorApiType {
     }
   }
 
-  async getInstituteProjectProposals(): Promise<CreatedProjectProposal[]> {
+  async getInstituteProjectProposals(): Promise<
+    CreatedProjectProposalWithFilter[]
+  > {
     return baseKyInstance.get('api/director/projects').json();
   }
 }

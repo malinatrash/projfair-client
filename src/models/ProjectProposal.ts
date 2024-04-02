@@ -41,6 +41,9 @@ export const enum ProjectProposalStateId {
   Draft = 7,
   Rejected = 8,
   Approved = 9,
+  ApprovedOnYear = 9.1,
+  ApprovedAutumn = 9.2,
+  ApprovedSpring = 9.3,
 }
 
 export type ProjectProposalState = State<ProjectProposalStateId>;
@@ -57,6 +60,9 @@ export const StateClass: Record<ProjectProposalStateId, string> = {
   [ProjectProposalStateId.Draft]: 'draft',
   [ProjectProposalStateId.Rejected]: 'rejected',
   [ProjectProposalStateId.Approved]: 'approved',
+  [ProjectProposalStateId.ApprovedOnYear]: 'approved_on_year',
+  [ProjectProposalStateId.ApprovedAutumn]: 'approved_autumn',
+  [ProjectProposalStateId.ApprovedSpring]: 'approved_spring',
 };
 
 export interface ProjectProposalSpecialty {
@@ -78,6 +84,8 @@ export interface ProjectProposal {
   product_result: string;
   study_result: string;
   additional_inf: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface NewProjectProposal extends ProjectProposal {
@@ -95,15 +103,25 @@ export interface NewProjectProposal extends ProjectProposal {
 export interface CreatedProjectProposal extends ProjectProposal {
   id: number;
   type: ProjectType;
-  theme_source?: Tag;
+  theme_source?: Tag | null;
   department: Department;
   prevProjectId: number | null;
   state: ProjectProposalState;
   supervisors: ProjectSupervisor[];
+  supervisorsNames: string;
+  participations?: Participation[];
   skills: Skill[];
   specialities: Specialty[];
   project_specialities: SpecialtyGroup[];
   rejection_reason?: string;
+  rejection_date?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface CreatedProjectProposalWithFilter
+  extends CreatedProjectProposal {
+  filter?: string | string[];
 }
 
 export interface CreatedProjectResult extends ProjectProposal {

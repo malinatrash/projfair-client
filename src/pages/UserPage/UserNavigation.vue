@@ -41,7 +41,10 @@
                         <IntituteProjectsQuota
                           v-else-if="
                             childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_ON_YEAR
+                          "
+                          :state-id="
+                            FilterByToProjectProposalStateId['approved_on_year']
                           "
                         />
                         <IntituteProjectsQuota
@@ -53,6 +56,9 @@
                             'disabled-autumn disabled':
                               !academicYear.isAutumn(),
                           }"
+                          :state-id="
+                            FilterByToProjectProposalStateId['approved_autumn']
+                          "
                         />
                         <IntituteProjectsQuota
                           v-else-if="
@@ -63,6 +69,19 @@
                             'disabled-spring disabled':
                               !academicYear.isSpring(),
                           }"
+                          :state-id="
+                            FilterByToProjectProposalStateId['approved_spring']
+                          "
+                        />
+                        <IntituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_REJECTED
+                          "
+                          :state-id="
+                            FilterByToProjectProposalStateId['rejected']
+                          "
+                          :is-limit="false"
                         />
                       </RouterLink>
                     </li>
@@ -130,6 +149,7 @@
   import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
   import { getAcademicYear } from '@/helpers/date';
   import { RouteNames } from '@/router/types/route-names';
+  import { FilterByToProjectProposalStateId } from '@/router/utils/routes';
   import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue';
 
   type Props = { variant: 'desktop' | 'mobile' };
