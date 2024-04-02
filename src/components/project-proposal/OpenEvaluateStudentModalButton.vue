@@ -120,10 +120,10 @@
 
   button.button.outlined {
     position: relative;
+    right: 0.8rem;
+    bottom: 0.8rem;
     width: 7rem;
     height: 3rem;
     padding: 1rem;
-    bottom: 0.8rem;
-    right: 0.8rem;
   }
 </style>
