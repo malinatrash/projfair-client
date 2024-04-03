@@ -4,14 +4,9 @@ import {
   UseGetInstituteProjectProposalsQueryOptions,
   useGetInstituteProjectProposalsQuery,
 } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
-import { getAcademicYear } from '@/helpers/date';
-import {
-  FilterByToProjectProposalStateId,
-  FilterInstituteProjectProposalsBy,
-} from '@/router/utils/routes';
+import { FilterByToProjectProposalStateId } from '@/router/utils/routes';
 import { useAuthStore } from '@/stores/auth/useAuthStore';
 import { ProjectProposalStateId } from '@/models/ProjectProposal';
-import { mockProjectProposalList } from '@/models/mock/project-proposal';
 import { useStateApprovedFilter } from './useStateApprovedFilter';
 
 export type ProposalsCount = Record<ProjectProposalStateId, number>;
@@ -41,29 +36,6 @@ export function useInstituteProposalsMetaData(
       [ProjectProposalStateId.UnderReview]: 0,
     };
     if (!projectProposalListQuery.data.value) return count;
-
-    // projectProposalListQuery.data.value?.forEach((proposal) => {
-    //   if (proposal.state.id !== ProjectProposalStateId.Approved) return;
-
-    //   const isFullYear =
-    //     new Date(
-    //       Date.parse(proposal.date_end) - Date.parse(proposal.date_start),
-    //     ).getMonth() > 4;
-    //   const isAutumn = getAcademicYear(
-    //     new Date(Date.parse(proposal.date_start)).getMonth(),
-    //   ).isAutumn();
-    //   const isSpring = getAcademicYear(
-    //     new Date(Date.parse(proposal.date_start)).getMonth(),
-    //   ).isSpring();
-
-    //   if (isFullYear) {
-    //     proposal.stateFilter = FilterInstituteProjectProposalsBy.ApprovedOnYear;
-    //   } else if (isAutumn) {
-    //     proposal.stateFilter = FilterInstituteProjectProposalsBy.ApprovedAutumn;
-    //   } else if (isSpring) {
-    //     proposal.stateFilter = FilterInstituteProjectProposalsBy.ApprovedSpring;
-    //   }
-    // });
 
     for (const proposal of projectProposalListQuery.data.value) {
       const stateFilter = useStateApprovedFilter(proposal);

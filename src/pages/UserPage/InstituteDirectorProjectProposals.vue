@@ -38,7 +38,6 @@
   import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
   import { useStateApprovedFilter } from '../../hooks/useStateApprovedFilter';
   import { usePaginatedList } from '@/hooks/usePaginatedList';
-  import { getAcademicYear } from '@/helpers/date';
   import { RouteNames } from '@/router/types/route-names';
   import {
     FilterByToProjectProposalStateId,

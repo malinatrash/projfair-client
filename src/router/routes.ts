@@ -163,14 +163,6 @@ export const routes: RouteRecordRaw[] = [
                 1,
               ),
             },
-            // {
-            //   name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED,
-            //   title: 'Одобренные заявки',
-            //   location: toInstituteProjectProposals(
-            //     FilterInstituteProjectProposalsBy.Approved,
-            //     1,
-            //   ),
-            // },
             {
               name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_ON_YEAR,
               title: 'Одобренные на год',
