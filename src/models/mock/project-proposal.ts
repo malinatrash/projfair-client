@@ -1,4 +1,4 @@
-import { CreatedProjectProposalWithFilter } from '../ProjectProposal';
+import { CreatedProjectProposal } from '../ProjectProposal';
 import { Tag } from '../Tag';
 
 export const themeSources: Tag[] = [
@@ -32,7 +32,7 @@ export const themeSources: Tag[] = [
   },
 ];
 
-export const mockProjectProposalList: CreatedProjectProposalWithFilter[] = [
+export const mockProjectProposalList: CreatedProjectProposal[] = [
   {
     id: 884,
     prevProjectId: null,

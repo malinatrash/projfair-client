@@ -1,6 +1,5 @@
 import {
   CreatedProjectProposal,
-  CreatedProjectProposalWithFilter,
   ProjectProposalStateId,
 } from '@/models/ProjectProposal';
 
@@ -13,6 +12,6 @@ export interface ReviewProjectProposalData {
 export default interface InstituteDirectorApiType {
   reviewProjectProposal(
     data: ReviewProjectProposalData,
-  ): Promise<CreatedProjectProposalWithFilter>;
-  getInstituteProjectProposals(): Promise<CreatedProjectProposalWithFilter[]>;
+  ): Promise<CreatedProjectProposal>;
+  getInstituteProjectProposals(): Promise<CreatedProjectProposal[]>;
 }

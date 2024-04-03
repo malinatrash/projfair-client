@@ -12,6 +12,7 @@ import {
 import { useAuthStore } from '@/stores/auth/useAuthStore';
 import { ProjectProposalStateId } from '@/models/ProjectProposal';
 import { mockProjectProposalList } from '@/models/mock/project-proposal';
+import { useStateApprovedFilter } from './useStateApprovedFilter';
 
 export type ProposalsCount = Record<ProjectProposalStateId, number>;
 
@@ -26,9 +27,8 @@ export function useInstituteProposalsMetaData(
 ): UseInstituteProposalsInfoReturn {
   const authStore = useAuthStore();
   const { intituteProjectsQuota } = storeToRefs(authStore);
-  // const projectProposalListQuery =
-  //   useGetInstituteProjectProposalsQuery(options);
-  const projectProposalListQuery = mockProjectProposalList;
+  const projectProposalListQuery =
+    useGetInstituteProjectProposalsQuery(options);
 
   const proposalsCount = computed(() => {
     const count: ProposalsCount = {
@@ -40,40 +40,36 @@ export function useInstituteProposalsMetaData(
       [ProjectProposalStateId.Rejected]: 0,
       [ProjectProposalStateId.UnderReview]: 0,
     };
-    // if (!projectProposalListQuery.data.value) return count;
-    if (!projectProposalListQuery) return count;
+    if (!projectProposalListQuery.data.value) return count;
 
-    // for (const proposal of projectProposalListQuery.data.value) {
-    //   count[FilterByToProjectProposalStateId[proposal.filter]] += 1;
-    // }
+    // projectProposalListQuery.data.value?.forEach((proposal) => {
+    //   if (proposal.state.id !== ProjectProposalStateId.Approved) return;
 
-    projectProposalListQuery?.forEach((proposal) => {
-      if (proposal.state.id !== ProjectProposalStateId.Approved) return;
+    //   const isFullYear =
+    //     new Date(
+    //       Date.parse(proposal.date_end) - Date.parse(proposal.date_start),
+    //     ).getMonth() > 4;
+    //   const isAutumn = getAcademicYear(
+    //     new Date(Date.parse(proposal.date_start)).getMonth(),
+    //   ).isAutumn();
+    //   const isSpring = getAcademicYear(
+    //     new Date(Date.parse(proposal.date_start)).getMonth(),
+    //   ).isSpring();
 
-      const isFullYear =
-        new Date(
-          Date.parse(proposal.date_end) - Date.parse(proposal.date_start),
-        ).getMonth() > 4;
-      const isAutumn = getAcademicYear(
-        new Date(Date.parse(proposal.date_start)).getMonth(),
-      ).isAutumn();
-      const isSpring = getAcademicYear(
-        new Date(Date.parse(proposal.date_start)).getMonth(),
-      ).isSpring();
+    //   if (isFullYear) {
+    //     proposal.stateFilter = FilterInstituteProjectProposalsBy.ApprovedOnYear;
+    //   } else if (isAutumn) {
+    //     proposal.stateFilter = FilterInstituteProjectProposalsBy.ApprovedAutumn;
+    //   } else if (isSpring) {
+    //     proposal.stateFilter = FilterInstituteProjectProposalsBy.ApprovedSpring;
+    //   }
+    // });
 
-      if (isFullYear) {
-        proposal.filter = FilterInstituteProjectProposalsBy.ApprovedOnYear;
-      } else if (isAutumn) {
-        proposal.filter = FilterInstituteProjectProposalsBy.ApprovedAutumn;
-      } else if (isSpring) {
-        proposal.filter = FilterInstituteProjectProposalsBy.ApprovedSpring;
-      }
-    });
+    for (const proposal of projectProposalListQuery.data.value) {
+      const stateFilter = useStateApprovedFilter(proposal);
 
-    for (const proposal of projectProposalListQuery) {
-      if (proposal.filter) {
-        const filter = proposal.filter as FilterInstituteProjectProposalsBy;
-        count[FilterByToProjectProposalStateId[filter]] += 1;
+      if (stateFilter) {
+        count[FilterByToProjectProposalStateId[stateFilter]] += 1;
         continue;
       }
 
@@ -90,11 +86,7 @@ export function useInstituteProposalsMetaData(
       intituteProjectsQuota.value,
   );
 
-  // const isLoading = computed(() => projectProposalListQuery.isFetching.value);
-
-  const isLoading = computed(() => !projectProposalListQuery);
-
-  // return { proposalsCount, approvedProjectsLimitExceeded, isLoading };
+  const isLoading = computed(() => projectProposalListQuery.isFetching.value);
 
   return { proposalsCount, approvedProjectsLimitExceeded, isLoading };
 }

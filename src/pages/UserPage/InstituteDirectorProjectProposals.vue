@@ -36,6 +36,7 @@
   import BasePagination from '@/components/ui/BasePagination.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
   import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
+  import { useStateApprovedFilter } from '../../hooks/useStateApprovedFilter';
   import { usePaginatedList } from '@/hooks/usePaginatedList';
   import { getAcademicYear } from '@/helpers/date';
   import { RouteNames } from '@/router/types/route-names';
@@ -44,7 +45,6 @@
     FilterInstituteProjectProposalsBy,
     toInstituteProjectProposals,
   } from '@/router/utils/routes';
-  import { mockProjectProposalList } from '../../models/mock/project-proposal';
   import { ProjectProposalStateId } from '@/models/ProjectProposal';
   import LoadingParticipationsList from './LoadingParticipationsList.vue';
 
@@ -77,9 +77,11 @@
   });
 
   const filteredProjectProposalList = computed(() => {
-    return mockProjectProposalList?.filter((proposal) => {
+    return projectProposalList.value?.filter((proposal) => {
+      const stateFilter = useStateApprovedFilter(proposal);
+
       return (
-        proposal.filter === route.params.filterBy ||
+        stateFilter === route.params.filterBy ||
         proposal.state.id === filterBy.value
       );
     });

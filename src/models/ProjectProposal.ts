@@ -122,11 +122,6 @@ export interface CreatedProjectProposal extends ProjectProposal {
   updated_at?: string;
 }
 
-export interface CreatedProjectProposalWithFilter
-  extends CreatedProjectProposal {
-  filter?: string | string[];
-}
-
 export interface CreatedProjectResult extends ProjectProposal {
   result_description?: string;
   result_goal?: ProjectResultGoal;
