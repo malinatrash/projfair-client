@@ -115,6 +115,7 @@
                               childLink.name ===
                               RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_NEW
                             "
+                            style="margin-left: 7.5px; margin-bottom: 3px"
                           />
                           <IntituteProjectsQuota
                             v-else-if="
@@ -194,15 +195,17 @@
       z-index: 10;
       display: flex;
       gap: 1rem;
-      padding-bottom: 0.625rem;
+      padding-bottom: 1rem;
       margin-top: -2px;
       margin-right: calc(var(--side-padding) * -1);
       margin-left: calc(var(--side-padding) * -1);
       overflow-x: auto;
       border: none;
       border-radius: 0;
+    }
 
-      // box-shadow: 0 0.25rem 0.3rem rgb(0 0 0 / 7%);
+    & > .item.mobile {
+      height: 47px;
     }
 
     &::-webkit-scrollbar {
