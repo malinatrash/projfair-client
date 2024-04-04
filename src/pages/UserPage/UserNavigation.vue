@@ -284,14 +284,14 @@
       border: 1px solid var(--gray-color-1);
       border-radius: 0.75rem;
       box-shadow: 0 0 15px 0 #38383822;
-      transition: 0.15s ease-in-out;
+      transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+      transform: translate(-50%, 0);
       transition-behavior: allow-discrete;
     }
 
     &:has(.disabled):hover > .action::after {
       display: block;
       opacity: 1;
-      transform: translate(-50%, 0);
 
       @starting-style {
         opacity: 0;
