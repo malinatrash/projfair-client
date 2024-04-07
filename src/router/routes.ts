@@ -199,7 +199,7 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: 'institute_projects',
+        path: 'institute_projects/:filterBy?/:page?',
         name: RouteNames.INST_DIRECTOR_PROJECTS,
         component: UserProjects,
         meta: {
