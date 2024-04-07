@@ -286,13 +286,14 @@
       box-shadow: 0 0 15px 0 #38383822;
       transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
       transform: translate(-50%, 0);
-      transition-behavior: allow-discrete;
+      transition-behavior: allow-discrete; /* stylelint-disable-line */
     }
 
     &:has(.disabled):hover > .action::after {
       display: block;
       opacity: 1;
 
+      /* stylelint-disable-next-line */
       @starting-style {
         opacity: 0;
       }
@@ -300,6 +301,7 @@
 
     &:has(.disabled-autumn):hover > .action::after {
       bottom: 85%;
+      /* stylelint-disable-next-line */
       @starting-style {
         transform: translate(-50%, 10%) scale(0.75);
       }
@@ -307,11 +309,13 @@
 
     &:has(.disabled-spring):hover > .action::after {
       bottom: -110%;
+      /* stylelint-disable-next-line */
       @starting-style {
         transform: translate(-50%, -10%) scale(0.75);
       }
     }
 
+    /* stylelint-disable-next-line */
     &.mobile {
       white-space: nowrap;
     }
