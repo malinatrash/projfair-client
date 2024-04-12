@@ -3,6 +3,37 @@
   <!-- TODO: можно раскидать как-то по компонентам мб -->
   <div :class="['wrapper', props.variant]">
     <ul :class="['list', props.variant]">
+      <!--      <li :class="['item', props.variant]">-->
+      <!--        <SimpleAccordion-->
+      <!--          v-if="props.variant == 'desktop'"-->
+      <!--          class="accordion"-->
+      <!--          default-opened-->
+      <!--        >-->
+      <!--          <template #title>-->
+      <!--            <span :class="['action', props.variant]">Фильтрация</span>-->
+      <!--          </template>-->
+      <!--          <template #content>-->
+      <!--            <div class="box">-->
+      <!--              <div class="container">-->
+      <!--                <span>НАСТАВНИК</span>-->
+      <!--                <BaseInput placeholder="Аршинский В.Л." :model-value="mentor" />-->
+      <!--              </div>-->
+      <!--              <div class="container">-->
+      <!--                <span>ПРОДОЛЖИТЕЛЬНОСТЬ</span>-->
+      <!--                <BaseCheckbox :value="true">1 СЕМЕСТР</BaseCheckbox>-->
+      <!--                <BaseCheckbox :value="true">2 СЕМЕСТР</BaseCheckbox>-->
+      <!--                <BaseCheckbox :value="true">ГОД</BaseCheckbox>-->
+      <!--              </div>-->
+      <!--              <div class="container">-->
+      <!--                <div style="display: flex; gap: 8px; justify-content: center">-->
+      <!--                  <BaseButton variant="tag-outlined">Сбросить</BaseButton>-->
+      <!--                  <BaseButton variant="tag">Показать</BaseButton>-->
+      <!--                </div>-->
+      <!--              </div>-->
+      <!--            </div>-->
+      <!--          </template>-->
+      <!--        </SimpleAccordion>-->
+      <!--      </li>-->
       <template v-for="link in routes" :key="link.name">
         <li :class="['item', props.variant]">
           <RouterLink
@@ -143,23 +174,28 @@
 </template>
 
 <script setup lang="ts">
-  import { RouterLink } from 'vue-router';
-  import IntituteProjectsQuota from '@/components/project-proposal/IntituteProjectsQuota.vue';
-  import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
-  import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
-  import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
-  import { getAcademicYear } from '@/helpers/date';
-  import { RouteNames } from '@/router/types/route-names';
-  import { FilterByToProjectProposalStateId } from '@/router/utils/routes';
-  import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue';
+import { ref } from "vue";
+import { RouterLink } from "vue-router";
+import IntituteProjectsQuota from "@/components/project-proposal/IntituteProjectsQuota.vue";
+import BaseButton from "@/components/ui/BaseButton.vue";
+import BaseCheckbox from "@/components/ui/BaseCheckbox.vue";
+import BaseInput from "@/components/ui/BaseInput.vue";
+import SimpleAccordion from "@/components/ui/accordion/SimpleAccordion.vue";
+import { useLogoutWithModalMutation } from "@/api/AuthApi/hooks/useLogoutWithModalMutation";
+import { useRoledUserNavigationRoutes } from "@/hooks/useRoutes";
+import { getAcademicYear } from "@/helpers/date";
+import { RouteNames } from "@/router/types/route-names";
+import { FilterByToProjectProposalStateId } from "@/router/utils/routes";
+import OnReviewProposalsLabel from "./OnReviewProposalsLabel.vue";
 
-  type Props = { variant: 'desktop' | 'mobile' };
-  const props = withDefaults(defineProps<Props>(), { variant: 'desktop' });
-  const routes = useRoledUserNavigationRoutes();
+const mentor = ref("");
 
-  const academicYear = getAcademicYear(new Date().getMonth());
+type Props = { variant: "desktop" | "mobile" };
+const props = withDefaults(defineProps<Props>(), { variant: "desktop" });
+const routes = useRoledUserNavigationRoutes();
+const academicYear = getAcademicYear(new Date().getMonth());
 
-  const { logout } = useLogoutWithModalMutation();
+const { logout } = useLogoutWithModalMutation();
 </script>
 
 <style lang="scss" scoped>
@@ -240,6 +276,23 @@
       color: var(--gray-color-2);
       text-transform: uppercase;
     }
+  }
+
+  .box {
+    font-weight: 600;
+    font-size: 20px;
+    text-transform: capitalize;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .container {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   .action:hover,
