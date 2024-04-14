@@ -14,7 +14,7 @@ export const useResultStore = defineStore('result', {
     setResult(rating: number, review: string, id: number) {
       this.results?.forEach((e) => {
         if (e.id === id) {
-          e.rating = rating;
+          e.mark = rating;
           e.review = review;
         }
       });

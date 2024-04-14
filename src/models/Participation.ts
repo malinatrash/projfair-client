@@ -25,7 +25,7 @@ export interface Participation {
   state: State<ParticipationState>;
   created_at: string;
   updated_at: string;
-  rating: number;
+  mark: number;
   review: string;
 }
 

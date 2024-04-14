@@ -1,6 +1,6 @@
 <template>
   <BaseButton
-    :class="!rating && 'default'"
+    :class="!rating ? 'default' : 'evaluate'"
     case="uppercase"
     variant="outlined"
     @click="click"
@@ -8,7 +8,7 @@
     <div class="content">
       <span :class="rating && 'evaluate'"> Оценить </span>
       <StarRating
-        v-if="rating > 0"
+        v-if="rating >= 0"
         class="star-rating"
         :read-only="true"
         :rating="rating"
@@ -46,7 +46,7 @@
       !projectData.value?.project?.participations ||
       !projectData.value?.project?.participants
     ) {
-      throw new Error();
+      return 0;
     }
     for (const participation of projectData.value?.project?.participations) {
       for (const participant of projectData.value?.project?.participants) {
@@ -55,7 +55,7 @@
           participant.id == participation.candidate.id
         ) {
           return (
-            resultStore.getResultById(props.id)?.rating ?? participation.rating
+            resultStore.getResultById(props.id)?.mark ?? participation.mark
           );
         }
       }
@@ -68,7 +68,7 @@
       !projectData.value?.project?.participations ||
       !projectData.value?.project?.participants
     ) {
-      throw new Error();
+      return '';
     }
     for (const participation of projectData.value?.project?.participations) {
       for (const participant of projectData.value?.project?.participants) {

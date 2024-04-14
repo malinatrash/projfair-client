@@ -27,7 +27,7 @@
       :is-loading="isLoading"
       :can-user-edit="canUserEdit"
       :check-load-data-project="
-        checkLoadDataProject ? notCorrectSupervisor() : undefined
+        !isCurrentUserSupervisorOfDataProject && notCorrectSupervisor()
       "
       :project-state-id="dataProjectQuery.data.value?.project.state.id"
     />
@@ -139,15 +139,17 @@
   );
 
   const dataProjectQuery = useGetSingleProjectQuery(projectId);
-  const isProjectStateArchived = computed(() => {
-    if (dataProjectQuery.data.value?.project.state.id == 4) return true;
-    return false;
-  });
-  const isDataProject = computed(() =>
-    dataProjectQuery.data.value?.project.supervisors.some(
-      (supervisor) => supervisor.id === authStore.profileData?.id,
-    ),
+  const isProjectStateArchived = computed(
+    () => dataProjectQuery.data.value?.project.state.id == 4,
   );
+
+  const isCurrentUserSupervisorOfDataProject = computed(() => {
+    return dataProjectQuery.data.value?.project.supervisors.some(
+      (supervisor) => {
+        return supervisor.supervisor.id === authStore.profileData?.id;
+      },
+    );
+  });
 
   const currentProjectProposalState = computed<
     ProjectProposalStateId | undefined
@@ -162,18 +164,6 @@
       instituteProjectProposalsQuery.isFetching.value ||
       dataProjectQuery.isFetching.value,
   );
-
-  const checkLoadDataProject = computed(() => {
-    if (
-      !isLoading.value &&
-      !isDataProject.value &&
-      !isProjectStateArchived.value
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  });
 
   // watch(
   //   () => currentProjectProposalComputed.value,

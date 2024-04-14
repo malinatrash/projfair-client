@@ -123,7 +123,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '100',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 1,
@@ -134,7 +134,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '1',
-        rating: 1,
+        mark: 1,
       },
       {
         id: 2,
@@ -145,7 +145,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '2',
-        rating: 2,
+        mark: 2,
       },
       {
         id: 3,
@@ -156,7 +156,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '3',
-        rating: 3,
+        mark: 3,
       },
       {
         id: 4,
@@ -167,7 +167,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '4',
-        rating: 4,
+        mark: 4,
       },
       {
         id: 5,
@@ -178,7 +178,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '5',
-        rating: 5,
+        mark: 5,
       },
     ],
     participants: [
@@ -278,7 +278,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 1,
@@ -289,7 +289,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 2,
@@ -300,7 +300,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 3,
@@ -311,7 +311,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 4,
@@ -322,7 +322,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 5,
@@ -333,7 +333,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
     ],
     participants: [userCandidate, candidateList[0], candidateList[1]],
@@ -428,7 +428,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 1,
@@ -439,7 +439,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 2,
@@ -450,7 +450,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 3,
@@ -461,7 +461,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 4,
@@ -472,7 +472,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
       {
         id: 5,
@@ -483,7 +483,7 @@ export const mockProjectList: Project[] = [
         project_id: 1,
         state: activeParticipationState,
         review: '',
-        rating: 0,
+        mark: 0,
       },
     ],
     participants: [userCandidate, candidateList[0], candidateList[1]],

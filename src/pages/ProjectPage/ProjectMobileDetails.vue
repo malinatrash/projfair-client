@@ -155,7 +155,7 @@
   const props = defineProps<Props>();
   const emit = defineEmits<Emits>();
   const isCurrentSupervisor = props.project.supervisors.some((supervisor) => {
-    return supervisor.id === useAuthStore().profileData?.id;
+    return supervisor.supervisor.id === useAuthStore().profileData?.id;
   });
 </script>
 

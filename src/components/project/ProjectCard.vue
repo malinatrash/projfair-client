@@ -160,7 +160,7 @@
   const isDesktop = useDesktop();
   const isMobile = useMobile();
   const isCurrentSupervisor = props.project.supervisors.some((supervisor) => {
-    return supervisor.id === useAuthStore().profileData?.id;
+    return supervisor.supervisor.id === useAuthStore().profileData?.id;
   });
 
   const stateClass = StateClass[props.project.state.id];
