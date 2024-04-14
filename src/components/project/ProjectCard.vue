@@ -29,8 +29,8 @@
           {{ project.specialities.map((ins) => ins.name).join(', ') }}
         </div>
         <div
-          v-else
           v-for="(course, index) in [...courses].sort((a, b) => a - b)"
+          v-else
           :key="index"
         >
           <b>

@@ -148,7 +148,6 @@
       overflow-x: auto;
       border: none;
       border-radius: 0;
-      //box-shadow: 0 0.25rem 0.3rem rgb(0 0 0 / 7%);
     }
   }
 

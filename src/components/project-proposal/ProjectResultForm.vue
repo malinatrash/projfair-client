@@ -18,7 +18,7 @@
           :placeholder="
             !isProjectStateArchived
               ? 'Опишите результат проделанной работы над проектом'
-              : computedProject?.result_description
+              : computedProject?.project_review
           "
           :maxLength="1200"
           resize="vertical"

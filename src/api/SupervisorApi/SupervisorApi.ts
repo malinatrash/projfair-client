@@ -55,7 +55,12 @@ export default class SupervisorApi implements SupervisorApiType {
     id,
   }: UpdateProjectResultData): Promise<CreatedProjectResult> {
     return baseKyInstance
-      .patch(`api/supervisor/projects/${id}`, { json: projectResult })
+      .patch(`api/supervisor/projects/${id}`, {
+        json: {
+          project_review: projectResult.project_review,
+          project_goal: projectResult.project_goal,
+        },
+      })
       .json();
   }
 

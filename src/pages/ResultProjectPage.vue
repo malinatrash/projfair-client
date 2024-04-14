@@ -26,9 +26,7 @@
       v-model:project-result-form-value="projectResultFormValue"
       :is-loading="isLoading"
       :can-user-edit="canUserEdit"
-      :check-load-data-project="
-        !isCurrentUserSupervisorOfDataProject && notCorrectSupervisor()
-      "
+      :check-load-data-project="!isCurrentUserSupervisorOfDataProject"
       :project-state-id="dataProjectQuery.data.value?.project.state.id"
     />
     <div v-show="!isProjectStateArchived" :class="$style.actions">
@@ -232,7 +230,7 @@
     }
 
     const projectResult = collectProjectResult(
-      dataProjectQuery.data.value?.project!,
+      dataProjectQuery.data.value?.project,
       projectResultFormValue.value,
     );
     const id = dataProjectQuery.data.value?.project.id;
@@ -311,11 +309,15 @@
   }
 
   function notCorrectSupervisor() {
+    if (isCurrentUserSupervisorOfDataProject) return;
+
     router.push({ name: RouteNames.HOME });
     modalsStore.alertModalTitle = 'Вы не можете просматривать эту страницу';
     modalsStore.alertModalSubtitle =
       'Чтобы сформировать результаты данного проекта, Вам необходимо быть руководителем этого проекта';
   }
+
+  notCorrectSupervisor();
 </script>
 
 <style lang="scss" module>

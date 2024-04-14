@@ -60,8 +60,9 @@ export interface Project {
   participations?: Participation[];
   participants?: Candidate[];
   participant_feedback?: string;
-  result_description?: string;
-  result_goal?: ProjectResultGoal;
+
+  project_review?: string;
+  project_goal?: ProjectResultGoal;
 }
 
 export interface ProjectFilters {

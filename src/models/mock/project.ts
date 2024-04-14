@@ -205,8 +205,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
-    result_description: '',
-    result_goal: undefined,
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -355,8 +355,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
-    result_description: '',
-    result_goal: undefined,
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -505,8 +505,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
-    result_description: '',
-    result_goal: undefined,
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -585,8 +585,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
-    result_description: '',
-    result_goal: undefined,
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -666,8 +666,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
-    result_description: '',
-    result_goal: undefined,
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -743,8 +743,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
-    result_description: '',
-    result_goal: undefined,
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -821,8 +821,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
-    result_description: '',
-    result_goal: undefined,
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -898,8 +898,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
-    result_description: '',
-    result_goal: undefined,
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -975,8 +975,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
-    result_description: '',
-    result_goal: undefined,
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -1072,8 +1072,8 @@ export const mockProjectList: Project[] = [
 
       Замечаний по прохождению практики к Ф.И.О. нет.
     `,
-    result_description: '',
-    result_goal: undefined,
+    project_review: '',
+    project_goal: undefined,
   },
 ];
 

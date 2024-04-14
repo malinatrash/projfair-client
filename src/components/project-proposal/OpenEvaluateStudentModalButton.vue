@@ -96,7 +96,7 @@
 <style scoped>
   .evaluate {
     position: relative;
-    bottom: -1.6rem;
+    bottom: 0;
   }
 
   .default {
@@ -123,7 +123,5 @@
     width: 7rem;
     height: 3rem;
     padding: 1rem;
-    bottom: 0.8rem;
-    right: 0.8rem;
   }
 </style>

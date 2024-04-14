@@ -107,7 +107,6 @@ export interface CreatedProjectProposal extends ProjectProposal {
 }
 
 export interface CreatedProjectResult extends ProjectProposal {
-  result_description?: string;
-  result_goal?: ProjectResultGoal;
-  participations?: Participation[];
+  project_review?: string;
+  project_goal?: ProjectResultGoal;
 }

@@ -26,6 +26,7 @@ export default function useEvaluation() {
           evaluateStore.review ?? '',
           evaluateStore.evaluateStudentModalId!,
         );
+
         evaluateStore.closeEvaluateStudentModal();
       } else {
         console.error('Не удалось получить id проекта');

@@ -52,9 +52,8 @@ export default class SupervisorApiMock implements SupervisorApiType {
 
     mockProjectList.forEach((project) => {
       if (project.id == id) {
-        project.result_description = projectResult.result_description;
-        project.result_goal = projectResult.result_goal;
-        project.participations = projectResult.participations;
+        project.project_review = projectResult.project_review;
+        project.project_goal = projectResult.project_goal;
         return;
       }
     });

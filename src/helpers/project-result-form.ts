@@ -6,8 +6,7 @@ export function collectProjectResult(
   projectData: Project,
   formValue: ProjectResultFormValue,
 ): CreatedProjectResult {
-  const { projectResultDescription, projectResultGoal, projectParticipations } =
-    formValue;
+  const { projectResultDescription, projectResultGoal } = formValue;
 
   return {
     title: projectData.title,
@@ -22,8 +21,7 @@ export function collectProjectResult(
     product_result: projectData.product_result,
     study_result: projectData.study_result,
     additional_inf: projectData.additional_inf!,
-    result_description: projectResultDescription,
-    result_goal: projectResultGoal,
-    participations: projectParticipations,
+    project_review: projectResultDescription,
+    project_goal: projectResultGoal,
   };
 }

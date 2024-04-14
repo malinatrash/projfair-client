@@ -90,12 +90,15 @@ export default class ProjectApi implements ProjectApiType {
   ): Promise<Project> {
     const [project] = await Promise.all([
       baseKyInstance
-        .put(`api/projects/${projectId}/candidates/${candidateId}`, {
-          json: {
-            mark,
-            review,
+        .patch(
+          `api/supervisor/projects/${projectId}/candidates/${candidateId}`,
+          {
+            json: {
+              mark,
+              review,
+            },
           },
-        })
+        )
         .json<Project>(),
     ]);
     return formatProjectDate(project);
