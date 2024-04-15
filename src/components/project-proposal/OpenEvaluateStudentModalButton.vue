@@ -1,6 +1,6 @@
 <template>
   <BaseButton
-    :class="!rating ? 'default' : 'evaluate'"
+    class="default"
     case="uppercase"
     variant="outlined"
     @click="click"
@@ -94,11 +94,6 @@
 </script>
 
 <style scoped>
-  .evaluate {
-    position: relative;
-    bottom: 0;
-  }
-
   .default {
     position: relative;
     top: 0;
