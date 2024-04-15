@@ -29,11 +29,7 @@
           {{ project.specialities.map((ins) => ins.name).join(', ') }}
         </div>
         <div
-<<<<<<< HEAD
-          v-for="(course, index) in [...courses].sort((a, b) => a - b)"
-=======
           v-for="(course, index) in [...courses].sort((a: any, b: any) => a - b)"
->>>>>>> director-navs
           v-else
           :key="index"
         >

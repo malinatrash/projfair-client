@@ -81,7 +81,7 @@
           :showMaxLength="isEditable"
           style="width: 28rem"
           :placeholder="
-            ProjectResultGoalName[computedProject?.result_goal ?? 1]
+            ProjectResultGoalName[computedProject?.project_goal as ProjectResultGoal ?? 1]
           "
         />
       </BaseLabel>

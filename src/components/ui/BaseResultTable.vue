@@ -81,7 +81,7 @@
     console.log(participations.value);
     const s = projectData.data.value?.project.participations?.map((e) => {
       return {
-        rating: e.rating,
+        rating: e.mark,
         review: e.review,
         id: e.id,
       };
