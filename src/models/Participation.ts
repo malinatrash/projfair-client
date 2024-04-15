@@ -11,6 +11,7 @@ export const enum ParticipationPriority {
 }
 
 export const enum ParticipationState {
+  All = 0,
   Distribution = 1,
   Active = 2,
   Archived = 3,

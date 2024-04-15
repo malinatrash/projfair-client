@@ -3,6 +3,37 @@
   <!-- TODO: можно раскидать как-то по компонентам мб -->
   <div :class="['wrapper', props.variant]">
     <ul :class="['list', props.variant]">
+      <!--      <li :class="['item', props.variant]">-->
+      <!--        <SimpleAccordion-->
+      <!--          v-if="props.variant == 'desktop'"-->
+      <!--          class="accordion"-->
+      <!--          default-opened-->
+      <!--        >-->
+      <!--          <template #title>-->
+      <!--            <span :class="['action', props.variant]">Фильтрация</span>-->
+      <!--          </template>-->
+      <!--          <template #content>-->
+      <!--            <div class="box">-->
+      <!--              <div class="container">-->
+      <!--                <span>НАСТАВНИК</span>-->
+      <!--                <BaseInput placeholder="Аршинский В.Л." :model-value="mentor" />-->
+      <!--              </div>-->
+      <!--              <div class="container">-->
+      <!--                <span>ПРОДОЛЖИТЕЛЬНОСТЬ</span>-->
+      <!--                <BaseCheckbox :value="true">1 СЕМЕСТР</BaseCheckbox>-->
+      <!--                <BaseCheckbox :value="true">2 СЕМЕСТР</BaseCheckbox>-->
+      <!--                <BaseCheckbox :value="true">ГОД</BaseCheckbox>-->
+      <!--              </div>-->
+      <!--              <div class="container">-->
+      <!--                <div style="display: flex; gap: 8px; justify-content: center">-->
+      <!--                  <BaseButton variant="tag-outlined">Сбросить</BaseButton>-->
+      <!--                  <BaseButton variant="tag">Показать</BaseButton>-->
+      <!--                </div>-->
+      <!--              </div>-->
+      <!--            </div>-->
+      <!--          </template>-->
+      <!--        </SimpleAccordion>-->
+      <!--      </li>-->
       <template v-for="link in routes" :key="link.name">
         <li :class="['item', props.variant]">
           <RouterLink
@@ -41,8 +72,47 @@
                         <IntituteProjectsQuota
                           v-else-if="
                             childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_ON_YEAR
                           "
+                          :state-id="
+                            FilterByToProjectProposalStateId['approved_on_year']
+                          "
+                        />
+                        <IntituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN
+                          "
+                          :class="{
+                            'disabled-autumn disabled':
+                              !academicYear.isAutumn(),
+                          }"
+                          :state-id="
+                            FilterByToProjectProposalStateId['approved_autumn']
+                          "
+                        />
+                        <IntituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_SPRING
+                          "
+                          :class="{
+                            'disabled-spring disabled':
+                              !academicYear.isSpring(),
+                          }"
+                          :state-id="
+                            FilterByToProjectProposalStateId['approved_spring']
+                          "
+                        />
+                        <IntituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_REJECTED
+                          "
+                          :state-id="
+                            FilterByToProjectProposalStateId['rejected']
+                          "
+                          :is-limit="false"
                         />
                       </RouterLink>
                     </li>
@@ -76,6 +146,7 @@
                               childLink.name ===
                               RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_NEW
                             "
+                            style="margin-bottom: 3px; margin-left: 7.5px"
                           />
                           <IntituteProjectsQuota
                             v-else-if="
@@ -103,19 +174,28 @@
 </template>
 
 <script setup lang="ts">
-  import { RouterLink } from 'vue-router';
-  import IntituteProjectsQuota from '@/components/project-proposal/IntituteProjectsQuota.vue';
-  import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
-  import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
-  import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
-  import { RouteNames } from '@/router/types/route-names';
-  import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue';
+import { ref } from "vue";
+import { RouterLink } from "vue-router";
+import IntituteProjectsQuota from "@/components/project-proposal/IntituteProjectsQuota.vue";
+import BaseButton from "@/components/ui/BaseButton.vue";
+import BaseCheckbox from "@/components/ui/BaseCheckbox.vue";
+import BaseInput from "@/components/ui/BaseInput.vue";
+import SimpleAccordion from "@/components/ui/accordion/SimpleAccordion.vue";
+import { useLogoutWithModalMutation } from "@/api/AuthApi/hooks/useLogoutWithModalMutation";
+import { useRoledUserNavigationRoutes } from "@/hooks/useRoutes";
+import { getAcademicYear } from "@/helpers/date";
+import { RouteNames } from "@/router/types/route-names";
+import { FilterByToProjectProposalStateId } from "@/router/utils/routes";
+import OnReviewProposalsLabel from "./OnReviewProposalsLabel.vue";
 
-  type Props = { variant: 'desktop' | 'mobile' };
-  const props = withDefaults(defineProps<Props>(), { variant: 'desktop' });
-  const routes = useRoledUserNavigationRoutes();
+const mentor = ref("");
 
-  const { logout } = useLogoutWithModalMutation();
+type Props = { variant: "desktop" | "mobile" };
+const props = withDefaults(defineProps<Props>(), { variant: "desktop" });
+const routes = useRoledUserNavigationRoutes();
+const academicYear = getAcademicYear(new Date().getMonth());
+
+const { logout } = useLogoutWithModalMutation();
 </script>
 
 <style lang="scss" scoped>
@@ -129,11 +209,21 @@
       border: none;
       border-radius: 0;
     }
+
+    &::-webkit-scrollbar {
+      appearance: none;
+      width: 5px;
+      height: 5px;
+    }
   }
 
   .list {
     padding: 0 1.375rem;
     background: var(--light-color);
+
+    & > .item > .accordion > .content > .list {
+      padding-right: 0;
+    }
 
     &.mobile {
       position: sticky;
@@ -141,7 +231,7 @@
       z-index: 10;
       display: flex;
       gap: 1rem;
-      padding-bottom: 0.625rem;
+      padding-bottom: 1rem;
       margin-top: -2px;
       margin-right: calc(var(--side-padding) * -1);
       margin-left: calc(var(--side-padding) * -1);
@@ -149,21 +239,17 @@
       border: none;
       border-radius: 0;
     }
-  }
 
-  .item {
-    list-style: none;
-
-    &.mobile {
-      white-space: nowrap;
+    & > .item.mobile {
+      height: 47px;
     }
-  }
 
-  .item:not(:last-child) {
-    border-bottom: 1px solid var(--gray-color-1);
+    &::-webkit-scrollbar {
+      height: 2px;
+    }
 
-    &.mobile {
-      border-bottom: none;
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--accent-color-2);
     }
   }
 
@@ -192,12 +278,107 @@
     }
   }
 
+  .box {
+    font-weight: 600;
+    font-size: 20px;
+    text-transform: capitalize;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .container {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
   .action:hover,
   .action.router-link-active {
     color: var(--accent-color-1);
 
     &.mobile {
       border-bottom: 2px solid var(--accent-color-1);
+    }
+  }
+
+  .item {
+    list-style: none;
+
+    &:has(.disabled) > .action {
+      position: relative;
+      color: #38383833;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    &:has(.disabled-autumn) > .action {
+      --text: 'Недоступно в весеннем семестре';
+    }
+
+    &:has(.disabled-spring) > .action {
+      --text: 'Недоступно в осеннем семестре';
+    }
+
+    &:has(.disabled) > .action::after {
+      position: absolute;
+      bottom: 85%;
+      left: 50%;
+      display: none;
+      width: 85%;
+      height: auto;
+      padding: 15px;
+      font-size: 0.925rem;
+      color: #383838;
+      content: var(--text);
+      background-color: white;
+      border: 1px solid var(--gray-color-1);
+      border-radius: 0.75rem;
+      box-shadow: 0 0 15px 0 #38383822;
+      transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+      transform: translate(-50%, 0);
+      transition-behavior: allow-discrete; /* stylelint-disable-line */
+    }
+
+    &:has(.disabled):hover > .action::after {
+      display: block;
+      opacity: 1;
+
+      /* stylelint-disable-next-line */
+      @starting-style {
+        opacity: 0;
+      }
+    }
+
+    &:has(.disabled-autumn):hover > .action::after {
+      bottom: 85%;
+      /* stylelint-disable-next-line */
+      @starting-style {
+        transform: translate(-50%, 10%) scale(0.75);
+      }
+    }
+
+    &:has(.disabled-spring):hover > .action::after {
+      bottom: -110%;
+      /* stylelint-disable-next-line */
+      @starting-style {
+        transform: translate(-50%, -10%) scale(0.75);
+      }
+    }
+
+    /* stylelint-disable-next-line */
+    &.mobile {
+      white-space: nowrap;
+    }
+  }
+
+  .item:not(:last-child) {
+    border-bottom: 1px solid var(--gray-color-1);
+
+    &.mobile {
+      border-bottom: none;
     }
   }
 

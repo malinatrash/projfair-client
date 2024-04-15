@@ -229,17 +229,28 @@
       return;
     }
 
+<<<<<<< HEAD
     const projectResult = collectProjectResult(
       dataProjectQuery.data.value?.project,
       projectResultFormValue.value,
     );
     const id = dataProjectQuery.data.value?.project.id;
+=======
+    const project = dataProjectQuery.data.value?.project;
+    if (project) {
+      const projectResult = collectProjectResult(
+        project ?? {},
+        projectResultFormValue.value,
+      );
+      const id = project.id;
+>>>>>>> director-navs
 
-    if (id) {
-      updateProjectResultMutation.mutate({ projectResult, id });
-      onSuccessCreateForReview();
-    } else {
-      onError('проблема с обновлением данных проекта');
+      if (id) {
+        updateProjectResultMutation.mutate({ projectResult, id });
+        onSuccessCreateForReview();
+      } else {
+        onError('проблема с обновлением данных проекта');
+      }
     }
   }
 

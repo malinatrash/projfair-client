@@ -1,4 +1,6 @@
+import { CreatedProjectProposal } from '../ProjectProposal';
 import { Tag } from '../Tag';
+import mockProjectProposals from './mockProjectProposals.json';
 
 export const themeSources: Tag[] = [
   {
@@ -30,3 +32,6 @@ export const themeSources: Tag[] = [
     name: 'тематики российских и международных акселерационных программ',
   },
 ];
+
+export const mockProjectProposalList: CreatedProjectProposal[] =
+  mockProjectProposals;

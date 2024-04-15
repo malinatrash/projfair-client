@@ -36,6 +36,7 @@
   import BasePagination from '@/components/ui/BasePagination.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
   import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
+  import { useStateApprovedFilter } from '../../hooks/useStateApprovedFilter';
   import { usePaginatedList } from '@/hooks/usePaginatedList';
   import { RouteNames } from '@/router/types/route-names';
   import {
@@ -74,11 +75,16 @@
     select: (list) => list.sort((a, b) => b.state.id - a.state.id),
   });
 
-  const filteredProjectProposalList = computed(() =>
-    projectProposalList.value?.filter(
-      (proposal) => proposal.state.id === filterBy.value,
-    ),
-  );
+  const filteredProjectProposalList = computed(() => {
+    return projectProposalList.value?.filter((proposal) => {
+      const stateFilter = useStateApprovedFilter(proposal);
+
+      return (
+        stateFilter === route.params.filterBy ||
+        proposal.state.id === filterBy.value
+      );
+    });
+  });
 
   const PAGE_SIZE = 5;
   const PAGES_VISIBLE = 7;

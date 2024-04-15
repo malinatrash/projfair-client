@@ -8,7 +8,7 @@ import {
 describe('project-proposal-form.ts', () => {
   it('projectDateFromDuration()', () => {
     const currentMonth = new Date(Date.now()).getMonth();
-    const currentYear = getAcademicYear(currentMonth);
+    const currentYear = getAcademicYear(currentMonth).academicYear();
 
     expect(projectDateFromDuration(ProjectDuration.FallSemester)).toEqual({
       start: `${currentYear}-09-01`,
@@ -25,7 +25,7 @@ describe('project-proposal-form.ts', () => {
   });
   it('projectDurationFromDate()', () => {
     const currentMonth = new Date(Date.now()).getMonth();
-    const currentYear = getAcademicYear(currentMonth);
+    const currentYear = getAcademicYear(currentMonth).academicYear();
 
     const format = 'yyyy-MM-dd';
     expect(
