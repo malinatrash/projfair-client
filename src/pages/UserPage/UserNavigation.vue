@@ -174,28 +174,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { RouterLink } from "vue-router";
-import IntituteProjectsQuota from "@/components/project-proposal/IntituteProjectsQuota.vue";
-import BaseButton from "@/components/ui/BaseButton.vue";
-import BaseCheckbox from "@/components/ui/BaseCheckbox.vue";
-import BaseInput from "@/components/ui/BaseInput.vue";
-import SimpleAccordion from "@/components/ui/accordion/SimpleAccordion.vue";
-import { useLogoutWithModalMutation } from "@/api/AuthApi/hooks/useLogoutWithModalMutation";
-import { useRoledUserNavigationRoutes } from "@/hooks/useRoutes";
-import { getAcademicYear } from "@/helpers/date";
-import { RouteNames } from "@/router/types/route-names";
-import { FilterByToProjectProposalStateId } from "@/router/utils/routes";
-import OnReviewProposalsLabel from "./OnReviewProposalsLabel.vue";
+  import { ref } from 'vue';
+  import { RouterLink } from 'vue-router';
+  import IntituteProjectsQuota from '@/components/project-proposal/IntituteProjectsQuota.vue';
+  import BaseButton from '@/components/ui/BaseButton.vue';
+  import BaseCheckbox from '@/components/ui/BaseCheckbox.vue';
+  import BaseInput from '@/components/ui/BaseInput.vue';
+  import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
+  import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
+  import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
+  import { getAcademicYear } from '@/helpers/date';
+  import { RouteNames } from '@/router/types/route-names';
+  import { FilterByToProjectProposalStateId } from '@/router/utils/routes';
+  import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue';
 
-const mentor = ref("");
+  const mentor = ref('');
 
-type Props = { variant: "desktop" | "mobile" };
-const props = withDefaults(defineProps<Props>(), { variant: "desktop" });
-const routes = useRoledUserNavigationRoutes();
-const academicYear = getAcademicYear(new Date().getMonth());
+  type Props = { variant: 'desktop' | 'mobile' };
+  const props = withDefaults(defineProps<Props>(), { variant: 'desktop' });
+  const routes = useRoledUserNavigationRoutes();
+  const academicYear = getAcademicYear(new Date().getMonth());
 
-const { logout } = useLogoutWithModalMutation();
+  const { logout } = useLogoutWithModalMutation();
 </script>
 
 <style lang="scss" scoped>
@@ -279,20 +279,20 @@ const { logout } = useLogoutWithModalMutation();
   }
 
   .box {
-    font-weight: 600;
-    font-size: 20px;
-    text-transform: capitalize;
-    padding: 1rem 0;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 1rem 0;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: capitalize;
   }
 
   .container {
-    padding-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding-top: 1rem;
   }
 
   .action:hover,

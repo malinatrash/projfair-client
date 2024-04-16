@@ -16,7 +16,7 @@
           :showMaxLength="isEditable"
           :class="$style['large-textarea']"
           :placeholder="
-            !isProjectStateArchived
+            !isProjectStateArchived || authStore.isStudent
               ? 'Опишите результат проделанной работы над проектом'
               : computedProject?.project_review
           "
@@ -40,7 +40,7 @@
         label="Достиг ли проект поставленных целей?"
         :required="!isProjectStateArchived"
       >
-        <template v-if="!isProjectStateArchived">
+        <template v-if="!isProjectStateArchived || authStore.isStudent">
           <BaseRadioButton
             v-model="projectResultForm.projectResultGoal"
             data-test-id="projectResultGoalAllGoalsRadioButton"
@@ -89,7 +89,7 @@
     </FormSection>
 
     <FormSection
-      v-show="!isProjectStateArchived"
+      v-if="!isProjectStateArchived || authStore.isStudent"
       :class="$style['project-result-section']"
       tag="3"
       title="Оценка участников проекта"
@@ -140,8 +140,12 @@
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { canViewParticipants, isArchivedState } from '@/helpers/project';
   import { compareString } from '@/helpers/string';
+  import { isSupervisor } from '@/helpers/typeCheck';
   import { toProjectRoute } from '@/router/utils/routes';
+  import { useAuthStore } from '../../stores/auth/useAuthStore';
   import { Candidate } from '@/models/Candidate';
+
+  const authStore = useAuthStore();
 
   type Props = {
     projectResultFormValue: ProjectResultFormValue;
@@ -191,7 +195,9 @@
     data: projectData,
   } = useGetSingleProjectQuery(projectId);
 
-  const computedProject = computed(() => projectData.value?.project);
+  const computedProject = computed((isFetching) => {
+    return projectData.value?.project;
+  });
 
   const isProjectStateArchived = computed(() => {
     if (projectData.value?.project.state.id == 4) return true;
@@ -209,6 +215,11 @@
     if (projectId && stateId && !canViewParticipants(stateId)) {
       router.replace(toProjectRoute(projectId));
     }
+    projectResultForm.projectResultDescription =
+      projectData.value?.project?.project_review ?? '';
+    projectResultForm.projectResultGoal =
+      (projectData.value?.project?.project_goal as ProjectResultGoal) ??
+      ProjectResultGoalName[1];
   });
 
   const sortedParticipants = computed<Candidate[]>(() => {
@@ -233,8 +244,6 @@
       data: [index + 1, fio, training_group],
     })),
   );
-
-  console.log(tableIds);
 </script>
 
 <style lang="scss" module>
