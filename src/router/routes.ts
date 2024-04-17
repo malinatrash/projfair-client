@@ -198,32 +198,32 @@ export const routes: RouteRecordRaw[] = [
           ],
         },
       },
-      {
-        path: 'institute_projects/:filterBy?/:page?',
-        name: RouteNames.INST_DIRECTOR_PROJECTS,
-        component: UserProjects,
-        meta: {
-          type: ['user-nav'],
-          order: 4,
-          title: 'Проекты института',
-          role: ['is_institute_director'],
-          links: [
-            {
-              name: RouteNames.INST_DIRECTOR_PROJECTS_ACTIVE,
-              title: 'Активные проекты',
-              location: toInstituteProjects(
-                FilterInstituteProjectsBy.Active,
-                1,
-              ),
-            },
-            {
-              name: RouteNames.INST_DIRECTOR_PROJECTS_ALL,
-              title: 'Все проекты',
-              location: toInstituteProjects(FilterInstituteProjectsBy.All, 1),
-            },
-          ],
-        },
-      },
+      // {
+      //   path: 'institute_projects/:filterBy?/:page?',
+      //   name: RouteNames.INST_DIRECTOR_PROJECTS,
+      //   component: UserProjects,
+      //   meta: {
+      //     type: ['user-nav'],
+      //     order: 4,
+      //     title: 'Проекты института',
+      //     role: ['is_institute_director'],
+      //     links: [
+      //       {
+      //         name: RouteNames.INST_DIRECTOR_PROJECTS_ACTIVE,
+      //         title: 'Активные проекты',
+      //         location: toInstituteProjects(
+      //           FilterInstituteProjectsBy.Active,
+      //           1,
+      //         ),
+      //       },
+      //       {
+      //         name: RouteNames.INST_DIRECTOR_PROJECTS_ALL,
+      //         title: 'Все проекты',
+      //         location: toInstituteProjects(FilterInstituteProjectsBy.All, 1),
+      //       },
+      //     ],
+      //   },
+      // },
       {
         path: 'projects',
         name: RouteNames.USER_PROJECTS,
