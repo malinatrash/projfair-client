@@ -148,18 +148,21 @@ export function projectDateFromDuration(duration: ProjectDuration): DateRange {
   };
 }
 
-export function projectDurationFromDate(
-  isoDate: DateRange,
-  format = 'dd.MM.yyyy',
-): ProjectDuration {
-  const dateStart = DateTime.fromFormat(isoDate.start, format);
-  const dateEnd = DateTime.fromFormat(isoDate.end, format);
+export function projectDurationFromDate(isoDate: DateRange): ProjectDuration {
+  const dateStart = new Date(isoDate.start);
+  const dateEnd = new Date(isoDate.end);
 
-  const startMonth = dateStart.month;
-  const endMonth = dateEnd.month;
+  console.log(dateStart);
+  console.log(dateEnd);
 
-  if (startMonth === 9 && endMonth === 12) return ProjectDuration.FallSemester;
-  if (startMonth === 2 && endMonth === 5) return ProjectDuration.SpringSemester;
+  const startMonth = dateStart.getMonth();
+  const endMonth = dateEnd.getMonth();
+
+  console.log(startMonth);
+  console.log(endMonth);
+
+  if (startMonth === 8 && endMonth === 11) return ProjectDuration.FallSemester;
+  if (startMonth === 1 && endMonth === 4) return ProjectDuration.SpringSemester;
 
   return ProjectDuration.FullYear;
 }

@@ -29,31 +29,22 @@ describe('project-proposal-form.ts', () => {
 
     const format = 'yyyy-MM-dd';
     expect(
-      projectDurationFromDate(
-        {
-          start: `${currentYear}-09-01`,
-          end: `${currentYear}-12-30`,
-        },
-        format,
-      ),
+      projectDurationFromDate({
+        start: `${currentYear}-09-01`,
+        end: `${currentYear}-12-30`,
+      }),
     ).toBe(ProjectDuration.FallSemester);
     expect(
-      projectDurationFromDate(
-        {
-          start: `${currentYear + 1}-02-01`,
-          end: `${currentYear + 1}-05-30`,
-        },
-        format,
-      ),
+      projectDurationFromDate({
+        start: `${currentYear + 1}-02-01`,
+        end: `${currentYear + 1}-05-30`,
+      }),
     ).toBe(ProjectDuration.SpringSemester);
     expect(
-      projectDurationFromDate(
-        {
-          start: `${currentYear}-09-01`,
-          end: `${currentYear + 1}-05-30`,
-        },
-        format,
-      ),
+      projectDurationFromDate({
+        start: `${currentYear}-09-01`,
+        end: `${currentYear + 1}-05-30`,
+      }),
     ).toBe(ProjectDuration.FullYear);
   });
 });
