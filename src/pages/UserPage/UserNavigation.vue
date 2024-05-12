@@ -84,8 +84,8 @@
                             RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN
                           "
                           :class="{
-                            'disabled-autumn disabled':
-                              !academicYear.isAutumn(),
+                            // 'disabled-autumn disabled':
+                            //   !academicYear.isAutumn(),
                           }"
                           :state-id="
                             FilterByToProjectProposalStateId['approved_autumn']
@@ -174,19 +174,16 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import { RouterLink } from 'vue-router';
-  import IntituteProjectsQuota from '@/components/project-proposal/IntituteProjectsQuota.vue';
-  import BaseButton from '@/components/ui/BaseButton.vue';
-  import BaseCheckbox from '@/components/ui/BaseCheckbox.vue';
-  import BaseInput from '@/components/ui/BaseInput.vue';
-  import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
-  import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
-  import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
-  import { getAcademicYear } from '@/helpers/date';
-  import { RouteNames } from '@/router/types/route-names';
-  import { FilterByToProjectProposalStateId } from '@/router/utils/routes';
-  import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue';
+  import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation'
+import IntituteProjectsQuota from '@/components/project-proposal/IntituteProjectsQuota.vue'
+import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue'
+import { getAcademicYear } from '@/helpers/date'
+import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes'
+import { RouteNames } from '@/router/types/route-names'
+import { FilterByToProjectProposalStateId } from '@/router/utils/routes'
+import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
+import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue'
 
   const mentor = ref('');
 

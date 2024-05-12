@@ -1,7 +1,7 @@
-import { LocationAsRelativeRaw, RouteLocationRaw } from 'vue-router';
-import { RouteNames } from '../types/route-names';
-import { ProjectProposalStateId } from '@/models/ProjectProposal';
-import { ProjectStateID } from '@/models/ProjectState';
+import { ProjectProposalStateId } from '@/models/ProjectProposal'
+import { ProjectStateID } from '@/models/ProjectState'
+import { LocationAsRelativeRaw, RouteLocationRaw } from 'vue-router'
+import { RouteNames } from '../types/route-names'
 
 export function toProjectResultRoute(projectId: number): RouteLocationRaw {
   return {
@@ -63,10 +63,7 @@ export const enum FilterInstituteProjectProposalsBy {
   Rejected = 'rejected',
 }
 
-export const FilterByToProjectProposalStateId: Record<
-  FilterInstituteProjectProposalsBy,
-  ProjectProposalStateId
-> = {
+export const FilterByToProjectProposalStateId: Record<FilterInstituteProjectProposalsBy, ProjectProposalStateId> = {
   [FilterInstituteProjectProposalsBy.New]: ProjectProposalStateId.UnderReview,
   [FilterInstituteProjectProposalsBy.Approved]: ProjectProposalStateId.Approved,
   [FilterInstituteProjectProposalsBy.ApprovedOnYear]:

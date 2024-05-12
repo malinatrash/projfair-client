@@ -1,35 +1,33 @@
-import { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw } from 'vue-router'
 // P.S. тут раньше были динамические импорты, т.е. "() => import('@/pages/ProjectPage/index.vue')", но они плохо работали на продакшене "projfair.istu.edu", так что было решено оставить обычные импорты для всего приложения
 // Contact page
-import ContactPage from '@/pages/ContactPage.vue';
+import ContactPage from '@/pages/ContactPage.vue'
 // Create project page
-import CreateProjectPage from '@/pages/CreateProjectPage.vue';
+import CreateProjectPage from '@/pages/CreateProjectPage.vue'
 // FAQ page
-import FaqPage from '@/pages/FaqPage.vue';
+import FaqPage from '@/pages/FaqPage.vue'
 // Home page
-import HomePage from '@/pages/HomePage.vue';
+import HomePage from '@/pages/HomePage.vue'
 // 404 page
-import NotFoundPage from '@/pages/NotFoundPage.vue';
+import NotFoundPage from '@/pages/NotFoundPage.vue'
 // Project page
-import ProjectDetails from '@/pages/ProjectPage/ProjectDetails.vue';
-import ProjectParticipantsList from '@/pages/ProjectPage/ProjectParticipantsList.vue';
-import ProjectParticipationList from '@/pages/ProjectPage/ProjectParticipationList.vue';
-import ProjectPage from '@/pages/ProjectPage/index.vue';
-import ResultProjectPage from '@/pages/ResultProjectPage.vue';
+import ProjectDetails from '@/pages/ProjectPage/ProjectDetails.vue'
+import ProjectParticipantsList from '@/pages/ProjectPage/ProjectParticipantsList.vue'
+import ProjectParticipationList from '@/pages/ProjectPage/ProjectParticipationList.vue'
+import ProjectPage from '@/pages/ProjectPage/index.vue'
+import ResultProjectPage from '@/pages/ResultProjectPage.vue'
 // User page
-import InstituteDirectorProjectProposals from '@/pages/UserPage/InstituteDirectorProjectProposals.vue';
-import UserParticipations from '@/pages/UserPage/UserParticipations.vue';
-import UserProfile from '@/pages/UserPage/UserProfile.vue';
-import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue';
-import UserProjects from '@/pages/UserPage/UserProjects.vue';
-import UserPage from '@/pages/UserPage/index.vue';
-import { RouteNames } from './types/route-names';
+import InstituteDirectorProjectProposals from '@/pages/UserPage/InstituteDirectorProjectProposals.vue'
+import UserParticipations from '@/pages/UserPage/UserParticipations.vue'
+import UserProfile from '@/pages/UserPage/UserProfile.vue'
+import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue'
+import UserProjects from '@/pages/UserPage/UserProjects.vue'
+import UserPage from '@/pages/UserPage/index.vue'
+import { RouteNames } from './types/route-names'
 import {
   FilterInstituteProjectProposalsBy,
-  FilterInstituteProjectsBy,
-  toInstituteProjectProposals,
-  toInstituteProjects,
-} from './utils/routes';
+  toInstituteProjectProposals
+} from './utils/routes'
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -163,14 +161,14 @@ export const routes: RouteRecordRaw[] = [
                 1,
               ),
             },
-            {
-              name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_ON_YEAR,
-              title: 'Одобренные на год',
-              location: toInstituteProjectProposals(
-                FilterInstituteProjectProposalsBy.ApprovedOnYear,
-                1,
-              ),
-            },
+            // {
+            //   name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_ON_YEAR,
+            //   title: 'Одобренные на год',
+            //   location: toInstituteProjectProposals(
+            //     FilterInstituteProjectProposalsBy.ApprovedOnYear,
+            //     1,
+            //   ),
+            // },
             {
               name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN,
               title: 'Одобренные на осень',
@@ -198,32 +196,32 @@ export const routes: RouteRecordRaw[] = [
           ],
         },
       },
-      {
-        path: 'institute_projects/:filterBy?/:page?',
-        name: RouteNames.INST_DIRECTOR_PROJECTS,
-        component: UserProjects,
-        meta: {
-          type: ['user-nav'],
-          order: 4,
-          title: 'Проекты института',
-          role: ['is_institute_director'],
-          links: [
-            {
-              name: RouteNames.INST_DIRECTOR_PROJECTS_ACTIVE,
-              title: 'Активные проекты',
-              location: toInstituteProjects(
-                FilterInstituteProjectsBy.Active,
-                1,
-              ),
-            },
-            {
-              name: RouteNames.INST_DIRECTOR_PROJECTS_ALL,
-              title: 'Все проекты',
-              location: toInstituteProjects(FilterInstituteProjectsBy.All, 1),
-            },
-          ],
-        },
-      },
+      // {
+      //   path: 'institute_projects/:filterBy?/:page?',
+      //   name: RouteNames.INST_DIRECTOR_PROJECTS,
+      //   component: UserProjects,
+      //   meta: {
+      //     type: ['user-nav'],
+      //     order: 4,
+      //     title: 'Проекты института',
+      //     role: ['is_institute_director'],
+      //     links: [
+      //       {
+      //         name: RouteNames.INST_DIRECTOR_PROJECTS_ACTIVE,
+      //         title: 'Активные проекты',
+      //         location: toInstituteProjects(
+      //           FilterInstituteProjectsBy.Active,
+      //           1,
+      //         ),
+      //       },
+      //       {
+      //         name: RouteNames.INST_DIRECTOR_PROJECTS_ALL,
+      //         title: 'Все проекты',
+      //         location: toInstituteProjects(FilterInstituteProjectsBy.All, 1),
+      //       },
+      //     ],
+      //   },
+      // },
       {
         path: 'projects',
         name: RouteNames.USER_PROJECTS,

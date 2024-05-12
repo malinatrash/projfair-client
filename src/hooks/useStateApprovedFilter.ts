@@ -1,36 +1,31 @@
-import { getAcademicYear } from '@/helpers/date';
-import { FilterInstituteProjectProposalsBy } from '@/router/utils/routes';
+import { getAcademicYear } from '@/helpers/date'
 import {
   CreatedProjectProposal,
   ProjectProposalStateId,
-} from '@/models/ProjectProposal';
+} from '@/models/ProjectProposal'
+import { FilterInstituteProjectProposalsBy } from '@/router/utils/routes'
 
 export const useStateApprovedFilter = (proposal: CreatedProjectProposal) => {
   if (proposal.state.id !== ProjectProposalStateId.Approved) return '';
 
-  const isFullYear =
-    new Date(
-      Date.parse(proposal.date_end) - Date.parse(proposal.date_start),
-    ).getMonth() > 4;
+  const { date_start, date_end } = proposal;
 
-  const isAutumn = getAcademicYear(
-    new Date(Date.parse(proposal.date_start)).getMonth(),
-  ).isAutumn();
+  const start = Date.parse(date_start);
+  const end = Date.parse(date_end);
 
-  const isSpring = getAcademicYear(
-    new Date(Date.parse(proposal.date_start)).getMonth(),
-  ).isSpring();
+  const isFullYear = new Date(end - start).getMonth() > 4;
+  const isAutumn = getAcademicYear(new Date(start).getMonth()).isAutumn();
+  const isSpring = getAcademicYear(new Date(start).getMonth()).isSpring();
 
-  let filter: FilterInstituteProjectProposalsBy =
-    FilterInstituteProjectProposalsBy.Approved;
-
-  if (isFullYear) {
-    filter = FilterInstituteProjectProposalsBy.ApprovedOnYear;
-  } else if (isAutumn) {
-    filter = FilterInstituteProjectProposalsBy.ApprovedAutumn;
-  } else if (isSpring) {
-    filter = FilterInstituteProjectProposalsBy.ApprovedSpring;
+  if (isSpring) {
+    return FilterInstituteProjectProposalsBy.ApprovedSpring;
+  } if (isFullYear && isSpring) {
+    return FilterInstituteProjectProposalsBy.ApprovedSpring;
+  } if (isAutumn) {
+    return FilterInstituteProjectProposalsBy.ApprovedAutumn;
+  } if (isFullYear && isAutumn) {
+    return FilterInstituteProjectProposalsBy.ApprovedAutumn;
+  } if (isFullYear) {
+    return FilterInstituteProjectProposalsBy.ApprovedOnYear;
   }
-
-  return filter;
 };
