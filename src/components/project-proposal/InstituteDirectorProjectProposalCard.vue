@@ -1,10 +1,14 @@
 <template>
-  <ProjectProposalCard :project-proposal="props.projectProposal">
+  <ProjectProposalCard :project-proposal="projectProposal">
     <template #team>
       <ul :class="$style['team-list']">
         <li v-for="memberRole in teamList" :key="memberRole[0]">
           <b>{{ MemberRoleText[memberRole[0]] }}: </b>
           {{ memberRole[1].join(', ') }}
+        </li>
+        <li>
+          <b>Заказчик: </b>
+          {{ projectProposal.customer }}
         </li>
       </ul>
     </template>

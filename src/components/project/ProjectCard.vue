@@ -54,7 +54,7 @@
             v-if="specialtistWithoutFirstPriority(course).length !== 0"
             style="margin-bottom: 0.25rem"
           >
-            |
+            <span v-if="specialtistOfFirstPriority(course).length"> | </span>
             <b>приглашённые: </b>
             <span
               v-for="(spec, indexInner) in specialtistWithoutFirstPriority(

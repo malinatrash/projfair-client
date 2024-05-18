@@ -14,6 +14,65 @@
       <p :class="$style.subtitle">
         {{ props.projectProposal.goal }}
       </p>
+
+      <div v-if="projectProposal?.specialities.length > 0" class="subtitle">
+        <div
+          v-if="
+            projectProposal.project_specialities.some(
+              (spec) => spec.course === null,
+            )
+          "
+        >
+          {{ projectProposal.specialities.map((ins) => ins.name).join(', ') }}
+        </div>
+        <div
+          v-for="(course, index) in [...courses].sort((a: any, b: any) => a - b)"
+          v-else
+          :key="index"
+        >
+          <b>
+            <span>{{ course }}</span> курс:
+          </b>
+
+          <span
+            v-for="(spec, indexInner) in specialtistOfFirstPriority(course)"
+            :key="indexInner"
+          >
+            <span>{{ spec.name }}</span>
+
+            <span
+              v-if="
+                indexInner !== specialtistOfFirstPriority(course).length - 1
+              "
+              >,
+            </span>
+          </span>
+          <span
+            v-if="specialtistWithoutFirstPriority(course).length !== 0"
+            style="margin-bottom: 0.25rem"
+          >
+            <span v-if="specialtistOfFirstPriority(course).length"> | </span>
+            <b>приглашённые: </b>
+            <span
+              v-for="(spec, indexInner) in specialtistWithoutFirstPriority(
+                course,
+              )"
+              :key="indexInner"
+            >
+              <span>{{ spec.name }}</span>
+
+              <span
+                v-if="
+                  indexInner !==
+                  specialtistWithoutFirstPriority(course).length - 1
+                "
+                >,
+              </span>
+            </span>
+          </span>
+        </div>
+      </div>
+
       <div
         style="
           display: flex;
@@ -206,6 +265,35 @@
   const props = defineProps<Props>();
 
   const teamList = computed(() => props.projectProposal.supervisors);
+
+  const courses = new Set();
+  props.projectProposal.project_specialities.forEach((spec) => {
+    courses.add(spec.course);
+  });
+
+  const getSpecialtyNameAndPriorityListFromCourse = (course: unknown) => {
+    return [
+      ...new Set(
+        props.projectProposal.project_specialities
+          .filter((spec) => spec.course === course)
+          .map((spec) => {
+            return {
+              name: spec.speciality.name,
+              priority: spec.priority,
+            };
+          }),
+      ),
+    ];
+  };
+
+  const specialtistOfFirstPriority = (course: unknown) =>
+    getSpecialtyNameAndPriorityListFromCourse(course).filter(
+      (spec) => spec.priority === 1,
+    );
+  const specialtistWithoutFirstPriority = (course: unknown) =>
+    getSpecialtyNameAndPriorityListFromCourse(course).filter(
+      (spec) => spec.priority !== 1,
+    );
 </script>
 
 <style lang="scss" module>
