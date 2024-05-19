@@ -174,16 +174,16 @@
 </template>
 
 <script setup lang="ts">
-  import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation'
-import IntituteProjectsQuota from '@/components/project-proposal/IntituteProjectsQuota.vue'
-import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue'
-import { getAcademicYear } from '@/helpers/date'
-import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes'
-import { RouteNames } from '@/router/types/route-names'
-import { FilterByToProjectProposalStateId } from '@/router/utils/routes'
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
-import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue'
+  import { ref } from 'vue';
+  import { RouterLink } from 'vue-router';
+  import IntituteProjectsQuota from '@/components/project-proposal/IntituteProjectsQuota.vue';
+  import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
+  import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
+  import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
+  import { getAcademicYear } from '@/helpers/date';
+  import { RouteNames } from '@/router/types/route-names';
+  import { FilterByToProjectProposalStateId } from '@/router/utils/routes';
+  import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue';
 
   const mentor = ref('');
 

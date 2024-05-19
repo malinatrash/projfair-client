@@ -1,13 +1,13 @@
+import { storeToRefs } from 'pinia';
+import { ComputedRef, computed } from 'vue';
 import {
   UseGetInstituteProjectProposalsQueryOptions,
   useGetInstituteProjectProposalsQuery,
-} from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery'
-import { ProjectProposalStateId } from '@/models/ProjectProposal'
-import { FilterByToProjectProposalStateId } from '@/router/utils/routes'
-import { useAuthStore } from '@/stores/auth/useAuthStore'
-import { storeToRefs } from 'pinia'
-import { ComputedRef, computed } from 'vue'
-import { useStateApprovedFilter } from './useStateApprovedFilter'
+} from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
+import { FilterByToProjectProposalStateId } from '@/router/utils/routes';
+import { useAuthStore } from '@/stores/auth/useAuthStore';
+import { ProjectProposalStateId } from '@/models/ProjectProposal';
+import { useStateApprovedFilter } from './useStateApprovedFilter';
 
 export type ProposalsCount = Record<ProjectProposalStateId, number>;
 

@@ -1,9 +1,9 @@
-import { getAcademicYear } from '@/helpers/date'
+import { getAcademicYear } from '@/helpers/date';
+import { FilterInstituteProjectProposalsBy } from '@/router/utils/routes';
 import {
   CreatedProjectProposal,
   ProjectProposalStateId,
-} from '@/models/ProjectProposal'
-import { FilterInstituteProjectProposalsBy } from '@/router/utils/routes'
+} from '@/models/ProjectProposal';
 
 export const useStateApprovedFilter = (proposal: CreatedProjectProposal) => {
   if (proposal.state.id !== ProjectProposalStateId.Approved) return '';
@@ -19,13 +19,17 @@ export const useStateApprovedFilter = (proposal: CreatedProjectProposal) => {
 
   if (isSpring) {
     return FilterInstituteProjectProposalsBy.ApprovedSpring;
-  } if (isFullYear && isSpring) {
+  }
+  if (isFullYear && isSpring) {
     return FilterInstituteProjectProposalsBy.ApprovedSpring;
-  } if (isAutumn) {
+  }
+  if (isAutumn) {
     return FilterInstituteProjectProposalsBy.ApprovedAutumn;
-  } if (isFullYear && isAutumn) {
+  }
+  if (isFullYear && isAutumn) {
     return FilterInstituteProjectProposalsBy.ApprovedAutumn;
-  } if (isFullYear) {
+  }
+  if (isFullYear) {
     return FilterInstituteProjectProposalsBy.ApprovedOnYear;
   }
 };
