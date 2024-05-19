@@ -32,10 +32,12 @@ export const useMobileNavigationRoutes = () => {
   const router = useRouter();
 
   // Тут была проблема с порядком ссылок, я просто поместил все ссылки главной навигации в начало списка
+
   const mobileRoutes = router
     .getRoutes()
     .filter((route) => route.meta.type?.includes('mobile-nav'))
     .sort((a, b) => (a.meta.order || 0) - (b.meta.order || 0));
+
   const mainRoutes = mobileRoutes.filter((route) =>
     route.meta.type?.includes('main-nav'),
   );

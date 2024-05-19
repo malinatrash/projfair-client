@@ -2,11 +2,16 @@
   <!-- auth modal -->
   <BaseModal
     :is-show="
-      modalsStore.authModalNewProject || modalsStore.authModalResultProject
+      modalsStore.authModalNewProject ||
+      modalsStore.authModalResultProject ||
+      modalsStore.authModalProfile
     "
     @close="
-      (modalsStore.authModalNewProject = false),
-        (modalsStore.authModalResultProject = false)
+      () => {
+        modalsStore.authModalNewProject = false;
+        modalsStore.authModalResultProject = false;
+        modalsStore.authModalProfile = false;
+      }
     "
   >
     <!-- MAIN CONTENT -->
@@ -14,6 +19,9 @@
       <h1>Вы не авторизованы</h1>
       <p class="message">
         Чтобы
+        <span v-show="modalsStore.authModalProfile"
+          >перейти на страницу профиля «Ярмарка проектов»</span
+        >
         <span v-show="modalsStore.authModalNewProject"
           >подавать заявки на проекты</span
         >
@@ -32,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+  import { router } from '@/router';
   import { useToast } from 'vue-toastification';
   import { useAuthMutation } from '@/api/AuthApi/hooks/useAuthMutation';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
@@ -43,6 +52,7 @@
   const authMutation = useAuthMutation({ onError });
 
   function auth() {
+    modalsStore.authModalProfile = false;
     modalsStore.authModalNewProject = false;
     modalsStore.authModalResultProject = false;
     authMutation.mutate();

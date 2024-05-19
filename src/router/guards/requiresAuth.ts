@@ -7,16 +7,15 @@ export const requiresAuth: NavigationGuard = (to, from, next) => {
   const authStore = useAuthStore();
   const modalsStore = useModalsStore();
 
-  // if (to.meta.requiresAuth && !authStore.profileData) {
-  //   if (to.name === RouteNames.SUPERVISOR_PROJECT_PROPOSAL_RESULT)
-  //     modalsStore.authModalResultProject = true;
-  //   else modalsStore.authModalNewProject = true;
+  if (to.meta.requiresAuth && !authStore.profileData) {
+    if (to.name === RouteNames.USER_INFO) modalsStore.authModalProfile = true;
+    else modalsStore.authModalNewProject = true;
 
-  //   return next(
-  //     from || {
-  //       name: RouteNames.HOME,
-  //     },
-  //   );
-  // }
+    return next(
+      from || {
+        name: RouteNames.HOME,
+      },
+    );
+  }
   return next();
 };

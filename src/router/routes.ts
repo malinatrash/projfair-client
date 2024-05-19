@@ -1,33 +1,33 @@
-import { RouteRecordRaw } from 'vue-router'
+import { RouteRecordRaw } from 'vue-router';
 // P.S. тут раньше были динамические импорты, т.е. "() => import('@/pages/ProjectPage/index.vue')", но они плохо работали на продакшене "projfair.istu.edu", так что было решено оставить обычные импорты для всего приложения
 // Contact page
-import ContactPage from '@/pages/ContactPage.vue'
+import ContactPage from '@/pages/ContactPage.vue';
 // Create project page
-import CreateProjectPage from '@/pages/CreateProjectPage.vue'
+import CreateProjectPage from '@/pages/CreateProjectPage.vue';
 // FAQ page
-import FaqPage from '@/pages/FaqPage.vue'
+import FaqPage from '@/pages/FaqPage.vue';
 // Home page
-import HomePage from '@/pages/HomePage.vue'
+import HomePage from '@/pages/HomePage.vue';
 // 404 page
-import NotFoundPage from '@/pages/NotFoundPage.vue'
+import NotFoundPage from '@/pages/NotFoundPage.vue';
 // Project page
-import ProjectDetails from '@/pages/ProjectPage/ProjectDetails.vue'
-import ProjectParticipantsList from '@/pages/ProjectPage/ProjectParticipantsList.vue'
-import ProjectParticipationList from '@/pages/ProjectPage/ProjectParticipationList.vue'
-import ProjectPage from '@/pages/ProjectPage/index.vue'
-import ResultProjectPage from '@/pages/ResultProjectPage.vue'
+import ProjectDetails from '@/pages/ProjectPage/ProjectDetails.vue';
+import ProjectParticipantsList from '@/pages/ProjectPage/ProjectParticipantsList.vue';
+import ProjectParticipationList from '@/pages/ProjectPage/ProjectParticipationList.vue';
+import ProjectPage from '@/pages/ProjectPage/index.vue';
+import ResultProjectPage from '@/pages/ResultProjectPage.vue';
 // User page
-import InstituteDirectorProjectProposals from '@/pages/UserPage/InstituteDirectorProjectProposals.vue'
-import UserParticipations from '@/pages/UserPage/UserParticipations.vue'
-import UserProfile from '@/pages/UserPage/UserProfile.vue'
-import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue'
-import UserProjects from '@/pages/UserPage/UserProjects.vue'
-import UserPage from '@/pages/UserPage/index.vue'
-import { RouteNames } from './types/route-names'
+import InstituteDirectorProjectProposals from '@/pages/UserPage/InstituteDirectorProjectProposals.vue';
+import UserParticipations from '@/pages/UserPage/UserParticipations.vue';
+import UserProfile from '@/pages/UserPage/UserProfile.vue';
+import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue';
+import UserProjects from '@/pages/UserPage/UserProjects.vue';
+import UserPage from '@/pages/UserPage/index.vue';
+import { RouteNames } from './types/route-names';
 import {
   FilterInstituteProjectProposalsBy,
-  toInstituteProjectProposals
-} from './utils/routes'
+  toInstituteProjectProposals,
+} from './utils/routes';
 
 export const routes: RouteRecordRaw[] = [
   {
@@ -93,7 +93,6 @@ export const routes: RouteRecordRaw[] = [
     component: ResultProjectPage,
     meta: {
       title: 'Сформировать результаты',
-      requiresAuth: true,
     },
   },
   {
@@ -241,7 +240,7 @@ export const routes: RouteRecordRaw[] = [
     meta: {
       type: ['main-nav', 'mobile-nav'],
       order: 1,
-      title: 'вопрос-ответ',
+      title: 'Вопрос-ответ',
       svg: `
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M21.3335 15.5001C21.3335 16.0306 21.1228 16.5393 20.7477 16.9143C20.3726 17.2894 19.8639 17.5001 19.3335 17.5001H7.3335L3.3335 21.5001V5.50012C3.3335 4.96969 3.54421 4.46098 3.91928 4.08591C4.29436 3.71084 4.80306 3.50012 5.3335 3.50012H19.3335C19.8639 3.50012 20.3726 3.71084 20.7477 4.08591C21.1228 4.46098 21.3335 4.96969 21.3335 5.50012V15.5001Z" stroke="#A4A4A4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -255,7 +254,7 @@ export const routes: RouteRecordRaw[] = [
     meta: {
       type: ['main-nav', 'mobile-nav'],
       order: 2,
-      title: 'контакты',
+      title: 'Контакты',
       svg: `
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_1235_4978)">
