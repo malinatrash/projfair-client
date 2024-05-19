@@ -120,33 +120,45 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, reactive, watch, watchEffect } from '@vue/runtime-core';
-  import { useRoute, useRouter } from 'vue-router';
-  import BasePanel from '@/components/ui/BasePanel.vue';
-  import BaseRadioButton from '@/components/ui/BaseRadioButton.vue';
-  import BaseResultTable, {
-    RowData,
-    idData,
-  } from '@/components/ui/BaseResultTable.vue';
-  import BaseStub from '@/components/ui/BaseStub.vue';
-  import BaseTextarea from '@/components/ui/BaseTextarea.vue';
-  import FormSection from '@/components/ui/FormSection.vue';
-  import BaseLabel from '@/components/ui/label/BaseLabel.vue';
-  import {
-    ProjectResultFormValue,
-    ProjectResultGoal,
-    ProjectResultGoalName,
-  } from '@/models/components/ProjectResultForm';
-  import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
-  import { canViewParticipants, isArchivedState } from '@/helpers/project';
-  import { compareString } from '@/helpers/string';
-  import { isSupervisor } from '@/helpers/typeCheck';
-  import { toProjectRoute } from '@/router/utils/routes';
-  import { useAuthStore } from '../../stores/auth/useAuthStore';
-  import { Candidate } from '@/models/Candidate';
-
+  import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery'
+import BasePanel from '@/components/ui/BasePanel.vue'
+import BaseRadioButton from '@/components/ui/BaseRadioButton.vue'
+import BaseResultTable, {
+  RowData,
+  idData,
+} from '@/components/ui/BaseResultTable.vue'
+import BaseStub from '@/components/ui/BaseStub.vue'
+import BaseTextarea from '@/components/ui/BaseTextarea.vue'
+import FormSection from '@/components/ui/FormSection.vue'
+import BaseLabel from '@/components/ui/label/BaseLabel.vue'
+import { isMobile } from '@/helpers/mobile'
+import { canViewParticipants } from '@/helpers/project'
+import { compareString } from '@/helpers/string'
+import { Candidate } from '@/models/Candidate'
+import {
+  ProjectResultFormValue,
+  ProjectResultGoal,
+  ProjectResultGoalName,
+} from '@/models/components/ProjectResultForm'
+import { toProjectRoute } from '@/router/utils/routes'
+import { useModalsStore } from '@/stores/modals/useModalsStore'
+import { computed, reactive, watch, watchEffect } from '@vue/runtime-core'
+import { onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '../../stores/auth/useAuthStore'
   const authStore = useAuthStore();
+  const modalsStore = useModalsStore();
 
+
+  onMounted(() => {
+    if (isMobile()) {
+      modalsStore.openAlertModal(
+        'Внимание',
+        'Пожалуйста, используйте настольную версию сайта, чтобы использовать эту функцию!'
+      );
+    }
+});
+  
   type Props = {
     projectResultFormValue: ProjectResultFormValue;
     canUserEdit?: boolean;
