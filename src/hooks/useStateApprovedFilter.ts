@@ -17,19 +17,13 @@ export const useStateApprovedFilter = (proposal: CreatedProjectProposal) => {
   const isAutumn = getAcademicYear(new Date(start).getMonth()).isAutumn();
   const isSpring = getAcademicYear(new Date(start).getMonth()).isSpring();
 
-  if (isSpring) {
-    return FilterInstituteProjectProposalsBy.ApprovedSpring;
-  }
-  if (isFullYear && isSpring) {
-    return FilterInstituteProjectProposalsBy.ApprovedSpring;
-  }
-  if (isAutumn) {
-    return FilterInstituteProjectProposalsBy.ApprovedAutumn;
-  }
-  if (isFullYear && isAutumn) {
-    return FilterInstituteProjectProposalsBy.ApprovedAutumn;
-  }
   if (isFullYear) {
     return FilterInstituteProjectProposalsBy.ApprovedOnYear;
+  } else if (isSpring) {
+    return FilterInstituteProjectProposalsBy.ApprovedSpring;
+  } else if (isAutumn) {
+    return FilterInstituteProjectProposalsBy.ApprovedAutumn;
   }
+
+  return FilterInstituteProjectProposalsBy.Approved;
 };

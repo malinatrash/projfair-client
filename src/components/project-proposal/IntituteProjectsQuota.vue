@@ -2,7 +2,10 @@
   <span :class="{ [$style['limit-exceeded']]: approvedProjectsLimitExceeded }">
     <template v-if="isLoading">...</template>
     <template v-else-if="isLimit">
-      ({{ proposalsCount[state] }}/{{ intituteProjectsQuota }})
+      ({{
+        proposalsCount[state] +
+        proposalsCount[FilterByToProjectProposalStateId.approved_on_year]
+      }}/{{ intituteProjectsQuota }})
     </template>
     <template v-else> ({{ proposalsCount[state] }}) </template>
   </span>
@@ -15,6 +18,7 @@
     ProposalsCount,
     useInstituteProposalsMetaData,
   } from '@/hooks/useInstituteProposalsMetaData';
+  import { FilterByToProjectProposalStateId } from '@/router/utils/routes';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { ProjectProposalStateId } from '@/models/ProjectProposal';
 

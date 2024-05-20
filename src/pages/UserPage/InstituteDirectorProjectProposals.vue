@@ -81,7 +81,8 @@
 
       return (
         stateFilter === route.params.filterBy ||
-        proposal.state.id === filterBy.value
+        proposal.state.id === filterBy.value ||
+        stateFilter == FilterInstituteProjectProposalsBy.ApprovedOnYear
       );
     });
   });
