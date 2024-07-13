@@ -83,10 +83,6 @@
                             childLink.name ===
                             RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN
                           "
-                          :class="{
-                            // 'disabled-autumn disabled':
-                            //   !academicYear.isAutumn(),
-                          }"
                           :state-id="
                             FilterByToProjectProposalStateId['approved_autumn']
                           "
@@ -96,10 +92,6 @@
                             childLink.name ===
                             RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_SPRING
                           "
-                          :class="{
-                            'disabled-spring disabled':
-                              !academicYear.isSpring(),
-                          }"
                           :state-id="
                             FilterByToProjectProposalStateId['approved_spring']
                           "
@@ -303,72 +295,6 @@
 
   .item {
     list-style: none;
-
-    &:has(.disabled) > .action {
-      position: relative;
-      color: #38383833;
-      pointer-events: none;
-      cursor: default;
-    }
-
-    &:has(.disabled-autumn) > .action {
-      --text: 'Недоступно в весеннем семестре';
-    }
-
-    &:has(.disabled-spring) > .action {
-      --text: 'Недоступно в осеннем семестре';
-    }
-
-    &:has(.disabled) > .action::after {
-      position: absolute;
-      bottom: 85%;
-      left: 50%;
-      display: none;
-      width: 85%;
-      height: auto;
-      padding: 15px;
-      font-size: 0.925rem;
-      color: #383838;
-      content: var(--text);
-      background-color: white;
-      border: 1px solid var(--gray-color-1);
-      border-radius: 0.75rem;
-      box-shadow: 0 0 15px 0 #38383822;
-      transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
-      transform: translate(-50%, 0);
-      transition-behavior: allow-discrete; /* stylelint-disable-line */
-    }
-
-    &:has(.disabled):hover > .action::after {
-      display: block;
-      opacity: 1;
-
-      /* stylelint-disable-next-line */
-      @starting-style {
-        opacity: 0;
-      }
-    }
-
-    &:has(.disabled-autumn):hover > .action::after {
-      bottom: 85%;
-      /* stylelint-disable-next-line */
-      @starting-style {
-        transform: translate(-50%, 10%) scale(0.75);
-      }
-    }
-
-    &:has(.disabled-spring):hover > .action::after {
-      bottom: -110%;
-      /* stylelint-disable-next-line */
-      @starting-style {
-        transform: translate(-50%, -10%) scale(0.75);
-      }
-    }
-
-    /* stylelint-disable-next-line */
-    &.mobile {
-      white-space: nowrap;
-    }
   }
 
   .item:not(:last-child) {
