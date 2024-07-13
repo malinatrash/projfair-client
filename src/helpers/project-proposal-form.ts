@@ -152,14 +152,8 @@ export function projectDurationFromDate(isoDate: DateRange): ProjectDuration {
   const dateStart = new Date(isoDate.start);
   const dateEnd = new Date(isoDate.end);
 
-  console.log(dateStart);
-  console.log(dateEnd);
-
   const startMonth = dateStart.getMonth();
   const endMonth = dateEnd.getMonth();
-
-  console.log(startMonth);
-  console.log(endMonth);
 
   if (startMonth === 8 && endMonth === 11) return ProjectDuration.FallSemester;
   if (startMonth === 1 && endMonth === 4) return ProjectDuration.SpringSemester;
