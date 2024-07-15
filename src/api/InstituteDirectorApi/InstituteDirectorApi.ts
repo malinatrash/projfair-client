@@ -1,5 +1,6 @@
 import { handleHttpError } from '@/helpers/error';
 import { CreatedProjectProposal } from '@/models/ProjectProposal';
+import { ProjectReport } from '@/models/ProjectReport';
 import { baseKyInstance } from '../baseKy';
 import InstituteDirectorApiType, {
   ReviewProjectProposalData,
@@ -22,5 +23,9 @@ export default class InstituteDirectorApi implements InstituteDirectorApiType {
 
   async getInstituteProjectProposals(): Promise<CreatedProjectProposal[]> {
     return baseKyInstance.get('api/director/projects').json();
+  }
+
+  async getInstituteProjectReports(): Promise<ProjectReport[]> {
+    return baseKyInstance.get('api/director/projects/report').json();
   }
 }

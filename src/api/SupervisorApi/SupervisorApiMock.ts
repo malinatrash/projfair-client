@@ -6,10 +6,15 @@ import {
   CreatedProjectResult,
   NewProjectProposal,
 } from '@/models/ProjectProposal';
+import { ProjectReport } from '@/models/ProjectReport';
 import { Specialty } from '@/models/Specialty';
 import { Tag } from '@/models/Tag';
 import { mockProjectList } from '@/models/mock/project';
-import { themeSources } from '@/models/mock/project-proposal';
+import {
+  mockProjectProposalList,
+  themeSources,
+} from '@/models/mock/project-proposal';
+import { mockProjectReportList } from '@/models/mock/project-report';
 import { specialties } from '@/models/mock/specialties';
 import SupervisorApiType, {
   UpdateProjectProposalData,
@@ -80,7 +85,11 @@ export default class SupervisorApiMock implements SupervisorApiType {
   }
 
   async getProjectProposalList(): Promise<CreatedProjectProposal[]> {
-    return [];
+    return delayRes(mockProjectProposalList, 500);
+  }
+
+  async getProjectReportList(): Promise<ProjectReport[]> {
+    return delayRes(mockProjectReportList, 500);
   }
 
   async getProjectList(): Promise<Project[]> {

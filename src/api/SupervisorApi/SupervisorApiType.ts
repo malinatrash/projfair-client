@@ -4,6 +4,7 @@ import {
   CreatedProjectResult,
   NewProjectProposal,
 } from '@/models/ProjectProposal';
+import { ProjectReport } from '@/models/ProjectReport';
 import { Specialty } from '@/models/Specialty';
 import { Tag } from '@/models/Tag';
 
@@ -36,6 +37,7 @@ export default interface SupervisorApiType {
   getThemeSources(): Promise<Tag[]>;
   getSpecialties(): Promise<Specialty[]>;
   getProjectProposalList(): Promise<CreatedProjectProposal[]>;
+  getProjectReportList(): Promise<ProjectReport[]>;
   getProjectList(): Promise<Project[]>;
   getProposalsTime(): Promise<[string, string]>;
 }

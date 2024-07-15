@@ -6,6 +6,7 @@ import {
   CreatedProjectResult,
   NewProjectProposal,
 } from '@/models/ProjectProposal';
+import { ProjectReport } from '@/models/ProjectReport';
 import { Specialty } from '@/models/Specialty';
 import { Tag } from '@/models/Tag';
 import { sharedApi } from '../SharedApi';
@@ -85,6 +86,13 @@ export default class SupervisorApi implements SupervisorApiType {
       .get('api/supervisor/projects')
       .json<CreatedProjectProposal[]>();
     return projectProposals.filter(isProposal).map(formatProjectDate);
+  }
+
+  async getProjectReportList(): Promise<ProjectReport[]> {
+    const projectReports = await baseKyInstance
+      .get('api/supervisor/projects/report')
+      .json<ProjectReport[]>();
+    return projectReports;
   }
 
   async getProjectList(): Promise<Project[]> {

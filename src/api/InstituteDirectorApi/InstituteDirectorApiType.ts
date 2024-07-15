@@ -2,6 +2,7 @@ import {
   CreatedProjectProposal,
   ProjectProposalStateId,
 } from '@/models/ProjectProposal';
+import { ProjectReport } from '@/models/ProjectReport';
 
 export interface ReviewProjectProposalData {
   rejection_reason?: string;
@@ -14,4 +15,5 @@ export default interface InstituteDirectorApiType {
     data: ReviewProjectProposalData,
   ): Promise<CreatedProjectProposal>;
   getInstituteProjectProposals(): Promise<CreatedProjectProposal[]>;
+  getInstituteProjectReports(): Promise<ProjectReport[]>;
 }
