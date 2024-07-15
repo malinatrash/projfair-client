@@ -151,6 +151,10 @@
   .pagination-item {
     width: 2.5625rem;
     height: 3.3125rem;
+
+    &.active > button {
+      color: var(--text-color-2);
+    }
   }
 
   .disabled-item {
