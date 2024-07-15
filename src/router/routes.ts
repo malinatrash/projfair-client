@@ -210,7 +210,7 @@ export const routes: RouteRecordRaw[] = [
           links: [
             {
               name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ALL,
-              title: 'Все отчет',
+              title: 'Все отчеты',
               location: toInstituteProjectReports(
                 FilterInstituteProjectReportsBy.All,
                 1,

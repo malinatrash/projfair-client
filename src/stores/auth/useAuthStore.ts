@@ -14,7 +14,7 @@ export const useAuthStore = defineStore('auth', {
     isStudent(): boolean {
       return Boolean(this.profileData?.is_student);
     },
-    intituteProjectsQuota(): number {
+    instituteProjectsQuota(): number {
       if (this.profileData && isSupervisor(this.profileData))
         return this.profileData.department.institute.maxApprovedProjects;
       return 0;

@@ -34,4 +34,4 @@ export const themeSources: Tag[] = [
 ];
 
 export const mockProjectProposalList: CreatedProjectProposal[] =
-  mockProjectProposals;
+  mockProjectProposals as CreatedProjectProposal[];

@@ -21,7 +21,7 @@ export function useInstituteProposalsMetaData(
   options?: UseGetInstituteProjectProposalsQueryOptions,
 ): UseInstituteProposalsInfoReturn {
   const authStore = useAuthStore();
-  const { intituteProjectsQuota } = storeToRefs(authStore);
+  const { instituteProjectsQuota } = storeToRefs(authStore);
   const projectProposalListQuery =
     useGetInstituteProjectProposalsQuery(options);
 
@@ -55,7 +55,7 @@ export function useInstituteProposalsMetaData(
   const approvedProjectsLimitExceeded = computed(
     () =>
       proposalsCount.value[ProjectProposalStateId.Approved] >
-      intituteProjectsQuota.value,
+      instituteProjectsQuota.value,
   );
 
   const isLoading = computed(() => projectProposalListQuery.isFetching.value);

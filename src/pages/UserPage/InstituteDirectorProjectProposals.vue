@@ -54,6 +54,7 @@
     const filterBy = String(
       route.params.filterBy,
     ) as FilterInstituteProjectProposalsBy;
+
     return FilterByToProjectProposalStateId[filterBy];
   });
 
@@ -82,7 +83,9 @@
       return (
         stateFilter === route.params.filterBy ||
         proposal.state.id === filterBy.value ||
-        stateFilter == FilterInstituteProjectProposalsBy.ApprovedOnYear
+        (stateFilter === 'approved_on_year' &&
+          (route.params.filterBy === 'approved_autumn' ||
+            route.params.filterBy === 'approved_spring'))
       );
     });
   });

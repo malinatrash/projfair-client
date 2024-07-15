@@ -7,10 +7,12 @@
       >
         {{ props.projectProposal.title }}
       </RouterLink>
+
       <ProjectProposalStatus
         :class="$style.status"
         :state="props.projectProposal.state"
       />
+
       <p :class="$style.subtitle">
         {{ props.projectProposal.goal }}
       </p>
