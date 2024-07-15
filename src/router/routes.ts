@@ -18,6 +18,7 @@ import ProjectPage from '@/pages/ProjectPage/index.vue';
 import ResultProjectPage from '@/pages/ResultProjectPage.vue';
 // User page
 import InstituteDirectorProjectProposals from '@/pages/UserPage/InstituteDirectorProjectProposals.vue';
+import InstituteDirectorProjectReports from '@/pages/UserPage/InstituteDirectorProjectReports.vue';
 import UserParticipations from '@/pages/UserPage/UserParticipations.vue';
 import UserProfile from '@/pages/UserPage/UserProfile.vue';
 import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue';
@@ -26,7 +27,9 @@ import UserPage from '@/pages/UserPage/index.vue';
 import { RouteNames } from './types/route-names';
 import {
   FilterInstituteProjectProposalsBy,
+  FilterInstituteProjectReportsBy,
   toInstituteProjectProposals,
+  toInstituteProjectReports,
 } from './utils/routes';
 
 export const routes: RouteRecordRaw[] = [
@@ -189,6 +192,155 @@ export const routes: RouteRecordRaw[] = [
               title: 'Отклонённые заявки',
               location: toInstituteProjectProposals(
                 FilterInstituteProjectProposalsBy.Rejected,
+                1,
+              ),
+            },
+          ],
+        },
+      },
+      {
+        path: 'inst-project-reports/:filterBy?/:page?',
+        name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS,
+        component: InstituteDirectorProjectReports,
+        meta: {
+          type: ['user-nav'],
+          order: 4,
+          title: 'Отчёты',
+          role: ['is_institute_director'],
+          links: [
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ALL,
+              title: 'Все отчет',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.All,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_AIRCRAFT_ENGINEERING_AND_TRANSPORTATION,
+              title: 'Институт авиамашиностроения и транспорта',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfAircraftEngineeringAndTransportation,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_DISTANCE_AND_EVENING_EDUCATION,
+              title: 'Институт заочно-вечернего обучения',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfDistanceAndEveningEducation,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_HIGH_TECHNOLOGY,
+              title: 'Институт высоких технологий',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfHighTechnology,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_INFORMATION_TECHNOLOGY_AND_DATA_ANALYSIS,
+              title: 'Институт информационных технологий и анализа данных',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfInformationTechnologyAndDataAnalysis,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_ARCHITECTURE_CONSTRUCTION_AND_DESIGN,
+              title: 'Институт архитектуры, строительства и дизайна',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfArchitectureConstructionAndDesign,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_SUBSOIL_USE_INSTITUTE,
+              title: 'Институт недропользования',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.SubsoilUseInstitute,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_ECONOMICS_MANAGEMENT_AND_LAW,
+              title: 'Институт экономики, управления и права',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfEconomicsManagementAndLaw,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_BRICS_BAIKAL_INSTITUTE,
+              title: 'Байкальский институт БРИКС',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.BRICSBaikalInstitute,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_LINGUISTICS_AND_INTERCULTURAL_COMMUNICATION,
+              title: 'Институт лингвистики и межкультурной коммуникации',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfLinguisticsAndInterculturalCommunication,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ENERGY_INSTITUTE,
+              title: 'Институт энергетики',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.EnergyInstitute,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_IRNITU_BRANCH_IN_USOLYE_SIBIRSKIY,
+              title: 'Филиал ИРНИТУ в г. Усолье-Сибирском',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.IRNITUBranchInUsolyeSibirskiy,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_COLLEGE_OF_MECHANICAL_ENGINEERING,
+              title: 'Машиностроительный колледж',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.CollegeOfMechanicalEngineering,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_GEOLOGICAL_EXPLORATION_TECHNICAL_SCHOOL,
+              title: 'Геологоразведочный техникум',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.GeologicalExplorationTechnicalSchool,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_QUANTUM_PHYSICS,
+              title: 'Институт квантовой физики',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfQuantumPhysics,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_MRCPC,
+              title: 'МРЦПК',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.MRCPC,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_SIBERIAN_SCHOOL_OF_GEOSCIENCES,
+              title: 'Институт "Сибирская школа геонаук"',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteSiberianSchoolOfGeosciences,
                 1,
               ),
             },
