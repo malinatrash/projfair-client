@@ -346,8 +346,8 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { RouterLink } from 'vue-router';
-  import InstituteProjectReportsQuota from '@/components/project-proposal/InstituteProjectReportsQuota.vue';
   import InstituteProjectsQuota from '@/components/project-proposal/InstituteProjectsQuota.vue';
+  import InstituteProjectReportsQuota from '@/components/project-report/InstituteProjectReportsQuota.vue';
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
   import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
   import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';

@@ -1,4 +1,3 @@
-import { storeToRefs } from 'pinia';
 import { ComputedRef, computed } from 'vue';
 import {
   UseGetInstituteProjectReportsQueryOptions,
@@ -7,11 +6,17 @@ import {
 import { useAuthStore } from '@/stores/auth/useAuthStore';
 import { ProjectReportNameId } from '@/models/ProjectReport';
 
-export type ReportsCount = Record<ProjectReportNameId, number>;
+export type ReportsCount = Record<
+  ProjectReportNameId,
+  {
+    count: number;
+    maxApproved: number;
+  }
+>;
 
 export type UseInstituteReportsInfoReturn = {
   reportsCount: ComputedRef<ReportsCount>;
-  allProjectsLimitExceeded: ComputedRef<boolean>;
+  isProjectsLimitExceeded: (reportNameId: ProjectReportNameId) => boolean;
   isLoading: ComputedRef<boolean>;
 };
 
@@ -19,47 +24,96 @@ export function useInstituteReportsMetaData(
   options?: UseGetInstituteProjectReportsQueryOptions,
 ): UseInstituteReportsInfoReturn {
   const authStore = useAuthStore();
-  const { instituteProjectsQuota } = storeToRefs(authStore);
   const projectReportListQuery = useGetInstituteProjectReportsQuery(options);
 
   const reportsCount = computed(() => {
     const count: ReportsCount = {
-      [ProjectReportNameId.All]: 0,
-      [ProjectReportNameId.InstituteOfAircraftEngineeringAndTransportation]: 0,
-      [ProjectReportNameId.InstituteOfDistanceAndEveningEducation]: 0,
-      [ProjectReportNameId.InstituteOfHighTechnology]: 0,
-      [ProjectReportNameId.InstituteOfInformationTechnologyAndDataAnalysis]: 0,
-      [ProjectReportNameId.InstituteOfArchitectureConstructionAndDesign]: 0,
-      [ProjectReportNameId.SubsoilUseInstitute]: 0,
-      [ProjectReportNameId.InstituteOfEconomicsManagementAndLaw]: 0,
-      [ProjectReportNameId.BRICSBaikalInstitute]: 0,
-      [ProjectReportNameId.InstituteOfLinguisticsAndInterculturalCommunication]: 0,
-      [ProjectReportNameId.EnergyInstitute]: 0,
-      [ProjectReportNameId.IRNITUBranchInUsolyeSibirskiy]: 0,
-      [ProjectReportNameId.CollegeOfMechanicalEngineering]: 0,
-      [ProjectReportNameId.GeologicalExplorationTechnicalSchool]: 0,
-      [ProjectReportNameId.InstituteOfQuantumPhysics]: 0,
-      [ProjectReportNameId.MRCPC]: 0,
-      [ProjectReportNameId.InstituteSiberianSchoolOfGeosciences]: 0,
+      [ProjectReportNameId.All]: {
+        count: 0,
+        maxApproved: Infinity,
+      },
+      [ProjectReportNameId.InstituteOfAircraftEngineeringAndTransportation]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.InstituteOfDistanceAndEveningEducation]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.InstituteOfHighTechnology]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.InstituteOfInformationTechnologyAndDataAnalysis]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.InstituteOfArchitectureConstructionAndDesign]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.SubsoilUseInstitute]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.InstituteOfEconomicsManagementAndLaw]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.BRICSBaikalInstitute]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.InstituteOfLinguisticsAndInterculturalCommunication]:
+        {
+          count: 0,
+          maxApproved: 100,
+        },
+      [ProjectReportNameId.EnergyInstitute]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.IRNITUBranchInUsolyeSibirskiy]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.CollegeOfMechanicalEngineering]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.GeologicalExplorationTechnicalSchool]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.InstituteOfQuantumPhysics]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.MRCPC]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectReportNameId.InstituteSiberianSchoolOfGeosciences]: {
+        count: 0,
+        maxApproved: 100,
+      },
     };
 
     if (!projectReportListQuery.data.value) return count;
 
     for (const report of projectReportListQuery.data.value) {
-      count[0] += 1;
-      count[report.department.institute.id as ProjectReportNameId] += 1;
+      count[ProjectReportNameId.All].count += 1;
+      count[report.department.institute.id as ProjectReportNameId].count += 1;
     }
 
     return count;
   });
 
-  const allProjectsLimitExceeded = computed(
-    () =>
-      reportsCount.value[ProjectReportNameId.All] >
-      instituteProjectsQuota.value,
-  );
+  const isProjectsLimitExceeded = (reportNameId: ProjectReportNameId) =>
+    reportsCount.value[reportNameId].count >
+    reportsCount.value[reportNameId].maxApproved;
 
   const isLoading = computed(() => projectReportListQuery.isFetching.value);
 
-  return { reportsCount, allProjectsLimitExceeded, isLoading };
+  return { reportsCount, isProjectsLimitExceeded, isLoading };
 }
