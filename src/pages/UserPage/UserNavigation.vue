@@ -69,7 +69,7 @@
                             RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_NEW
                           "
                         />
-                        <IntituteProjectsQuota
+                        <InstituteProjectsQuota
                           v-else-if="
                             childLink.name ===
                             RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_ON_YEAR
@@ -78,7 +78,7 @@
                             FilterByToProjectProposalStateId['approved_on_year']
                           "
                         />
-                        <IntituteProjectsQuota
+                        <InstituteProjectsQuota
                           v-else-if="
                             childLink.name ===
                             RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN
@@ -87,7 +87,7 @@
                             FilterByToProjectProposalStateId['approved_autumn']
                           "
                         />
-                        <IntituteProjectsQuota
+                        <InstituteProjectsQuota
                           v-else-if="
                             childLink.name ===
                             RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_SPRING
@@ -96,7 +96,7 @@
                             FilterByToProjectProposalStateId['approved_spring']
                           "
                         />
-                        <IntituteProjectsQuota
+                        <InstituteProjectsQuota
                           v-else-if="
                             childLink.name ===
                             RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_REJECTED
@@ -105,6 +105,184 @@
                             FilterByToProjectProposalStateId['rejected']
                           "
                           :is-limit="false"
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ALL
+                          "
+                          :state-id="FilterByToProjectReportNameId['all']"
+                          :is-limit="false"
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_AIRCRAFT_ENGINEERING_AND_TRANSPORTATION
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_aircraft_engineering_and_transportation'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_DISTANCE_AND_EVENING_EDUCATION
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_distance_and_evening_education'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_HIGH_TECHNOLOGY
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_high_technology'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_INFORMATION_TECHNOLOGY_AND_DATA_ANALYSIS
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_information_technology_and_data_analysis'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_ARCHITECTURE_CONSTRUCTION_AND_DESIGN
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_architecture_construction_and_design'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_SUBSOIL_USE_INSTITUTE
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'subsoil_use_institute'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_ECONOMICS_MANAGEMENT_AND_LAW
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_economics_management_and_law'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_BRICS_BAIKAL_INSTITUTE
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'brics_baikal_institute'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_LINGUISTICS_AND_INTERCULTURAL_COMMUNICATION
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_linguistics_and_intercultural_communication'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ENERGY_INSTITUTE
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId['energy_institute']
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_IRNITU_BRANCH_IN_USOLYE_SIBIRSKIY
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'irnitu_branch_in_usolye_sibirskiy'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_COLLEGE_OF_MECHANICAL_ENGINEERING
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'college_of_mechanical_engineering'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_GEOLOGICAL_EXPLORATION_TECHNICAL_SCHOOL
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'geological_exploration_technical_school'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_QUANTUM_PHYSICS
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_quantum_physics'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_MRCPC
+                          "
+                          :state-id="FilterByToProjectReportNameId['mrcpc']"
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_SIBERIAN_SCHOOL_OF_GEOSCIENCES
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_siberian_school_of_geosciences'
+                            ]
+                          "
                         />
                       </RouterLink>
                     </li>
@@ -140,7 +318,7 @@
                             "
                             style="margin-bottom: 3px; margin-left: 7.5px"
                           />
-                          <IntituteProjectsQuota
+                          <InstituteProjectsQuota
                             v-else-if="
                               childLink.name ===
                               RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED
@@ -168,13 +346,17 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { RouterLink } from 'vue-router';
-  import IntituteProjectsQuota from '@/components/project-proposal/IntituteProjectsQuota.vue';
+  import InstituteProjectReportsQuota from '@/components/project-proposal/InstituteProjectReportsQuota.vue';
+  import InstituteProjectsQuota from '@/components/project-proposal/InstituteProjectsQuota.vue';
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
   import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
   import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
   import { getAcademicYear } from '@/helpers/date';
   import { RouteNames } from '@/router/types/route-names';
-  import { FilterByToProjectProposalStateId } from '@/router/utils/routes';
+  import {
+    FilterByToProjectProposalStateId,
+    FilterByToProjectReportNameId,
+  } from '@/router/utils/routes';
   import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue';
 
   const mentor = ref('');
@@ -258,6 +440,10 @@
     cursor: pointer;
     background: transparent;
     border: none;
+
+    & > *:nth-child(1) {
+      flex: none;
+    }
 
     &.mobile {
       padding: 1rem;
