@@ -3,6 +3,7 @@ import {
   UseGetInstituteProjectReportsQueryOptions,
   useGetInstituteProjectReportsQuery,
 } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectReportsQuery';
+import { getAcademicYear } from '@/helpers/date';
 import { useAuthStore } from '@/stores/auth/useAuthStore';
 import { ProjectReportNameId } from '@/models/ProjectReport';
 
@@ -101,10 +102,17 @@ export function useInstituteReportsMetaData(
     if (!projectReportListQuery.data.value) return count;
 
     for (const report of projectReportListQuery.data.value) {
+      const institute = report.department.institute;
+
       count[ProjectReportNameId.All].count += 1;
-      count[report.department.institute.id as ProjectReportNameId].count += 1;
-      count[report.department.institute.id as ProjectReportNameId].maxApproved =
-        report.department.institute.maxApprovedProjects;
+      count[institute.id as ProjectReportNameId].count += 1;
+      count[institute.id as ProjectReportNameId].maxApproved = getAcademicYear(
+        new Date().getMonth(),
+      ).isSpring()
+        ? institute.maxSpringApprovedProjects
+        : getAcademicYear(new Date().getMonth()).isAutumn()
+        ? institute.maxAutumnApprovedProjects
+        : institute.maxApprovedProjects;
     }
 
     return count;
