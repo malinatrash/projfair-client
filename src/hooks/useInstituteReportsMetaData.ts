@@ -23,7 +23,6 @@ export type UseInstituteReportsInfoReturn = {
 export function useInstituteReportsMetaData(
   options?: UseGetInstituteProjectReportsQueryOptions,
 ): UseInstituteReportsInfoReturn {
-  const authStore = useAuthStore();
   const projectReportListQuery = useGetInstituteProjectReportsQuery(options);
 
   const reportsCount = computed(() => {
@@ -104,6 +103,8 @@ export function useInstituteReportsMetaData(
     for (const report of projectReportListQuery.data.value) {
       count[ProjectReportNameId.All].count += 1;
       count[report.department.institute.id as ProjectReportNameId].count += 1;
+      count[report.department.institute.id as ProjectReportNameId].maxApproved =
+        report.department.institute.maxApprovedProjects;
     }
 
     return count;
