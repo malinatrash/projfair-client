@@ -1,10 +1,16 @@
 <template>
-  <span :class="{ [$style['limit-exceeded']]: isProjectsLimitExceeded(state) }">
+  <span
+    :class="{
+      [$style['limit-exceeded']]: isProjectsLimitExceeded(reportNameId),
+    }"
+  >
     <template v-if="isLoading">...</template>
     <template v-else-if="isLimit">
-      ({{ reportsCount[state].count }}/{{ reportsCount[state].maxApproved }})
+      ({{ reportsCount[reportNameId].count }}/{{
+        reportsCount[reportNameId].maxApproved
+      }})
     </template>
-    <template v-else> ({{ reportsCount[state].count }}) </template>
+    <template v-else> ({{ reportsCount[reportNameId].count }}) </template>
   </span>
 </template>
 
@@ -31,7 +37,7 @@
     },
   });
 
-  const state = ref(props.stateId as keyof ReportsCount);
+  const reportNameId = ref(props.stateId as keyof ReportsCount);
 
   const authStore = useAuthStore();
   const { isInstDirector, instituteProjectsQuota } = storeToRefs(authStore);
