@@ -4,16 +4,23 @@ import {
   UseGetInstituteProjectProposalsQueryOptions,
   useGetInstituteProjectProposalsQuery,
 } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
+import { getAcademicYear } from '@/helpers/date';
 import { FilterByToProjectProposalStateId } from '@/router/utils/routes';
 import { useAuthStore } from '@/stores/auth/useAuthStore';
 import { ProjectProposalStateId } from '@/models/ProjectProposal';
 import { useStateApprovedFilter } from './useStateApprovedFilter';
 
-export type ProposalsCount = Record<ProjectProposalStateId, number>;
+export type ProposalsCount = Record<
+  ProjectProposalStateId,
+  {
+    count: number;
+    maxApproved: number;
+  }
+>;
 
 export type UseInstituteProposalsInfoReturn = {
   proposalsCount: ComputedRef<ProposalsCount>;
-  approvedProjectsLimitExceeded: ComputedRef<boolean>;
+  isProjectsLimitExceeded: (proposalStateId: ProjectProposalStateId) => boolean;
   isLoading: ComputedRef<boolean>;
 };
 
@@ -27,38 +34,66 @@ export function useInstituteProposalsMetaData(
 
   const proposalsCount = computed(() => {
     const count: ProposalsCount = {
-      [ProjectProposalStateId.Approved]: 0,
-      [ProjectProposalStateId.ApprovedOnYear]: 0,
-      [ProjectProposalStateId.ApprovedAutumn]: 0,
-      [ProjectProposalStateId.ApprovedSpring]: 0,
-      [ProjectProposalStateId.Draft]: 0,
-      [ProjectProposalStateId.Rejected]: 0,
-      [ProjectProposalStateId.UnderReview]: 0,
+      [ProjectProposalStateId.Approved]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectProposalStateId.ApprovedOnYear]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectProposalStateId.ApprovedAutumn]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectProposalStateId.ApprovedSpring]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectProposalStateId.Draft]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectProposalStateId.Rejected]: {
+        count: 0,
+        maxApproved: 100,
+      },
+      [ProjectProposalStateId.UnderReview]: {
+        count: 0,
+        maxApproved: 100,
+      },
     };
     if (!projectProposalListQuery.data.value) return count;
 
     for (const proposal of projectProposalListQuery.data.value) {
       const stateFilter = useStateApprovedFilter(proposal);
+      const institute = proposal.department.institute;
 
       if (stateFilter) {
-        count[FilterByToProjectProposalStateId[stateFilter]] += 1;
+        count[FilterByToProjectProposalStateId[stateFilter]].count += 1;
+        count[FilterByToProjectProposalStateId[stateFilter]].maxApproved =
+          getAcademicYear(
+            new Date(Date.parse(proposal.date_end)).getMonth(),
+          ).isSpring()
+            ? institute.maxSpringApprovedProjects
+            : getAcademicYear(new Date().getMonth()).isAutumn()
+            ? institute.maxAutumnApprovedProjects
+            : institute.maxSpringApprovedProjects;
         continue;
       }
 
       const stateId = proposal.state.id as ProjectProposalStateId;
-      count[stateId] += 1;
+      count[stateId].count += 1;
     }
 
     return count;
   });
 
-  const approvedProjectsLimitExceeded = computed(
-    () =>
-      proposalsCount.value[ProjectProposalStateId.Approved] >
-      instituteProjectsQuota.value,
-  );
+  const isProjectsLimitExceeded = (proposalStateId: ProjectProposalStateId) =>
+    proposalsCount.value[proposalStateId].count >
+    proposalsCount.value[proposalStateId].maxApproved;
 
   const isLoading = computed(() => projectProposalListQuery.isFetching.value);
 
-  return { proposalsCount, approvedProjectsLimitExceeded, isLoading };
+  return { proposalsCount, isProjectsLimitExceeded, isLoading };
 }

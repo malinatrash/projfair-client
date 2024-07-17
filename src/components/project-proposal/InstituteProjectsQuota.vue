@@ -1,13 +1,13 @@
 <template>
-  <span :class="{ [$style['limit-exceeded']]: approvedProjectsLimitExceeded }">
+  <span :class="{ [$style['limit-exceeded']]: isProjectsLimitExceeded(state) }">
     <template v-if="isLoading">...</template>
     <template v-else-if="isLimit">
       ({{
-        proposalsCount[state] +
-        proposalsCount[FilterByToProjectProposalStateId.approved_on_year]
-      }}/{{ instituteProjectsQuota }})
+        proposalsCount[state].count +
+        proposalsCount[FilterByToProjectProposalStateId.approved_on_year].count
+      }}/{{ proposalsCount[state].maxApproved }})
     </template>
-    <template v-else> ({{ proposalsCount[state] }}) </template>
+    <template v-else> ({{ proposalsCount[state].count }}) </template>
   </span>
 </template>
 
@@ -40,7 +40,7 @@
   const authStore = useAuthStore();
   const { isInstDirector, instituteProjectsQuota } = storeToRefs(authStore);
 
-  const { proposalsCount, approvedProjectsLimitExceeded, isLoading } =
+  const { proposalsCount, isProjectsLimitExceeded, isLoading } =
     useInstituteProposalsMetaData({
       enabled: isInstDirector,
     });

@@ -105,9 +105,13 @@ export function useInstituteReportsMetaData(
       const institute = report.department.institute;
 
       count[ProjectReportNameId.All].count += 1;
-      count[institute.id as ProjectReportNameId].count += 1;
+
+      if (report.project_goal && report.project_review) {
+        count[institute.id as ProjectReportNameId].count += 1;
+      }
+
       count[institute.id as ProjectReportNameId].maxApproved = getAcademicYear(
-        new Date().getMonth(),
+        new Date(Date.parse(report.date_end)).getMonth(),
       ).isSpring()
         ? institute.maxSpringApprovedProjects
         : getAcademicYear(new Date().getMonth()).isAutumn()
