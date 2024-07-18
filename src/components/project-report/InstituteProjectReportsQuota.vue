@@ -10,6 +10,11 @@
         reportsCount[reportNameId].maxApproved
       }})
     </template>
+    <template v-else-if="isCompare">
+      ({{ deliveredCount.delivered }}/{{
+        reportsCount[ProjectReportNameId.All].count
+      }})
+    </template>
     <template v-else> ({{ reportsCount[reportNameId].count }}) </template>
   </span>
 </template>
@@ -30,6 +35,11 @@
       type: Number,
       require: true,
     },
+    isCompare: {
+      default: false,
+      type: Boolean,
+      require: false,
+    },
     isLimit: {
       default: true,
       type: Boolean,
@@ -42,7 +52,7 @@
   const authStore = useAuthStore();
   const { isInstDirector, instituteProjectsQuota } = storeToRefs(authStore);
 
-  const { reportsCount, isProjectsLimitExceeded, isLoading } =
+  const { reportsCount, deliveredCount, isProjectsLimitExceeded, isLoading } =
     useInstituteReportsMetaData({
       enabled: isInstDirector,
     });

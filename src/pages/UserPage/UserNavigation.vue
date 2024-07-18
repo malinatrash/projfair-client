@@ -35,7 +35,14 @@
       <!--        </SimpleAccordion>-->
       <!--      </li>-->
       <template v-for="link in routes" :key="link.name">
-        <li :class="['item', props.variant]">
+        <li
+          v-if="
+            link.name !== RouteNames.INST_DIRECTOR_PROJECTS_REPORTS ||
+            (profileData.id === 27 && // id Чимитова
+              profileData.fio === 'Чимитов Павел Евгеньевич')
+          "
+          :class="['item', props.variant]"
+        >
           <RouterLink
             v-if="!link.meta.links"
             :class="['action', props.variant]"
@@ -112,6 +119,7 @@
                             RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ALL
                           "
                           :state-id="FilterByToProjectReportNameId['all']"
+                          :is-compare="true"
                           :is-limit="false"
                         />
                         <InstituteProjectReportsQuota
@@ -344,6 +352,7 @@
 </template>
 
 <script setup lang="ts">
+  import { title } from 'process';
   import { ref } from 'vue';
   import { RouterLink } from 'vue-router';
   import InstituteProjectsQuota from '@/components/project-proposal/InstituteProjectsQuota.vue';
@@ -351,12 +360,13 @@
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
   import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
   import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
-  import { getAcademicYear } from '@/helpers/date';
   import { RouteNames } from '@/router/types/route-names';
   import {
     FilterByToProjectProposalStateId,
     FilterByToProjectReportNameId,
   } from '@/router/utils/routes';
+  import { useAuthStore } from '@/stores/auth/useAuthStore';
+  import { UserSupervisor } from '@/models/User';
   import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue';
 
   const mentor = ref('');
@@ -364,7 +374,9 @@
   type Props = { variant: 'desktop' | 'mobile' };
   const props = withDefaults(defineProps<Props>(), { variant: 'desktop' });
   const routes = useRoledUserNavigationRoutes();
-  const academicYear = getAcademicYear(new Date().getMonth());
+
+  const authStore = useAuthStore();
+  const profileData = authStore.profileData as UserSupervisor;
 
   const { logout } = useLogoutWithModalMutation();
 </script>

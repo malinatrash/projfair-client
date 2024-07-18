@@ -4,7 +4,6 @@ import {
   useGetInstituteProjectReportsQuery,
 } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectReportsQuery';
 import { getAcademicYear } from '@/helpers/date';
-import { useAuthStore } from '@/stores/auth/useAuthStore';
 import { ProjectReportNameId } from '@/models/ProjectReport';
 
 export type ReportsCount = Record<
@@ -15,8 +14,14 @@ export type ReportsCount = Record<
   }
 >;
 
+export type DeliveredCount = {
+  delivered: number;
+  notDelivered: number;
+};
+
 export type UseInstituteReportsInfoReturn = {
   reportsCount: ComputedRef<ReportsCount>;
+  deliveredCount: ComputedRef<DeliveredCount>;
   isProjectsLimitExceeded: (reportNameId: ProjectReportNameId) => boolean;
   isLoading: ComputedRef<boolean>;
 };
@@ -122,11 +127,30 @@ export function useInstituteReportsMetaData(
     return count;
   });
 
+  const deliveredCount = computed(() => {
+    const count: DeliveredCount = {
+      delivered: 0,
+      notDelivered: 0,
+    };
+
+    if (!projectReportListQuery.data.value) return count;
+
+    for (const report of projectReportListQuery.data.value) {
+      if (report.project_goal && report.project_review) {
+        count.delivered += 1;
+      } else {
+        count.notDelivered += 1;
+      }
+    }
+
+    return count;
+  });
+
   const isProjectsLimitExceeded = (reportNameId: ProjectReportNameId) =>
     reportsCount.value[reportNameId].count >
     reportsCount.value[reportNameId].maxApproved;
 
   const isLoading = computed(() => projectReportListQuery.isFetching.value);
 
-  return { reportsCount, isProjectsLimitExceeded, isLoading };
+  return { reportsCount, deliveredCount, isProjectsLimitExceeded, isLoading };
 }
