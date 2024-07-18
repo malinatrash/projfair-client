@@ -9,7 +9,7 @@
     />
 
     <template v-else>
-      <form class="filters">
+      <div class="filters">
         <ProjectFilterAccordion :opened="false">
           <template #title>
             <span v-if="isFetching" class="multiselect-spinner"> </span>
@@ -59,7 +59,11 @@
             </BaseCheckbox>
           </template>
         </ProjectFilterAccordion>
-      </form>
+
+        <BaseButton @click.prevent="handlerUploadReportToExcel">
+          Выгрузить отчёт
+        </BaseButton>
+      </div>
 
       <BaseStub
         v-if="filteredProjectReportList?.length === 0"
@@ -90,6 +94,7 @@
   import { computed, ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
   import { useRouter } from 'vue-router';
+  import * as xlsx from 'xlsx';
   import InstituteDirectorProjectReportCard from '@/components/project-report/InstituteDirectorProjectReportCard.vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BaseCheckbox from '@/components/ui/BaseCheckbox.vue';
@@ -162,6 +167,39 @@
     ),
   );
 
+  const handlerUploadReportToExcel = (e: HTMLFormElement) => {
+    const reports: {
+      Название: string;
+      Цель: string;
+      'Дата начала': string;
+      'Дата конца': string;
+      Кафедра: string;
+      Институт: string;
+      Наставники: string;
+    }[] = [];
+
+    filteredProjectReportList.value?.forEach((report) => {
+      if (!report.project_goal && !report.project_review) {
+        reports.push({
+          Название: report.title,
+          Цель: report.goal,
+          'Дата начала': report.date_start,
+          'Дата конца': report.date_end,
+          Кафедра: report.department.name,
+          Институт: report.department.institute.name,
+          Наставники: report.supervisors
+            .map((supervisor) => supervisor.fio)
+            .join(', '),
+        });
+      }
+    });
+
+    const workbook = xlsx.utils.book_new();
+    const worksheet = xlsx.utils.json_to_sheet(reports);
+    xlsx.utils.book_append_sheet(workbook, worksheet);
+    xlsx.writeFile(workbook, 'Несданные отчёты.xlsx');
+  };
+
   const PAGE_SIZE = 6;
   const PAGES_VISIBLE = 7;
 
@@ -179,7 +217,7 @@
   }
 </script>
 
-<style>
+<style lang="scss">
   .miltiselect:first-child {
     margin-bottom: 1.25rem;
   }
@@ -195,12 +233,20 @@
   }
 
   .filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding-top: 0.625rem;
     padding-bottom: 0.6875rem;
     margin-bottom: 15px;
     background: #fff;
     border: 1px solid var(--gray-color-1);
     border-radius: 0.625rem;
+
+    & > *:nth-child(2) {
+      height: fit-content;
+      margin-right: 15px;
+    }
   }
 
   .label:not(:last-child) {
