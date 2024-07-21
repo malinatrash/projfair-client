@@ -217,19 +217,13 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .miltiselect:first-child {
     margin-bottom: 1.25rem;
   }
 
   .miltiselect:deep(.multiselect-clear) {
     display: none;
-  }
-
-  .divider {
-    width: 100%;
-    height: 1px;
-    background-color: var(--gray-color-1);
   }
 
   .filters {
