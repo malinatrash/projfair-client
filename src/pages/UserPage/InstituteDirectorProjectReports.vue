@@ -178,7 +178,7 @@
       Наставники: string;
     }[] = [];
 
-    projectReportList.value?.forEach((report) => {
+    filteredProjectReportList.value?.forEach((report) => {
       if (!report.project_goal && !report.project_review) {
         reports.push({
           Название: report.title,
