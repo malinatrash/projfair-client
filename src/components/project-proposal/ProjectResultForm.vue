@@ -89,7 +89,7 @@
     </FormSection>
 
     <FormSection
-      v-if="!isProjectStateArchived || authStore.isStudent"
+      v-if="!isProjectStateArchived || !authStore.isStudent"
       :class="$style['project-result-section']"
       tag="3"
       title="Оценка участников проекта"
