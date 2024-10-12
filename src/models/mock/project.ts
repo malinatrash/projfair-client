@@ -620,17 +620,7 @@ export const mockProjectList: Project[] = [
           department: null,
         },
       },
-      {
-        id: 15,
-        course: 3,
-        priority: 1,
-        speciality: {
-          id: 3,
-          name: 'ИСТб',
-          institute: null,
-          department: null,
-        },
-      },
+
       {
         id: 16,
         course: 5,
@@ -701,17 +691,17 @@ export const mockProjectList: Project[] = [
           department: null,
         },
       },
-      {
-        id: 15,
-        course: 3,
-        priority: 1,
-        speciality: {
-          id: 3,
-          name: 'ИСТб',
-          institute: null,
-          department: null,
-        },
-      },
+      // {
+      //   id: 15,
+      //   course: 3,
+      //   priority: 1,
+      //   speciality: {
+      //     id: 3,
+      //     name: 'ИСТб',
+      //     institute: null,
+      //     department: null,
+      //   },
+      // },
       {
         id: 16,
         course: 5,
