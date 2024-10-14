@@ -25,6 +25,7 @@
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
   import { useProjectsStore } from '@/stores/projects/useProjectsStore';
+  import { Candidate } from '../../models/Candidate';
   import { Project } from '@/models/Project';
   import { AUTH_REQUIRED } from '@/values/error-messages';
   import BaseButton, { Variant } from '../ui/BaseButton.vue';
@@ -73,11 +74,13 @@
     const waitingSpecs = props.project.project_specialities.map(
       (e) => e.speciality.name,
     );
-    const realSpec = authStore.profileData.training_group.split('-')[0];
+    const realSpec = (authStore.profileData as Candidate).training_group.split(
+      '-',
+    )[0];
     const waitingCourses = props.project.project_specialities.map(
       (e) => e.course,
     );
-    const realCourse = authStore.profileData.course;
+    const realCourse = (authStore.profileData as Candidate).course;
 
     if (!waitingCourses.includes(realCourse)) {
       const message = 'Ваш курс не входит в список курсов проекта';
