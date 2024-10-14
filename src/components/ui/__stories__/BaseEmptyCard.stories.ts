@@ -9,6 +9,23 @@ const meta: Meta<typeof BaseEmptyCard> = {
   title: 'ui/BaseEmptyCard',
   component: BaseEmptyCard,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+          BaseEmptyCard - это компонент реализующий пустую карточку, при отсутствии данных у пользователя.
+        Элемент состоит из размера компонента.
+
+        Руководство использования:
+
+        PROPS: аргументы, которые используются для изменения поведения или внешнего вида компонента.
+
+          size: Выберите значение "s", чтобы уменньшить размер, "m" - увеличить.
+
+          `,
+      },
+    },
+  },
   argTypes: {
     size: {
       control: 'select',
