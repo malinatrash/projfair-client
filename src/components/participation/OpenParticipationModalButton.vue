@@ -42,6 +42,8 @@
     enabled: isStudent,
   });
 
+  const studentStore = authStore.profileData as Candidate;
+
   const time = useUserTimer();
 
   const abilitySendParticipationsMutation =
@@ -74,13 +76,11 @@
     const waitingSpecs = props.project.project_specialities.map(
       (e) => e.speciality.name,
     );
-    const realSpec = (authStore.profileData as Candidate).training_group.split(
-      '-',
-    )[0];
+    const realSpec = studentStore.training_group.split('-')[0];
     const waitingCourses = props.project.project_specialities.map(
       (e) => e.course,
     );
-    const realCourse = (authStore.profileData as Candidate).course;
+    const realCourse = studentStore.course;
 
     if (!waitingCourses.includes(realCourse)) {
       const message = 'Ваш курс не входит в список курсов проекта';
