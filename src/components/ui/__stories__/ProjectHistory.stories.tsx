@@ -1,13 +1,20 @@
 import { Meta, StoryObj } from '@storybook/vue3';
-import { vueRouter } from 'storybook-vue3-router';
-import { routes } from '@/router/routes';
 import ProjectHistory from '../ProjectHistory.vue';
 
 const meta: Meta<typeof ProjectHistory> = {
   title: 'ui/ProjectHistory',
   component: ProjectHistory,
+
   tags: ['autodocs'],
-  decorators: [vueRouter(routes)],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+        
+          `,
+      },
+    },
+  },
   argTypes: {
     projectList: {
       table: {
@@ -40,14 +47,14 @@ export const Default: Story = {
       { projectId: 7, title: 'Проект 7', year: '2027' },
     ],
   },
-  render: (args) => ({
-    setup: () => () =>
-      (
-        <ProjectHistory
-          style={{ paddingTop: '30px' }}
-          currentProjectId={args.currentProjectId}
-          projectList={args.projectList}
-        />
-      ),
-  }),
+
+  render: async (args) => {
+    return (
+      <ProjectHistory
+        style={{ paddingTop: '30px' }}
+        currentProjectId={args.currentProjectId}
+        projectList={args.projectList}
+      />
+    );
+  },
 };
