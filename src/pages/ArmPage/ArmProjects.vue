@@ -413,7 +413,9 @@
   };
 
   const apply = () => {
-    const filteredProject = institutes.value
+    let filteredProjectsCount = 0;
+
+    const updatedProjects = institutes.value
       .map((institute) => ({
         institute_id: institute.institute_id,
         institute_name: institute.institute_name,
@@ -422,11 +424,16 @@
             department_id: department.department_id,
             department_name: department.department_name,
             projects: department.projects
-              .filter(
-                (project) =>
+              .map((project) => {
+                if (
                   project.places !==
-                  Number(inputProjects.value[project.project_id]),
-              )
+                  Number(inputProjects.value[project.project_id])
+                ) {
+                  filteredProjectsCount++;
+                }
+
+                return project;
+              })
               .map((project) => ({
                 ...project,
                 places: Number(inputProjects.value[project.project_id]),
@@ -436,7 +443,7 @@
       }))
       .filter((institute) => institute.departments.length);
 
-    if (!filteredProject.length) {
+    if (!filteredProjectsCount) {
       toast.info('Внесите какие нибудь изменения');
 
       return;
@@ -444,7 +451,7 @@
 
     isMutating.value = true;
 
-    mutationQuery.mutate(filteredProject);
+    mutationQuery.mutate(updatedProjects);
   };
 </script>
 
