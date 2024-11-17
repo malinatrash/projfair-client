@@ -74,6 +74,7 @@
             </span>
           </span>
         </div>
+        {{ project.specialities.map((ins) => ins.name).join(', ') }}
       </div>
       <ProjectCardInfo
         v-if="isSmallDevice"
@@ -124,6 +125,18 @@
           is="router-link"
           v-if="props.project.state.id === 4"
           variant="outlined"
+          v-if="props.project.state.id === 2 && isCurrentSupervisor"
+          variant="outlined"
+          is="router-link"
+          case="uppercase"
+          :to="toProjectResultRoute(project.id)"
+        >
+          Сформировать результаты проекта
+        </BaseButton>
+        <BaseButton
+          v-if="props.project.state.id === 4"
+          variant="outlined"
+          is="router-link"
           case="uppercase"
           :to="toProjectResultRoute(project.id)"
         >
@@ -199,6 +212,10 @@
     getSpecialtyNameAndPriorityListFromCourse(course).filter(
       (spec) => spec.priority !== 1,
     );
+    return supervisor.id === useAuthStore().profileData?.id;
+  });
+
+  const stateClass = StateClass[props.project.state.id];
 </script>
 
 <style lang="scss" scoped>
