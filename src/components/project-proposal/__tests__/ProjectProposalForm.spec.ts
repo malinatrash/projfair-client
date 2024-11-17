@@ -61,6 +61,8 @@ describe('ProjectProposalForm.vue', () => {
                 institute: {
                   id: 1,
                   maxApprovedProjects: 10,
+                  maxSpringApprovedProjects: 100,
+                  maxAutumnApprovedProjects: 100,
                   name: 'instituteName1',
                 },
                 name: 'departmentName1',
@@ -81,6 +83,8 @@ describe('ProjectProposalForm.vue', () => {
                 institute: {
                   id: 2,
                   maxApprovedProjects: 10,
+                  maxSpringApprovedProjects: 100,
+                  maxAutumnApprovedProjects: 100,
                   name: 'instituteName2',
                 },
                 name: 'departmentName2',

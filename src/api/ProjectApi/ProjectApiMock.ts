@@ -94,6 +94,14 @@ export default class ProjectApiMock implements ProjectApiType {
     return delayRes(formatProjectDate(project), 400);
   }
 
+  async updateSingleProject(projectId: number): Promise<Project> {
+    const project = projectListResponse.data.find(
+      (singleProject) => singleProject.id === projectId,
+    );
+    if (!project) throw new Error('проект не найден');
+    return delayRes(formatProjectDate(project), 400);
+  }
+
   async getAllProjectTags(): Promise<ProjectTags> {
     return delayRes({ skills, specialties }, 300);
   }
@@ -145,5 +153,37 @@ export default class ProjectApiMock implements ProjectApiType {
     }
 
     return history.map(formatProjectDate);
+  }
+
+  async updateProjectCandidateMark(
+    projectId: number,
+    candidateId: number,
+    mark: number,
+    review: string,
+  ): Promise<Project> {
+    const projectToUpdate = projectListResponse.data.find(
+      (project) => project.id === projectId,
+    );
+
+    if (!projectToUpdate) {
+      throw new Error('Проект не найден');
+    }
+
+    const updatedProject = {
+      ...projectToUpdate,
+      mark: mark,
+      review: review,
+    };
+
+    const updatedProjectList = projectListResponse.data.map((project) => {
+      if (project.id === projectId) {
+        return updatedProject;
+      }
+      return project;
+    });
+
+    await delayRes(updatedProjectList, 200);
+
+    return formatProjectDate(updatedProject);
   }
 }

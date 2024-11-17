@@ -1,11 +1,13 @@
+import { ProjectResultGoal } from './components/ProjectResultForm';
 import { Candidate } from './Candidate';
 import { Participation } from './Participation';
 import { ProjectDifficulty } from './ProjectDifficulty';
 import { MemberRole } from './ProjectProposal';
 import { ProjectState, ProjectStateID } from './ProjectState';
-import { Specialty } from './Specialty';
+import { Specialty, SpecialtyGroup } from './Specialty';
 import { Supervisor } from './Supervisor';
 import { Tag } from './Tag';
+import { UserSupervisor } from './User';
 
 export interface Skill extends Tag {
   skillCategory?: Tag;
@@ -31,7 +33,7 @@ export interface ProjectType {
 export interface ProjectSupervisor {
   id: number;
   roles: Tag<MemberRole>[];
-  supervisor: Supervisor;
+  supervisor: UserSupervisor;
 }
 
 export interface Project {
@@ -55,9 +57,13 @@ export interface Project {
   type: ProjectType;
   skills: Skill[];
   specialities: Specialty[];
+  project_specialities: SpecialtyGroup[];
   participations?: Participation[];
   participants?: Candidate[];
   participant_feedback?: string;
+
+  project_review?: string;
+  project_goal?: ProjectResultGoal;
 }
 
 export interface ProjectFilters {

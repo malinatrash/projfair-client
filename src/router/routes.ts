@@ -18,6 +18,7 @@ import ProjectPage from '@/pages/ProjectPage/index.vue';
 import ResultProjectPage from '@/pages/ResultProjectPage.vue';
 // User page
 import InstituteDirectorProjectProposals from '@/pages/UserPage/InstituteDirectorProjectProposals.vue';
+import InstituteDirectorProjectReports from '@/pages/UserPage/InstituteDirectorProjectReports.vue';
 import UserParticipations from '@/pages/UserPage/UserParticipations.vue';
 import UserProfile from '@/pages/UserPage/UserProfile.vue';
 import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue';
@@ -26,7 +27,9 @@ import UserPage from '@/pages/UserPage/index.vue';
 import { RouteNames } from './types/route-names';
 import {
   FilterInstituteProjectProposalsBy,
+  FilterInstituteProjectReportsBy,
   toInstituteProjectProposals,
+  toInstituteProjectReports,
 } from './utils/routes';
 
 export const routes: RouteRecordRaw[] = [
@@ -92,9 +95,7 @@ export const routes: RouteRecordRaw[] = [
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSAL_RESULT,
     component: ResultProjectPage,
     meta: {
-      title: 'Сформировать результат проекта',
-      requiresAuth: true,
-      role: ['is_teacher'],
+      title: 'Сформировать результаты',
     },
   },
   {
@@ -162,11 +163,27 @@ export const routes: RouteRecordRaw[] = [
                 1,
               ),
             },
+            // {
+            //   name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_ON_YEAR,
+            //   title: 'Одобренные на год',
+            //   location: toInstituteProjectProposals(
+            //     FilterInstituteProjectProposalsBy.ApprovedOnYear,
+            //     1,
+            //   ),
+            // },
             {
-              name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED,
-              title: 'Одобренные заявки',
+              name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN,
+              title: 'Одобренные на осень',
               location: toInstituteProjectProposals(
-                FilterInstituteProjectProposalsBy.Approved,
+                FilterInstituteProjectProposalsBy.ApprovedAutumn,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_SPRING,
+              title: 'Одобренные на весну',
+              location: toInstituteProjectProposals(
+                FilterInstituteProjectProposalsBy.ApprovedSpring,
                 1,
               ),
             },
@@ -182,12 +199,187 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: 'inst-project-reports/:filterBy?/:page?',
+        name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS,
+        component: InstituteDirectorProjectReports,
+        meta: {
+          type: ['user-nav'],
+          order: 4,
+          title: 'Отчёты',
+          role: ['is_institute_director'],
+          links: [
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ALL,
+              title: 'Все отчёты',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.All,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_AIRCRAFT_ENGINEERING_AND_TRANSPORTATION,
+              title: 'Институт авиамашиностроения и транспорта',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfAircraftEngineeringAndTransportation,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_DISTANCE_AND_EVENING_EDUCATION,
+              title: 'Институт заочно-вечернего обучения',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfDistanceAndEveningEducation,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_HIGH_TECHNOLOGY,
+              title: 'Институт высоких технологий',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfHighTechnology,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_INFORMATION_TECHNOLOGY_AND_DATA_ANALYSIS,
+              title: 'Институт информационных технологий и анализа данных',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfInformationTechnologyAndDataAnalysis,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_ARCHITECTURE_CONSTRUCTION_AND_DESIGN,
+              title: 'Институт архитектуры, строительства и дизайна',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfArchitectureConstructionAndDesign,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_SUBSOIL_USE_INSTITUTE,
+              title: 'Институт недропользования',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.SubsoilUseInstitute,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_ECONOMICS_MANAGEMENT_AND_LAW,
+              title: 'Институт экономики, управления и права',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfEconomicsManagementAndLaw,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_BRICS_BAIKAL_INSTITUTE,
+              title: 'Байкальский институт БРИКС',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.BRICSBaikalInstitute,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_LINGUISTICS_AND_INTERCULTURAL_COMMUNICATION,
+              title: 'Институт лингвистики и межкультурной коммуникации',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfLinguisticsAndInterculturalCommunication,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ENERGY_INSTITUTE,
+              title: 'Институт энергетики',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.EnergyInstitute,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_IRNITU_BRANCH_IN_USOLYE_SIBIRSKIY,
+              title: 'Филиал ИРНИТУ в г. Усолье-Сибирском',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.IRNITUBranchInUsolyeSibirskiy,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_COLLEGE_OF_MECHANICAL_ENGINEERING,
+              title: 'Машиностроительный колледж',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.CollegeOfMechanicalEngineering,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_GEOLOGICAL_EXPLORATION_TECHNICAL_SCHOOL,
+              title: 'Геологоразведочный техникум',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.GeologicalExplorationTechnicalSchool,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_QUANTUM_PHYSICS,
+              title: 'Институт квантовой физики',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteOfQuantumPhysics,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_MRCPC,
+              title: 'МРЦПК',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.MRCPC,
+                1,
+              ),
+            },
+            {
+              name: RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_SIBERIAN_SCHOOL_OF_GEOSCIENCES,
+              title: 'Институт "Сибирская школа геонаук"',
+              location: toInstituteProjectReports(
+                FilterInstituteProjectReportsBy.InstituteSiberianSchoolOfGeosciences,
+                1,
+              ),
+            },
+          ],
+        },
+      },
+      // {
+      //   path: 'institute_projects/:filterBy?/:page?',
+      //   name: RouteNames.INST_DIRECTOR_PROJECTS,
+      //   component: UserProjects,
+      //   meta: {
+      //     type: ['user-nav'],
+      //     order: 4,
+      //     title: 'Проекты института',
+      //     role: ['is_institute_director'],
+      //     links: [
+      //       {
+      //         name: RouteNames.INST_DIRECTOR_PROJECTS_ACTIVE,
+      //         title: 'Активные проекты',
+      //         location: toInstituteProjects(
+      //           FilterInstituteProjectsBy.Active,
+      //           1,
+      //         ),
+      //       },
+      //       {
+      //         name: RouteNames.INST_DIRECTOR_PROJECTS_ALL,
+      //         title: 'Все проекты',
+      //         location: toInstituteProjects(FilterInstituteProjectsBy.All, 1),
+      //       },
+      //     ],
+      //   },
+      // },
+      {
         path: 'projects',
         name: RouteNames.USER_PROJECTS,
         component: UserProjects,
         meta: {
           type: ['user-nav'],
-          order: 4,
+          order: 5,
           title: 'Мои проекты',
         },
       },
@@ -200,7 +392,7 @@ export const routes: RouteRecordRaw[] = [
     meta: {
       type: ['main-nav', 'mobile-nav'],
       order: 1,
-      title: 'вопрос-ответ',
+      title: 'Вопрос-ответ',
       svg: `
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M21.3335 15.5001C21.3335 16.0306 21.1228 16.5393 20.7477 16.9143C20.3726 17.2894 19.8639 17.5001 19.3335 17.5001H7.3335L3.3335 21.5001V5.50012C3.3335 4.96969 3.54421 4.46098 3.91928 4.08591C4.29436 3.71084 4.80306 3.50012 5.3335 3.50012H19.3335C19.8639 3.50012 20.3726 3.71084 20.7477 4.08591C21.1228 4.46098 21.3335 4.96969 21.3335 5.50012V15.5001Z" stroke="#A4A4A4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -214,7 +406,7 @@ export const routes: RouteRecordRaw[] = [
     meta: {
       type: ['main-nav', 'mobile-nav'],
       order: 2,
-      title: 'контакты',
+      title: 'Контакты',
       svg: `
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_1235_4978)">

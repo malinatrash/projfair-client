@@ -27,6 +27,7 @@ export default interface ProjectApiType {
   getAllProjectTypes(): Promise<ProjectType[]>;
   getAllProjectStates(): Promise<ProjectState[]>;
   getSingleProject(projectId: number): Promise<Project>;
+  updateSingleProject(projectId: number): Promise<Project>;
   getProjectParticipants(projectId: number): Promise<Candidate[]>;
   getProjectHistory(projectId: number): Promise<Project[]>;
 }

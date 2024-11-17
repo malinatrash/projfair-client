@@ -3,8 +3,46 @@
   <!-- TODO: можно раскидать как-то по компонентам мб -->
   <div :class="['wrapper', props.variant]">
     <ul :class="['list', props.variant]">
+      <!--      <li :class="['item', props.variant]">-->
+      <!--        <SimpleAccordion-->
+      <!--          v-if="props.variant == 'desktop'"-->
+      <!--          class="accordion"-->
+      <!--          default-opened-->
+      <!--        >-->
+      <!--          <template #title>-->
+      <!--            <span :class="['action', props.variant]">Фильтрация</span>-->
+      <!--          </template>-->
+      <!--          <template #content>-->
+      <!--            <div class="box">-->
+      <!--              <div class="container">-->
+      <!--                <span>НАСТАВНИК</span>-->
+      <!--                <BaseInput placeholder="Аршинский В.Л." :model-value="mentor" />-->
+      <!--              </div>-->
+      <!--              <div class="container">-->
+      <!--                <span>ПРОДОЛЖИТЕЛЬНОСТЬ</span>-->
+      <!--                <BaseCheckbox :value="true">1 СЕМЕСТР</BaseCheckbox>-->
+      <!--                <BaseCheckbox :value="true">2 СЕМЕСТР</BaseCheckbox>-->
+      <!--                <BaseCheckbox :value="true">ГОД</BaseCheckbox>-->
+      <!--              </div>-->
+      <!--              <div class="container">-->
+      <!--                <div style="display: flex; gap: 8px; justify-content: center">-->
+      <!--                  <BaseButton variant="tag-outlined">Сбросить</BaseButton>-->
+      <!--                  <BaseButton variant="tag">Показать</BaseButton>-->
+      <!--                </div>-->
+      <!--              </div>-->
+      <!--            </div>-->
+      <!--          </template>-->
+      <!--        </SimpleAccordion>-->
+      <!--      </li>-->
       <template v-for="link in routes" :key="link.name">
-        <li :class="['item', props.variant]">
+        <li
+          v-if="
+            link.name !== RouteNames.INST_DIRECTOR_PROJECTS_REPORTS ||
+            (profileData.id === 27 && // id Чимитова
+              profileData.fio === 'Чимитов Павел Евгеньевич')
+          "
+          :class="['item', props.variant]"
+        >
           <RouterLink
             v-if="!link.meta.links"
             :class="['action', props.variant]"
@@ -13,45 +51,297 @@
             {{ link.meta.title }}
           </RouterLink>
           <template v-else>
-            <SimpleAccordion class="accordion" default-opened>
-              <template #title>
-                <p :class="['action', props.variant]">
-                  {{ link.meta.title }}
-                </p>
-              </template>
-              <template #content>
-                <ul :class="['list', props.variant]">
-                  <li
-                    v-for="childLink in link.meta.links"
-                    :key="childLink.title"
-                    :class="['item', props.variant]"
-                  >
-                    <RouterLink
-                      :class="['action', props.variant]"
-                      :to="childLink.location"
+            <template v-if="props.variant == 'desktop'">
+              <SimpleAccordion class="accordion" default-opened>
+                <template #title>
+                  <p :class="['action', props.variant]">
+                    {{ link.meta.title }}
+                  </p>
+                </template>
+                <template #content>
+                  <ul :class="['list', props.variant]">
+                    <li
+                      v-for="childLink in link.meta.links"
+                      :key="childLink.title"
+                      :class="['item', props.variant]"
                     >
-                      {{ childLink.title }}
-                      <OnReviewProposalsLabel
-                        v-if="
-                          childLink.name ===
-                          RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_NEW
-                        "
-                      />
-                      <IntituteProjectsQuota
-                        v-else-if="
-                          childLink.name ===
-                          RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED
-                        "
-                      />
-                    </RouterLink>
-                  </li>
-                </ul>
-              </template>
-            </SimpleAccordion>
+                      <RouterLink
+                        :class="['action', props.variant]"
+                        :to="childLink.location"
+                      >
+                        {{ childLink.title }}
+                        <OnReviewProposalsLabel
+                          v-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_NEW
+                          "
+                        />
+                        <InstituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_ON_YEAR
+                          "
+                          :state-id="
+                            FilterByToProjectProposalStateId['approved_on_year']
+                          "
+                        />
+                        <InstituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN
+                          "
+                          :state-id="
+                            FilterByToProjectProposalStateId['approved_autumn']
+                          "
+                        />
+                        <InstituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_SPRING
+                          "
+                          :state-id="
+                            FilterByToProjectProposalStateId['approved_spring']
+                          "
+                        />
+                        <InstituteProjectsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_REJECTED
+                          "
+                          :state-id="
+                            FilterByToProjectProposalStateId['rejected']
+                          "
+                          :is-limit="false"
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ALL
+                          "
+                          :state-id="FilterByToProjectReportNameId['all']"
+                          :is-compare="true"
+                          :is-limit="false"
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_AIRCRAFT_ENGINEERING_AND_TRANSPORTATION
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_aircraft_engineering_and_transportation'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_DISTANCE_AND_EVENING_EDUCATION
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_distance_and_evening_education'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_HIGH_TECHNOLOGY
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_high_technology'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_INFORMATION_TECHNOLOGY_AND_DATA_ANALYSIS
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_information_technology_and_data_analysis'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_ARCHITECTURE_CONSTRUCTION_AND_DESIGN
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_architecture_construction_and_design'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_SUBSOIL_USE_INSTITUTE
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'subsoil_use_institute'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_ECONOMICS_MANAGEMENT_AND_LAW
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_economics_management_and_law'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_BRICS_BAIKAL_INSTITUTE
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'brics_baikal_institute'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_LINGUISTICS_AND_INTERCULTURAL_COMMUNICATION
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_linguistics_and_intercultural_communication'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ENERGY_INSTITUTE
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId['energy_institute']
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_IRNITU_BRANCH_IN_USOLYE_SIBIRSKIY
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'irnitu_branch_in_usolye_sibirskiy'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_COLLEGE_OF_MECHANICAL_ENGINEERING
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'college_of_mechanical_engineering'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_GEOLOGICAL_EXPLORATION_TECHNICAL_SCHOOL
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'geological_exploration_technical_school'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_QUANTUM_PHYSICS
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_of_quantum_physics'
+                            ]
+                          "
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_MRCPC
+                          "
+                          :state-id="FilterByToProjectReportNameId['mrcpc']"
+                        />
+                        <InstituteProjectReportsQuota
+                          v-else-if="
+                            childLink.name ===
+                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_SIBERIAN_SCHOOL_OF_GEOSCIENCES
+                          "
+                          :state-id="
+                            FilterByToProjectReportNameId[
+                              'institute_siberian_school_of_geosciences'
+                            ]
+                          "
+                        />
+                      </RouterLink>
+                    </li>
+                  </ul>
+                </template>
+              </SimpleAccordion>
+            </template>
+            <template v-else>
+              <li :class="['item', props.variant]">
+                <RouterLink
+                  v-if="!link.meta.links"
+                  :class="['action', props.variant]"
+                  :to="{ name: link.name }"
+                >
+                  {{ link.meta.title }}
+                </RouterLink>
+                <template v-else>
+                  <ul :class="['list', props.variant]">
+                    <template
+                      v-for="childLink in link.meta.links"
+                      :key="childLink.title"
+                    >
+                      <li :class="['item', props.variant]">
+                        <RouterLink
+                          :class="['action', props.variant]"
+                          :to="childLink.location"
+                        >
+                          {{ childLink.title }}
+                          <OnReviewProposalsLabel
+                            v-if="
+                              childLink.name ===
+                              RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_NEW
+                            "
+                            style="margin-bottom: 3px; margin-left: 7.5px"
+                          />
+                          <InstituteProjectsQuota
+                            v-else-if="
+                              childLink.name ===
+                              RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED
+                            "
+                          />
+                        </RouterLink>
+                      </li>
+                    </template>
+                  </ul>
+                </template>
+              </li>
+            </template>
           </template>
         </li>
       </template>
-
       <li :class="['item', props.variant]">
         <button :class="['action', props.variant]" @click="logout">
           Выйти из профиля
@@ -62,17 +352,31 @@
 </template>
 
 <script setup lang="ts">
+  import { title } from 'process';
+  import { ref } from 'vue';
   import { RouterLink } from 'vue-router';
-  import IntituteProjectsQuota from '@/components/project-proposal/IntituteProjectsQuota.vue';
+  import InstituteProjectsQuota from '@/components/project-proposal/InstituteProjectsQuota.vue';
+  import InstituteProjectReportsQuota from '@/components/project-report/InstituteProjectReportsQuota.vue';
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
   import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
   import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
   import { RouteNames } from '@/router/types/route-names';
+  import {
+    FilterByToProjectProposalStateId,
+    FilterByToProjectReportNameId,
+  } from '@/router/utils/routes';
+  import { useAuthStore } from '@/stores/auth/useAuthStore';
+  import { UserSupervisor } from '@/models/User';
   import OnReviewProposalsLabel from './OnReviewProposalsLabel.vue';
+
+  const mentor = ref('');
 
   type Props = { variant: 'desktop' | 'mobile' };
   const props = withDefaults(defineProps<Props>(), { variant: 'desktop' });
   const routes = useRoledUserNavigationRoutes();
+
+  const authStore = useAuthStore();
+  const profileData = authStore.profileData as UserSupervisor;
 
   const { logout } = useLogoutWithModalMutation();
 </script>
@@ -88,11 +392,21 @@
       border: none;
       border-radius: 0;
     }
+
+    &::-webkit-scrollbar {
+      appearance: none;
+      width: 5px;
+      height: 5px;
+    }
   }
 
   .list {
     padding: 0 1.375rem;
     background: var(--light-color);
+
+    & > .item > .accordion > .content > .list {
+      padding-right: 0;
+    }
 
     &.mobile {
       position: sticky;
@@ -100,30 +414,25 @@
       z-index: 10;
       display: flex;
       gap: 1rem;
-      padding-bottom: 0.625rem;
+      padding-bottom: 1rem;
       margin-top: -2px;
       margin-right: calc(var(--side-padding) * -1);
       margin-left: calc(var(--side-padding) * -1);
       overflow-x: auto;
       border: none;
       border-radius: 0;
-      box-shadow: 0 0.25rem 0.3rem rgb(0 0 0 / 7%);
     }
-  }
 
-  .item {
-    list-style: none;
-
-    &.mobile {
-      white-space: nowrap;
+    & > .item.mobile {
+      height: 47px;
     }
-  }
 
-  .item:not(:last-child) {
-    border-bottom: 1px solid var(--gray-color-1);
+    &::-webkit-scrollbar {
+      height: 2px;
+    }
 
-    &.mobile {
-      border-bottom: none;
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--accent-color-2);
     }
   }
 
@@ -144,6 +453,10 @@
     background: transparent;
     border: none;
 
+    & > *:nth-child(1) {
+      flex: none;
+    }
+
     &.mobile {
       padding: 1rem;
       font-size: 0.9rem;
@@ -152,12 +465,41 @@
     }
   }
 
+  .box {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 1rem;
+  }
+
   .action:hover,
   .action.router-link-active {
     color: var(--accent-color-1);
 
     &.mobile {
       border-bottom: 2px solid var(--accent-color-1);
+    }
+  }
+
+  .item {
+    list-style: none;
+  }
+
+  .item:not(:last-child) {
+    border-bottom: 1px solid var(--gray-color-1);
+
+    &.mobile {
+      border-bottom: none;
     }
   }
 

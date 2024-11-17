@@ -95,9 +95,9 @@
 
     @media (max-width: 900px) {
       & {
-        margin-bottom: 0;
         min-width: 4.625rem;
         min-height: 4.625rem;
+        margin-bottom: 0;
       }
     }
   }

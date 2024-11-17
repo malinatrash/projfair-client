@@ -1,9 +1,9 @@
 <template>
   <span
-    v-if="proposalsCount[ProjectProposalStateId.UnderReview]"
+    v-if="proposalsCount[ProjectProposalStateId.UnderReview].count"
     :class="$style.label"
   >
-    {{ proposalsCount[ProjectProposalStateId.UnderReview] }}
+    {{ proposalsCount[ProjectProposalStateId.UnderReview].count }}
   </span>
 </template>
 

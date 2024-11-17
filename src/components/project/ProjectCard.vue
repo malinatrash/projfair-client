@@ -21,6 +21,59 @@
         }}
       </div>
       <div v-if="project?.specialities.length > 0" class="subtitle">
+        <div
+          v-if="
+            project.project_specialities.some((spec) => spec.course === null)
+          "
+        >
+          {{ project.specialities.map((ins) => ins.name).join(', ') }}
+        </div>
+        <div
+          v-for="(course, index) in [...courses].sort((a: any, b: any) => a - b)"
+          v-else
+          :key="index"
+        >
+          <b>
+            <span>{{ course }}</span> курс:
+          </b>
+
+          <span
+            v-for="(spec, indexInner) in specialtistOfFirstPriority(course)"
+            :key="indexInner"
+          >
+            <span>{{ spec.name }}</span>
+
+            <span
+              v-if="
+                indexInner !== specialtistOfFirstPriority(course).length - 1
+              "
+              >,
+            </span>
+          </span>
+          <span
+            v-if="specialtistWithoutFirstPriority(course).length !== 0"
+            style="margin-bottom: 0.25rem"
+          >
+            <span v-if="specialtistOfFirstPriority(course).length"> | </span>
+            <b>приглашённые: </b>
+            <span
+              v-for="(spec, indexInner) in specialtistWithoutFirstPriority(
+                course,
+              )"
+              :key="indexInner"
+            >
+              <span>{{ spec.name }}</span>
+
+              <span
+                v-if="
+                  indexInner !==
+                  specialtistWithoutFirstPriority(course).length - 1
+                "
+                >,
+              </span>
+            </span>
+          </span>
+        </div>
         {{ project.specialities.map((ins) => ins.name).join(', ') }}
       </div>
       <ProjectCardInfo
@@ -60,6 +113,18 @@
         <OpenParticipationModalButton :project="props.project" />
         <OpenFeedbackModalButton :project="props.project" />
         <BaseButton
+          is="router-link"
+          v-if="props.project.state.id === 2 && isCurrentSupervisor"
+          variant="outlined"
+          case="uppercase"
+          :to="toProjectResultRoute(project.id)"
+        >
+          Сформировать результаты
+        </BaseButton>
+        <BaseButton
+          is="router-link"
+          v-if="props.project.state.id === 4"
+          variant="outlined"
           v-if="props.project.state.id === 2 && isCurrentSupervisor"
           variant="outlined"
           is="router-link"
@@ -90,6 +155,8 @@
 </template>
 
 <script setup lang="ts">
+  import Cookies from 'js-cookie';
+  import { isEmpty } from 'lodash';
   import { RouterLink } from 'vue-router';
   import {
     useDesktop,
@@ -112,6 +179,39 @@
   const isDesktop = useDesktop();
   const isMobile = useMobile();
   const isCurrentSupervisor = props.project.supervisors.some((supervisor) => {
+    return supervisor.supervisor.id === useAuthStore().profileData?.id;
+  });
+
+  const stateClass = StateClass[props.project.state.id];
+
+  const courses = new Set();
+  props.project.project_specialities.forEach((spec) => {
+    courses.add(spec.course);
+  });
+
+  const getSpecialtyNameAndPriorityListFromCourse = (course: unknown) => {
+    return [
+      ...new Set(
+        props.project.project_specialities
+          .filter((spec) => spec.course === course)
+          .map((spec) => {
+            return {
+              name: spec.speciality.name,
+              priority: spec.priority,
+            };
+          }),
+      ),
+    ];
+  };
+
+  const specialtistOfFirstPriority = (course: unknown) =>
+    getSpecialtyNameAndPriorityListFromCourse(course).filter(
+      (spec) => spec.priority === 1,
+    );
+  const specialtistWithoutFirstPriority = (course: unknown) =>
+    getSpecialtyNameAndPriorityListFromCourse(course).filter(
+      (spec) => spec.priority !== 1,
+    );
     return supervisor.id === useAuthStore().profileData?.id;
   });
 

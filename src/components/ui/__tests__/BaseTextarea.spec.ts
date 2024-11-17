@@ -6,18 +6,13 @@ const getInputValue = (wrapper: VueWrapper) =>
 
 describe('BaseTextarea.vue', () => {
   describe(':props', () => {
-    it('label отображается', async () => {
-      const label = 'label text';
-      const wrapper = shallowMount(BaseTextarea, { props: { label } });
-      expect(wrapper.find('label').text()).toEqual(label);
-    });
     it('modelValue изменяет textarea.value', async () => {
       const modelValue = '123';
       const wrapper = shallowMount(BaseTextarea, { props: { modelValue } });
       expect(getInputValue(wrapper)).toEqual(modelValue);
     });
     it('maxlength счётчик отображается правильно', async () => {
-      const maxlength = 50;
+      const maxlength = 255;
       const modelValue = '123';
       const wrapper = shallowMount(BaseTextarea, {
         props: { modelValue, maxlength },

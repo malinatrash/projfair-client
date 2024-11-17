@@ -1,6 +1,7 @@
 import { State } from './State';
 
 export const enum ProjectStateID {
+  All = 0,
   RecruitingState = 1,
   ActiveState = 2,
   ExtraState = 3,
@@ -19,6 +20,7 @@ export const PROJECT_IDS = [
 ];
 
 export const StateClass: Record<ProjectStateID, string> = {
+  [ProjectStateID.All]: 'all',
   [ProjectStateID.RecruitingState]: 'recruiting',
   [ProjectStateID.ActiveState]: 'active',
   [ProjectStateID.ExtraState]: 'extra',

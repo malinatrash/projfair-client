@@ -5,7 +5,7 @@
       Вы достигли максимума по символам
     </p>
     <textarea
-      v-bind:maxlength="props.maxLength"
+      :maxlength="props.maxLength"
       v-bind="$attrs"
       :value="props.modelValue"
       :class="[
@@ -20,7 +20,8 @@
     >
     </textarea>
     <span
-      v-bind:class="[
+      v-if="showMaxLength"
+      :class="[
         'maxlength',
         {
           'lenght-limit': !isValid,
@@ -68,6 +69,10 @@
      * Максимальное кол-во символов
      */
     maxLength?: number;
+    /**
+     * Показать макс. кол-во символов
+     */
+    showMaxLength?: boolean;
   }
 
   interface Emits {
@@ -85,14 +90,28 @@
     label: '',
     resize: 'none',
     maxLength: 255,
+    showMaxLength: true,
   });
 
   const isValid = computed(() => props.maxLength > props.modelValue.length);
 
+  // Добавил регулярку
   const onInput = (e: Event) => {
     const target = e.target as HTMLInputElement;
-    emit('update:modelValue', target.value);
+
+    const inputValue = target.value;
+    const sqlRegex =
+      /(\bSELECT\b|\bINSERT\b|\bUPDATE\b|\bDELETE\b|\bDROP\b|\bALTER\b|\bTRUNCATE\b|\bTABLE\b|\bCREATE\b)/gi;
+
+    if (sqlRegex.test(inputValue)) {
+      alert('Ввод SQL-запросов запрещен!');
+      target.value = '';
+    }
+
+    const cleanedValue = target.value.replace(/[\n\r\t]/g, '');
+    emit('update:modelValue', cleanedValue);
   };
+
   const emit = defineEmits<Emits>();
   const attrs = useAttrs();
 </script>
@@ -123,12 +142,12 @@
 
   .label-full-text {
     position: relative;
-    margin-top: -20px;
     padding-bottom: 5px;
+    margin-top: -20px;
     margin-right: 0.25rem;
     font-size: 0.85rem;
-    text-align: end;
     color: var(--red-color-1);
+    text-align: end;
   }
 
   .input {
@@ -166,8 +185,8 @@
   }
 
   .input.lenght-limit {
-    margin-left: -1px;
     margin-top: -4px;
+    margin-left: -1px;
     border: 2px solid var(--red-color-1);
   }
 

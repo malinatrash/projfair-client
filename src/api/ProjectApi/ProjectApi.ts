@@ -26,6 +26,13 @@ export default class ProjectApi implements ProjectApiType {
     return formatProjectDate(project);
   }
 
+  async updateSingleProject(projectId: number): Promise<Project> {
+    const [project] = await Promise.all([
+      baseKyInstance.put(`api/projects/${projectId}`).json<Project>(),
+    ]);
+    return formatProjectDate(project);
+  }
+
   async filterProjectList(
     filters: ProjectFilters,
     onDownloadProgress?: OnDownloadProgress,
@@ -73,6 +80,28 @@ export default class ProjectApi implements ProjectApiType {
     } catch (error) {
       return [];
     }
+  }
+
+  async updateProjectCandidateMark(
+    projectId: number,
+    candidateId: number,
+    mark: number,
+    review: string,
+  ): Promise<Project> {
+    const [project] = await Promise.all([
+      baseKyInstance
+        .patch(
+          `api/supervisor/projects/${projectId}/candidates/${candidateId}`,
+          {
+            json: {
+              mark,
+              review,
+            },
+          },
+        )
+        .json<Project>(),
+    ]);
+    return formatProjectDate(project);
   }
 
   async getProjectHistory(projectId: number): Promise<Project[]> {

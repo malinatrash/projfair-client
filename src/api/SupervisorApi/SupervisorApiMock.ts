@@ -3,15 +3,22 @@ import { useAuthStore } from '@/stores/auth/useAuthStore';
 import { Project } from '@/models/Project';
 import {
   CreatedProjectProposal,
+  CreatedProjectResult,
   NewProjectProposal,
 } from '@/models/ProjectProposal';
+import { ProjectReport } from '@/models/ProjectReport';
 import { Specialty } from '@/models/Specialty';
 import { Tag } from '@/models/Tag';
 import { mockProjectList } from '@/models/mock/project';
-import { themeSources } from '@/models/mock/project-proposal';
+import {
+  mockProjectProposalList,
+  themeSources,
+} from '@/models/mock/project-proposal';
+import { mockProjectReportList } from '@/models/mock/project-report';
 import { specialties } from '@/models/mock/specialties';
 import SupervisorApiType, {
   UpdateProjectProposalData,
+  UpdateProjectResultData,
 } from './SupervisorApiType';
 
 export default class SupervisorApiMock implements SupervisorApiType {
@@ -40,6 +47,27 @@ export default class SupervisorApiMock implements SupervisorApiType {
     return {} as CreatedProjectProposal;
   }
 
+  async updateProjectResult({
+    projectResult,
+    id,
+  }: UpdateProjectResultData): Promise<CreatedProjectResult> {
+    await sleep(500);
+    console.log(projectResult);
+    console.log(id);
+
+    mockProjectList.forEach((project) => {
+      if (project.id == id) {
+        project.project_review = projectResult.project_review;
+        project.project_goal = projectResult.project_goal;
+        return;
+      }
+    });
+
+    console.log(mockProjectList.find((project) => project.id == id));
+
+    return {} as CreatedProjectResult;
+  }
+
   async deleteProjectProposal(
     projectProposalId: number,
   ): Promise<CreatedProjectProposal> {
@@ -57,7 +85,11 @@ export default class SupervisorApiMock implements SupervisorApiType {
   }
 
   async getProjectProposalList(): Promise<CreatedProjectProposal[]> {
-    return [];
+    return delayRes(mockProjectProposalList, 500);
+  }
+
+  async getProjectReportList(): Promise<ProjectReport[]> {
+    return delayRes(mockProjectReportList, 500);
   }
 
   async getProjectList(): Promise<Project[]> {

@@ -56,6 +56,26 @@
             />
           </template>
         </AppListItem>
+        <BaseButton
+          is="router-link"
+          v-if="project.state.id === 2 && isCurrentSupervisor"
+          class="mt-2"
+          variant="outlined"
+          case="uppercase"
+          :to="toProjectResultRoute(project.id)"
+        >
+          Сформировать результаты
+        </BaseButton>
+        <BaseButton
+          is="router-link"
+          v-if="project.state.id === 4"
+          class="mt-2"
+          variant="outlined"
+          case="uppercase"
+          :to="toProjectResultRoute(project.id)"
+        >
+          Результаты проекта
+        </BaseButton>
       </AppList>
 
       <AppList
@@ -112,9 +132,12 @@
   import ProjectTeamCounter from '@/components/project/ProjectTeamCounter.vue';
   import AppList from '@/components/ui/AppList.vue';
   import AppListItem from '@/components/ui/AppListItem.vue';
+  import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import GridLayout from '@/components/ui/GridLayout.vue';
   import TagList from '@/components/ui/TagList.vue';
+  import { toProjectResultRoute } from '@/router/utils/routes';
+  import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { Project } from '@/models/Project';
   import { DifficultyText } from '@/models/ProjectDifficulty';
   import ProjectHistoryButton from './ProjectHistoryButton.vue';
@@ -131,6 +154,9 @@
 
   const props = defineProps<Props>();
   const emit = defineEmits<Emits>();
+  const isCurrentSupervisor = props.project.supervisors.some((supervisor) => {
+    return supervisor.supervisor.id === useAuthStore().profileData?.id;
+  });
 </script>
 
 <style lang="scss" scoped>

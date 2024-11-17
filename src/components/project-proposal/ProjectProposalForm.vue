@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/attribute-hyphenation -->
 <template>
   <SkillsEditModal
     v-if="props.projectSkillList"
@@ -32,6 +33,47 @@
       <!-- <Project type> -->
       <BaseLabel
         is="fieldset"
+        v-if="!isEditable"
+        :class="$style['radio-buttons-label']"
+        label="Тип проекта"
+      >
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{
+            projectProposalForm.isNewProject
+              ? 'Новый проект'
+              : 'Продолжить старый'
+          }}
+        </span>
+        <div
+          v-if="projectProposalForm.prevProjectId"
+          style="display: flex; flex-direction: column; gap: 10px"
+        >
+          <hr style="border: 1px solid #eee" />
+          <BaseButton
+            :is="'router-link'"
+            :to="toProjectRoute(projectProposalForm.prevProjectId)"
+            :variant="'tag'"
+            :style="'font-size: 14px'"
+          >
+            Открыть предыдущий проект ↗
+          </BaseButton>
+        </div>
+      </BaseLabel>
+
+      <BaseLabel
+        is="fieldset"
+        v-else
         :class="$style['radio-buttons-label']"
         label="Выберите тип проекта"
         required
@@ -56,7 +98,11 @@
       <!-- </Project type> -->
 
       <!-- <Prev project> -->
-      <BaseLabel is="div" label="Выберите проект, который хотите продолжить">
+      <BaseLabel
+        is="div"
+        v-if="isEditable"
+        label="Выберите проект, который хотите продолжить"
+      >
         <VMultiselect
           v-model="projectProposalForm.prevProjectId"
           data-test-id="prevProject"
@@ -95,7 +141,24 @@
       divider
     >
       <!-- <Project name> -->
-      <BaseLabel label="Название проекта" required>
+      <BaseLabel v-if="!isEditable" label="Название проекта">
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ projectProposalForm.projectName }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel v-else label="Название проекта" required>
         <BaseTextarea
           v-model="projectProposalForm.projectName"
           data-test-id="projectName"
@@ -109,7 +172,24 @@
       <!-- </Project name> -->
 
       <!-- <Project goal> -->
-      <BaseLabel label="Цель проекта" required>
+      <BaseLabel v-if="!isEditable" label="Цель проекта">
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ projectProposalForm.projectGoal }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel v-else label="Цель проекта" required>
         <BaseTextarea
           v-model="projectProposalForm.projectGoal"
           data-test-id="projectGoal"
@@ -123,7 +203,24 @@
       <!-- </Project goal> -->
 
       <!-- <Project customer> -->
-      <BaseLabel label="Заказчик">
+      <BaseLabel v-if="!isEditable" label="Заказчик">
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ projectProposalForm.projectCustomer }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel v-else label="Заказчик">
         <BaseInput
           v-model="projectProposalForm.projectCustomer"
           data-test-id="projectCustomer"
@@ -134,7 +231,28 @@
       <!-- </Project customer> -->
 
       <!-- <Project theme source> -->
-      <BaseLabel is="div" label="Источник темы">
+      <BaseLabel is="div" v-if="!isEditable" label="Источник темы">
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{
+            themeSourcesMultiselectItems[
+              projectProposalForm.projectThemeSourceId ?? 0
+            ]?.label
+          }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel is="div" v-else label="Источник темы">
         <template #label="{ label }">
           <BaseTooltip
             :position-x="isSmallDevice ? 'left' : 'right'"
@@ -169,6 +287,36 @@
       <!-- <Project duration> -->
       <BaseLabel
         is="fieldset"
+        v-if="!isEditable"
+        :class="$style['radio-buttons-label']"
+        label="Длительность проекта"
+      >
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{
+            projectProposalForm.projectDuration === ProjectDuration.FallSemester
+              ? `1 семестр (осень ${currentYear} года)`
+              : projectProposalForm.projectDuration ===
+                ProjectDuration.SpringSemester
+              ? `1 семестр (весна ${currentYear + 1} года)`
+              : `2 семестра (${currentYear} - ${currentYear + 1} год)`
+          }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel
+        is="fieldset"
+        v-else
         :class="$style['radio-buttons-label']"
         label="Длительность проекта"
         required
@@ -203,6 +351,36 @@
       <!-- <Project difficulty> -->
       <BaseLabel
         is="fieldset"
+        v-if="!isEditable"
+        :class="$style['radio-buttons-label']"
+        label="Сложность проекта"
+      >
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{
+            projectProposalForm.projectDifficulty === ProjectDifficulty.Low
+              ? 'Легкий'
+              : projectProposalForm.projectDifficulty ===
+                ProjectDifficulty.Medium
+              ? 'Средний'
+              : 'Сложный'
+          }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel
+        is="fieldset"
+        v-else
         :class="$style['radio-buttons-label']"
         label="Сложность проекта"
         required
@@ -244,6 +422,29 @@
       <!-- <Jod developer> -->
       <BaseLabel
         is="div"
+        v-if="!isEditable"
+        :class="$style['institute-input']"
+        label="Разработчик проекта"
+      >
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ props.projectJobDeveloper }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel
+        is="div"
+        v-else
         :class="$style['institute-input']"
         label="Разработчик проекта"
       >
@@ -272,6 +473,29 @@
       <!-- <Project institute> -->
       <BaseLabel
         is="div"
+        v-if="!isEditable"
+        :class="$style['institute-input']"
+        label="Подразделение, к которому будет привязан проект"
+      >
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ projectDepartment?.name }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel
+        is="div"
+        v-else
         :class="$style['institute-input']"
         label="Подразделение, к которому будет привязан проект"
       >
@@ -300,8 +524,38 @@
       <!-- </Project institute> -->
 
       <!-- <Project team> -->
+      <BaseLabel
+        is="div"
+        v-if="props.supervisorList && !isEditable"
+        :class="$style['institute-input']"
+        label="ФИО преподавателя [Роль]"
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          width: fit-content;
+        "
+      >
+        <p
+          v-for="team in projectProposalForm.team"
+          :key="team.memberData?.id"
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ team.memberData?.fio }}
+          [{{ MemberRoleText[team.role as MemberRole] }}]
+        </p>
+      </BaseLabel>
+
       <ProjectTeamCollect
-        v-if="props.supervisorList"
+        v-else-if="props.supervisorList"
         v-model:team="projectProposalForm.team"
         :supervisor-list="props.supervisorList"
         :role-list="projectProposalFormValue.sharedRoleList"
@@ -329,7 +583,24 @@
       divider
     >
       <!-- <Project expected result> -->
-      <BaseLabel required label="Ожидаемый результат">
+      <BaseLabel v-if="!isEditable" label="Ожидаемый результат">
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ projectProposalForm.projectExpectedResult }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel v-else required label="Ожидаемый результат">
         <BaseTextarea
           v-model="projectProposalForm.projectExpectedResult"
           data-test-id="projectExpectedResult"
@@ -343,7 +614,24 @@
       <!-- </Project expected result> -->
 
       <!-- <Project requirements for participants> -->
-      <BaseLabel required label="Формируемые навыки">
+      <BaseLabel v-if="!isEditable" label="Формируемые навыки">
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ projectProposalForm.skillsToBeFormed }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel v-else required label="Формируемые навыки">
         <BaseTextarea
           v-model="projectProposalForm.skillsToBeFormed"
           data-test-id="skillsToBeFormed"
@@ -357,7 +645,24 @@
       <!-- </Project requirements for participants> -->
 
       <!-- <Project description> -->
-      <BaseLabel required label="Описание проекта">
+      <BaseLabel v-if="!isEditable" label="Описание проекта">
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ projectProposalForm.projectDescription }}
+        </span>
+      </BaseLabel>
+
+      <BaseLabel v-else required label="Описание проекта">
         <BaseTextarea
           v-model="projectProposalForm.projectDescription"
           data-test-id="projectDescription"
@@ -523,8 +828,11 @@
   import { MultiselectObjectItem } from '@/models/components/VMultiselect';
   import { useSmallDevice } from '@/hooks/useBreakpoints';
   import { useProjectProposalMetaData } from '@/hooks/useProjectProposalMetaData';
+  import { getAcademicYear } from '@/helpers/date';
+  import { toProjectRoute } from '@/router/utils/routes';
   import { Project, Skill } from '@/models/Project';
   import { ProjectDifficulty } from '@/models/ProjectDifficulty';
+  import { MemberRole, MemberRoleText } from '@/models/ProjectProposal';
   import { Specialty } from '@/models/Specialty';
   import { Supervisor } from '@/models/Supervisor';
   import { Tag } from '@/models/Tag';
@@ -566,7 +874,9 @@
   const showSpecialtyEditModal = ref<boolean>(false);
   const showAdditionalSpecialtyEditModal = ref<boolean>(false);
 
-  const currentYear = new Date(Date.now()).getFullYear();
+  const currentMonth = new Date(Date.now()).getMonth();
+  const currentYear = getAcademicYear(currentMonth).academicYear();
+
   const projectProposalForm = reactive<ProjectProposalFormValue>(
     props.projectProposalFormValue,
   );

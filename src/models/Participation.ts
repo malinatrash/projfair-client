@@ -11,6 +11,7 @@ export const enum ParticipationPriority {
 }
 
 export const enum ParticipationState {
+  All = 0,
   Distribution = 1,
   Active = 2,
   Archived = 3,
@@ -25,6 +26,8 @@ export interface Participation {
   state: State<ParticipationState>;
   created_at: string;
   updated_at: string;
+  mark: number;
+  review: string;
 }
 
 export type ParticipationWithProject = Participation & { project?: Project };

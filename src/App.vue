@@ -1,5 +1,6 @@
 <template>
   <AuthModal />
+  <EvaluateStudentModal />
   <ParticipationModal />
   <ParticipationSuccessModal />
   <ProjectFeedbackModal />
@@ -13,6 +14,7 @@
   import { ref } from 'vue';
   import { RouterView } from 'vue-router';
   import ProjectFeedbackModal from './components/feedback/ProjectFeedbackModal.vue';
+  import EvaluateStudentModal from './components/layout/EvaluateStudentModal.vue';
   import ToUpButton from './components/ui/ToUpButton.vue';
   import AlertModal from '@/components/layout/AlertModal.vue';
   import AuthModal from '@/components/layout/AuthModal.vue';

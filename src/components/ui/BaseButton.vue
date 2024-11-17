@@ -9,7 +9,7 @@
     }"
   >
     <!-- @slot Контент внутри кнопки -->
-    <slot></slot>
+    <slot> </slot>
   </component>
 </template>
 
@@ -22,10 +22,11 @@
     | 'inline-link'
     | 'primary'
     | 'tag'
-    | 'tag-outlined';
+    | 'tag-outlined'
+    | 'rating';
   export type Is = 'button' | 'router-link' | 'a';
   export type Case = 'uppercase' | 'lowercase' | 'none';
-  export type Color = 'red' | 'white';
+  export type Color = 'red' | 'white' | 'green';
 
   interface Props {
     /**
@@ -100,6 +101,12 @@
       --background-color: #fff;
       --hover-color: var(--gray-color-1);
       --active-color: var(--gray-color-2);
+    }
+
+    &.green {
+      --background-color: var(--green-color-1);
+      --hover-color: var(--green-color-2);
+      --active-color: #31c96e;
     }
 
     &:disabled {

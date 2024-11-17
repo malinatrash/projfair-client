@@ -67,15 +67,63 @@ export const mockProjectList: Project[] = [
       { id: 4, name: 'ЭВМ', department: null, institute: null },
       { id: 3, name: 'ИСТб', department: null, institute: null },
     ],
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 2,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [
       {
-        id: 100,
+        id: 0,
         candidate: userCandidate,
         created_at: '2022-11-12T08:10:37.891Z',
         updated_at: '2022-11-12T08:10:37.891Z',
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '100',
+        mark: 0,
       },
       {
         id: 1,
@@ -85,6 +133,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '1',
+        mark: 1,
       },
       {
         id: 2,
@@ -94,6 +144,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '2',
+        mark: 2,
       },
       {
         id: 3,
@@ -103,6 +155,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '3',
+        mark: 3,
       },
       {
         id: 4,
@@ -112,6 +166,8 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '4',
+        mark: 4,
       },
       {
         id: 5,
@@ -121,9 +177,16 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '5',
+        mark: 5,
       },
     ],
-    participants: [userCandidate, candidateList[0], candidateList[1]],
+    participants: [
+      userCandidate,
+      candidateList[0],
+      candidateList[1],
+      candidateList[2],
+    ],
     places: 4,
     product_result:
       'Автоматизированная «дорожная карта» подготовки и проведения мероприятий в ИРНИТУ, адаптированная под разные их виды',
@@ -142,6 +205,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -157,6 +222,52 @@ export const mockProjectList: Project[] = [
       { id: 4, name: 'ЭВМ', department: null, institute: null },
       { id: 3, name: 'ИСТб', department: null, institute: null },
     ],
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [
       {
         id: 100,
@@ -166,6 +277,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
       {
         id: 1,
@@ -175,6 +288,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
       {
         id: 2,
@@ -184,6 +299,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
       {
         id: 3,
@@ -193,6 +310,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
       {
         id: 4,
@@ -202,6 +321,8 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
       {
         id: 5,
@@ -211,6 +332,8 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
     ],
     participants: [userCandidate, candidateList[0], candidateList[1]],
@@ -232,6 +355,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -247,6 +372,52 @@ export const mockProjectList: Project[] = [
       { id: 4, name: 'ЭВМ', department: null, institute: null },
       { id: 3, name: 'ИСТб', department: null, institute: null },
     ],
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [
       {
         id: 100,
@@ -256,6 +427,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
       {
         id: 1,
@@ -265,6 +438,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
       {
         id: 2,
@@ -274,6 +449,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
       {
         id: 3,
@@ -283,6 +460,8 @@ export const mockProjectList: Project[] = [
         priority: 1,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
       {
         id: 4,
@@ -292,6 +471,8 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
       {
         id: 5,
@@ -301,6 +482,8 @@ export const mockProjectList: Project[] = [
         priority: 2,
         project_id: 1,
         state: activeParticipationState,
+        review: '',
+        mark: 0,
       },
     ],
     participants: [userCandidate, candidateList[0], candidateList[1]],
@@ -322,6 +505,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -332,6 +517,52 @@ export const mockProjectList: Project[] = [
     difficulty: 3,
     goal: 'На основе данных ИЭСБК создать профиль потребителя энергоресурсов',
     id: 2,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [
@@ -354,6 +585,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -364,6 +597,42 @@ export const mockProjectList: Project[] = [
     difficulty: 3,
     goal: 'Применение знаний и получение навыков в организации работы предприятия',
     id: 3,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [
@@ -387,6 +656,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -397,6 +668,52 @@ export const mockProjectList: Project[] = [
     difficulty: 2,
     goal: 'Исследование влияния предпринимательских качеств на профессиональные достижения, финансовое вознаграждение и нематериальную «выгоду» научных работников',
     id: 4,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      // {
+      //   id: 15,
+      //   course: 3,
+      //   priority: 1,
+      //   speciality: {
+      //     id: 3,
+      //     name: 'ИСТб',
+      //     institute: null,
+      //     department: null,
+      //   },
+      // },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [{ id: 1, name: 'НГДСз', department: null, institute: null }],
@@ -416,6 +733,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -426,6 +745,52 @@ export const mockProjectList: Project[] = [
     difficulty: 3,
     goal: 'Стратегическое управление ключевыми потенциалами развития территориальных социально-экономических систем',
     id: 5,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [{ id: 1, name: 'НГДСз', department: null, institute: null }],
@@ -446,6 +811,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -455,6 +822,52 @@ export const mockProjectList: Project[] = [
     difficulty: 3,
     goal: 'Применение знаний и получение навыков в организации работы предприятия',
     id: 6,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [{ id: 1, name: 'НГДСз', department: null, institute: null }],
@@ -475,6 +888,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -484,6 +899,52 @@ export const mockProjectList: Project[] = [
     difficulty: 2,
     goal: 'Разработка развлекательных, познавательных и научных материалов в социальных сетях ИРНИТУ. ',
     id: 7,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [],
     specialities: [{ id: 1, name: 'НГДСз', department: null, institute: null }],
@@ -504,6 +965,8 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: '',
+    project_review: '',
+    project_goal: undefined,
   },
   {
     date_end: '2021-06-01',
@@ -513,6 +976,52 @@ export const mockProjectList: Project[] = [
     difficulty: 2,
     goal: 'Разработка развлекательных, познавательных и научных материалов в социальных сетях ИРНИТУ. ',
     id: 8,
+    project_specialities: [
+      {
+        id: 13,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 2,
+          name: 'НвГДСз',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 14,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 4,
+          name: 'ЭВМ',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 15,
+        course: 3,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+      {
+        id: 16,
+        course: 5,
+        priority: 1,
+        speciality: {
+          id: 3,
+          name: 'ИСТб',
+          institute: null,
+          department: null,
+        },
+      },
+    ],
     participations: [],
     participants: [userCandidate],
     specialities: [{ id: 1, name: 'НГДСз', department: null, institute: null }],
@@ -533,26 +1042,28 @@ export const mockProjectList: Project[] = [
       type: 'Прикладной',
     },
     participant_feedback: `
-Студент-практикант Ф.И.О. в период с 29.06.2015 г. по 12.07.2015 г.
-проходил учебно-ознакомительную практику в магазине ООО «Центральное»,
-расположенном по адресу: г. Южно-Сахалинск, ул. Ленина 218 в качестве
-помощника руководителя. 
+      Студент-практикант Ф.И.О. в период с 29.06.2015 г. по 12.07.2015 г.
+      проходил учебно-ознакомительную практику в магазине ООО «Центральное»,
+      расположенном по адресу: г. Южно-Сахалинск, ул. Ленина 218 в качестве
+      помощника руководителя.
 
-В течение всего периода практики, Ф.И.О. внимательно и ответственно
-относился к выполняемой работе. Изучал методы управления и основные методы
-мотивации персонала, должностные обязанности персонала, пробовал проводить
-анализ хозяйственной деятельности организации за последние три года,
-ознакомился с порядком ведения различных распорядительных документов,
-учетной документации, изучал организационную структуру предприятия,
-участвовал в различной повседневной работе. 
+      В течение всего периода практики, Ф.И.О. внимательно и ответственно
+      относился к выполняемой работе. Изучал методы управления и основные методы
+      мотивации персонала, должностные обязанности персонала, пробовал проводить
+      анализ хозяйственной деятельности организации за последние три года,
+      ознакомился с порядком ведения различных распорядительных документов,
+      учетной документации, изучал организационную структуру предприятия,
+      участвовал в различной повседневной работе.
 
-Всю порученную работу выполнял добросовестно и в срок. Стремился
-приобретать новые знания, чтобы быть ещё более полезным на месте практики.
-Неоднократно оказывал помощь сотрудникам организации. Руководство
-организации оценивают работу Ф.И.О. на «отлично». 
+      Всю порученную работу выполнял добросовестно и в срок. Стремился
+      приобретать новые знания, чтобы быть ещё более полезным на месте практики.
+      Неоднократно оказывал помощь сотрудникам организации. Руководство
+      организации оценивают работу Ф.И.О. на «отлично».
 
-Замечаний по прохождению практики к Ф.И.О. нет.
-`,
+      Замечаний по прохождению практики к Ф.И.О. нет.
+    `,
+    project_review: '',
+    project_goal: undefined,
   },
 ];
 

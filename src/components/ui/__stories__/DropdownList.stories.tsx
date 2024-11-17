@@ -8,6 +8,25 @@ const meta: Meta<typeof DropdownList> = {
   title: 'ui/Dropdown/DropdownList',
   component: DropdownList,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+          DropdownList - компонент, который предоставляет выпадающий список с различными опциями.
+        Элемент состоит из свойства открытия выпадающего меню, списка элементов выпадающего меню, смещения выпадающего списка относительно родительского элемента.
+
+        Руководство использования:
+
+        PROPS: аргументы, которые используются для изменения поведения или внешнего вида компонента.
+
+          isOpen: Передайте значение TRUE, чтобы сделать выпадающее меню открытым.
+          itemList: Передайте строковые значения, которые являются списоком элементов выпадающего меню.
+          position: Передайте числовое значение, чтобы сместить выпадающий список влево относительно родительского элемента.
+
+          `,
+      },
+    },
+  },
   argTypes: {
     itemList: {
       table: {
@@ -33,12 +52,12 @@ export const Default: Story = {
   args: {
     isOpen: true,
     itemList: [
-      { content: 'Кнопка', type: 'button', action: noop },
-      {
-        content: 'Ссылка на google.com',
-        type: 'link',
-        href: 'https://www.google.com/',
-      },
+      { content: '0', type: 'button', action: noop },
+      { content: '1', type: 'button', action: noop },
+      { content: '2', type: 'button', action: noop },
+      { content: '3', type: 'button', action: noop },
+      { content: '4', type: 'button', action: noop },
+      { content: '5', type: 'button', action: noop },
     ],
     position: { left: '0' },
   },

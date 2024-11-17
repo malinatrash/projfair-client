@@ -1,15 +1,33 @@
 <template>
   <!-- auth modal -->
   <BaseModal
-    :is-show="modalsStore.authModal"
-    @close="modalsStore.authModal = false"
+    :is-show="
+      modalsStore.authModalNewProject ||
+      modalsStore.authModalResultProject ||
+      modalsStore.authModalProfile
+    "
+    @close="
+      () => {
+        modalsStore.authModalNewProject = false;
+        modalsStore.authModalResultProject = false;
+        modalsStore.authModalProfile = false;
+      }
+    "
   >
     <!-- MAIN CONTENT -->
     <div class="success-modal">
       <h1>Вы не авторизованы</h1>
       <p class="message">
-        Чтобы подавать заявки на проекты, Вам необходимо войти в свой профиль
-        через систему «Кампус»
+        Чтобы
+        <span v-show="modalsStore.authModalProfile"
+          >перейти на страницу профиля «Ярмарка проектов»</span
+        >
+        <span v-show="modalsStore.authModalNewProject"
+          >подавать заявки на проекты</span
+        >
+        <span v-show="modalsStore.authModalResultProject"
+          >перейти к результатам проекта</span
+        >, Вам необходимо войти в свой профиль через систему «Кампус»
       </p>
       <div class="modal-buttons">
         <BaseButton case="uppercase" @click="auth">
@@ -22,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+  import { router } from '@/router';
   import { useToast } from 'vue-toastification';
   import { useAuthMutation } from '@/api/AuthApi/hooks/useAuthMutation';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
@@ -33,7 +52,9 @@
   const authMutation = useAuthMutation({ onError });
 
   function auth() {
-    modalsStore.authModal = false;
+    modalsStore.authModalProfile = false;
+    modalsStore.authModalNewProject = false;
+    modalsStore.authModalResultProject = false;
     authMutation.mutate();
   }
 

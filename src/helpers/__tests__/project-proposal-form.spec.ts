@@ -1,4 +1,5 @@
 import { ProjectDuration } from '@/models/components/ProjectProposalForm';
+import { getAcademicYear } from '../date';
 import {
   projectDateFromDuration,
   projectDurationFromDate,
@@ -6,7 +7,9 @@ import {
 
 describe('project-proposal-form.ts', () => {
   it('projectDateFromDuration()', () => {
-    const currentYear = new Date(Date.now()).getFullYear();
+    const currentMonth = new Date(Date.now()).getMonth();
+    const currentYear = getAcademicYear(currentMonth).academicYear();
+
     expect(projectDateFromDuration(ProjectDuration.FallSemester)).toEqual({
       start: `${currentYear}-09-01`,
       end: `${currentYear}-12-30`,
@@ -21,34 +24,27 @@ describe('project-proposal-form.ts', () => {
     });
   });
   it('projectDurationFromDate()', () => {
-    const currentYear = new Date(Date.now()).getFullYear();
+    const currentMonth = new Date(Date.now()).getMonth();
+    const currentYear = getAcademicYear(currentMonth).academicYear();
+
     const format = 'yyyy-MM-dd';
     expect(
-      projectDurationFromDate(
-        {
-          start: `${currentYear}-09-01`,
-          end: `${currentYear}-12-30`,
-        },
-        format,
-      ),
+      projectDurationFromDate({
+        start: `${currentYear}-09-01`,
+        end: `${currentYear}-12-30`,
+      }),
     ).toBe(ProjectDuration.FallSemester);
     expect(
-      projectDurationFromDate(
-        {
-          start: `${currentYear + 1}-02-01`,
-          end: `${currentYear + 1}-05-30`,
-        },
-        format,
-      ),
+      projectDurationFromDate({
+        start: `${currentYear + 1}-02-01`,
+        end: `${currentYear + 1}-05-30`,
+      }),
     ).toBe(ProjectDuration.SpringSemester);
     expect(
-      projectDurationFromDate(
-        {
-          start: `${currentYear}-09-01`,
-          end: `${currentYear + 1}-05-30`,
-        },
-        format,
-      ),
+      projectDurationFromDate({
+        start: `${currentYear}-09-01`,
+        end: `${currentYear + 1}-05-30`,
+      }),
     ).toBe(ProjectDuration.FullYear);
   });
 });

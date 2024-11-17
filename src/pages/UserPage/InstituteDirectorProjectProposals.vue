@@ -36,6 +36,7 @@
   import BasePagination from '@/components/ui/BasePagination.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
   import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
+  import { useStateApprovedFilter } from '../../hooks/useStateApprovedFilter';
   import { usePaginatedList } from '@/hooks/usePaginatedList';
   import { RouteNames } from '@/router/types/route-names';
   import {
@@ -53,6 +54,7 @@
     const filterBy = String(
       route.params.filterBy,
     ) as FilterInstituteProjectProposalsBy;
+
     return FilterByToProjectProposalStateId[filterBy];
   });
 
@@ -74,11 +76,19 @@
     select: (list) => list.sort((a, b) => b.state.id - a.state.id),
   });
 
-  const filteredProjectProposalList = computed(() =>
-    projectProposalList.value?.filter(
-      (proposal) => proposal.state.id === filterBy.value,
-    ),
-  );
+  const filteredProjectProposalList = computed(() => {
+    return projectProposalList.value?.filter((proposal) => {
+      const stateFilter = useStateApprovedFilter(proposal);
+
+      return (
+        stateFilter === route.params.filterBy ||
+        proposal.state.id === filterBy.value ||
+        (stateFilter === 'approved_on_year' &&
+          (route.params.filterBy === 'approved_autumn' ||
+            route.params.filterBy === 'approved_spring'))
+      );
+    });
+  });
 
   const PAGE_SIZE = 5;
   const PAGES_VISIBLE = 7;

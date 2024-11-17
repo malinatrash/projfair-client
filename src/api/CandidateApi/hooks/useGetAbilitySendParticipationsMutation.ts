@@ -46,9 +46,9 @@ export const useGetAbilitySendParticipationsMutation = (
         project,
       );
 
-      if (!isSameInstitute) {
-        throw 'Вы не можете подать заявку на проект другого института';
-      }
+      // if (!isSameInstitute) {
+      //   throw 'Вы не можете подать заявку на проект другого института';
+      // }
 
       return { project, participations };
     },

@@ -1,5 +1,5 @@
 <template>
-  <SimpleAccordion default-opened class="accordion">
+  <SimpleAccordion :default-opened="opened" class="accordion">
     <template #title>
       <!-- @slot Слот для заголовка компонента -->
       <slot name="title"></slot>
@@ -16,6 +16,14 @@
 
 <script setup lang="ts">
   import SimpleAccordion from './SimpleAccordion.vue';
+
+  const props = defineProps({
+    opened: {
+      type: Boolean,
+      default: true,
+      required: false,
+    },
+  });
 </script>
 
 <style lang="scss" scoped>

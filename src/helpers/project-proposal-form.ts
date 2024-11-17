@@ -19,6 +19,7 @@ import {
   SpecialtyGroup,
   SpecialtyPriority,
 } from '@/models/Specialty';
+import { getAcademicYear } from './date';
 import { sortByRolePriority } from './project-member-role';
 import { specialtyFullName } from './specialty';
 
@@ -99,7 +100,8 @@ export function collectProjectProposal(
 }
 
 export function projectDateFromDuration(duration: ProjectDuration): DateRange {
-  const currentYear = new Date(Date.now()).getFullYear();
+  const currentMonth = new Date(Date.now()).getMonth();
+  const currentYear = getAcademicYear(currentMonth).academicYear();
 
   const fallStartDate = DateTime.fromObject({
     year: currentYear,
@@ -146,18 +148,15 @@ export function projectDateFromDuration(duration: ProjectDuration): DateRange {
   };
 }
 
-export function projectDurationFromDate(
-  isoDate: DateRange,
-  format = 'dd.MM.yyyy',
-): ProjectDuration {
-  const dateStart = DateTime.fromFormat(isoDate.start, format);
-  const dateEnd = DateTime.fromFormat(isoDate.end, format);
+export function projectDurationFromDate(isoDate: DateRange): ProjectDuration {
+  const dateStart = new Date(isoDate.start);
+  const dateEnd = new Date(isoDate.end);
 
-  const startMonth = dateStart.month;
-  const endMonth = dateEnd.month;
+  const startMonth = dateStart.getMonth();
+  const endMonth = dateEnd.getMonth();
 
-  if (startMonth === 9 && endMonth === 12) return ProjectDuration.FallSemester;
-  if (startMonth === 2 && endMonth === 5) return ProjectDuration.SpringSemester;
+  if (startMonth === 8 && endMonth === 11) return ProjectDuration.FallSemester;
+  if (startMonth === 1 && endMonth === 4) return ProjectDuration.SpringSemester;
 
   return ProjectDuration.FullYear;
 }

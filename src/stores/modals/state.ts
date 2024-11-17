@@ -1,7 +1,9 @@
 // TODO: надо Alert и Confirm вынести в отдельный store
 
 export interface State {
-  authModal: boolean;
+  authModalProfile: boolean;
+  authModalNewProject: boolean;
+  authModalResultProject: boolean;
   participationSuccessModal: boolean;
   participationModal: boolean;
   projectFeedbackModal: boolean;
@@ -15,10 +17,19 @@ export interface State {
   confirmModalDisagree?: string;
   confirmModalAgreeAction?: () => void;
   confirmModalDisagreeAction?: () => void;
+  // EvaluateStudentModal
+  evaluateStudentModal?: boolean;
+  evaluateStudentModalId?: number;
+  evaluateStudentModalName?: string;
+  projectID?: number;
+  rating: number | undefined;
+  review: string | undefined;
 }
 
 export const state = (): State => ({
-  authModal: false,
+  authModalProfile: false,
+  authModalNewProject: false,
+  authModalResultProject: false,
   participationModal: false,
   participationSuccessModal: false,
   projectFeedbackModal: false,
@@ -32,4 +43,11 @@ export const state = (): State => ({
   confirmModalDisagree: '',
   confirmModalAgreeAction: undefined,
   confirmModalDisagreeAction: undefined,
+  // EvaluateStudentModal
+  evaluateStudentModal: undefined,
+  evaluateStudentModalId: undefined,
+  evaluateStudentModalName: undefined,
+  projectID: undefined,
+  rating: undefined,
+  review: undefined,
 });

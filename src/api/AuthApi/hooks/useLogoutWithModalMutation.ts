@@ -1,3 +1,4 @@
+import { router } from '@/router';
 import { useToast } from 'vue-toastification';
 import { useModalsStore } from '@/stores/modals/useModalsStore';
 import { useLogoutMutation } from './useLogoutMutation';
@@ -14,6 +15,7 @@ export const useLogoutWithModalMutation = () => {
   function onLogout() {
     logoutMutation.mutate();
     modalsStore.closeConfirmModal();
+    router.push('/');
   }
 
   function onCancelLogout() {
