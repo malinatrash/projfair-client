@@ -69,7 +69,9 @@
 
         <template #content class="institute-content">
           <SimpleAccordion
-            v-for="department in institute.departments"
+            v-for="department in institute.departments
+              .slice()
+              .sort((a, b) => a.department_id - b.department_id)"
             :key="department.department_id"
           >
             <template #title>
@@ -131,7 +133,9 @@
             <template #content>
               <div class="inner-accordion-content">
                 <div
-                  v-for="project in department.projects"
+                  v-for="project in department.projects
+                    .slice()
+                    .sort((a, b) => a.project_id - b.project_id)"
                   :key="project.project_id"
                 >
                   <div class="icon-project">
@@ -277,30 +281,24 @@
         return {
           institute_id: institute.institute_id,
           institute_name: institute.institute_name,
-          departments: institute.departments
-            .map((department) => {
-              inputDepartments.value[department.department_id] = Math.min(
-                ...department.projects.map((project) => project.places),
-              );
-              return {
-                department_id: department.department_id,
-                department_name: department.department_name,
-                projects: department.projects
-                  .map((project) => {
-                    inputProjects.value[project.project_id] = project.places;
-                    return {
-                      ...project,
-                    };
-                  })
-                  .slice()
-                  .sort((a, b) => a.project_id - b.project_id),
-                minPlacesProject: department.projects
-                  .slice()
-                  .sort((a, b) => a.places - b.places)[0],
-              };
-            })
-            .slice()
-            .sort((a, b) => a.department_id - b.department_id),
+          departments: institute.departments.map((department) => {
+            inputDepartments.value[department.department_id] = Math.min(
+              ...department.projects.map((project) => project.places),
+            );
+            return {
+              department_id: department.department_id,
+              department_name: department.department_name,
+              projects: department.projects.map((project) => {
+                inputProjects.value[project.project_id] = project.places;
+                return {
+                  ...project,
+                };
+              }),
+              minPlacesProject: department.projects
+                .slice()
+                .sort((a, b) => a.places - b.places)[0],
+            };
+          }),
           minPlacesProject: institute.departments
             .map(
               (department) =>

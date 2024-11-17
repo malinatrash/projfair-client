@@ -17,16 +17,15 @@
             <p class="title">
               {{ institute.institute_id }}. {{ institute.institute_name }}
               <span class="title-description">
-                Кол-во молчунов на проектах:
+                Кол-во студентов на проектах:
                 <span style="color: var(--accent-color-1)">{{
-                  institute.departments.flatMap((department) =>
-                    department.projects.flatMap((project) =>
-                      project.candidates.filter(
-                        (candidate) =>
-                          candidate.priority === 4 || candidate.priority === 5,
+                  institute.departments
+                    .flatMap((department) =>
+                      department.projects.flatMap(
+                        (project) => project.candidates.length,
                       ),
-                    ),
-                  ).length
+                    )
+                    .reduce((pv, cur) => pv + cur, 0)
                 }}</span>
                 | Мин. кол-во мест на проект:
                 <span style="color: var(--accent-color-1)">{{
@@ -56,15 +55,11 @@
                     department.department_name
                   }}»
                   <span class="title-description">
-                    Кол-во молчунов на проектах:
+                    Кол-во студентов на проектах:
                     <span style="color: var(--accent-color-1)">{{
-                      department.projects.flatMap((project) =>
-                        project.candidates.filter(
-                          (candidate) =>
-                            candidate.priority === 4 ||
-                            candidate.priority === 5,
-                        ),
-                      ).length
+                      department.projects
+                        .flatMap((project) => project.candidates.length)
+                        .reduce((pv, cur) => pv + cur, 0)
                     }}</span>
                     | Мин. кол-во мест на проект:
                     <span style="color: var(--accent-color-1)">{{
@@ -89,18 +84,7 @@
                     <p class="title" style="font-size: 20px">
                       {{ project.project_id }}. {{ project.title }}
                       <span class="title-description">
-                        Кол-во молчунов
-                        <span
-                          style="font-weight: 700; color: var(--red-color-1)"
-                        >
-                          {{
-                            project.candidates.filter(
-                              (silent) =>
-                                silent.priority === 4 || silent.priority === 5,
-                            ).length
-                          }}</span
-                        >
-                        | Кол-во студентов в проекте:
+                        Кол-во студентов в проекте:
                         <span style="color: var(--accent-color-1)">{{
                           project.candidates.length
                         }}</span>
@@ -117,10 +101,6 @@
                   <div class="inner-accordion-content">
                     <div
                       v-for="participation in project.candidates
-                        .filter(
-                          (silent) =>
-                            silent.priority === 4 || silent.priority === 5,
-                        )
                         .slice()
                         .sort((a, b) => a.candidate_id - b.candidate_id)"
                       :key="participation.candidate_id"

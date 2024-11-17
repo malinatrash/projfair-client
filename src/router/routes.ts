@@ -2,6 +2,8 @@
 import { RouteRecordRaw } from 'vue-router';
 // Arm page
 import ArmDebug from '@/pages/ArmPage/ArmDebug.vue';
+import ArmDistributionApprove from '@/pages/ArmPage/ArmDistributionApprove.vue';
+import ArmManualDistribution from '@/pages/ArmPage/ArmManualDistribution.vue';
 import ArmProjects from '@/pages/ArmPage/ArmProjects.vue';
 import ArmStudents from '@/pages/ArmPage/ArmStudents.vue';
 import ArmPage from '@/pages/ArmPage/index.vue';
@@ -422,11 +424,19 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: 'distribution',
-        component: HomePage,
-        name: RouteNames.ARM_DISTRIBUTION,
+        path: 'manual_distribution',
+        component: ArmManualDistribution,
+        name: RouteNames.ARM_MANUAL_DISTRIBUTION,
         meta: {
-          title: 'Распределение',
+          title: 'Ручное распределение',
+        },
+      },
+      {
+        path: 'distribution_approve',
+        component: ArmDistributionApprove,
+        name: RouteNames.ARM_DISTRIBUTION_APPROVE,
+        meta: {
+          title: 'Итоговое распределение',
         },
       },
       {

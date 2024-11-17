@@ -88,7 +88,11 @@
 
         <template #content class="institute-content">
           <SimpleAccordion
-            v-for="department in institute.departments"
+            v-for="department in institute.departments
+              .slice()
+              .sort(
+                (a, b) => Number(a.department_id) - Number(b.department_id),
+              )"
             :key="department.department_id"
           >
             <template #title>
@@ -113,7 +117,9 @@
 
             <template #content>
               <SimpleAccordion
-                v-for="course in department.courses"
+                v-for="course in department.courses
+                  .slice()
+                  .sort((a, b) => a.course - b.course)"
                 :key="course.course"
               >
                 <template #title>
@@ -134,7 +140,12 @@
 
                 <template #content>
                   <SimpleAccordion
-                    v-for="speciality in course.specialities"
+                    v-for="speciality in course.specialities
+                      .slice()
+                      .sort(
+                        (a, b) =>
+                          Number(a.speciality_id) - Number(b.speciality_id),
+                      )"
                     :key="speciality.speciality_id"
                   >
                     <template #title>
@@ -154,7 +165,9 @@
                     <template #content>
                       <div class="inner-accordion-content">
                         <div
-                          v-for="candidate in speciality.candidates"
+                          v-for="candidate in speciality.candidates
+                            .slice()
+                            .sort((a, b) => a.candidate_id - b.candidate_id)"
                           :key="candidate.candidate_id"
                         >
                           <div class="icon-project">
@@ -213,27 +226,6 @@
 
   const participations = computed<ArmStudentsInstitute[]>(() =>
     ((query.data.value as ArmStudentsInstitute[]) ?? [])
-      .map((institute: ArmInstitute) => ({
-        ...institute,
-        departments: institute.departments
-          .map((department) => ({
-            ...department,
-            courses: department.courses
-              .map((course) => ({
-                ...course,
-                specialities: course.specialities.map((speciality) => ({
-                  ...speciality,
-                  candidates: speciality.candidates
-                    .slice()
-                    .sort((a, b) => a.candidate_id - b.candidate_id),
-                })),
-              }))
-              .slice()
-              .sort((a, b) => a.course - b.course),
-          }))
-          .slice()
-          .sort((a, b) => Number(a.department_id) - Number(b.department_id)),
-      }))
       .filter((institute: ArmInstitute) => {
         if (!institute.institute_id) {
           institute.departments.forEach((department) =>
