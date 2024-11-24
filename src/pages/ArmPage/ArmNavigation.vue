@@ -1,6 +1,4 @@
 <template>
-  <!-- Вёрстка тут трешб конечно -->
-  <!-- TODO: можно раскидать как-то по компонентам мб -->
   <div :class="['wrapper', props.variant]">
     <ul :class="['list', props.variant]">
       <template v-for="link in route?.children" :key="link.name">
@@ -29,20 +27,12 @@
 
 <script setup lang="ts">
   import { router } from '@/router';
-  import { ref } from 'vue';
   import { RouterLink } from 'vue-router';
   import { useArmNavigationRoutes } from '../../hooks/useRoutes';
-  import { useAuthStore } from '@/stores/auth/useAuthStore';
-  import { UserSupervisor } from '@/models/User';
-
-  const mentor = ref('');
 
   type Props = { variant: 'desktop' | 'mobile' };
   const props = withDefaults(defineProps<Props>(), { variant: 'desktop' });
   const route = useArmNavigationRoutes();
-
-  const authStore = useAuthStore();
-  const profileData = authStore.profileData as UserSupervisor;
 </script>
 
 <style lang="scss" scoped>

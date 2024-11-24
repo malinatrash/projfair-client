@@ -7,9 +7,17 @@
     <SidebarContainer class="sidebar-container">
       <template #sidebar>
         <ArmNavigation variant="desktop" />
+        <BaseButton
+          variant="outlined"
+          :full-width="true"
+          style="margin-top: 15px"
+          :disabled="true"
+        >
+          Сбросить распределение</BaseButton
+        >
       </template>
       <template #main>
-        <RouterView> </RouterView>
+        <RouterView />
       </template>
     </SidebarContainer>
   </PageLayout>
@@ -19,13 +27,12 @@
   import { RouterView } from 'vue-router';
   import PageLayout from '@/components/layout/PageLayout.vue';
   import SidebarContainer from '@/components/layout/SidebarContainer.vue';
+  import BaseButton from '@/components/ui/BaseButton.vue';
   import { useSmallDevice } from '@/hooks/useBreakpoints';
-  import { useUserTimer } from '@/hooks/useUserTimer';
   import { useWatchAuthorization } from '@/hooks/useWatchAuthorization';
   import ArmNavigation from './ArmNavigation.vue';
 
   const isSmallDevice = useSmallDevice();
-  const time = useUserTimer();
 
   useWatchAuthorization();
 </script>

@@ -126,6 +126,8 @@
                         <span class="title-description">
                           id: {{ participation.candidate_id }}
                           <br />
+                          Группа: {{ participation.training_group }}
+                          <br />
                           Приоритет: {{ participation.priority }}
                         </span>
                         {{ participation.fio }}

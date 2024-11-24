@@ -35,6 +35,7 @@ export interface ArmSpecialty {
 
 export interface ArmCandidate {
   candidate_id: number;
+  training_group: string;
   fio?: string;
   priority: number;
   state_id?: number;

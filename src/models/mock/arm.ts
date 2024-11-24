@@ -1,6 +1,6 @@
+import { ArmManualDistribution } from '../ArmManualDistribution';
 import { ArmProjects } from '../ArmProjects';
 import { ArmInstitute } from '../ArmStudents';
-import { ArmManualDistribution } from '../armManualDistribution';
 import mockGroupedParticipations from './mockGroupedParticipations.json';
 import mockGroupedProjectsWithInstitutes from './mockGroupedProjectsWithInstitutes.json';
 import mockWithoutParticipationsWithProjects from './mockWithoutParticipationsWithProjects.json';
