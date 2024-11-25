@@ -78,7 +78,6 @@
   const resultStore = useResultStore();
   const projectData = useGetSingleProjectQuery(projectId);
   const participations = computed(() => {
-    console.log(participations.value);
     const s = projectData.data.value?.project.participations?.map((e) => {
       return {
         rating: e.mark,
@@ -89,8 +88,6 @@
     return s;
   });
   resultStore.setResults(participations.value as StudentsResult[]);
-
-  console.log(props.ids);
 </script>
 
 <style lang="scss" scoped>
