@@ -10,10 +10,9 @@ const toast = useToast();
 // 1 час = 3600000 мс
 export const DEFAULT_QUERY_STALE_TIME = 2 * 3600000;
 
-const apiUrl =
-  import.meta.env.MODE !== 'dev'
-    ? import.meta.env.VITE_API_URL_LOCAL
-    : import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.DEV
+  ? import.meta.env.VITE_API_URL_LOCAL
+  : import.meta.env.VITE_API_URL;
 
 export const baseKyInstance = ky.create({
   prefixUrl: apiUrl,
