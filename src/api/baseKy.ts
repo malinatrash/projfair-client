@@ -11,7 +11,9 @@ const toast = useToast();
 export const DEFAULT_QUERY_STALE_TIME = 2 * 3600000;
 
 const apiUrl = import.meta.env.DEV
-  ? import.meta.env.VITE_API_URL_LOCAL
+  ? import.meta.env.MODE == 'prod'
+    ? import.meta.env.VITE_API_URL
+    : import.meta.env.VITE_API_URL_LOCAL
   : import.meta.env.VITE_API_URL;
 
 export const baseKyInstance = ky.create({
