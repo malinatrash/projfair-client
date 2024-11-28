@@ -27,7 +27,7 @@ export const useUpdateArmManualDistributionMutation = (
     {
       onSuccess: () => {
         client.invalidateQueries({
-          queryKey: [USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY],
+          queryKey: USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY,
         });
       },
       ...options,

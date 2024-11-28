@@ -3,6 +3,18 @@ BaseLabel
   <div style="position: relative">
     <div class="buttons">
       <BaseButton
+        variant="outlined"
+        class="previous-btn"
+        :disabled="
+          mutation.isLoading.value ||
+          query.isLoading.value ||
+          previousDistributionQuery.isLoading.value
+        "
+        @click="goBackToPreviousArmManualDistribution"
+      >
+        <Previous />
+      </BaseButton>
+      <BaseButton
         :disabled="mutation.isLoading.value || query.isLoading.value"
         @click="apply"
         >Применить</BaseButton
@@ -88,18 +100,20 @@ BaseLabel
 <script setup lang="ts">
   import VMultiselect from '@vueform/multiselect';
   import { computed, ref } from 'vue';
-  import { useQueryClient } from 'vue-query';
+  import { useQuery, useQueryClient } from 'vue-query';
   import { useToast } from 'vue-toastification';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
   import BaseLabel from '@/components/ui/label/BaseLabel.vue';
+  import { armApi } from '@/api/ArmApi';
   import {
     USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY,
     useGetArmManualDistributionListQuery,
   } from '@/api/ArmApi/hooks/useGetArmManualDistributionListQuery';
   import { useUpdateArmManualDistributionMutation } from '@/api/ArmApi/hooks/useUpdateArmManualDistributionQuery';
   import { ArmManualDistribution } from '@/models/ArmManualDistribution';
+  import Previous from '@/assets/icons/previous.svg';
   import arrowIcon from '@/assets/icons/user-role-select-arrow.svg?raw';
 
   const client = useQueryClient();
@@ -109,11 +123,25 @@ BaseLabel
   const mutation = useUpdateArmManualDistributionMutation({
     onSuccess: () => {
       inputProject.value = {};
-      client.invalidateQueries([
-        USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY,
-      ]);
+      client.invalidateQueries(USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY);
     },
   });
+
+  const previousDistributionQuery = useQuery({
+    enabled: false,
+    queryKey: 'PREVIOUS_DISTRIBUTION_QUERY_KEY',
+    queryFn: () => armApi.goBackToPreviousArmManualDistribution(),
+    onSuccess: () => {
+      toast.info('Бибки');
+      client.invalidateQueries(
+        'USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY',
+      );
+    },
+  });
+
+  const goBackToPreviousArmManualDistribution = () => {
+    previousDistributionQuery.refetch.value();
+  };
 
   const inputProject = ref<{
     [x: number]: number | null;
@@ -173,6 +201,18 @@ BaseLabel
     right: 0;
     display: flex;
     gap: 15px;
+
+    & > .previous-btn {
+      padding: 0 12.5px;
+
+      &:disabled:deep(path) {
+        stroke: var(--gray-color-2);
+      }
+
+      &:hover:deep(path) {
+        stroke: #fff;
+      }
+    }
 
     @media (width <= 900px) {
       position: relative;

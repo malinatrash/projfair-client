@@ -1,7 +1,11 @@
 <template>
   <div style="position: relative">
     <div class="buttons">
-      <BaseButton :disabled="isMutating || query.isLoading.value" @click="apply"
+      <BaseButton
+        :disabled="
+          isMutating || query.isLoading.value || query.isFetching.value
+        "
+        @click="apply"
         >Применить</BaseButton
       >
     </div>
@@ -251,6 +255,8 @@
         inputInstitutes.value = {};
         inputDepartments.value = {};
         inputProjects.value = {};
+
+        queryClient.invalidateQueries('GET_DISTRIBUTION_EXIST');
       }
     },
   });

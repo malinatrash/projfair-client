@@ -1,3 +1,4 @@
+import { delayRes } from '@/helpers/promise';
 import { ArmManualDistribution } from '@/models/ArmManualDistribution';
 import { ArmInstitute, ArmProjects } from '@/models/ArmProjects';
 import { ArmInstitute as ArmStudentsInstitute } from '@/models/ArmStudents';
@@ -33,5 +34,17 @@ export default class ArmApi implements ProjectApiType {
         json: data,
       })
       .json();
+  }
+
+  async goBackToPreviousArmManualDistribution() {
+    await baseKyInstance.get('api/arm/manualDistribution/back');
+  }
+
+  async eraseArmManualDistribution() {
+    await baseKyInstance.post('api/arm/eraseDistribution');
+  }
+
+  async isArmManualDistributionExist(): Promise<boolean> {
+    return baseKyInstance.get('api/arm/eraseDistribution').json();
   }
 }

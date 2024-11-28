@@ -27,7 +27,7 @@ export const useUpdateArmProjectsListMutation = (
     {
       onSuccess: () => {
         client.invalidateQueries({
-          queryKey: [USE_GET_ARM_PROJECTS_LIST_QUERY_KEY],
+          queryKey: USE_GET_ARM_PROJECTS_LIST_QUERY_KEY,
         });
       },
       ...options,

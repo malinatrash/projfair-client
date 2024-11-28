@@ -11,4 +11,7 @@ export default interface ArmApiType {
   updateArmManualDistribution(
     data: ArmManualDistribution[],
   ): Promise<ArmManualDistribution[]>;
+  goBackToPreviousArmManualDistribution(): Promise<void>;
+  eraseArmManualDistribution(): Promise<void>;
+  isArmManualDistributionExist(): Promise<boolean>;
 }

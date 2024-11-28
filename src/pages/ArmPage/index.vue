@@ -11,7 +11,8 @@
           variant="outlined"
           :full-width="true"
           style="margin-top: 15px"
-          :disabled="true"
+          :disabled="!isDistributionExist"
+          @click="eraseDistribution"
         >
           Сбросить распределение</BaseButton
         >
@@ -24,17 +25,55 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue';
+  import { useQuery, useQueryClient } from 'vue-query';
   import { RouterView } from 'vue-router';
+  import { useToast } from 'vue-toastification';
   import PageLayout from '@/components/layout/PageLayout.vue';
   import SidebarContainer from '@/components/layout/SidebarContainer.vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
+  import { armApi } from '@/api/ArmApi';
   import { useSmallDevice } from '@/hooks/useBreakpoints';
   import { useWatchAuthorization } from '@/hooks/useWatchAuthorization';
   import ArmNavigation from './ArmNavigation.vue';
 
   const isSmallDevice = useSmallDevice();
 
+  const toast = useToast();
+
   useWatchAuthorization();
+
+  const client = useQueryClient();
+
+  const distributionExistQuery = useQuery({
+    queryKey: 'GET_DISTRIBUTION_EXIST',
+    queryFn: () => armApi.isArmManualDistributionExist(),
+  });
+
+  const restoreDistributionQuery = useQuery({
+    enabled: false,
+    queryKey: 'RESTORE_MANUAL_DISTRIBUTION',
+    queryFn: () => armApi.eraseArmManualDistribution(),
+    onSuccess: () => {
+      toast.success('Распределение сброшено');
+      client.invalidateQueries(
+        'USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY',
+      );
+      client.invalidateQueries('USE_GET_ARM_PROJECTS_LIST_QUERY_KEY');
+      client.invalidateQueries('USE_GET_ARM_STUDENTS_LIST_QUERY_KEY');
+      client.invalidateQueries('GET_DISTRIBUTION_EXIST');
+    },
+  });
+
+  const isDistributionExist = computed(() =>
+    Boolean(
+      distributionExistQuery.data.value || !restoreDistributionQuery.isFetched,
+    ),
+  );
+
+  const eraseDistribution = () => {
+    restoreDistributionQuery.refetch.value();
+  };
 </script>
 
 <style lang="scss" scoped>

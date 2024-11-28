@@ -29,8 +29,18 @@ export default class ArmApiMock implements ArmApiType {
   async updateArmManualDistribution(
     data: ArmManualDistribution[],
   ): Promise<ArmManualDistribution[]> {
-    console.log(data);
-
     return delayRes(armManualDistribution, 300);
+  }
+
+  async goBackToPreviousArmManualDistribution() {
+    await delayRes(Promise.resolve(), 300);
+  }
+
+  async eraseArmManualDistribution() {
+    await delayRes(Promise.resolve(), 300);
+  }
+
+  async isArmManualDistributionExist(): Promise<boolean> {
+    return delayRes(true, 300);
   }
 }
