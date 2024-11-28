@@ -215,6 +215,7 @@
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
+  import { useUpdateArmManualDistributionMutation } from '../../api/ArmApi/hooks/useUpdateArmManualDistributionQuery';
   import { USE_GET_ARM_PROJECTS_LIST_QUERY_KEY } from '@/api/ArmApi/hooks/useGetArmProjectsListQuery';
   import { USE_UPDATE_ARM_PROJECTS_LIST_MUTATION_KEY } from '@/api/ArmApi/hooks/useUpdateArmProjectsListQuery';
   import { armApi } from '@/api/ArmApi/index';
@@ -242,6 +243,8 @@
 
   const isMutating = ref(false);
 
+  const mutation = useUpdateArmManualDistributionMutation();
+
   const query = useQuery({
     queryKey: USE_GET_ARM_PROJECTS_LIST_QUERY_KEY,
     queryFn: () => armApi.getArmProjectsList(),
@@ -257,6 +260,7 @@
         inputProjects.value = {};
 
         queryClient.invalidateQueries('GET_DISTRIBUTION_EXIST');
+        mutation.mutate([]);
       }
     },
   });
