@@ -26,23 +26,23 @@
 1.  **Клонирование репозитория**
     - Склонируйте репозиторий проекта на ваш компьютер:
     ```bash
-       git clone https://github.com/malinatrash/projfair-client
+    git clone https://github.com/malinatrash/projfair-client
     ```
     - Перейдите в папку проекта
     ```bash
-       cd projfair-client
+    cd projfair-client
     ```
 2.  **Установка зависимостей**
     - Установите необходимые зависимости:
     ```bash
-       npm install
+    npm install
     ```
 3.  **Настройка переменных окружения** - Все URL-адреса для работы приложения по умолчанию определены в файле `.env`. Если этот файл отсутствует, создайте его в корне проекта и добавьте следующие строки:
 
-```bash
+```env
 VITE_BASE_URL=/
 VITE_API_URL=http://62.109.5.123/
-VITE_API_URL_LOCAL=http://localhost:80/
+VITE_API_URL_LOCAL=http://localhost:8000/
 VITE_MOCK_API=false
 VITE_MOCK_AUTH=true
 ```
@@ -60,7 +60,7 @@ VITE_MOCK_AUTH=true
     - Выполните команду:
 
     ```bash
-       npm run dev
+    npm run dev
     ```
 
     _При этом запросы будут отправляться на локальный сервер. Для работы необходимо развернуть бэкенд локально или через Docker. Инструкции по настройке локального сервера находятся в репозитории бэкенда: [Репозиторий бэкенда](https://github.com/malinatrash/projfair-server)_
@@ -73,7 +73,7 @@ VITE_MOCK_AUTH=true
     - Если бэкенд недоступен, проект можно запустить с использованием мок-данных. Для этого выполните:
 
     ```bash
-       npm run dev:mock
+    npm run dev:mock
     ```
 
     Проект также будет доступен по адресу:
@@ -84,7 +84,7 @@ VITE_MOCK_AUTH=true
     - Для подключения к бэкенду, развернутому на продакшен сервере, выполните:
 
     ```bash
-       npm run dev:prod
+    npm run dev:prod
     ```
 
     _В режиме prod запросы будут отправляться на продакшен сервер. Убедитесь, что сервер настроен и доступен._
