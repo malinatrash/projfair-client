@@ -132,7 +132,7 @@ BaseLabel
     queryKey: 'PREVIOUS_DISTRIBUTION_QUERY_KEY',
     queryFn: () => armApi.goBackToPreviousArmManualDistribution(),
     onSuccess: () => {
-      toast.info('Бибки');
+      toast.info('Было восстановлено предыдущее распределение');
       client.invalidateQueries(
         'USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY',
       );
