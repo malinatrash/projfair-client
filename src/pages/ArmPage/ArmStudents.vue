@@ -69,9 +69,13 @@
         <template #title>
           <div class="accordion-title">
             <p class="title">
-              {{ institute?.institute_id }}. {{ institute?.institute_name }}
+              {{ institute?.institute_name }}
               <span class="title-description">
-                Кол-во студентов без проекта:
+                id:
+                <span style="color: var(--accent-color-1)">{{
+                  institute.institute_id
+                }}</span>
+                | Кол-во студентов без проекта:
                 <span style="color: var(--accent-color-1)">{{
                   institute.departments.flatMap((department) =>
                     department.courses.flatMap((course) =>
@@ -98,11 +102,13 @@
             <template #title>
               <div class="accordion-title">
                 <p class="title" style="font-size: 22px">
-                  {{ department.department_id }}. Кафедра «{{
-                    department.department_name
-                  }}»
+                  Кафедра «{{ department.department_name }}»
                   <span class="title-description">
-                    Кол-во студентов без проекта:
+                    id:
+                    <span style="color: var(--accent-color-1)">{{
+                      department.department_id
+                    }}</span>
+                    | Кол-во студентов без проекта:
                     <span style="color: var(--accent-color-1)">{{
                       department.courses.flatMap((course) =>
                         course.specialities.flatMap(
@@ -191,10 +197,13 @@
                           </div>
 
                           <p class="title" style="font-size: 20px">
-                            <span class="title-description">
-                              id: {{ candidate.candidate_id }}
-                            </span>
                             {{ candidate.fio }}
+                            <span class="title-description">
+                              id:
+                              <span style="color: var(--accent-color-1)">{{
+                                candidate.candidate_id
+                              }}</span>
+                            </span>
                           </p>
                         </div>
                       </div>

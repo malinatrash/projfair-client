@@ -25,9 +25,13 @@
         <template #title>
           <div class="accordion-title">
             <p class="title">
-              {{ institute.institute_id }}. {{ institute.institute_name }}
+              {{ institute.institute_name }}
               <span class="title-description">
-                Кол-во молчунов:
+                id:
+                <span style="color: var(--accent-color-1)">{{
+                  institute.institute_id
+                }}</span>
+                | Кол-во молчунов:
                 <span style="color: var(--accent-color-1)">{{
                   allSilentParticipations?.filter(
                     (participation) =>
@@ -81,11 +85,13 @@
             <template #title>
               <div class="accordion-title">
                 <p class="title" style="font-size: 22px">
-                  {{ department.department_id }}. Кафедра «{{
-                    department.department_name
-                  }}»
+                  Кафедра «{{ department.department_name }}»
                   <span class="title-description">
-                    Кол-во молчунов:
+                    id:
+                    <span style="color: var(--accent-color-1)">{{
+                      department.department_id
+                    }}</span>
+                    | Кол-во молчунов:
                     <span style="color: var(--accent-color-1)">{{
                       allSilentParticipations?.filter(
                         (participation) =>
@@ -161,9 +167,13 @@
                   </div>
 
                   <p class="title" style="font-size: 20px">
-                    {{ project.project_id }}. {{ project.title }}
+                    {{ project.title }}
                     <span class="title-description">
-                      Кол-во студентов в проекте:
+                      id:
+                      <span style="color: var(--accent-color-1)">{{
+                        project.project_id
+                      }}</span>
+                      | Кол-во студентов в проекте:
                       <span style="color: var(--accent-color-1)">{{
                         project.candidates.length
                       }}</span>

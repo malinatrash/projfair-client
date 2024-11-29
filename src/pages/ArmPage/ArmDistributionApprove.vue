@@ -15,9 +15,13 @@
         <template #title>
           <div class="accordion-title">
             <p class="title">
-              {{ institute.institute_id }}. {{ institute.institute_name }}
+              {{ institute.institute_name }}
               <span class="title-description">
-                Кол-во студентов на проектах:
+                id:
+                <span style="color: var(--accent-color-1)">{{
+                  institute.institute_id
+                }}</span>
+                | Кол-во студентов на проектах:
                 <span style="color: var(--accent-color-1)">{{
                   institute.departments
                     .flatMap((department) =>
@@ -51,11 +55,13 @@
             <template #title>
               <div class="accordion-title">
                 <p class="title" style="font-size: 22px">
-                  {{ department.department_id }}. Кафедра «{{
-                    department.department_name
-                  }}»
+                  Кафедра «{{ department.department_name }}»
                   <span class="title-description">
-                    Кол-во студентов на проектах:
+                    id:
+                    <span style="color: var(--accent-color-1)">{{
+                      department.department_id
+                    }}</span>
+                    | Кол-во студентов на проектах:
                     <span style="color: var(--accent-color-1)">{{
                       department.projects
                         .flatMap((project) => project.candidates.length)
@@ -82,9 +88,13 @@
                 <template #title>
                   <div class="accordion-title">
                     <p class="title" style="font-size: 20px">
-                      {{ project.project_id }}. {{ project.title }}
+                      {{ project.title }}
                       <span class="title-description">
-                        Кол-во студентов в проекте:
+                        id:
+                        <span style="color: var(--accent-color-1)">{{
+                          project.project_id
+                        }}</span>
+                        | Кол-во студентов в проекте:
                         <span style="color: var(--accent-color-1)">{{
                           project.candidates.length
                         }}</span>
@@ -123,14 +133,23 @@
                       </div>
 
                       <p class="title" style="font-size: 20px">
-                        <span class="title-description">
-                          id: {{ participation.candidate_id }}
-                          <br />
-                          Группа: {{ participation.training_group }}
-                          <br />
-                          Приоритет: {{ participation.priority }}
-                        </span>
                         {{ participation.fio }}
+                        <span class="title-description">
+                          id:
+                          <span style="color: var(--accent-color-1)">{{
+                            participation.candidate_id
+                          }}</span>
+                          <br />
+                          Группа:
+                          <span style="color: var(--accent-color-1)">{{
+                            participation.training_group
+                          }}</span>
+                          <br />
+                          Приоритет:
+                          <span style="color: var(--accent-color-1)">{{
+                            participation.priority
+                          }}</span>
+                        </span>
                       </p>
                     </div>
                   </div>
