@@ -178,7 +178,11 @@
   const emit = defineEmits<Emits>();
 
   const projectResultForm = reactive<ProjectResultFormValue>(
-    props.projectResultFormValue,
+    props.projectResultFormValue || {
+    projectResultDescription: '',
+    projectResultGoal: ProjectResultGoalName[1],
+  }
+    
   );
 
   watch(
@@ -227,7 +231,7 @@
     if (projectId && stateId && !canViewParticipants(stateId)) {
       router.replace(toProjectRoute(projectId));
     }
-    projectResultForm.projectResultDescription =
+    projectResultForm.projectResultDescription = 
       projectData.value?.project?.project_review ?? '';
     projectResultForm.projectResultGoal =
       (projectData.value?.project?.project_goal as ProjectResultGoal) ??

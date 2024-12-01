@@ -3,6 +3,16 @@
     <RouterLink class="project-tab" :to="{ name: RouteNames.PROJECT_DETAILS }">
       о проекте
     </RouterLink>
+    
+    <RouterLink
+    v-if="canViewParticipants(projectState.id)"
+    class="project-tab"
+    :to="{ name: RouteNames.PROJECT_RESULTS }"
+>
+    Результаты проекта
+    </RouterLink>
+
+
     <RouterLink
       v-if="canViewParticipations(projectState.id)"
       class="project-tab"
@@ -17,6 +27,7 @@
     >
       список участников
     </RouterLink>
+    
   </div>
 </template>
 
@@ -29,7 +40,8 @@
   } from '@/helpers/project';
   import { RouteNames } from '@/router/types/route-names';
   import { ProjectState } from '@/models/ProjectState';
-
+  import { toProjectResultRoute } from '@/router/utils/routes';
+  
   interface Props {
     projectState: ProjectState;
   }
