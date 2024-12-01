@@ -70,28 +70,26 @@ BaseLabel
 
         <div class="arrow-icon" v-html="arrowIcon"></div>
 
-        <BaseLabel is="div" class="project-label" label="Выберите проект">
-          <VMultiselect
-            v-model="inputProject[student.candidate_id]"
-            data-test-id="prevProject"
-            :class="[
-              'multiselect',
-              inputProject[student.candidate_id] ? 'selected' : '',
-            ]"
-            placeholder="Выберите проект для распределения"
-            no-results-text="Проект
+        <VMultiselect
+          v-model="inputProject[student.candidate_id]"
+          data-test-id="prevProject"
+          :class="[
+            'multiselect',
+            inputProject[student.candidate_id] ? 'selected' : '',
+          ]"
+          placeholder="Выберите проект для распределения"
+          no-results-text="Проект
           не найден"
-            no-options-text="Проекты не найдены"
-            :searchable="true"
-            :options="
-              student.eligible_projects.map((project) => ({
-                label: `id: ${project.project_id} | Название: ${project.project_title} | Места: ${project.places} | Кол-во студентов: ${project.candidates_count}`,
-                value: project.project_id,
-              }))
-            "
-            :disabled="mutation.isLoading.value || query.isLoading.value"
-          />
-        </BaseLabel>
+          no-options-text="Проекты не найдены"
+          :searchable="true"
+          :options="
+            student.eligible_projects.map((project) => ({
+              label: `id: ${project.project_id} | Название: ${project.project_title} | Места: ${project.places} | Кол-во студентов: ${project.candidates_count}`,
+              value: project.project_id,
+            }))
+          "
+          :disabled="mutation.isLoading.value || query.isLoading.value"
+        />
       </BasePanel>
     </div>
   </div>
@@ -105,7 +103,6 @@ BaseLabel
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
-  import BaseLabel from '@/components/ui/label/BaseLabel.vue';
   import { armApi } from '@/api/ArmApi';
   import {
     USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY,
@@ -263,25 +260,31 @@ BaseLabel
       }
     }
 
-    & .project-label {
+    &:deep(.multiselect) {
       flex: 1;
       max-width: 400px;
+      transition: 0.15s ease-in-out;
 
-      &:deep(.multiselect) {
-        transition: 0.15s ease-in-out;
-
-        &.selected {
-          box-shadow: 0 0 0 2px var(--accent-color-2);
-        }
-
-        & .multiselect-option:not(:last-child) {
-          border-bottom: 1px solid var(--gray-color-1);
-        }
+      & .multiselect-placeholder {
+        padding-right: 2rem;
+        font-size: 16px !important;
       }
 
-      &:deep(.multiselect-dropdown) {
-        max-height: 375px;
-        overscroll-behavior: none;
+      &.selected {
+        box-shadow: 0 0 0 2px var(--accent-color-2);
+      }
+
+      & .multiselect-option:not(:last-child) {
+        border-bottom: 1px solid var(--gray-color-1);
+      }
+    }
+
+    &:deep(.multiselect-dropdown) {
+      max-height: 375px;
+      overscroll-behavior: none;
+
+      & li > span {
+        font-size: 16px !important;
       }
     }
   }
