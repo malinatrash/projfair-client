@@ -88,7 +88,7 @@
                 <template #title>
                   <div class="accordion-title">
                     <p class="title" style="font-size: 20px">
-                      {{ project.title }}
+                      Проект «{{ project.title }}»
                       <span class="title-description">
                         id:
                         <span style="color: var(--accent-color-1)">{{
