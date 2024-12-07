@@ -38,8 +38,7 @@
         <li
           v-if="
             link.name !== RouteNames.INST_DIRECTOR_PROJECTS_REPORTS ||
-            (profileData.id === 27 && // id Чимитова
-              profileData.fio === 'Чимитов Павел Евгеньевич')
+            authStore.isInstDirector
           "
           :class="['item', props.variant]"
         >
@@ -66,6 +65,11 @@
                       :class="['item', props.variant]"
                     >
                       <RouterLink
+                        v-if="profileData.department.institute.id ==
+                            FilterByToProjectReportNameId[
+                              childLink.location.params
+                                ?.filterBy as FilterInstituteProjectReportsBy
+                            ] || link.name === 'INST_DIRECTOR_PROJECT_PROPOSALS' || authStore.isHeadOfProjectEducationCenter"
                         :class="['action', props.variant]"
                         :to="childLink.location"
                       >
@@ -360,6 +364,7 @@
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
   import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
   import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
+  import { FilterInstituteProjectReportsBy } from '../../router/utils/routes';
   import { RouteNames } from '@/router/types/route-names';
   import {
     FilterByToProjectProposalStateId,
@@ -438,6 +443,7 @@
 
   .action {
     display: flex;
+    gap: 15px;
     align-items: center;
     justify-content: space-between;
     width: 100%;
@@ -496,7 +502,9 @@
   }
 
   .item:not(:last-child) {
-    border-bottom: 1px solid var(--gray-color-1);
+    &:has(*) {
+      border-bottom: 1px solid var(--gray-color-1);
+    }
 
     &.mobile {
       border-bottom: none;
