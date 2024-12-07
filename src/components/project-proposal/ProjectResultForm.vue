@@ -252,7 +252,6 @@
     }
     projectResultForm.projectResultDescription =
       projectData.value?.project?.project_review ?? 'Результаты не найдены';
-
     projectResultForm.projectResultGoal =
       (projectData.value?.project?.project_goal as ProjectResultGoal) ?? null;
   });
