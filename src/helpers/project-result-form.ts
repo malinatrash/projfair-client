@@ -21,7 +21,7 @@ export function collectProjectResult(
     product_result: projectData.product_result,
     study_result: projectData.study_result,
     additional_inf: projectData.additional_inf!,
-    project_review: projectResultDescription,
-    project_goal: projectResultGoal,
+    project_review: projectResultDescription!,
+    project_goal: projectResultGoal!,
   };
 }

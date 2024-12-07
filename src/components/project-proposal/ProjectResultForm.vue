@@ -31,7 +31,13 @@
       :class="$style['project-data-section']"
       tag="2"
       title="Достижение целей"
-      :divider="!isProjectStateArchived"
+      :divider="
+        !isProjectStateArchived ||
+        projectData?.project.supervisors.some(
+          (supervisor) =>
+            supervisor.supervisor.id === authStore.profileData?.id,
+        )
+      "
     >
       <!-- <Project name> -->
       <BaseLabel
@@ -75,6 +81,14 @@
           </BaseRadioButton>
         </template>
         <BaseTextarea
+          v-else-if="!projectResultForm.projectResultGoal"
+          data-test-id="projectDescription"
+          :disabled="!isEditable"
+          :showMaxLength="isEditable"
+          style="width: 28rem"
+          placeholder="Целей нет"
+        />
+        <BaseTextarea
           v-else
           data-test-id="projectDescription"
           :disabled="!isEditable"
@@ -91,8 +105,10 @@
     <FormSection
       v-if="
         !isProjectStateArchived ||
-        authStore.isInstDirector ||
-        authStore.isTeacher
+        projectData?.project.supervisors.some(
+          (supervisor) =>
+            supervisor.supervisor.id === authStore.profileData?.id,
+        )
       "
       :class="$style['project-result-section']"
       tag="3"
@@ -235,10 +251,10 @@
       router.replace(toProjectRoute(projectId));
     }
     projectResultForm.projectResultDescription =
-      projectData.value?.project?.project_review ?? '';
+      projectData.value?.project?.project_review ?? 'Результата нет';
+
     projectResultForm.projectResultGoal =
-      (projectData.value?.project?.project_goal as ProjectResultGoal) ??
-      ProjectResultGoalName[1];
+      (projectData.value?.project?.project_goal as ProjectResultGoal) ?? null;
   });
 
   const sortedParticipants = computed<Candidate[]>(() => {
