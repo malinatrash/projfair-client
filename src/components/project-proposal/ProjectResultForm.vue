@@ -198,7 +198,10 @@
   const emit = defineEmits<Emits>();
 
   const projectResultForm = reactive<ProjectResultFormValue>(
-    props.projectResultFormValue,
+    props.projectResultFormValue || {
+      projectResultDescription: '',
+      projectResultGoal: ProjectResultGoalName[1],
+    },
   );
 
   watch(
