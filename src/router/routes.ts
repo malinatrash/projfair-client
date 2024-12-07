@@ -12,7 +12,6 @@ import HomePage from '@/pages/HomePage.vue';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
 // Project page
 import ProjectDetails from '@/pages/ProjectPage/ProjectDetails.vue';
-import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
 import ProjectParticipantsList from '@/pages/ProjectPage/ProjectParticipantsList.vue';
 import ProjectParticipationList from '@/pages/ProjectPage/ProjectParticipationList.vue';
 import ProjectPage from '@/pages/ProjectPage/index.vue';
@@ -25,6 +24,7 @@ import UserProfile from '@/pages/UserPage/UserProfile.vue';
 import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue';
 import UserProjects from '@/pages/UserPage/UserProjects.vue';
 import UserPage from '@/pages/UserPage/index.vue';
+import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
 import { RouteNames } from './types/route-names';
 import {
   FilterInstituteProjectProposalsBy,
@@ -71,7 +71,7 @@ export const routes: RouteRecordRaw[] = [
           title: 'Результаты проекта',
         },
       },
-    
+
       {
         path: 'participations',
         name: RouteNames.PROJECT_PARTICIPATIONS,
