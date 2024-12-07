@@ -89,7 +89,11 @@
     </FormSection>
 
     <FormSection
-      v-if="!isProjectStateArchived || !authStore.isStudent"
+      v-if="
+        !isProjectStateArchived ||
+        authStore.isInstDirector ||
+        authStore.isTeacher
+      "
       :class="$style['project-result-section']"
       tag="3"
       title="Оценка участников проекта"
@@ -179,10 +183,9 @@
 
   const projectResultForm = reactive<ProjectResultFormValue>(
     props.projectResultFormValue || {
-    projectResultDescription: '',
-    projectResultGoal: ProjectResultGoalName[1],
-  }
-    
+      projectResultDescription: '',
+      projectResultGoal: ProjectResultGoalName[1],
+    },
   );
 
   watch(
@@ -231,7 +234,7 @@
     if (projectId && stateId && !canViewParticipants(stateId)) {
       router.replace(toProjectRoute(projectId));
     }
-    projectResultForm.projectResultDescription = 
+    projectResultForm.projectResultDescription =
       projectData.value?.project?.project_review ?? '';
     projectResultForm.projectResultGoal =
       (projectData.value?.project?.project_goal as ProjectResultGoal) ??
