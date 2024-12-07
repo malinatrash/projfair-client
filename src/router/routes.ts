@@ -25,6 +25,7 @@ import UserProfile from '@/pages/UserPage/UserProfile.vue';
 import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue';
 import UserProjects from '@/pages/UserPage/UserProjects.vue';
 import UserPage from '@/pages/UserPage/index.vue';
+import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
 import { RouteNames } from './types/route-names';
 import {
   FilterInstituteProjectProposalsBy,
@@ -71,7 +72,6 @@ export const routes: RouteRecordRaw[] = [
           title: 'Результаты проекта',
         },
       },
-    
       {
         path: 'participations',
         name: RouteNames.PROJECT_PARTICIPATIONS,

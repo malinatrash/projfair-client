@@ -1,5 +1,3 @@
-import { Participation } from '../Participation';
-
 export const enum ProjectResultGoal {
   AllGoals = 1,
   MoreGoals = 2,
@@ -16,5 +14,5 @@ export const ProjectResultGoalName: Record<ProjectResultGoal, string> = {
 
 export type ProjectResultFormValue = {
   projectResultDescription: string;
-  projectResultGoal: ProjectResultGoal;
+  projectResultGoal: ProjectResultGoal | null;
 };
