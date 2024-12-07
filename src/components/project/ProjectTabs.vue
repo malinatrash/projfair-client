@@ -24,7 +24,6 @@
     >
       список участников
     </RouterLink>
-    
   </div>
 </template>
 
@@ -36,10 +35,8 @@
     canViewParticipations,
   } from '@/helpers/project';
   import { RouteNames } from '@/router/types/route-names';
-  import { toProjectResultRoute } from '@/router/utils/routes';
   import { ProjectState } from '@/models/ProjectState';
-  import { toProjectResultRoute } from '@/router/utils/routes';
-  
+
   interface Props {
     projectState: ProjectState;
   }

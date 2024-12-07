@@ -10,6 +10,7 @@
       <!-- <Project result> -->
       <BaseLabel :required="!isProjectStateArchived" label="Результат проекта">
         <BaseTextarea
+          v-if="!projectResultForm.projectResultDescription"
           v-model="projectResultForm.projectResultDescription"
           data-test-id="projectDescription"
           :disabled="!isEditable"
@@ -23,6 +24,20 @@
           :maxLength="1200"
           resize="vertical"
         />
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ projectResultForm.projectResultDescription }}
+        </span>
       </BaseLabel>
       <!-- </Project result> -->
     </FormSection>
@@ -80,24 +95,25 @@
             Проект не достиг поставленных целей
           </BaseRadioButton>
         </template>
-        <BaseTextarea
-          v-else-if="!projectResultForm.projectResultGoal"
-          data-test-id="projectDescription"
-          :disabled="!isEditable"
-          :showMaxLength="isEditable"
-          style="width: 28rem"
-          placeholder="Целей нет"
-        />
-        <BaseTextarea
+        <span
           v-else
-          data-test-id="projectDescription"
-          :disabled="!isEditable"
-          :showMaxLength="isEditable"
-          style="width: 28rem"
-          :placeholder="
-            ProjectResultGoalName[computedProject?.project_goal as ProjectResultGoal ?? 1]
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
           "
-        />
+        >
+          {{
+            ProjectResultGoalName[
+              computedProject?.project_goal as ProjectResultGoal
+            ] ?? 'Цели не найдены'
+          }}
+        </span>
       </BaseLabel>
       <!-- </Project name> -->
     </FormSection>

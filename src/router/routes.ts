@@ -12,7 +12,6 @@ import HomePage from '@/pages/HomePage.vue';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
 // Project page
 import ProjectDetails from '@/pages/ProjectPage/ProjectDetails.vue';
-import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
 import ProjectParticipantsList from '@/pages/ProjectPage/ProjectParticipantsList.vue';
 import ProjectParticipationList from '@/pages/ProjectPage/ProjectParticipationList.vue';
 import ProjectPage from '@/pages/ProjectPage/index.vue';
@@ -68,6 +67,7 @@ export const routes: RouteRecordRaw[] = [
         path: 'results',
         name: RouteNames.PROJECT_RESULTS,
         component: ProjectResultForm,
+        props: { projectResultFormValue: {} },
         meta: {
           title: 'Результаты проекта',
         },
