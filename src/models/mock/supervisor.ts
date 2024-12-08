@@ -74,6 +74,6 @@ export const userSupervisor: UserSupervisor = {
   is_student: false,
   is_teacher: true,
   is_institute_director: true,
-  is_head_project_education_center: false,
+  is_head_project_education_center: true,
   canSendParticipations: false,
 };

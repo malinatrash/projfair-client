@@ -41,12 +41,10 @@
      */
     animated?: boolean;
   }
-  interface Emits {
-    /**
-     * Событие обновляет props.opened при нажатии на заголовок компонента
-     */
-    (e: 'update:opened', opened: boolean): void;
-  }
+  /**
+   * Событие обновляет props.opened при нажатии на заголовок компонента
+   */
+  type Emits = (e: 'update:opened', opened: boolean) => void;
 
   const props = withDefaults(defineProps<Props>(), {
     opened: false,
