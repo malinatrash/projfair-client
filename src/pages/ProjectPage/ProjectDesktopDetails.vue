@@ -62,7 +62,7 @@
         >
           Сформировать результаты
         </BaseButton>
-        <BaseButton
+        <!--<BaseButton
           is="router-link"
           v-if="project.state.id === 4"
           class="mt-2"
@@ -71,7 +71,7 @@
           :to="toProjectResultRoute(project.id)"
         >
           Результаты проекта
-        </BaseButton>
+        </BaseButton>-->
         <OpenParticipationModalButton class="mt-4" :project="project" />
         <OpenFeedbackModalButton class="mt-4" :project="project" />
       </div>

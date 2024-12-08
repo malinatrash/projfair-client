@@ -4,6 +4,13 @@
       о проекте
     </RouterLink>
     <RouterLink
+      v-if="canViewParticipants(projectState.id)"
+      class="project-tab"
+      :to="{ name: RouteNames.PROJECT_RESULTS }"
+    >
+      Результаты проекта
+    </RouterLink>
+    <RouterLink
       v-if="canViewParticipations(projectState.id)"
       class="project-tab"
       :to="{ name: RouteNames.PROJECT_PARTICIPATIONS }"

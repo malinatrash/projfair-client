@@ -10,6 +10,7 @@
       <!-- <Project result> -->
       <BaseLabel :required="!isProjectStateArchived" label="Результат проекта">
         <BaseTextarea
+          v-if="!projectResultForm.projectResultDescription"
           v-model="projectResultForm.projectResultDescription"
           data-test-id="projectDescription"
           :disabled="!isEditable"
@@ -23,6 +24,20 @@
           :maxLength="1200"
           resize="vertical"
         />
+        <span
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ projectResultForm.projectResultDescription }}
+        </span>
       </BaseLabel>
       <!-- </Project result> -->
     </FormSection>
@@ -31,7 +46,13 @@
       :class="$style['project-data-section']"
       tag="2"
       title="Достижение целей"
-      :divider="!isProjectStateArchived"
+      :divider="
+        !isProjectStateArchived ||
+        projectData?.project.supervisors.some(
+          (supervisor) =>
+            supervisor.supervisor.id === authStore.profileData?.id,
+        )
+      "
     >
       <!-- <Project name> -->
       <BaseLabel
@@ -74,22 +95,37 @@
             Проект не достиг поставленных целей
           </BaseRadioButton>
         </template>
-        <BaseTextarea
+        <span
           v-else
-          data-test-id="projectDescription"
-          :disabled="!isEditable"
-          :showMaxLength="isEditable"
-          style="width: 28rem"
-          :placeholder="
-            ProjectResultGoalName[computedProject?.project_goal as ProjectResultGoal ?? 1]
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
           "
-        />
+        >
+          {{
+            ProjectResultGoalName[
+              computedProject?.project_goal as ProjectResultGoal
+            ] ?? 'Цели не найдены'
+          }}
+        </span>
       </BaseLabel>
       <!-- </Project name> -->
     </FormSection>
 
     <FormSection
-      v-if="!isProjectStateArchived || !authStore.isStudent"
+      v-if="
+        !isProjectStateArchived ||
+        projectData?.project.supervisors.some(
+          (supervisor) =>
+            supervisor.supervisor.id === authStore.profileData?.id,
+        )
+      "
       :class="$style['project-result-section']"
       tag="3"
       title="Оценка участников проекта"
@@ -178,7 +214,10 @@
   const emit = defineEmits<Emits>();
 
   const projectResultForm = reactive<ProjectResultFormValue>(
-    props.projectResultFormValue,
+    props.projectResultFormValue || {
+      projectResultDescription: '',
+      projectResultGoal: ProjectResultGoalName[1],
+    },
   );
 
   watch(
@@ -228,10 +267,9 @@
       router.replace(toProjectRoute(projectId));
     }
     projectResultForm.projectResultDescription =
-      projectData.value?.project?.project_review ?? '';
+      projectData.value?.project?.project_review ?? 'Результаты не найдены';
     projectResultForm.projectResultGoal =
-      (projectData.value?.project?.project_goal as ProjectResultGoal) ??
-      ProjectResultGoalName[1];
+      (projectData.value?.project?.project_goal as ProjectResultGoal) ?? null;
   });
 
   const sortedParticipants = computed<Candidate[]>(() => {

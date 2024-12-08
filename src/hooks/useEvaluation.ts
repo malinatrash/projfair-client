@@ -12,7 +12,6 @@ export default function useEvaluation() {
 
   // Кладем в стор оценку
   const evaluate = async () => {
-    console.log(evaluateStore.projectID);
     try {
       if (evaluateStore.projectID) {
         await projectApi.updateProjectCandidateMark(

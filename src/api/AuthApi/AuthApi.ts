@@ -64,6 +64,7 @@ export default class AuthApi implements AuthApiType {
     userInfo.is_student = false;
     userInfo.is_teacher = true;
     userInfo.is_institute_director = userInfo.canReviewProjects;
+    userInfo.is_head_project_education_center = userInfo.id === 27; // || userInfo.id === 2 // Для добавления функциональности Аршинскому
     return userInfo;
   }
 

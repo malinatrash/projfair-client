@@ -42,8 +42,6 @@
   import BaseTextarea from '../ui/BaseTextarea.vue';
 
   const evaluation = useEvaluation();
-
-  console.log(evaluation.evaluateStore.projectID);
 </script>
 
 <style>

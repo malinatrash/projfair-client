@@ -6,7 +6,7 @@
     <header :class="$style.header">
       <h1 class="page-title">
         <template v-if="isLoading">Загрузка...</template>
-        <template v-else-if="!currentProjectProposalComputed">
+        <template v-else-if="!dataProjectQuery.isFetched">
           Результаты проекта
           <h6 style="font-weight: 500; line-height: normal">
             {{ dataProjectQuery.data.value?.project.title }}
@@ -15,12 +15,13 @@
         <template v-else-if="canUserEdit">
           Редактирование результатов проекта
         </template>
-        <template v-else>Просмотр результатов проекта</template>
+        <template v-else>
+          Просмотр результатов проекта
+          <h6 style="font-weight: 500; line-height: normal">
+            {{ dataProjectQuery.data.value?.project.title }}
+          </h6></template
+        >
       </h1>
-      <ProjectProposalStatus
-        v-if="currentProjectProposalComputed"
-        :state="currentProjectProposalComputed.state"
-      />
     </header>
     <ProjectResultForm
       v-model:project-result-form-value="projectResultFormValue"
@@ -31,11 +32,7 @@
     />
     <div v-show="!isProjectStateArchived" :class="$style.actions">
       <BaseButton
-        v-if="
-          canUserEdit &&
-          !userProjectProposalListQuery.isFetching.value &&
-          !instituteProjectProposalsQuery.isFetching.value
-        "
+        v-if="canUserEdit && !dataProjectQuery.isFetching.value"
         :disabled="isLoading"
         color="red"
         variant="outlined"
@@ -54,11 +51,7 @@
     </div>
     <div v-show="isProjectStateArchived" :class="$style.actions">
       <BaseButton
-        v-if="
-          canUserEdit &&
-          !userProjectProposalListQuery.isFetching.value &&
-          !instituteProjectProposalsQuery.isFetching.value
-        "
+        v-if="canUserEdit && !dataProjectQuery.isFetching.value"
         :disabled="isLoading"
         color="red"
         variant="outlined"
@@ -71,25 +64,17 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch } from '@vue/runtime-core';
-  import { storeToRefs } from 'pinia';
+  import { computed, ref } from '@vue/runtime-core';
   import { useRoute, useRouter } from 'vue-router';
   import { useToast } from 'vue-toastification';
   import PageLayout from '@/components/layout/PageLayout.vue';
   import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
-  import ProjectProposalStatus from '@/components/project/ProjectProposalStatus.vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
-  import {
-    ProjectResultFormValue,
-    ProjectResultGoal,
-  } from '@/models/components/ProjectResultForm';
-  import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
+  import { ProjectResultFormValue } from '@/models/components/ProjectResultForm';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
-  import { useGetProjectProposalListQuery } from '@/api/SupervisorApi/hooks/useGetProjectProposalListQuery';
   import { useUpdateProjectResultMutation } from '@/api/SupervisorApi/hooks/useUpdateProjectResultMutation';
   import { useNavigateBack } from '@/hooks/useRoutes';
   import { useWatchAuthorization } from '@/hooks/useWatchAuthorization';
-  import { getCurrentProjectProposal } from '@/helpers/project-proposal-form';
   import { collectProjectResult } from '@/helpers/project-result-form';
   import { RouteNames } from '@/router/types/route-names';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
@@ -102,7 +87,6 @@
   const route = useRoute();
   const authStore = useAuthStore();
   const modalsStore = useModalsStore();
-  const { isInstDirector } = storeToRefs(authStore);
   const projectId = computed(() => Number(route.params.id));
   const navigateBack = useNavigateBack({
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS,
@@ -110,30 +94,16 @@
 
   const defaultProjectResultFormValue: ProjectResultFormValue = {
     projectResultDescription: '',
-    projectResultGoal: ProjectResultGoal.AllGoals,
+    projectResultGoal: null,
   };
 
   const projectResultFormValue = ref<ProjectResultFormValue>({
     ...defaultProjectResultFormValue,
   });
 
-  const instituteProjectProposalsQuery = useGetInstituteProjectProposalsQuery({
-    enabled: isInstDirector,
-    onError,
-  });
-  const userProjectProposalListQuery = useGetProjectProposalListQuery({
-    onError,
-  });
   const updateProjectResultMutation = useUpdateProjectResultMutation({
     onError,
   });
-
-  const currentProjectProposalComputed = computed(() =>
-    getCurrentProjectProposal(Number(projectId.value), [
-      ...(userProjectProposalListQuery.data.value || []),
-      ...(instituteProjectProposalsQuery.data.value || []),
-    ]),
-  );
 
   const dataProjectQuery = useGetSingleProjectQuery(projectId);
   const isProjectStateArchived = computed(
@@ -150,27 +120,19 @@
 
   const currentProjectProposalState = computed<
     ProjectProposalStateId | undefined
-  >(() => currentProjectProposalComputed.value?.state.id);
+  >(
+    () =>
+      (dataProjectQuery.data.value?.project.state.id ||
+        0) as ProjectProposalStateId,
+  );
 
   const canUserEdit = computed(() => !currentProjectProposalState.value);
 
   const isLoading = computed(
     () =>
       updateProjectResultMutation.isLoading.value ||
-      userProjectProposalListQuery.isFetching.value ||
-      instituteProjectProposalsQuery.isFetching.value ||
       dataProjectQuery.isFetching.value,
   );
-
-  // watch(
-  //   () => currentProjectProposalComputed.value,
-  //   (currentProjectResult, prevCurrentProjectResult) => {
-  //     if (currentProjectResult?.id === prevCurrentProjectResult?.id) return;
-  //     if (!currentProjectResult) return;
-  //     fillFromProjectResult(currentProjectResult);
-  //   },
-  //   { deep: true, immediate: true },
-  // );
 
   function validateProjectProposal(): string | undefined {
     const { projectResultDescription } = projectResultFormValue.value;
@@ -181,39 +143,6 @@
 
     return undefined;
   }
-
-  // function fillFromProjectResult(projectProposal: CreatedProjectProposal) {
-  //   setProjectResultFormValue({
-  //     prevProjectId: projectProposal.prevProjectId,
-  //     isNewProject: !projectProposal.prevProjectId,
-  //     projectName: projectProposal.title,
-  //     projectGoal: projectProposal.goal,
-  //     projectCustomer: projectProposal.customer,
-  //     projectThemeSourceId: projectProposal.theme_source?.id || null,
-  //     projectDifficulty: projectProposal.difficulty,
-  //     projectExpectedResult: projectProposal.product_result,
-  //     skillsToBeFormed: projectProposal.study_result,
-  //     projectDescription: projectProposal.description,
-  //     skillList: projectProposal.skills,
-  //     // projectDuration: projectDurationFromDate({
-  //     //   start: projectProposal.date_start,
-  //     //   end: projectProposal.date_end,
-  //     // }),
-  //     specialtyList: mapSpecialtyList(
-  //       projectProposal.project_specialities,
-  //       SpecialtyPriority.High,
-  //     ),
-  //     additionalSpecialtyList: mapSpecialtyList(
-  //       projectProposal.project_specialities,
-  //       SpecialtyPriority.Low,
-  //     ),
-  //     team: mapProjectProposalTeam(
-  //       projectProposal.supervisors,
-  //       projectResultFormValue.value.sharedRoleList,
-  //       projectResultFormValue.value.currentUserRoleList,
-  //     ),
-  //   });
-  // }
 
   function clearAllFields() {
     projectResultFormValue.value = {

@@ -31,6 +31,7 @@ import UserProfile from '@/pages/UserPage/UserProfile.vue';
 import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue';
 import UserProjects from '@/pages/UserPage/UserProjects.vue';
 import UserPage from '@/pages/UserPage/index.vue';
+import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
 import { RouteNames } from './types/route-names';
 import {
   FilterInstituteProjectProposalsBy,
@@ -67,6 +68,15 @@ export const routes: RouteRecordRaw[] = [
         component: ProjectDetails,
         meta: {
           title: 'О проекте',
+        },
+      },
+      {
+        path: 'results',
+        name: RouteNames.PROJECT_RESULTS,
+        component: ProjectResultForm,
+        props: { projectResultFormValue: {} },
+        meta: {
+          title: 'Результаты проекта',
         },
       },
       {

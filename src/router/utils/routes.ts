@@ -6,8 +6,10 @@ import { ProjectStateID } from '@/models/ProjectState';
 
 export function toProjectResultRoute(projectId: number): RouteLocationRaw {
   return {
-    name: RouteNames.SUPERVISOR_PROJECT_PROPOSAL_RESULT,
-    params: { id: projectId },
+    name: RouteNames.PROJECT_RESULTS,
+    params: {
+      id: projectId,
+    },
   };
 }
 
