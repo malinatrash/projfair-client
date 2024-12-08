@@ -412,7 +412,7 @@ export const routes: RouteRecordRaw[] = [
     name: RouteNames.ARM,
     meta: {
       title: 'Формирование проектных команд',
-      role: ['is_institute_director'],
+      role: ['is_head_project_education_center'],
       type: ['user-nav'],
       order: 999,
     },
