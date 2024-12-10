@@ -22,6 +22,7 @@
               :model-value="deliveries"
               :value="ProjectReportStateId.Delivered"
               :onchange="(e: any) => {
+                toggleButton = !toggleButton;
                 if (e.target.checked) {
                   if (!deliveries.includes(ProjectReportStateId.Delivered)) {
                     deliveries = [...deliveries, ProjectReportStateId.Delivered]
@@ -60,9 +61,18 @@
           </template>
         </ProjectFilterAccordion>
 
-        <BaseButton @click.prevent="handlerUploadReportToExcel">
-          Выгрузить отчёт
-        </BaseButton>
+        <div style="display: flex; gap: 10px; align-items: center">
+          <BaseTooltip
+            v-if="toggleButton"
+            message="Выгрузка заблокирована, пока фильтр стоит на 'Сдано'"
+          />
+          <BaseButton
+            :disabled="toggleButton"
+            @click.prevent="handlerUploadReportToExcel"
+          >
+            Выгрузить отчёт
+          </BaseButton>
+        </div>
       </div>
 
       <BaseStub
@@ -100,6 +110,7 @@
   import BaseCheckbox from '@/components/ui/BaseCheckbox.vue';
   import BasePagination from '@/components/ui/BasePagination.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
+  import BaseTooltip from '@/components/ui/BaseTooltip.vue';
   import ProjectFilterAccordion from '@/components/ui/accordion/ProjectFilterAccordion.vue';
   import { useGetInstituteProjectReportsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectReportsQuery';
   import { usePaginatedList } from '@/hooks/usePaginatedList';
@@ -110,6 +121,7 @@
     toInstituteProjectReports,
   } from '@/router/utils/routes';
   import {
+    ProjectReport,
     ProjectReportNameId,
     ProjectReportStateId,
   } from '@/models/ProjectReport';
@@ -118,16 +130,18 @@
   const router = useRouter();
   const route = useRoute();
 
+  const toggleButton = ref(true);
+
   const deliveries = ref<ProjectReportStateId[]>([
     ProjectReportStateId.Delivered,
     ProjectReportStateId.NotDelivered,
   ]);
 
   const filterBy = computed<ProjectReportNameId | undefined>(() => {
-    const filterBy = String(
+    const filteredBy = String(
       route.params.filterBy,
     ) as FilterInstituteProjectReportsBy;
-    return FilterByToProjectReportNameId[filterBy] as ProjectReportNameId;
+    return FilterByToProjectReportNameId[filteredBy] as ProjectReportNameId;
   });
 
   watch(
@@ -145,7 +159,7 @@
     error,
     data: projectReportList,
   } = useGetInstituteProjectReportsQuery({
-    select: (list) =>
+    select: (list: ProjectReport[]) =>
       list.sort(
         (a, b) =>
           Number(Boolean(b.project_goal) && Boolean(b.project_review)) -
@@ -155,7 +169,7 @@
 
   const filteredProjectReportList = computed(() =>
     projectReportList.value?.filter(
-      (report) =>
+      (report: ProjectReport) =>
         (report.department.institute.id === filterBy.value ||
           filterBy.value === ProjectReportNameId.All) &&
         ((Boolean(report.project_goal) &&
@@ -178,7 +192,7 @@
       Наставники: string;
     }[] = [];
 
-    filteredProjectReportList.value?.forEach((report) => {
+    filteredProjectReportList.value?.forEach((report: ProjectReport) => {
       if (!report.project_goal && !report.project_review) {
         reports.push({
           Название: report.title,
@@ -204,10 +218,13 @@
   const PAGES_VISIBLE = 7;
 
   const currentPage = computed(() => Number(route.params.page) || 1);
-  const paginatedReports = usePaginatedList(filteredProjectReportList, {
-    pageSize: PAGE_SIZE,
-    currentPage: currentPage,
-  });
+  const paginatedReports = usePaginatedList<ProjectReport>(
+    filteredProjectReportList,
+    {
+      pageSize: PAGE_SIZE,
+      currentPage: currentPage,
+    },
+  );
 
   function onPageChange(page: number) {
     router.push({

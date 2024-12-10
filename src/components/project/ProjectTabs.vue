@@ -4,7 +4,7 @@
       о проекте
     </RouterLink>
     <RouterLink
-      v-if="canViewParticipants(projectState.id)"
+      v-if="canViewParticipants(projectState.id) && isCurrentSupervisor"
       class="project-tab"
       :to="{ name: RouteNames.PROJECT_RESULTS }"
     >
@@ -28,13 +28,16 @@
 </template>
 
 <script setup lang="ts">
-  import { toRefs } from 'vue';
+  import { computed, toRefs } from 'vue';
   import { RouterLink } from 'vue-router';
+  import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import {
     canViewParticipants,
     canViewParticipations,
   } from '@/helpers/project';
   import { RouteNames } from '@/router/types/route-names';
+  import { useAuthStore } from '@/stores/auth/useAuthStore';
+  import { ProjectSupervisor } from '@/models/Project';
   import { ProjectState } from '@/models/ProjectState';
 
   interface Props {
@@ -42,6 +45,21 @@
   }
   const props = defineProps<Props>();
   const { projectState } = toRefs(props);
+
+  const authStore = useAuthStore();
+
+  const {
+    isFetching,
+    isError,
+    data: projectData,
+  } = useGetSingleProjectQuery(1205);
+
+  const isCurrentSupervisor = computed(() =>
+    projectData.value?.project.supervisors.some(
+      (supervisor: ProjectSupervisor) =>
+        supervisor.supervisor.id === authStore.profileData?.id,
+    ),
+  );
 </script>
 
 <style lang="scss" scoped>
