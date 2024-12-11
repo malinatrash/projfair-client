@@ -122,7 +122,13 @@
         </BaseButton>
         <BaseButton
           is="router-link"
-          v-if="props.project.state.id === 4"
+          v-if="
+            isArchivedState(props.project.state.id) ||
+            (isActiveState(props.project.state.id) &&
+              (isCurrentUserSupervisorOfDataProject ||
+                isDirectorInstituteOfProject ||
+                authStore.isHeadOfProjectEducationCenter))
+          "
           variant="outlined"
           case="uppercase"
           :to="toProjectResultRoute(project.id)"
@@ -144,16 +150,19 @@
 <script setup lang="ts">
   import Cookies from 'js-cookie';
   import { isEmpty } from 'lodash';
+  import { computed } from 'vue';
   import { RouterLink } from 'vue-router';
   import {
     useDesktop,
     useMobile,
     useSmallDevice,
   } from '@/hooks/useBreakpoints';
+  import { isActiveState, isArchivedState } from '@/helpers/project';
   import { toProjectResultRoute, toProjectRoute } from '@/router/utils/routes';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
-  import { Project } from '@/models/Project';
+  import { Project, ProjectSupervisor } from '@/models/Project';
   import { StateClass } from '@/models/ProjectState';
+  import { UserSupervisor } from '@/models/User';
   import OpenFeedbackModalButton from '../feedback/OpenFeedbackModalButton.vue';
   import OpenParticipationModalButton from '../participation/OpenParticipationModalButton.vue';
   import BaseButton from '../ui/BaseButton.vue';
@@ -162,6 +171,7 @@
   import ProjectStatus from './ProjectStatus.vue';
 
   const props = defineProps<{ project: Project }>();
+  const authStore = useAuthStore();
   const isSmallDevice = useSmallDevice();
   const isDesktop = useDesktop();
   const isMobile = useMobile();
@@ -199,6 +209,23 @@
     getSpecialtyNameAndPriorityListFromCourse(course).filter(
       (spec) => spec.priority !== 1,
     );
+
+  const isDirectorInstituteOfProject = computed(
+    () =>
+      authStore.isInstDirector &&
+      props.project.supervisors.some(
+        (supervisor: ProjectSupervisor) =>
+          supervisor.supervisor.department.institute.id ===
+          (authStore.profileData as UserSupervisor)?.department.institute.id,
+      ),
+  );
+
+  const isCurrentUserSupervisorOfDataProject = computed(() =>
+    props.project.supervisors.some(
+      (supervisor: ProjectSupervisor) =>
+        supervisor.supervisor.id === authStore.profileData?.id,
+    ),
+  );
 </script>
 
 <style lang="scss" scoped>

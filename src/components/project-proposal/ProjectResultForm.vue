@@ -10,14 +10,14 @@
       <!-- <Project result> -->
       <BaseLabel :required="!isProjectStateArchived" label="Результат проекта">
         <BaseTextarea
-          v-if="!isProjectStateArchived || authStore.isStudent"
+          v-if="!isProjectStateArchived && isCurrentUserSupervisorOfDataProject"
           v-model="projectResultForm.projectResultDescription"
           data-test-id="projectDescription"
           :disabled="!isEditable"
           :showMaxLength="isEditable"
           :class="$style['large-textarea']"
           :placeholder="
-            !isProjectStateArchived || authStore.isStudent
+            !isProjectStateArchived
               ? 'Опишите результат проделанной работы над проектом'
               : projectData?.project.project_review
           "
@@ -47,13 +47,7 @@
       :class="$style['project-data-section']"
       tag="2"
       title="Достижение целей"
-      :divider="
-        !isProjectStateArchived ||
-        projectData?.project.supervisors.some(
-          (supervisor) =>
-            supervisor.supervisor.id === authStore.profileData?.id,
-        )
-      "
+      :divider="!isProjectStateArchived && isCurrentUserSupervisorOfDataProject"
     >
       <!-- <Project name> -->
       <BaseLabel
@@ -62,7 +56,9 @@
         label="Достиг ли проект поставленных целей?"
         :required="!isProjectStateArchived"
       >
-        <template v-if="!isProjectStateArchived || authStore.isStudent">
+        <template
+          v-if="!isProjectStateArchived && isCurrentUserSupervisorOfDataProject"
+        >
           <BaseRadioButton
             v-model="projectResultForm.projectResultGoal"
             data-test-id="projectResultGoalAllGoalsRadioButton"
@@ -160,7 +156,7 @@
       <!-- </Project team> -->
     </FormSection>
 
-    <div v-show="!isProjectStateArchived" :class="$style.actions">
+    <div v-if="!isProjectStateArchived" :class="$style.actions">
       <BaseButton
         v-if="isCurrentUserSupervisorOfDataProject && !isFetching"
         :disabled="isLoading"
@@ -179,7 +175,7 @@
         Сохранить
       </BaseButton>
     </div>
-    <div v-show="isProjectStateArchived" :class="$style.actions">
+    <div v-if="isProjectStateArchived" :class="$style.actions">
       <BaseButton
         v-if="isCurrentUserSupervisorOfDataProject && !isFetching"
         :disabled="isLoading"
@@ -194,7 +190,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, reactive, watchEffect } from '@vue/runtime-core';
+  import { computed, reactive, watch, watchEffect } from '@vue/runtime-core';
   import { onMounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useToast } from 'vue-toastification';
@@ -226,6 +222,7 @@
   import { useModalsStore } from '@/stores/modals/useModalsStore';
   import { Candidate } from '@/models/Candidate';
   import { ProjectSupervisor } from '@/models/Project';
+  import { UserSupervisor } from '@/models/User';
   import BaseButton from '../ui/BaseButton.vue';
 
   const authStore = useAuthStore();
@@ -234,7 +231,7 @@
 
   const projectResultForm = reactive<ProjectResultFormValue>({
     projectResultDescription: '',
-    projectResultGoal: ProjectResultGoal['AllGoals'],
+    projectResultGoal: null,
   });
 
   const navigateBack = useNavigateBack({
@@ -246,11 +243,21 @@
 
   const projectId = computed(() => Number(route.params.id));
   const {
-    refetch,
+    isFetched,
     isFetching,
     isError,
     data: projectData,
   } = useGetSingleProjectQuery(projectId);
+
+  const isDirectorInstituteOfProject = computed(
+    () =>
+      authStore.isInstDirector &&
+      projectData.value?.project.supervisors.some(
+        (supervisor: ProjectSupervisor) =>
+          supervisor.supervisor.department.institute.id ===
+          (authStore.profileData as UserSupervisor)?.department.institute.id,
+      ),
+  );
 
   const isCurrentUserSupervisorOfDataProject = computed(() =>
     projectData.value?.project.supervisors.some(
@@ -329,6 +336,13 @@
   });
 
   watchEffect(() => {
+    if (
+      (isDirectorInstituteOfProject.value ||
+        authStore.isHeadOfProjectEducationCenter) &&
+      isProjectStateActive.value
+    ) {
+      return;
+    }
     if (
       !isCurrentUserSupervisorOfDataProject.value &&
       isProjectStateActive.value

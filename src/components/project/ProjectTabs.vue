@@ -4,7 +4,13 @@
       о проекте
     </RouterLink>
     <RouterLink
-      v-if="canViewParticipants(projectState.id) && isCurrentSupervisor"
+      v-if="
+        isArchivedState(projectState.id) ||
+        (isActiveState(projectState.id) &&
+          (isCurrentUserSupervisorOfDataProject ||
+            isDirectorInstituteOfProject ||
+            authStore.isHeadOfProjectEducationCenter))
+      "
       class="project-tab"
       :to="{ name: RouteNames.PROJECT_RESULTS }"
     >
@@ -28,17 +34,20 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, toRefs } from 'vue';
-  import { RouterLink } from 'vue-router';
+  import { computed, toRefs, watchEffect } from 'vue';
+  import { RouterLink, useRoute } from 'vue-router';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import {
     canViewParticipants,
     canViewParticipations,
+    isActiveState,
+    isArchivedState,
   } from '@/helpers/project';
   import { RouteNames } from '@/router/types/route-names';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { ProjectSupervisor } from '@/models/Project';
   import { ProjectState } from '@/models/ProjectState';
+  import { UserSupervisor } from '@/models/User';
 
   interface Props {
     projectState: ProjectState;
@@ -48,13 +57,25 @@
 
   const authStore = useAuthStore();
 
+  const route = useRoute();
+
   const {
     isFetching,
     isError,
     data: projectData,
-  } = useGetSingleProjectQuery(1205);
+  } = useGetSingleProjectQuery(Number(route.params.id));
 
-  const isCurrentSupervisor = computed(() =>
+  const isDirectorInstituteOfProject = computed(
+    () =>
+      authStore.isInstDirector &&
+      projectData.value?.project.supervisors.some(
+        (supervisor: ProjectSupervisor) =>
+          supervisor.supervisor.department.institute.id ===
+          (authStore.profileData as UserSupervisor)?.department.institute.id,
+      ),
+  );
+
+  const isCurrentUserSupervisorOfDataProject = computed(() =>
     projectData.value?.project.supervisors.some(
       (supervisor: ProjectSupervisor) =>
         supervisor.supervisor.id === authStore.profileData?.id,
