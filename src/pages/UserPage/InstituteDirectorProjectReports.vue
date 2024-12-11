@@ -64,6 +64,7 @@
         <div style="display: flex; gap: 10px; align-items: center">
           <BaseTooltip
             v-if="toggleButton"
+            position-x="left"
             message="Выгрузка заблокирована, пока фильтр стоит на 'Сдано'"
           />
           <BaseButton
@@ -104,6 +105,7 @@
   import { computed, ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
   import { useRouter } from 'vue-router';
+  import { useToast } from 'vue-toastification';
   import * as xlsx from 'xlsx';
   import InstituteDirectorProjectReportCard from '@/components/project-report/InstituteDirectorProjectReportCard.vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
@@ -129,11 +131,12 @@
 
   const router = useRouter();
   const route = useRoute();
+  const toast = useToast();
 
-  const toggleButton = ref(true);
+  const toggleButton = ref(false);
 
   const deliveries = ref<ProjectReportStateId[]>([
-    ProjectReportStateId.Delivered,
+    0 as ProjectReportStateId,
     ProjectReportStateId.NotDelivered,
   ]);
 
@@ -207,6 +210,11 @@
         });
       }
     });
+
+    if (!reports.length) {
+      toast.info('Список выгрузки пуст. Включите фильтр для несданных отчётов');
+      return;
+    }
 
     const workbook = xlsx.utils.book_new();
     const worksheet = xlsx.utils.json_to_sheet(reports);

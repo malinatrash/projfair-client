@@ -242,8 +242,8 @@
   });
 
   const router = useRouter();
-
   const route = useRoute();
+
   const projectId = computed(() => Number(route.params.id));
   const {
     refetch,
@@ -320,7 +320,6 @@
   );
 
   onMounted(() => {
-    refetch.value();
     if (isMobile()) {
       modalsStore.openAlertModal(
         'Внимание',
