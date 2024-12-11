@@ -6,7 +6,7 @@
       </li>
     </template>
     <template v-else>
-      <li v-for="project of projectList" :key="project.id">
+      <li v-for="project of filteredProjects" :key="project.id">
         <ProjectCard :project="project" />
       </li>
     </template>
@@ -14,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue';
   import type { Project } from '@/models/Project';
   import BaseEmptyCard from '../ui/BaseEmptyCard.vue';
   import ProjectCard from './ProjectCard.vue';
@@ -24,11 +25,15 @@
     loadingCardsLength?: number;
   }
 
-  withDefaults(defineProps<Props>(), {
+  const props = withDefaults(defineProps<Props>(), {
     loading: false,
     loadingCardsLength: 1,
     projectList: () => [],
   });
+
+  const filteredProjects = computed(() =>
+    props.projectList.slice().sort((a, b) => a.state.id - b.state.id),
+  );
 </script>
 
 <style scoped>
