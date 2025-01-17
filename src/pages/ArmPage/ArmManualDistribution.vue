@@ -29,67 +29,95 @@ BaseLabel
       />
 
       <BasePanel
-        v-for="student in students"
-        :key="student.candidate_id"
-        :class="[
-          'student-card',
-          inputProject[student.candidate_id] ? 'project-selected' : '',
-        ]"
+        v-for="group in trainingGroups.keys()"
+        :key="group"
+        class="institute-card"
       >
-        <div class="icon-project">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#4f5569"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-user"
-          >
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-        </div>
+        <SimpleAccordion default-opened>
+          <template #title>
+            <div class="accordion-title">
+              <p class="title" style="font-size: 22px">
+                {{ group }}
+                <span class="title-description">
+                  Кол-во студентов без проекта:
+                  <span style="color: var(--accent-color-1)">{{
+                    trainingGroups.get(group)?.length
+                  }}</span>
+                </span>
+              </p>
+            </div>
+          </template>
 
-        <p class="title">
-          {{ student.fio }}
-          <span class="title-description">
-            id:
-            <span style="color: var(--accent-color-1)">
-              {{ student.candidate_id }}
-            </span>
-            | Группа:
-            <span style="color: var(--accent-color-1)">
-              {{ student.training_group }}
-            </span>
-          </span>
-        </p>
+          <template #content>
+            <div
+              v-for="student in trainingGroups.get(group)"
+              :key="student.candidate_id"
+              :class="[
+                'student-card',
+                inputProject[student.candidate_id] ? 'project-selected' : '',
+              ]"
+            >
+              <div class="icon-project">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#4f5569"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-user"
+                >
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
 
-        <div class="arrow-icon" v-html="arrowIcon"></div>
+              <p class="title">
+                {{ student.fio }}
+                <span class="title-description">
+                  id:
+                  <span style="color: var(--accent-color-1)">
+                    {{ student.candidate_id }}
+                  </span>
+                  | Группа:
+                  <span style="color: var(--accent-color-1)">
+                    {{ student.training_group }}
+                  </span>
+                </span>
+              </p>
 
-        <VMultiselect
-          v-model="inputProject[student.candidate_id]"
-          data-test-id="prevProject"
-          :class="[
-            'multiselect',
-            inputProject[student.candidate_id] ? 'selected' : '',
-          ]"
-          placeholder="Выберите проект для распределения"
-          no-results-text="Проект
+              <div class="arrow-icon" v-html="arrowIcon"></div>
+
+              <VMultiselect
+                v-model="inputProject[student.candidate_id]"
+                data-test-id="prevProject"
+                :class="[
+                  'multiselect',
+                  inputProject[student.candidate_id] ? 'selected' : '',
+                ]"
+                placeholder="Выберите проект для распределения"
+                no-results-text="Проект
           не найден"
-          no-options-text="Проекты не найдены"
-          :searchable="true"
-          :options="
-            student.eligible_projects.map((project) => ({
-              label: `id: ${project.project_id} | Название: ${project.project_title} | Места: ${project.places} | Кол-во студентов: ${project.candidates_count}`,
-              value: project.project_id,
-            }))
-          "
-          :disabled="mutation.isLoading.value || query.isLoading.value"
-        />
+                no-options-text="Проекты не найдены"
+                :searchable="true"
+                :options="
+                  student.eligible_projects.map((project) => ({
+                    label: `id: ${project.project_id} | Название: ${project.project_title} | Места: ${project.places} | Кол-во студентов: ${project.candidates_count}`,
+                    value: project.project_id,
+                  }))
+                "
+                :disabled="
+                  mutation.isLoading.value ||
+                  query.isLoading.value ||
+                  query.isFetching.value
+                "
+              />
+            </div>
+          </template>
+        </SimpleAccordion>
       </BasePanel>
     </div>
   </div>
@@ -97,17 +125,20 @@ BaseLabel
 
 <script setup lang="ts">
   import VMultiselect from '@vueform/multiselect';
-  import { computed, ref } from 'vue';
+  import { computed, ref, watchEffect } from 'vue';
   import { useQuery, useQueryClient } from 'vue-query';
   import { useToast } from 'vue-toastification';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
+  import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
+  import { USE_GET_ARM_PROJECTS_LIST_QUERY_KEY } from '../../api/ArmApi/hooks/useGetArmProjectsListQuery';
   import { armApi } from '@/api/ArmApi';
   import {
     USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY,
     useGetArmManualDistributionListQuery,
   } from '@/api/ArmApi/hooks/useGetArmManualDistributionListQuery';
+  import { USE_GET_ARM_STUDENTS_LIST_QUERY_KEY } from '@/api/ArmApi/hooks/useGetArmStudentsListQuery';
   import { useUpdateArmManualDistributionMutation } from '@/api/ArmApi/hooks/useUpdateArmManualDistributionQuery';
   import { ArmManualDistribution } from '@/models/ArmManualDistribution';
   import Previous from '@/assets/icons/previous.svg';
@@ -121,6 +152,8 @@ BaseLabel
     onSuccess: () => {
       inputProject.value = {};
       client.invalidateQueries(USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY);
+      client.invalidateQueries(USE_GET_ARM_PROJECTS_LIST_QUERY_KEY);
+      client.invalidateQueries(USE_GET_ARM_STUDENTS_LIST_QUERY_KEY);
     },
   });
 
@@ -130,9 +163,7 @@ BaseLabel
     queryFn: () => armApi.goBackToPreviousArmManualDistribution(),
     onSuccess: () => {
       toast.info('Было восстановлено предыдущее распределение');
-      client.invalidateQueries(
-        'USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY',
-      );
+      client.invalidateQueries(USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY);
     },
   });
 
@@ -153,6 +184,17 @@ BaseLabel
             a.candidate_id - b.candidate_id,
         ) as ArmManualDistribution[],
   );
+
+  const trainingGroups = computed(() => {
+    const groupMap = new Map<string, ArmManualDistribution[]>();
+    students.value?.forEach((student) => {
+      if (!groupMap.has(student.training_group)) {
+        groupMap.set(student.training_group, []);
+      }
+      groupMap.get(student.training_group)?.push(student);
+    });
+    return groupMap;
+  });
 
   const apply = () => {
     const updatedStudents = students.value.map((student) => ({
@@ -225,14 +267,22 @@ BaseLabel
     }
   }
 
-  .panel {
-    padding: 20px;
+  // .panel {
+  //   padding: 20px;
+  // }
+
+  .title {
+    font-size: 24px;
+    line-height: normal;
+    color: #4f5569;
   }
 
   .student-card {
     display: flex;
     gap: 15px;
     align-items: center;
+    padding: 20px 15px;
+    border-bottom: 1px solid var(--gray-color-1);
     transition: 0.15s ease-in-out;
 
     &.project-selected {
@@ -286,6 +336,131 @@ BaseLabel
       & li > span {
         font-size: 16px !important;
       }
+    }
+  }
+
+  // ////////////////////////////////////////////////////
+
+  $padding: 20px;
+
+  .panel {
+    padding: 0 $padding;
+
+    &:has(.accordion.opened) {
+      padding-bottom: $padding;
+    }
+  }
+
+  .input {
+    $input-width: 85px;
+
+    min-width: $input-width;
+    max-width: $input-width;
+    text-align: center;
+  }
+
+  .inner-accordion-content {
+    & .title {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 5px;
+      justify-content: center;
+      font-weight: 700;
+
+      &-description {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--gray-color-2);
+      }
+    }
+
+    & > *:not(.accordion) {
+      display: flex;
+      flex-direction: row;
+      gap: $padding;
+      align-items: center;
+      justify-content: space-between;
+      padding: $padding 0;
+      padding-right: 45px;
+      border-bottom: 1px solid var(--gray-color-1);
+
+      @media (width <= 500px) {
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  .accordion {
+    &-title {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: $padding 0;
+      padding-right: 26.5px;
+
+      & .title {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        justify-content: center;
+
+        &-description {
+          font-size: 16px;
+          color: var(--gray-color-2);
+        }
+      }
+
+      &:hover .title {
+        color: var(--accent-color-1);
+      }
+
+      @media (width <= 500px) {
+        flex-wrap: wrap;
+
+        & .title {
+          font-size: 20px;
+
+          &-description {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+    &.opened > header > button > div > p.title {
+      color: var(--accent-color-1);
+    }
+
+    &.opened:deep(.header > button.title) {
+      border-bottom: 1px solid var(--gray-color-1);
+    }
+
+    &.opened:deep(.content) {
+      border-left: 2px dashed var(--gray-color-1);
+      transition: 0.05s ease-in-out;
+
+      // &:hover {
+      //   border-left: 2px solid var(--accent-color-1);
+      // }
+
+      &:has(> .inner-accordion-content) {
+        background-color: white;
+        border-left: 4px solid var(--accent-color-2);
+      }
+    }
+
+    &:deep(button.title) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    &:deep(.content) {
+      padding-left: $padding;
     }
   }
 </style>

@@ -434,7 +434,7 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: 'manual_distribution',
+        path: 'manual-distribution',
         component: ArmManualDistribution,
         name: RouteNames.ARM_MANUAL_DISTRIBUTION,
         meta: {
@@ -442,21 +442,21 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: 'distribution_approve',
+        path: 'distribution-approve',
         component: ArmDistributionApprove,
         name: RouteNames.ARM_DISTRIBUTION_APPROVE,
         meta: {
           title: 'Итоговое распределение',
         },
       },
-      {
-        path: 'debug',
-        component: ArmDebug,
-        name: RouteNames.ARM_DEBUG,
-        meta: {
-          title: 'Отладка (4 и 5 приоритеты)',
-        },
-      },
+      // {
+      //   path: 'debug',
+      //   component: ArmDebug,
+      //   name: RouteNames.ARM_DEBUG,
+      //   meta: {
+      //     title: 'Отладка (4 и 5 приоритеты)',
+      //   },
+      // },
     ],
   },
   {

@@ -68,7 +68,9 @@
                         : 'none',
                   },
                 ]"
-                :disabled="isMutating"
+                :disabled="
+                  isMutating || query.isLoading.value || query.isFetching.value
+                "
                 @change="() => changeMinPlaceForProjectOnInstitute(institute)"
               />
             </div>
@@ -127,7 +129,11 @@
                             : 'none',
                       },
                     ]"
-                    :disabled="isMutating"
+                    :disabled="
+                      isMutating ||
+                      query.isLoading.value ||
+                      query.isFetching.value
+                    "
                     @change="
                       () =>
                         changeMinPlaceForProjectOnDepartment(
@@ -199,7 +205,11 @@
                               : 'none',
                         },
                       ]"
-                      :disabled="isMutating"
+                      :disabled="
+                        isMutating ||
+                        query.isLoading.value ||
+                        query.isFetching.value
+                      "
                       @change="
                         () => changeMinPlaceForProject(institute, department)
                       "
@@ -270,6 +280,7 @@
         inputProjects.value = {};
 
         queryClient.invalidateQueries('GET_DISTRIBUTION_EXIST');
+
         mutation.mutate([]);
       }
     },

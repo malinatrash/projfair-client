@@ -11,7 +11,7 @@
         <template #title>
           <div class="accordion-title">
             <p class="title" style="font-size: 22px">
-              Безымянные
+              Потерянные
               <span class="title-description">
                 Кол-во студентов без проекта:
                 <span style="color: var(--accent-color-1)">{{
@@ -49,10 +49,13 @@
               </div>
 
               <p class="title" style="font-size: 20px">
-                <span class="title-description">
-                  id: {{ silent.candidate_id }}
-                </span>
                 {{ silent.fio }}
+                <span class="title-description">
+                  id:
+                  <span style="color: var(--accent-color-1)">{{
+                    silent.candidate_id
+                  }}</span>
+                </span>
               </p>
             </div>
           </div>
