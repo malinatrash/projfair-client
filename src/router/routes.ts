@@ -422,7 +422,7 @@ export const routes: RouteRecordRaw[] = [
         component: ArmProjects,
         name: RouteNames.ARM_PROJECTS,
         meta: {
-          title: 'Проекты',
+          title: 'Автоматическое распределение',
         },
       },
       {
@@ -430,7 +430,7 @@ export const routes: RouteRecordRaw[] = [
         component: ArmStudents,
         name: RouteNames.ARM_STUDENTS,
         meta: {
-          title: 'Студенты',
+          title: 'Нераспределенные студенты',
         },
       },
       {

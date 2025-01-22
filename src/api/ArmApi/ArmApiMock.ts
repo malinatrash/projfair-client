@@ -1,5 +1,8 @@
 import { delayRes } from '@/helpers/promise';
-import { ArmManualDistribution } from '@/models/ArmManualDistribution';
+import {
+  ArmManualDistribution,
+  ArmManualDistributionCandidate,
+} from '@/models/ArmManualDistribution';
 import { ArmInstitute, ArmProjects } from '@/models/ArmProjects';
 import { ArmInstitute as ArmStudentsInstitute } from '@/models/ArmStudents';
 import {
@@ -14,11 +17,15 @@ export default class ArmApiMock implements ArmApiType {
     return delayRes(armProjectsList, 300);
   }
 
+  async getArmApproveDistributionProjectsList(): Promise<ArmProjects> {
+    return delayRes(armProjectsList, 300);
+  }
+
   async getArmStudentsList(): Promise<ArmStudentsInstitute[]> {
     return delayRes(armStudentsList, 300);
   }
 
-  async getArmManualDistribution(): Promise<ArmManualDistribution[]> {
+  async getArmManualDistribution(): Promise<ArmManualDistribution> {
     return delayRes(armManualDistribution, 300);
   }
 
@@ -27,9 +34,9 @@ export default class ArmApiMock implements ArmApiType {
   }
 
   async updateArmManualDistribution(
-    data: ArmManualDistribution[],
-  ): Promise<ArmManualDistribution[]> {
-    return delayRes(armManualDistribution, 300);
+    data: ArmManualDistributionCandidate[],
+  ): Promise<ArmManualDistributionCandidate[]> {
+    return delayRes(armManualDistribution.candidates, 300);
   }
 
   async goBackToPreviousArmManualDistribution() {
@@ -42,5 +49,13 @@ export default class ArmApiMock implements ArmApiType {
 
   async isArmManualDistributionExist(): Promise<boolean> {
     return delayRes(true, 300);
+  }
+
+  async exportCandidatesToDB(): Promise<void> {
+    return delayRes({} as unknown as void, 300);
+  }
+
+  async cancelExportCandidatesToDB(): Promise<void> {
+    return delayRes({} as unknown as void, 300);
   }
 }

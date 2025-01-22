@@ -1,5 +1,21 @@
 <template>
   <div style="position: relative">
+    <div class="buttons">
+      <BaseButton
+        variant="outlined"
+        class="previous-btn"
+        :disabled="query.isLoading.value"
+        @click="openCancelExportConfirmModal"
+      >
+        Отмена переноса в БД
+      </BaseButton>
+      <BaseButton
+        :disabled="query.isLoading.value"
+        @click="openExportConfirmModal"
+        >Внести в Базу данных</BaseButton
+      >
+    </div>
+
     <BaseStub
       v-if="query.isLoading.value"
       title="Получем список проектов..."
@@ -96,7 +112,7 @@
                         }}</span>
                         | Кол-во студентов в проекте:
                         <span style="color: var(--accent-color-1)">{{
-                          project.candidates.length
+                          project.candidates_count
                         }}</span>
                         | Размер проектной команды:
                         <span style="color: var(--accent-color-1)">{{
@@ -165,13 +181,52 @@
 
 <script setup lang="ts">
   import { computed } from '@vue/runtime-core';
+  import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
-  import { useGetArmProjectsListQuery } from '@/api/ArmApi/hooks/useGetArmProjectsListQuery';
+  import { useGetArmApproveDistributionProjectsListQuery } from '../../api/ArmApi/hooks/useGetArmApproveDistributionProjectsListQuery';
+  import { armApi } from '@/api/ArmApi';
+  import { useModalsStore } from '../../stores/modals/useModalsStore';
   import { ArmInstitute } from '@/models/ArmProjects';
 
-  const query = useGetArmProjectsListQuery();
+  const modalsStore = useModalsStore();
+
+  const openExportConfirmModal = () => {
+    const agree = () => {
+      armApi.exportCandidatesToDB();
+      modalsStore.closeConfirmModal();
+    };
+    const disagree = () => {
+      modalsStore.closeConfirmModal();
+    };
+    modalsStore.openConfirmModal(
+      'Вы хотите внести результат распределения в БД?',
+      'Да',
+      'Нет',
+      agree,
+      disagree,
+    );
+  };
+
+  const openCancelExportConfirmModal = () => {
+    const agree = () => {
+      armApi.cancelExportCandidatesToDB();
+      modalsStore.closeConfirmModal();
+    };
+    const disagree = () => {
+      modalsStore.closeConfirmModal();
+    };
+    modalsStore.openConfirmModal(
+      'Вы хотите откатить перенос результата в БД?',
+      'Да',
+      'Нет',
+      agree,
+      disagree,
+    );
+  };
+
+  const query = useGetArmApproveDistributionProjectsListQuery();
 
   const institutes = computed<ArmInstitute[]>(
     () =>
@@ -185,6 +240,35 @@
 
 <style lang="scss" scoped>
   $padding: 20px;
+
+  .buttons {
+    position: absolute;
+    top: -82.5px;
+    right: 0;
+    display: flex;
+    gap: 15px;
+
+    & > .previous-btn {
+      &:disabled:deep(path) {
+        stroke: var(--gray-color-2);
+      }
+
+      &:hover:deep(path) {
+        stroke: #fff;
+      }
+    }
+
+    @media (width <= 1175px) {
+      position: relative;
+      top: 0;
+      justify-content: end;
+      margin-bottom: 15px;
+    }
+
+    @media (width <= 505px) {
+      flex-direction: column;
+    }
+  }
 
   .panel {
     padding: 0 $padding;

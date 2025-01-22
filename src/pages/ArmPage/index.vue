@@ -35,9 +35,21 @@
   import { armApi } from '@/api/ArmApi';
   import { useSmallDevice } from '@/hooks/useBreakpoints';
   import { useWatchAuthorization } from '@/hooks/useWatchAuthorization';
+  import { useModalsStore } from '@/stores/modals/useModalsStore';
   import ArmNavigation from './ArmNavigation.vue';
 
   const isSmallDevice = useSmallDevice();
+
+  const modalsStore = useModalsStore();
+
+  function agree() {
+    restoreDistributionQuery.refetch.value();
+    modalsStore.closeConfirmModal();
+  }
+
+  function disagree() {
+    modalsStore.closeConfirmModal();
+  }
 
   const toast = useToast();
 
@@ -72,7 +84,13 @@
   );
 
   const eraseDistribution = () => {
-    restoreDistributionQuery.refetch.value();
+    modalsStore.openConfirmModal(
+      'Вы хотите сбросить автоматическое и ручное распределение?',
+      'Сброс',
+      'Отмена',
+      agree,
+      disagree,
+    );
   };
 </script>
 

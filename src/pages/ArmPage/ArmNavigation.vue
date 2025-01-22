@@ -96,7 +96,7 @@
     justify-content: space-between;
     width: 100%;
     padding: 1.25rem 0;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     line-height: 1.625rem;
     color: var(--text-color);
 

@@ -11,5 +11,5 @@ export const armProjectsList: ArmProjects =
 export const armStudentsList: ArmInstitute[] =
   mockGroupedParticipations as ArmInstitute[];
 
-export const armManualDistribution: ArmManualDistribution[] =
-  mockWithoutParticipationsWithProjects as ArmManualDistribution[];
+export const armManualDistribution: ArmManualDistribution =
+  mockWithoutParticipationsWithProjects as ArmManualDistribution;

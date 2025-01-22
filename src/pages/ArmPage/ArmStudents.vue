@@ -11,7 +11,7 @@
         <template #title>
           <div class="accordion-title">
             <p class="title" style="font-size: 22px">
-              Потерянные
+              Потерянные студенты
               <span class="title-description">
                 Кол-во студентов без проекта:
                 <span style="color: var(--accent-color-1)">{{

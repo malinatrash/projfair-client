@@ -5,7 +5,7 @@
         :disabled="
           isMutating || query.isLoading.value || query.isFetching.value
         "
-        @click="apply"
+        @click="openConfirmModal"
         >Применить</BaseButton
       >
     </div>
@@ -71,7 +71,12 @@
                 :disabled="
                   isMutating || query.isLoading.value || query.isFetching.value
                 "
-                @change="() => changeMinPlaceForProjectOnInstitute(institute)"
+                @change="
+                  (e: Event) => {
+                    changeMaxValue(e, inputInstitutes, institute.institute_id)
+                    changeMinPlaceForProjectOnInstitute(institute);
+                  }
+                "
               />
             </div>
           </div>
@@ -135,11 +140,13 @@
                       query.isFetching.value
                     "
                     @change="
-                      () =>
+                      (e: Event) => {
+                        changeMaxValue(e, inputDepartments, department.department_id)
                         changeMinPlaceForProjectOnDepartment(
                           institute,
                           department,
-                        )
+                        );
+                      }
                     "
                   />
                 </div>
@@ -181,7 +188,7 @@
                       }}</span>
                       | Кол-во студентов в проекте:
                       <span style="color: var(--accent-color-1)">{{
-                        project.candidates.length
+                        project.candidates_count
                       }}</span>
                       | Размер проектной команды:
                       <span style="color: var(--accent-color-1)">{{
@@ -194,8 +201,10 @@
                     <BaseInput
                       v-model="inputProjects[project.project_id]"
                       type="number"
-                      min="5"
-                      max="100"
+                      :min="5"
+                      :minlength="1"
+                      :max="100"
+                      :maxlength="3"
                       :placeholder="project.places.toString()"
                       :style="[
                         {
@@ -211,7 +220,10 @@
                         query.isFetching.value
                       "
                       @change="
-                        () => changeMinPlaceForProject(institute, department)
+                        (e: Event) => {
+                          changeMaxValue(e, inputProjects, project.project_id)
+                          changeMinPlaceForProject(institute, department)
+                        }
                       "
                     />
                   </div>
@@ -239,6 +251,7 @@
   import { USE_GET_ARM_PROJECTS_LIST_QUERY_KEY } from '@/api/ArmApi/hooks/useGetArmProjectsListQuery';
   import { USE_UPDATE_ARM_PROJECTS_LIST_MUTATION_KEY } from '@/api/ArmApi/hooks/useUpdateArmProjectsListQuery';
   import { armApi } from '@/api/ArmApi/index';
+  import { useModalsStore } from '../../stores/modals/useModalsStore';
   import {
     ArmDepartment,
     ArmInstitute,
@@ -246,6 +259,19 @@
   } from '@/models/ArmProjects';
 
   const toast = useToast();
+  const modalsStore = useModalsStore();
+
+  const changeMaxValue = (
+    e: Event,
+    input: { [x: number]: number },
+    value: number,
+  ) => {
+    const inputElement = e.currentTarget as HTMLInputElement;
+    if (inputElement.valueAsNumber >= Number(inputElement.max)) {
+      inputElement.value = inputElement.max;
+      input[value] = Number(inputElement.max);
+    }
+  };
 
   const inputInstitutes = ref<{
     [instituteId: number]: number;
@@ -481,6 +507,23 @@
     isMutating.value = true;
 
     mutationQuery.mutate(updatedProjects);
+  };
+
+  const openConfirmModal = () => {
+    const agree = () => {
+      apply();
+      modalsStore.closeConfirmModal();
+    };
+    const disagree = () => {
+      modalsStore.closeConfirmModal();
+    };
+    modalsStore.openConfirmModal(
+      'Вы хотите применить автоматическое распределение?',
+      'Да',
+      'Нет',
+      agree,
+      disagree,
+    );
   };
 </script>
 

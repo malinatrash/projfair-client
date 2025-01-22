@@ -1,4 +1,7 @@
-import { ArmManualDistribution } from '@/models/ArmManualDistribution';
+import {
+  ArmManualDistribution,
+  ArmManualDistributionCandidate,
+} from '@/models/ArmManualDistribution';
 import { ArmInstitute, ArmProjects } from '@/models/ArmProjects';
 import { ArmInstitute as ArmStudentsInstitute } from '@/models/ArmStudents';
 import { baseKyInstance } from '../baseKy';
@@ -9,11 +12,15 @@ export default class ArmApi implements ProjectApiType {
     return baseKyInstance.get('api/arm/projects').json();
   }
 
+  async getArmApproveDistributionProjectsList(): Promise<ArmProjects> {
+    return baseKyInstance.get('api/arm/approveDistribution').json();
+  }
+
   async getArmStudentsList(): Promise<ArmStudentsInstitute[]> {
     return baseKyInstance.get('api/arm/candidates').json();
   }
 
-  async getArmManualDistribution(): Promise<ArmManualDistribution[]> {
+  async getArmManualDistribution(): Promise<ArmManualDistribution> {
     return baseKyInstance.get('api/arm/manualDistribution').json();
   }
 
@@ -26,8 +33,8 @@ export default class ArmApi implements ProjectApiType {
   }
 
   async updateArmManualDistribution(
-    data: ArmManualDistribution[],
-  ): Promise<ArmManualDistribution[]> {
+    data: ArmManualDistributionCandidate[],
+  ): Promise<ArmManualDistributionCandidate[]> {
     return baseKyInstance
       .patch('api/arm/manualDistribution', {
         json: data,
@@ -45,5 +52,15 @@ export default class ArmApi implements ProjectApiType {
 
   async isArmManualDistributionExist(): Promise<boolean> {
     return baseKyInstance.get('api/arm/eraseDistribution').json();
+  }
+
+  // TODO: Исправить название
+  async exportCandidatesToDB(): Promise<void> {
+    return baseKyInstance.get('api/arm/exportCandidates').json();
+  }
+
+  // TODO: Исправить название
+  async cancelExportCandidatesToDB(): Promise<void> {
+    return baseKyInstance.get('api/arm/cancelExportCandidates').json();
   }
 }

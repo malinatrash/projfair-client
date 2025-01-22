@@ -10,7 +10,7 @@ BaseLabel
           query.isLoading.value ||
           previousDistributionQuery.isLoading.value
         "
-        @click="goBackToPreviousArmManualDistribution"
+        @click="openConfirmModal"
       >
         <Previous />
       </BaseButton>
@@ -104,10 +104,19 @@ BaseLabel
                 no-options-text="Проекты не найдены"
                 :searchable="true"
                 :options="
-                  student.eligible_projects.map((project) => ({
-                    label: `id: ${project.project_id} | Название: ${project.project_title} | Места: ${project.places} | Кол-во студентов: ${project.candidates_count}`,
-                    value: project.project_id,
-                  }))
+                  // student.eligible_projects.map((project) => ({
+                  //   label: `id: ${project.project_id} | Название: ${project.project_title} | Места: ${project.places} | Кол-во студентов: ${project.candidates_count}`,
+                  //   value: project.project_id,
+                  // }))
+                  projects
+                    .filter((project) =>
+                      student.eligible_projects_ids.includes(
+                        project.project_id,
+                      ),
+                    )
+                    .map((project) =>
+                      getEligibleProjectsForMultiselect(project),
+                    )
                 "
                 :disabled="
                   mutation.isLoading.value ||
@@ -125,7 +134,7 @@ BaseLabel
 
 <script setup lang="ts">
   import VMultiselect from '@vueform/multiselect';
-  import { computed, ref, watchEffect } from 'vue';
+  import { computed, ref } from 'vue';
   import { useQuery, useQueryClient } from 'vue-query';
   import { useToast } from 'vue-toastification';
   import BaseButton from '@/components/ui/BaseButton.vue';
@@ -140,12 +149,18 @@ BaseLabel
   } from '@/api/ArmApi/hooks/useGetArmManualDistributionListQuery';
   import { USE_GET_ARM_STUDENTS_LIST_QUERY_KEY } from '@/api/ArmApi/hooks/useGetArmStudentsListQuery';
   import { useUpdateArmManualDistributionMutation } from '@/api/ArmApi/hooks/useUpdateArmManualDistributionQuery';
+  import { useModalsStore } from '../../stores/modals/useModalsStore';
+  import {
+    ArmManualDistributionCandidate,
+    ArmManualDistributionEligibleProjects,
+  } from '../../models/ArmManualDistribution';
   import { ArmManualDistribution } from '@/models/ArmManualDistribution';
   import Previous from '@/assets/icons/previous.svg';
   import arrowIcon from '@/assets/icons/user-role-select-arrow.svg?raw';
 
   const client = useQueryClient();
   const toast = useToast();
+  const modalsStore = useModalsStore();
 
   const query = useGetArmManualDistributionListQuery();
   const mutation = useUpdateArmManualDistributionMutation({
@@ -175,18 +190,32 @@ BaseLabel
     [x: number]: number | null;
   }>({});
 
-  const students = computed<ArmManualDistribution[]>(
-    () =>
-      query.data.value
-        ?.slice()
-        .sort(
-          (a: ArmManualDistribution, b: ArmManualDistribution) =>
-            a.candidate_id - b.candidate_id,
-        ) as ArmManualDistribution[],
+  const projects = computed<ArmManualDistributionEligibleProjects[]>(() =>
+    (query.data.value as ArmManualDistribution)?.eligible_projects
+      .slice()
+      .sort((a, b) => a.project_id - b.project_id),
   );
 
+  const students = computed<ArmManualDistributionCandidate[]>(() =>
+    (query.data.value as ArmManualDistribution)?.candidates
+      .slice()
+      .sort((a, b) => a.candidate_id - b.candidate_id),
+  );
+
+  const getEligibleProjectsForMultiselect = (
+    project: ArmManualDistributionEligibleProjects,
+  ) => {
+    const candidatesInProjects = students.value.filter(
+      (stud) => inputProject.value[stud.candidate_id] === project.project_id,
+    ).length;
+    return {
+      label: `id: ${project.project_id} | Название: ${project.project_title} | Места: ${project.places} | Кол-во студентов: ${project.candidates_count} (+${candidatesInProjects})`,
+      value: project.project_id,
+    };
+  };
+
   const trainingGroups = computed(() => {
-    const groupMap = new Map<string, ArmManualDistribution[]>();
+    const groupMap = new Map<string, ArmManualDistributionCandidate[]>();
     students.value?.forEach((student) => {
       if (!groupMap.has(student.training_group)) {
         groupMap.set(student.training_group, []);
@@ -195,6 +224,18 @@ BaseLabel
     });
     return groupMap;
   });
+
+  const openConfirmModal = () => {
+    console.log(inputProject.value);
+
+    modalsStore.openConfirmModal(
+      'Вы хотите откатиться на предыдущее ручное распределение?',
+      'Откат',
+      'Отмена',
+      agree,
+      disagree,
+    );
+  };
 
   const apply = () => {
     const updatedStudents = students.value.map((student) => ({
@@ -212,6 +253,15 @@ BaseLabel
 
     mutation.mutate(updatedStudents);
   };
+
+  function agree() {
+    goBackToPreviousArmManualDistribution();
+    modalsStore.closeConfirmModal();
+  }
+
+  function disagree() {
+    modalsStore.closeConfirmModal();
+  }
 </script>
 
 <style lang="scss" scoped>
