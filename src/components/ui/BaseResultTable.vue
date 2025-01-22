@@ -43,6 +43,7 @@
   import BasePanel from '@/components/ui/BasePanel.vue';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { useResultStore } from '@/stores/resultPage/useResultStore';
+  import { Participation } from '@/models/Participation';
   import { StudentsResult } from '@/models/StudentsResult';
 
   export type ColumnData = string | number;
@@ -78,13 +79,15 @@
   const resultStore = useResultStore();
   const projectData = useGetSingleProjectQuery(projectId);
   const participations = computed(() => {
-    const s = projectData.data.value?.project.participations?.map((e) => {
-      return {
-        rating: e.mark,
-        review: e.review,
-        id: e.id,
-      };
-    });
+    const s = projectData.data.value?.project.participations?.map(
+      (e: Participation) => {
+        return {
+          rating: e.mark,
+          review: e.review,
+          id: e.id,
+        };
+      },
+    );
     return s;
   });
   resultStore.setResults(participations.value as StudentsResult[]);

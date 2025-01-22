@@ -79,6 +79,7 @@
   import { RouteNames } from '@/router/types/route-names';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
+  import { ProjectSupervisor } from '@/models/Project';
   import { ProjectProposalStateId } from '@/models/ProjectProposal';
 
   useWatchAuthorization();
@@ -112,7 +113,7 @@
 
   const isCurrentUserSupervisorOfDataProject = computed(() => {
     return dataProjectQuery.data.value?.project.supervisors.some(
-      (supervisor) => {
+      (supervisor: ProjectSupervisor) => {
         return supervisor.supervisor.id === authStore.profileData?.id;
       },
     );

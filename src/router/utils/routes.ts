@@ -153,6 +153,44 @@ export const FilterByToProjectReportNameId: Record<
     ProjectReportNameId.InstituteSiberianSchoolOfGeosciences,
 };
 
+export const FilterByToProjectReportIdName: Record<
+  ProjectReportNameId,
+  FilterInstituteProjectReportsBy
+> = {
+  [ProjectReportNameId.All]: FilterInstituteProjectReportsBy.All,
+  [ProjectReportNameId.InstituteOfAircraftEngineeringAndTransportation]:
+    FilterInstituteProjectReportsBy.InstituteOfAircraftEngineeringAndTransportation,
+  [ProjectReportNameId.InstituteOfDistanceAndEveningEducation]:
+    FilterInstituteProjectReportsBy.InstituteOfDistanceAndEveningEducation,
+  [ProjectReportNameId.InstituteOfHighTechnology]:
+    FilterInstituteProjectReportsBy.InstituteOfHighTechnology,
+  [ProjectReportNameId.InstituteOfInformationTechnologyAndDataAnalysis]:
+    FilterInstituteProjectReportsBy.InstituteOfInformationTechnologyAndDataAnalysis,
+  [ProjectReportNameId.InstituteOfArchitectureConstructionAndDesign]:
+    FilterInstituteProjectReportsBy.InstituteOfArchitectureConstructionAndDesign,
+  [ProjectReportNameId.SubsoilUseInstitute]:
+    FilterInstituteProjectReportsBy.SubsoilUseInstitute,
+  [ProjectReportNameId.InstituteOfEconomicsManagementAndLaw]:
+    FilterInstituteProjectReportsBy.InstituteOfEconomicsManagementAndLaw,
+  [ProjectReportNameId.BRICSBaikalInstitute]:
+    FilterInstituteProjectReportsBy.BRICSBaikalInstitute,
+  [ProjectReportNameId.InstituteOfLinguisticsAndInterculturalCommunication]:
+    FilterInstituteProjectReportsBy.InstituteOfLinguisticsAndInterculturalCommunication,
+  [ProjectReportNameId.EnergyInstitute]:
+    FilterInstituteProjectReportsBy.EnergyInstitute,
+  [ProjectReportNameId.IRNITUBranchInUsolyeSibirskiy]:
+    FilterInstituteProjectReportsBy.IRNITUBranchInUsolyeSibirskiy,
+  [ProjectReportNameId.CollegeOfMechanicalEngineering]:
+    FilterInstituteProjectReportsBy.CollegeOfMechanicalEngineering,
+  [ProjectReportNameId.GeologicalExplorationTechnicalSchool]:
+    FilterInstituteProjectReportsBy.GeologicalExplorationTechnicalSchool,
+  [ProjectReportNameId.InstituteOfQuantumPhysics]:
+    FilterInstituteProjectReportsBy.InstituteOfQuantumPhysics,
+  [ProjectReportNameId.MRCPC]: FilterInstituteProjectReportsBy.MRCPC,
+  [ProjectReportNameId.InstituteSiberianSchoolOfGeosciences]:
+    FilterInstituteProjectReportsBy.InstituteSiberianSchoolOfGeosciences,
+};
+
 export function toInstituteProjectReports(
   filterBy = FilterInstituteProjectReportsBy.All,
   page = 1,

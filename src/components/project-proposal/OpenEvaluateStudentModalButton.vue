@@ -37,7 +37,7 @@
       props.id,
       props.name,
       rating.value,
-      review.value,
+      review.value ?? '',
     );
   };
 

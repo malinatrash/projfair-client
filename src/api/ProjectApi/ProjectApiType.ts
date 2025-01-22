@@ -13,6 +13,13 @@ export interface ProjectListResponse {
   projectCount: number;
 }
 
+export interface ProjectCandidateMark {
+  projectId: number;
+  candidateId: number;
+  mark: number;
+  review: string;
+}
+
 export type OnDownloadProgress = (
   progress: DownloadProgress,
   chunk: Uint8Array,
@@ -27,6 +34,12 @@ export default interface ProjectApiType {
   getAllProjectTypes(): Promise<ProjectType[]>;
   getAllProjectStates(): Promise<ProjectState[]>;
   getSingleProject(projectId: number): Promise<Project>;
+  updateProjectCandidateMark(
+    projectId: number,
+    candidateId: number,
+    mark: number,
+    review: string,
+  ): Promise<Project>;
   updateSingleProject(projectId: number): Promise<Project>;
   getProjectParticipants(projectId: number): Promise<Candidate[]>;
   getProjectHistory(projectId: number): Promise<Project[]>;
