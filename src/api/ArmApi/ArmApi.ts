@@ -56,11 +56,11 @@ export default class ArmApi implements ProjectApiType {
 
   // TODO: Исправить название
   async exportCandidatesToDB(): Promise<void> {
-    return baseKyInstance.get('api/arm/exportCandidates').json();
+    return baseKyInstance.post('api/arm/exportCandidates').json();
   }
 
   // TODO: Исправить название
   async cancelExportCandidatesToDB(): Promise<void> {
-    return baseKyInstance.get('api/arm/cancelExportCandidates').json();
+    return baseKyInstance.delete('api/arm/cancelExportCandidates').json();
   }
 }

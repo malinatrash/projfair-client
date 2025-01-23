@@ -1,6 +1,14 @@
 BaseLabel
 <template>
-  <div style="position: relative">
+  <BaseStub
+    v-if="query.isLoading.value"
+    title="Получем список студентов..."
+    subtitle="Можете пока выпить чай :)"
+  />
+  <div
+    v-else
+    style="position: relative; display: flex; flex-direction: column; gap: 15px"
+  >
     <div class="buttons">
       <BaseButton
         variant="outlined"
@@ -21,15 +29,11 @@ BaseLabel
       >
     </div>
 
-    <div class="distribution-wrapper" style="position: relative">
-      <BaseStub
-        v-if="query.isLoading.value"
-        title="Получем список студентов..."
-        subtitle="Можете пока выпить чай :)"
-      />
+    <Tumbler v-model="tumblerValue" :options="tumblerOptions" />
 
+    <div class="distribution-wrapper" style="position: relative">
       <BasePanel
-        v-for="group in trainingGroups.keys()"
+        v-for="group in filteredTrainingGroups.keys()"
         :key="group"
         class="institute-card"
       >
@@ -41,7 +45,7 @@ BaseLabel
                 <span class="title-description">
                   Кол-во студентов без проекта:
                   <span style="color: var(--accent-color-1)">{{
-                    trainingGroups.get(group)?.length
+                    filteredTrainingGroups.get(group)?.length
                   }}</span>
                 </span>
               </p>
@@ -50,12 +54,14 @@ BaseLabel
 
           <template #content>
             <div
-              v-for="student in trainingGroups.get(group)"
+              v-for="student in filteredTrainingGroups.get(group)"
               :key="student.candidate_id"
               :class="[
                 'student-card',
                 inputProject[student.candidate_id] ? 'project-selected' : '',
               ]"
+              role="region"
+              :aria-label="`Студент ${student.fio}`"
             >
               <div class="icon-project">
                 <svg
@@ -99,15 +105,10 @@ BaseLabel
                   inputProject[student.candidate_id] ? 'selected' : '',
                 ]"
                 placeholder="Выберите проект для распределения"
-                no-results-text="Проект
-          не найден"
+                no-results-text="Проект не найден"
                 no-options-text="Проекты не найдены"
                 :searchable="true"
                 :options="
-                  // student.eligible_projects.map((project) => ({
-                  //   label: `id: ${project.project_id} | Название: ${project.project_title} | Места: ${project.places} | Кол-во студентов: ${project.candidates_count}`,
-                  //   value: project.project_id,
-                  // }))
                   projects
                     .filter((project) =>
                       student.eligible_projects_ids.includes(
@@ -123,6 +124,7 @@ BaseLabel
                   query.isLoading.value ||
                   query.isFetching.value
                 "
+                aria-label="Выбор проекта"
               />
             </div>
           </template>
@@ -137,6 +139,7 @@ BaseLabel
   import { computed, ref } from 'vue';
   import { useQuery, useQueryClient } from 'vue-query';
   import { useToast } from 'vue-toastification';
+  import Tumbler from './components/Tumbler.vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
@@ -161,6 +164,22 @@ BaseLabel
   const client = useQueryClient();
   const toast = useToast();
   const modalsStore = useModalsStore();
+
+  enum TumblerType {
+    WITH_PROJECTS = 'С проектами',
+    WITHOUT_PROJECTS = 'Без проектов',
+  }
+  const tumblerOptions = [
+    {
+      label: TumblerType.WITH_PROJECTS,
+      prefix: '',
+    },
+    {
+      label: TumblerType.WITHOUT_PROJECTS,
+      prefix: '',
+    },
+  ];
+  const tumblerValue = ref(tumblerOptions[0].label);
 
   const query = useGetArmManualDistributionListQuery();
   const mutation = useUpdateArmManualDistributionMutation({
@@ -201,19 +220,6 @@ BaseLabel
       .slice()
       .sort((a, b) => a.candidate_id - b.candidate_id),
   );
-
-  const getEligibleProjectsForMultiselect = (
-    project: ArmManualDistributionEligibleProjects,
-  ) => {
-    const candidatesInProjects = students.value.filter(
-      (stud) => inputProject.value[stud.candidate_id] === project.project_id,
-    ).length;
-    return {
-      label: `id: ${project.project_id} | Название: ${project.project_title} | Места: ${project.places} | Кол-во студентов: ${project.candidates_count} (+${candidatesInProjects})`,
-      value: project.project_id,
-    };
-  };
-
   const trainingGroups = computed(() => {
     const groupMap = new Map<string, ArmManualDistributionCandidate[]>();
     students.value?.forEach((student) => {
@@ -222,7 +228,54 @@ BaseLabel
       }
       groupMap.get(student.training_group)?.push(student);
     });
-    return groupMap;
+    return new Map(
+      [...groupMap.entries()].sort((a, b) => a[0].localeCompare(b[0])),
+    );
+  });
+
+  const filteredTrainingGroups = computed(() => {
+    const hasProjects = tumblerValue.value === TumblerType.WITH_PROJECTS;
+    const noProjects = tumblerValue.value === TumblerType.WITHOUT_PROJECTS;
+
+    const studentHasProjects = (student: ArmManualDistributionCandidate) =>
+      student.eligible_projects_ids.length > 0;
+    const studentHasNoProjects = (student: ArmManualDistributionCandidate) =>
+      student.eligible_projects_ids.length === 0;
+
+    return new Map(
+      [...trainingGroups.value.entries()].filter(([_, value]) => {
+        if (!hasProjects && !noProjects) return false;
+
+        tumblerOptions[0].prefix = `(${
+          students.value.filter((student) => studentHasProjects(student)).length
+        })`;
+        tumblerOptions[1].prefix = `(${
+          students.value.filter((student) => studentHasNoProjects(student))
+            .length
+        })`;
+
+        return value.every((student) =>
+          hasProjects
+            ? studentHasProjects(student)
+            : studentHasNoProjects(student),
+        );
+      }),
+    );
+  });
+
+  const getEligibleProjectsForMultiselect = (
+    project: ArmManualDistributionEligibleProjects,
+  ) => ({
+    label: `id: ${project.project_id} | Название: ${
+      project.project_title
+    } | Места: ${project.places} | Кол-во студентов: ${
+      project.candidates_count
+    } (+${
+      students.value.filter(
+        (stud) => inputProject.value[stud.candidate_id] === project.project_id,
+      ).length
+    })`,
+    value: project.project_id,
   });
 
   const openConfirmModal = () => {
@@ -266,12 +319,13 @@ BaseLabel
 
 <style lang="scss" scoped>
   .distribution-wrapper {
-    height: 100vh;
+    height: calc(100vh - 50px);
     padding: 5px;
     overflow-y: auto;
 
     &::-webkit-scrollbar {
       width: 6px;
+      height: 6px;
     }
 
     &::-webkit-scrollbar-track {
