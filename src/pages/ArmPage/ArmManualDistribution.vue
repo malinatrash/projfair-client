@@ -29,7 +29,12 @@ BaseLabel
       >
     </div>
 
-    <Tumbler v-model="tumblerValue" :options="tumblerOptions" />
+    <Tumbler
+      v-model="tumblerValue"
+      :options="tumblerOptions"
+      :animation="true"
+      :disabled="mutation.isLoading.value || query.isLoading.value"
+    />
 
     <div class="distribution-wrapper" style="position: relative">
       <BasePanel
