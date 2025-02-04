@@ -73,34 +73,36 @@
   );
 
   function requirementsAreMet(): boolean {
-    const waitingSpecs = props.project.project_specialities.map(
+    const projectSpecialities = props.project.project_specialities.map(
       (e) => e.speciality.name,
     );
-    const realSpec = studentStore.training_group.split('-')[0];
-    const waitingCourses = props.project.project_specialities.map(
+    const authSpeciality = studentStore.training_group.split('-')[0];
+    const projectCourses = props.project.project_specialities.map(
       (e) => e.course,
     );
-    const realCourse = studentStore.course;
+    const authCourse = studentStore.course;
 
-    if (!waitingCourses.includes(realCourse)) {
-      const message = 'Ваш курс не входит в список курсов проекта';
-      toast.error(message);
-      return false;
-    }
-
-    if (!waitingSpecs.includes(realSpec)) {
+    if (!projectSpecialities.includes(authSpeciality)) {
       const message =
         'Ваша специальность не входит в список специальностей проекта';
       toast.error(message);
       return false;
     }
 
+    if (!projectCourses.includes(authCourse)) {
+      const message = 'Ваш курс не входит в список курсов проекта';
+      toast.error(message);
+      return false;
+    }
+
     // Проверка соотношения курса к специальности
-    const validCourseForSpec = props.project.project_specialities.find(
-      (spec) => spec.speciality.name === realSpec,
+    const validCourseForSpec = props.project.project_specialities.some(
+      (specialty) =>
+        specialty.course === authCourse &&
+        specialty.speciality.name === authSpeciality,
     );
 
-    if (validCourseForSpec && validCourseForSpec.course !== realCourse) {
+    if (!validCourseForSpec) {
       const message =
         'Ваш курс не соответствует ожидаемому для этой специальности';
       toast.error(message);
