@@ -33,6 +33,33 @@
 
     <div class="divider"></div>
 
+    <ProjectFilterAccordion>
+      <template #title>Наставник</template>
+      <template #content>
+        <VMultiselect
+          v-model="filters.supervisors"
+          mode="tags"
+          placeholder="Введите наставника"
+          no-results-text="Наставник не найден"
+          no-options-text="Наставники не найдены"
+          class="miltiselect"
+          :close-on-select="false"
+          :searchable="true"
+          :options="allProjectSupervisors.data.value"
+          :disabled="allProjectSupervisors.isFetching.value"
+          :loading="allProjectSupervisors.isFetching.value"
+          :label="SkillKeys.fio"
+          :track-by="SkillKeys.fio"
+          :value-prop="SkillKeys.id"
+        />
+        <div v-if="allProjectSupervisors.isError.value" class="mt-2">
+          {{ allProjectSupervisors.error.value }}
+        </div>
+      </template>
+    </ProjectFilterAccordion>
+
+    <div class="divider"></div>
+
     <ProjectFilterAccordion class="loading">
       <template #title>Теги проекта</template>
       <template #content>
@@ -129,6 +156,7 @@
   import { computed } from 'vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BaseCheckbox from '@/components/ui/BaseCheckbox.vue';
+  import { useGetAllSupervisorsQuery } from '../../api/SharedApi/hooks/useGetAllSupervisorsQuery';
   import { useGetAllProjectStatesQuery } from '@/api/ProjectApi/hooks/useGetAllProjectStatesQuery';
   import { useGetAllProjectTagsQuery } from '@/api/ProjectApi/hooks/useGetAllProjectTagsQuery';
   import { useGetProjectListWithFiltersQuery } from '@/api/ProjectApi/hooks/useGetProjectListWithFiltersQuery';
@@ -151,6 +179,7 @@
 
   const allProjectStates = useGetAllProjectStatesQuery();
   const allProjectTags = useGetAllProjectTagsQuery();
+  const allProjectSupervisors = useGetAllSupervisorsQuery();
 
   const acceptedProjectStates = computed(() =>
     allProjectStates.data.value?.filter((state) =>

@@ -161,6 +161,7 @@
   import { useProjectProposalMetaData } from '@/hooks/useProjectProposalMetaData';
   import { useNavigateBack } from '@/hooks/useRoutes';
   import { useWatchAuthorization } from '@/hooks/useWatchAuthorization';
+  import { getAcademicYear } from '../helpers/date';
   import {
     collectProjectProposal,
     getCurrentProjectProposal,
@@ -202,7 +203,9 @@
     projectGoal: '',
     projectCustomer: '',
     projectThemeSourceId: null,
-    projectDuration: ProjectDuration.FallSemester,
+    projectDuration: getAcademicYear(new Date().getMonth()).isSpring()
+      ? ProjectDuration.SpringSemester
+      : ProjectDuration.FallSemester,
     projectDifficulty: ProjectDifficulty.Low,
     skillsToBeFormed: '',
     projectExpectedResult: '',

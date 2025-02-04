@@ -185,9 +185,7 @@
       proposalState.value === ProjectProposalStateId.Rejected,
   );
   const showRejectionReasonButton = computed(
-    () =>
-      proposalState.value === ProjectProposalStateId.Rejected ||
-      props.projectProposal.rejection_reason,
+    () => proposalState.value === ProjectProposalStateId.Rejected,
   );
 
   function saveAsDraft() {

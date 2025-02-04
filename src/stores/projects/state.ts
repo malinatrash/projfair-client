@@ -10,6 +10,7 @@ export const DEFAULT_FILTERS: ProjectFilters = {
   difficulty: [],
   state: [],
   skills: [],
+  supervisors: [],
   specialties: [],
   title: '',
   page: 1,

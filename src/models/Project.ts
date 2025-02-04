@@ -5,17 +5,21 @@ import { ProjectDifficulty } from './ProjectDifficulty';
 import { MemberRole } from './ProjectProposal';
 import { ProjectState, ProjectStateID } from './ProjectState';
 import { Specialty, SpecialtyGroup } from './Specialty';
-import { Supervisor } from './Supervisor';
 import { Tag } from './Tag';
 import { UserSupervisor } from './User';
 
-export interface Skill extends Tag {
+export interface SupervisorFio {
+  fio?: 'fio';
+}
+
+export interface Skill extends Tag, SupervisorFio {
   skillCategory?: Tag;
 }
 
 export const SkillKeys: Record<keyof Skill, keyof Skill> = {
   id: 'id',
   name: 'name',
+  fio: 'fio',
   skillCategory: 'skillCategory',
 };
 
@@ -69,6 +73,7 @@ export interface Project {
 export interface ProjectFilters {
   state: ProjectStateID[];
   skills: number[];
+  supervisors: number[];
   specialties: number[];
   difficulty: ProjectDifficulty[];
   title: string;
