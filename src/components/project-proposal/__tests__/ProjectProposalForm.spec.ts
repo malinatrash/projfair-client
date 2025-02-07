@@ -3,6 +3,7 @@ import {
   ProjectDuration,
   ProjectProposalFormValue,
 } from '@/models/components/ProjectProposalForm';
+import { getAcademicYear } from '@/helpers/date';
 import {
   getDropdownValue,
   getInput,
@@ -190,7 +191,9 @@ describe('ProjectProposalForm.vue', () => {
         projectGoal: 'projectGoal',
         projectCustomer: 'projectCustomer',
         projectThemeSourceId: 1,
-        projectDuration: ProjectDuration.FallSemester,
+        projectDuration: getAcademicYear(new Date().getMonth()).isSpring()
+          ? ProjectDuration.SpringSemester
+          : ProjectDuration.FallSemester,
         projectDifficulty: ProjectDifficulty.Low,
         skillsToBeFormed: 'skillsToBeFormed',
         projectExpectedResult: 'projectExpectedResult',
@@ -255,7 +258,9 @@ describe('ProjectProposalForm.vue', () => {
         projectName: 'новый projectName',
         projectGoal: 'новый projectGoal',
         projectCustomer: 'новый projectCustomer',
-        projectDuration: ProjectDuration.FullYear,
+        projectDuration: getAcademicYear(new Date().getMonth()).isSpring()
+          ? ProjectDuration.SpringSemester
+          : ProjectDuration.FullYear,
         projectDifficulty: ProjectDifficulty.High,
         projectExpectedResult: 'новый projectExpectedResult',
         skillsToBeFormed: 'новый skillsToBeFormed',

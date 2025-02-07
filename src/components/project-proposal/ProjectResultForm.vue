@@ -190,7 +190,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, reactive, watch, watchEffect } from '@vue/runtime-core';
+  import { computed, reactive, watchEffect } from '@vue/runtime-core';
   import { onMounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useToast } from 'vue-toastification';
@@ -243,7 +243,6 @@
 
   const projectId = computed(() => Number(route.params.id));
   const {
-    isFetched,
     isFetching,
     isError,
     data: projectData,
@@ -327,7 +326,11 @@
   );
 
   onMounted(() => {
-    if (isMobile()) {
+    if (
+      isMobile() &&
+      !isProjectStateArchived &&
+      isCurrentUserSupervisorOfDataProject
+    ) {
       modalsStore.openAlertModal(
         'Внимание',
         'Пожалуйста, используйте настольную версию сайта, чтобы использовать эту функцию!',

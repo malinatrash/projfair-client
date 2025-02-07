@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-  import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
   import BaseModal from '../ui/BaseModal.vue';
   import ProjectListFilter from './ProjectListFilter.vue';

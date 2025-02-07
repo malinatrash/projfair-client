@@ -43,6 +43,18 @@ export default class ProjectApiMock implements ProjectApiType {
         filters.state?.includes(project.state.id),
       );
     }
+    // SUPERVISORS
+    if (filters.supervisors && filters.supervisors.length > 0) {
+      filteredList = filteredList.filter((project) => {
+        const supervisorIds = project.supervisors.map(
+          (supervisor) => supervisor.supervisor.id,
+        );
+
+        return filters.supervisors.some((supervisorId) =>
+          supervisorIds.includes(supervisorId),
+        );
+      });
+    }
     // TITLE
     if (filters.title) {
       filteredList = filteredList.filter(
