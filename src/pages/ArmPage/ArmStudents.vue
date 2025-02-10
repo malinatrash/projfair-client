@@ -174,12 +174,20 @@
                     <template #content>
                       <div class="inner-accordion-content">
                         <div
-                          v-for="candidate in speciality.candidates
+                          v-for="(candidate, index) in speciality.candidates
                             .slice()
                             .sort((a, b) => a.candidate_id - b.candidate_id)"
                           :key="candidate.candidate_id"
                         >
-                          <div class="icon-project">
+                          <div
+                            class="icon-project"
+                            style="
+                              display: flex;
+                              gap: 15px;
+                              align-items: center;
+                            "
+                          >
+                            {{ index + 1 }}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"
