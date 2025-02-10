@@ -119,6 +119,16 @@
                           project.places
                         }}</span>
                       </span>
+                      <span class="title-description">
+                        Специальности:
+                        <span style="color: var(--accent-color-1)">{{
+                          [
+                            ...new Set(
+                              project.specialities.map((spec) => spec.name),
+                            ),
+                          ].join(', ')
+                        }}</span>
+                      </span>
                     </p>
                   </div>
                 </template>
