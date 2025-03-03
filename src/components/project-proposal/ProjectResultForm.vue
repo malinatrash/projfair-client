@@ -93,6 +93,21 @@
           </BaseRadioButton>
         </template>
         <span
+          v-else-if="isLoading"
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          Загружаем цели...
+        </span>
+        <span
           v-else
           class="label-text--disabled"
           style="
@@ -215,24 +230,23 @@
   import { isMobile } from '@/helpers/mobile';
   import { canViewParticipants } from '@/helpers/project';
   import { collectProjectResult } from '@/helpers/project-result-form';
+  import {
+    checkCurrentSupervisor,
+    checkDirectorInstitute,
+  } from '@/helpers/projectCardUtils';
   import { compareString } from '@/helpers/string';
   import { RouteNames } from '@/router/types/route-names';
   import { toProjectRoute } from '@/router/utils/routes';
   import { useAuthStore } from '../../stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
   import { Candidate } from '@/models/Candidate';
-  import { ProjectSupervisor } from '@/models/Project';
+  import { Project, ProjectSupervisor } from '@/models/Project';
   import { UserSupervisor } from '@/models/User';
   import BaseButton from '../ui/BaseButton.vue';
 
   const authStore = useAuthStore();
   const modalsStore = useModalsStore();
   const toast = useToast();
-
-  const projectResultForm = reactive<ProjectResultFormValue>({
-    projectResultDescription: '',
-    projectResultGoal: null,
-  });
 
   const navigateBack = useNavigateBack({
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS,
@@ -248,21 +262,12 @@
     data: projectData,
   } = useGetSingleProjectQuery(projectId);
 
-  const isDirectorInstituteOfProject = computed(
-    () =>
-      authStore.isInstDirector &&
-      projectData.value?.project.supervisors.some(
-        (supervisor: ProjectSupervisor) =>
-          supervisor.supervisor.department.institute.id ===
-          (authStore.profileData as UserSupervisor)?.department.institute.id,
-      ),
+  const isDirectorInstituteOfProject = computed(() =>
+    checkDirectorInstitute(projectData.value?.project, authStore),
   );
 
   const isCurrentUserSupervisorOfDataProject = computed(() =>
-    projectData.value?.project.supervisors.some(
-      (supervisor: ProjectSupervisor) =>
-        supervisor.supervisor.id === authStore.profileData?.id,
-    ),
+    checkCurrentSupervisor(projectData.value?.project, authStore),
   );
 
   const isProjectStateActive = computed(() => {
@@ -273,6 +278,13 @@
   const isProjectStateArchived = computed(() => {
     if (projectData.value?.project.state.id == 4) return true;
     return false;
+  });
+
+  const projectResultForm = reactive<ProjectResultFormValue>({
+    projectResultDescription: isProjectStateActive.value
+      ? ''
+      : 'Загружаем результаты...',
+    projectResultGoal: null,
   });
 
   const isEditable = computed(

@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <RouterLink class="project-tab" :to="{ name: RouteNames.PROJECT_DETAILS }">
-      о проекте
+      О проекте
     </RouterLink>
     <RouterLink
       v-if="
@@ -21,20 +21,20 @@
       class="project-tab"
       :to="{ name: RouteNames.PROJECT_PARTICIPATIONS }"
     >
-      список заявок
+      Список заявок
     </RouterLink>
     <RouterLink
       v-if="canViewParticipants(projectState.id)"
       class="project-tab"
       :to="{ name: RouteNames.PROJECT_PARTICIPANTS }"
     >
-      список участников
+      Список участников
     </RouterLink>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, toRefs, watchEffect } from 'vue';
+  import { computed, toRefs } from 'vue';
   import { RouterLink, useRoute } from 'vue-router';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import {
@@ -43,11 +43,13 @@
     isActiveState,
     isArchivedState,
   } from '@/helpers/project';
+  import {
+    checkCurrentSupervisor,
+    checkDirectorInstitute,
+  } from '@/helpers/projectCardUtils';
   import { RouteNames } from '@/router/types/route-names';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
-  import { ProjectSupervisor } from '@/models/Project';
   import { ProjectState } from '@/models/ProjectState';
-  import { UserSupervisor } from '@/models/User';
 
   interface Props {
     projectState: ProjectState;
@@ -59,27 +61,16 @@
 
   const route = useRoute();
 
-  const {
-    isFetching,
-    isError,
-    data: projectData,
-  } = useGetSingleProjectQuery(Number(route.params.id));
+  const { data: projectData } = useGetSingleProjectQuery(
+    Number(route.params.id),
+  );
 
-  const isDirectorInstituteOfProject = computed(
-    () =>
-      authStore.isInstDirector &&
-      projectData.value?.project.supervisors.some(
-        (supervisor: ProjectSupervisor) =>
-          supervisor.supervisor.department.institute.id ===
-          (authStore.profileData as UserSupervisor)?.department.institute.id,
-      ),
+  const isDirectorInstituteOfProject = computed(() =>
+    checkDirectorInstitute(projectData.value?.project, authStore),
   );
 
   const isCurrentUserSupervisorOfDataProject = computed(() =>
-    projectData.value?.project.supervisors.some(
-      (supervisor: ProjectSupervisor) =>
-        supervisor.supervisor.id === authStore.profileData?.id,
-    ),
+    checkCurrentSupervisor(projectData.value?.project, authStore),
   );
 </script>
 
