@@ -45,7 +45,7 @@
           class="miltiselect"
           :close-on-select="false"
           :searchable="true"
-          :options="allProjectSupervisors.data.value"
+          :options="sortedProjectSupervisors"
           :disabled="allProjectSupervisors.isFetching.value"
           :loading="allProjectSupervisors.isFetching.value"
           :label="SkillKeys.fio"
@@ -181,6 +181,12 @@
   const allProjectTags = useGetAllProjectTagsQuery();
   const allProjectSupervisors = useGetAllSupervisorsQuery();
 
+  const sortedProjectSupervisors = computed(() =>
+    allProjectSupervisors.data.value
+      ?.slice()
+      .sort((a, b) => a.fio.localeCompare(b.fio)),
+  );
+
   const acceptedProjectStates = computed(() =>
     allProjectStates.data.value?.filter((state) =>
       ACCEPTED_PROJECT_STATES.includes(state.id),
@@ -196,6 +202,10 @@
 
   .miltiselect:deep(.multiselect-clear) {
     display: none;
+  }
+
+  .miltiselect:deep(.multiselect-dropdown) {
+    max-height: 250px !important;
   }
 
   .divider {
