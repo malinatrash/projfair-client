@@ -38,27 +38,37 @@
           </b>
 
           <span
-            v-for="(spec, indexInner) in specialtistOfFirstPriority(course)"
+            v-for="(spec, indexInner) in filterSpecialtiesByPriority(
+              project,
+              course,
+            )"
             :key="indexInner"
           >
             <span>{{ spec.name }}</span>
 
             <span
               v-if="
-                indexInner !== specialtistOfFirstPriority(course).length - 1
+                indexInner !==
+                filterSpecialtiesByPriority(project, course).length - 1
               "
               >,
             </span>
           </span>
           <span
-            v-if="specialtistWithoutFirstPriority(course).length !== 0"
+            v-if="
+              filterSpecialtiesByPriority(project, course, false).length !== 0
+            "
             style="margin-bottom: 0.25rem"
           >
-            <span v-if="specialtistOfFirstPriority(course).length"> | </span>
+            <span v-if="filterSpecialtiesByPriority(project, course).length">
+              |
+            </span>
             <b>приглашённые: </b>
             <span
-              v-for="(spec, indexInner) in specialtistWithoutFirstPriority(
+              v-for="(spec, indexInner) in filterSpecialtiesByPriority(
+                project,
                 course,
+                false,
               )"
               :key="indexInner"
             >
@@ -67,7 +77,7 @@
               <span
                 v-if="
                   indexInner !==
-                  specialtistWithoutFirstPriority(course).length - 1
+                  filterSpecialtiesByPriority(project, course, false).length - 1
                 "
                 >,
               </span>
@@ -91,6 +101,11 @@
         </li>
         <li v-if="project.date_start" class="list-item">
           <b>Старт проекта:</b> {{ project.date_start }}
+          <span v-if="project.date_end">
+            <br />
+            <b>Конец проекта:</b>
+            {{ project.date_end }}
+          </span>
         </li>
       </ul>
       <ProjectCardInfo
@@ -148,8 +163,6 @@
 </template>
 
 <script setup lang="ts">
-  import Cookies from 'js-cookie';
-  import { isEmpty } from 'lodash';
   import { computed } from 'vue';
   import { RouterLink } from 'vue-router';
   import {
@@ -158,11 +171,17 @@
     useSmallDevice,
   } from '@/hooks/useBreakpoints';
   import { isActiveState, isArchivedState } from '@/helpers/project';
+  import {
+    checkCurrentSupervisor,
+    checkDirectorInstitute,
+    checkUserSupervisor,
+    filterSpecialtiesByPriority,
+    getCourses,
+  } from '@/helpers/projectCardUtils';
   import { toProjectResultRoute, toProjectRoute } from '@/router/utils/routes';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
-  import { Project, ProjectSupervisor } from '@/models/Project';
+  import { Project } from '@/models/Project';
   import { StateClass } from '@/models/ProjectState';
-  import { UserSupervisor } from '@/models/User';
   import OpenFeedbackModalButton from '../feedback/OpenFeedbackModalButton.vue';
   import OpenParticipationModalButton from '../participation/OpenParticipationModalButton.vue';
   import BaseButton from '../ui/BaseButton.vue';
@@ -172,59 +191,21 @@
 
   const props = defineProps<{ project: Project }>();
   const authStore = useAuthStore();
+
   const isSmallDevice = useSmallDevice();
   const isDesktop = useDesktop();
   const isMobile = useMobile();
-  const isCurrentSupervisor = props.project.supervisors.some((supervisor) => {
-    return supervisor.supervisor.id === useAuthStore().profileData?.id;
-  });
 
-  const stateClass = StateClass[props.project.state.id];
-
-  const courses = new Set();
-  props.project.project_specialities.forEach((spec) => {
-    courses.add(spec.course);
-  });
-
-  const getSpecialtyNameAndPriorityListFromCourse = (course: unknown) => {
-    return [
-      ...new Set(
-        props.project.project_specialities
-          .filter((spec) => spec.course === course)
-          .map((spec) => {
-            return {
-              name: spec.speciality.name,
-              priority: spec.priority,
-            };
-          }),
-      ),
-    ];
-  };
-
-  const specialtistOfFirstPriority = (course: unknown) =>
-    getSpecialtyNameAndPriorityListFromCourse(course).filter(
-      (spec) => spec.priority === 1,
-    );
-  const specialtistWithoutFirstPriority = (course: unknown) =>
-    getSpecialtyNameAndPriorityListFromCourse(course).filter(
-      (spec) => spec.priority !== 1,
-    );
-
-  const isDirectorInstituteOfProject = computed(
-    () =>
-      authStore.isInstDirector &&
-      props.project.supervisors.some(
-        (supervisor: ProjectSupervisor) =>
-          supervisor.supervisor.department.institute.id ===
-          (authStore.profileData as UserSupervisor)?.department.institute.id,
-      ),
+  const stateClass = computed(() => StateClass[props.project.state.id]);
+  const courses = computed(() => getCourses(props.project));
+  const isCurrentSupervisor = computed(() =>
+    checkCurrentSupervisor(props.project, authStore),
   );
-
+  const isDirectorInstituteOfProject = computed(() =>
+    checkDirectorInstitute(props.project, authStore),
+  );
   const isCurrentUserSupervisorOfDataProject = computed(() =>
-    props.project.supervisors.some(
-      (supervisor: ProjectSupervisor) =>
-        supervisor.supervisor.id === authStore.profileData?.id,
-    ),
+    checkUserSupervisor(props.project, authStore),
   );
 </script>
 
