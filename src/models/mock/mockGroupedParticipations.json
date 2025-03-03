@@ -1,0 +1,2115 @@
+[
+  {
+    "institute_id": 4,
+    "institute_name": "Институт информационных технологий и анализа данных",
+    "departments": [
+      {
+        "department_id": 59,
+        "department_name": "Информационных технологий и анализа данных",
+        "courses": [
+          {
+            "course": 4,
+            "specialities": [
+              {
+                "speciality_id": 35,
+                "speciality_name": "МИРб",
+                "candidates": [
+                  {
+                    "candidate_id": 1380,
+                    "fio": "Овчинников Дмитрий Анатольевич",
+                    "training_group": "МИРб-21-1",
+                    "priority": 4,
+                    "created_at": "2024-09-08T20:29:45.000000Z"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "institute_id": 7,
+    "institute_name": "Институт экономики, управления и права",
+    "departments": [
+      {
+        "department_id": 51,
+        "department_name": "Юриспруденции",
+        "courses": [
+          {
+            "course": 3,
+            "specialities": [
+              {
+                "speciality_id": 96,
+                "speciality_name": "ЭПЭБ",
+                "candidates": [
+                  {
+                    "candidate_id": 4870,
+                    "fio": "Гриценко Анна Михайловна",
+                    "training_group": "ЭПЭБ-22-2",
+                    "priority": 4,
+                    "created_at": "2024-09-06T08:51:48.000000Z"
+                  },
+                  {
+                    "candidate_id": 4907,
+                    "fio": "Гюльмамедова Самира Казымовна",
+                    "training_group": "ЭПЭБ-22-2",
+                    "priority": 4,
+                    "created_at": "2024-09-06T08:52:19.000000Z"
+                  },
+                  {
+                    "candidate_id": 5439,
+                    "fio": "Королёва Екатерина Сергеевна",
+                    "training_group": "ЭПЭБ-22-2",
+                    "priority": 4,
+                    "created_at": "2024-09-06T08:52:35.000000Z"
+                  },
+                  {
+                    "candidate_id": 6896,
+                    "fio": "Шайдурова Дарья Евгеньевна",
+                    "training_group": "ЭПЭБ-22-2",
+                    "priority": 4,
+                    "created_at": "2024-09-06T08:52:43.000000Z"
+                  },
+                  {
+                    "candidate_id": 5865,
+                    "fio": "Нагаева Анастасия Игоревна",
+                    "training_group": "ЭПЭБ-22-2",
+                    "priority": 4,
+                    "created_at": "2024-09-06T09:14:48.000000Z"
+                  },
+                  {
+                    "candidate_id": 6112,
+                    "fio": "Понтус Валерия Леонидовна",
+                    "training_group": "ЭПЭБ-22-1",
+                    "priority": 4,
+                    "created_at": "2024-09-09T23:07:28.000000Z"
+                  },
+                  {
+                    "candidate_id": 6865,
+                    "fio": "Читняева Юлия Евгеньевна",
+                    "training_group": "ЭПЭБ-22-1",
+                    "priority": 4,
+                    "created_at": "2024-09-09T23:12:13.000000Z"
+                  },
+                  {
+                    "candidate_id": 6966,
+                    "fio": "Шишмарева Яна Сергеевна",
+                    "training_group": "ЭПЭБ-22-1",
+                    "priority": 4,
+                    "created_at": "2024-09-10T06:54:29.000000Z"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "department_id": 58,
+        "department_name": "Теории права, конституционного и административного права",
+        "courses": [
+          {
+            "course": 3,
+            "specialities": [
+              {
+                "speciality_id": 15,
+                "speciality_name": "ЭВМб",
+                "candidates": [
+                  {
+                    "candidate_id": 5431,
+                    "fio": "Корешков Егор Павлович",
+                    "training_group": "ЭВМб-22-1",
+                    "priority": 4,
+                    "created_at": "2024-09-09T22:34:57.000000Z"
+                  }
+                ]
+              },
+              {
+                "speciality_id": 85,
+                "speciality_name": "НБ",
+                "candidates": [
+                  {
+                    "candidate_id": 6933,
+                    "fio": "Шелковников Иван Александрович",
+                    "training_group": "НБ-22-2",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5921,
+                    "fio": "Николенко Максим Артёмович",
+                    "training_group": "НБ-22-2",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5469,
+                    "fio": "Кравченко Артемий Андреевич",
+                    "training_group": "НБ-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6296,
+                    "fio": "Сафаров Шахбоз Илхомиддинович",
+                    "training_group": "НБ-22-2",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6143,
+                    "fio": "Поцелуев Кирилл Денисович",
+                    "training_group": "НБ-22-2",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 4,
+            "specialities": [
+              {
+                "speciality_id": 85,
+                "speciality_name": "НБ",
+                "candidates": [
+                  {
+                    "candidate_id": 4228,
+                    "fio": "Тюрюмин Михаил Николаевич",
+                    "training_group": "НБ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3841,
+                    "fio": "Наваренко Владимир Сергеевич",
+                    "training_group": "НБ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "department_id": 36,
+        "department_name": "Рекламы и журналистики",
+        "courses": [
+          {
+            "course": 3,
+            "specialities": [
+              {
+                "speciality_id": 100,
+                "speciality_name": "ЦТРб",
+                "candidates": [
+                  {
+                    "candidate_id": 6030,
+                    "fio": "Перебоева Евгения Евгеньевна",
+                    "training_group": "ЦТРб-22-1",
+                    "priority": 4,
+                    "created_at": "2024-09-03T11:13:47.000000Z"
+                  },
+                  {
+                    "candidate_id": 6740,
+                    "fio": "Холхунова Татьяна Дмитриевна",
+                    "training_group": "ЦТРб-22-1",
+                    "priority": 4,
+                    "created_at": "2024-09-03T12:08:14.000000Z"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "department_id": 54,
+        "department_name": "Экономики и цифровых бизнес-технологий",
+        "courses": [
+          {
+            "course": 5,
+            "specialities": [
+              {
+                "speciality_id": 96,
+                "speciality_name": "ЭПЭБ",
+                "candidates": [
+                  {
+                    "candidate_id": 1647,
+                    "fio": "Ланговой Илья Борисович",
+                    "training_group": "ЭПЭБ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "institute_id": 1,
+    "institute_name": "Институт авиамашиностроения и транспорта",
+    "departments": [
+      {
+        "department_id": 34,
+        "department_name": "Материаловедения, сварочных и аддитивных технологий",
+        "courses": [
+          {
+            "course": 4,
+            "specialities": [
+              {
+                "speciality_id": 39,
+                "speciality_name": "МТб",
+                "candidates": [
+                  {
+                    "candidate_id": 3707,
+                    "fio": "Закройщиков Вячеслав Алексеевич",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3711,
+                    "fio": "Верхотуров Сергей Дмитриевич",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3699,
+                    "fio": "Корзенников Кирилл Вениаминович",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3748,
+                    "fio": "Ободенко Кирилл Романович",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3700,
+                    "fio": "Кривогорницын Андрей Александрович",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3706,
+                    "fio": "Николаенко Денис Владимирович",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3704,
+                    "fio": "Пинченков Александр Алексеевич",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 1305,
+                    "fio": "Занин Андрей Николаевич",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3702,
+                    "fio": "Губанов Роман Разимович",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3705,
+                    "fio": "Джурук Данила Петрович",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3703,
+                    "fio": "Копылов Никита Александрович",
+                    "training_group": "МТб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 3,
+            "specialities": [
+              {
+                "speciality_id": 39,
+                "speciality_name": "МТб",
+                "candidates": [
+                  {
+                    "candidate_id": 4922,
+                    "fio": "Данкевич Владислав Эдуардович",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5821,
+                    "fio": "Москальченко Егор Александрович",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6316,
+                    "fio": "Седухин Сергей Андреевич",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4650,
+                    "fio": "Бухаров Дмитрий Романович",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5478,
+                    "fio": "Кремчуков Никита Николаевич",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6101,
+                    "fio": "Полухина Диана Викторовна",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6749,
+                    "fio": "Хоршинжапов Арсалан Цырендоржиевич",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6100,
+                    "fio": "Полухина Дарья Викторовна",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6051,
+                    "fio": "Петров Иван Валерьевич",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6246,
+                    "fio": "Рыженков Антон Михайлович",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5438,
+                    "fio": "Коровин Антон Сергеевич",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5350,
+                    "fio": "Коваленко Илья Николаевич",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4801,
+                    "fio": "Гизатулин Владимир Ринатович",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6048,
+                    "fio": "Петров Даниил Андреевич",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5949,
+                    "fio": "Нурматов Даврон Одил угли",
+                    "training_group": "МТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "department_id": 16,
+        "department_name": "Строительно-дорожные машины  и гидравлические системы",
+        "courses": [
+          {
+            "course": 4,
+            "specialities": [
+              {
+                "speciality_id": 92,
+                "speciality_name": "СДМ",
+                "candidates": [
+                  {
+                    "candidate_id": 4147,
+                    "fio": "Гриценко Григорий Евгеньевич",
+                    "training_group": "СДМ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4227,
+                    "fio": "Ольшевский Денис Дмитриевич",
+                    "training_group": "СДМ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4244,
+                    "fio": "Шелехов Захар Андреевич",
+                    "training_group": "СДМ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 7085,
+                    "fio": "Мотодоев Андрей Алексеевич",
+                    "training_group": "СДМ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6103,
+                    "fio": "Полынцев Виктор Алексеевич",
+                    "training_group": "СДМ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3993,
+                    "fio": "Закирзянов Илья Сергеевич",
+                    "training_group": "СДМ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3844,
+                    "fio": "Толстиков Сергей Александрович",
+                    "training_group": "СДМ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 5,
+            "specialities": [
+              {
+                "speciality_id": 92,
+                "speciality_name": "СДМ",
+                "candidates": [
+                  {
+                    "candidate_id": 445,
+                    "fio": "Жилкин Ян Евгеньевич",
+                    "training_group": "СДМ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 1245,
+                    "fio": "Попов Андрей Михайлович",
+                    "training_group": "СДМ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 1244,
+                    "fio": "Полищук Артём Вадимович",
+                    "training_group": "СДМ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 1239,
+                    "fio": "Степанцов Сергей Дмитриевич",
+                    "training_group": "СДМ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 1233,
+                    "fio": "Аюшеев Жамсо Субанович",
+                    "training_group": "СДМ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 2929,
+                    "fio": "Зайков Владимир Дмитриевич",
+                    "training_group": "СДМ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 1243,
+                    "fio": "Лебедев Егор Дмитриевич",
+                    "training_group": "СДМ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 1247,
+                    "fio": "Тренихин Вадим Андреевич",
+                    "training_group": "СДМ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "department_id": 30,
+        "department_name": "Автомобильный транспорт",
+        "courses": [
+          {
+            "course": 4,
+            "specialities": [
+              {
+                "speciality_id": 6,
+                "speciality_name": "АСб",
+                "candidates": [
+                  {
+                    "candidate_id": 4168,
+                    "fio": "Кубасов Денис Алексеевич",
+                    "training_group": "АСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3771,
+                    "fio": "Кондратьев Константин Дмитриевич",
+                    "training_group": "АСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3036,
+                    "fio": "Плынский Роман Федорович",
+                    "training_group": "АСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3735,
+                    "fio": "Кочнев Георгий Алексеевич",
+                    "training_group": "АСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 1338,
+                    "fio": "Яковлев Владимир Максимович",
+                    "training_group": "АСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 982,
+                    "fio": "Метелев Михаил Андреевич",
+                    "training_group": "АСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 3,
+            "specialities": [
+              {
+                "speciality_id": 6,
+                "speciality_name": "АСб",
+                "candidates": [
+                  {
+                    "candidate_id": 5819,
+                    "fio": "Морозов Вадим Эдуардович",
+                    "training_group": "АСб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "institute_id": null,
+    "institute_name": null,
+    "departments": [
+      {
+        "department_id": null,
+        "department_name": null,
+        "courses": [
+          {
+            "course": 5,
+            "specialities": [
+              {
+                "speciality_id": null,
+                "speciality_name": null,
+                "candidates": [
+                  {
+                    "candidate_id": 7110,
+                    "fio": "Бабыкин Владислав Алексеевич",
+                    "training_group": "уТОА-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 2,
+            "specialities": [
+              {
+                "speciality_id": null,
+                "speciality_name": null,
+                "candidates": [
+                  {
+                    "candidate_id": 7122,
+                    "fio": "Пахомова Алина Дмитриевна",
+                    "training_group": "мБУп-23-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 7117,
+                    "fio": "Коротаев Алексей Сергеевич",
+                    "training_group": "ВДм-23-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 7113,
+                    "fio": "Юрина Валерия Александровна",
+                    "training_group": "ТД-23-2",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 3,
+            "specialities": [
+              {
+                "speciality_id": null,
+                "speciality_name": null,
+                "candidates": [
+                  {
+                    "candidate_id": 7116,
+                    "fio": "Уменчин Михаил Викторович",
+                    "training_group": "АТПбз-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5508,
+                    "fio": "Кузнецова Валерия Егоровна",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6332,
+                    "fio": "Семидельская Маргарита Дмитриевна",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5563,
+                    "fio": "Лебедева Мария Алексеевна",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5580,
+                    "fio": "Ли Икай",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5653,
+                    "fio": "Люй Жочэнь",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6110,
+                    "fio": "Пономарев Дмитрий Борисович",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5144,
+                    "fio": "Захаревич Константин Михайлович",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6852,
+                    "fio": "Чжу Минъян",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6451,
+                    "fio": "Степанов Денис Михайлович",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5643,
+                    "fio": "Лю Куньюй",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6752,
+                    "fio": "Хохлова Анастасия Олеговна",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6784,
+                    "fio": "Цуй Цзымэн",
+                    "training_group": "ФНб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 4,
+            "specialities": [
+              {
+                "speciality_id": null,
+                "speciality_name": null,
+                "candidates": [
+                  {
+                    "candidate_id": 7119,
+                    "fio": "Тохтасунов Отабек Азиз Угли",
+                    "training_group": "ПГСбз-21-2",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 7121,
+                    "fio": "Адушинова Александра Михайловна",
+                    "training_group": "ХТм-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 1,
+            "specialities": [
+              {
+                "speciality_id": null,
+                "speciality_name": null,
+                "candidates": [
+                  {
+                    "candidate_id": 7118,
+                    "fio": "Шипицин Данил Сергеевич",
+                    "training_group": "ИИТм-24-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "institute_id": 8,
+    "institute_name": "Байкальский институт БРИКС",
+    "departments": [
+      {
+        "department_id": 57,
+        "department_name": "БРИКС",
+        "courses": [
+          {
+            "course": 3,
+            "specialities": [
+              {
+                "speciality_id": 101,
+                "speciality_name": "ЛБКб",
+                "candidates": [
+                  {
+                    "candidate_id": 6347,
+                    "fio": "Серебряков Артемий Иванович",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6125,
+                    "fio": "Попова Александра Юрьевна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5041,
+                    "fio": "Еманова Софья Алексеевна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6235,
+                    "fio": "Рудых Диана Романовна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5105,
+                    "fio": "Жуликов Владимир Михайлович",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4744,
+                    "fio": "Ворогушина Карина Романовна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4600,
+                    "fio": "Боровик Ольга Александровна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4427,
+                    "fio": "Бабкина Александра Сергеевна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6972,
+                    "fio": "Шматкова Елизавета Викторовна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6642,
+                    "fio": "Фёдорова Ника Олеговна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4617,
+                    "fio": "Брылева Анастасия Игоревна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4867,
+                    "fio": "Григорян Анжелика Артуровна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4719,
+                    "fio": "Витько Владислав Евгеньевич",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5650,
+                    "fio": "Любовникова Яна Сергеевна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4354,
+                    "fio": "Аликина Анастасия Дмитриевна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6060,
+                    "fio": "Петухов Артём Алексеевич",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4875,
+                    "fio": "Грищенко Милада Денисовна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6455,
+                    "fio": "Степанова Валерия Владиславовна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5101,
+                    "fio": "Жотин Кирилл Юрьевич",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5476,
+                    "fio": "Красовицкая Ксения Олеговна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6446,
+                    "fio": "Стафеева Анна Викторовна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6144,
+                    "fio": "Почекунина Марта Валерьевна",
+                    "training_group": "ЛБКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              },
+              {
+                "speciality_id": 49,
+                "speciality_name": "ЭПАб",
+                "candidates": [
+                  {
+                    "candidate_id": 6963,
+                    "fio": "Шиферав Тамераыэу Шимелис",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5504,
+                    "fio": "Кузнецов Егор Андреевич",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4956,
+                    "fio": "Добровольская Софья Алексеевна",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6723,
+                    "fio": "Хассан Мараван Юссеф Мохамед Мосса",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5767,
+                    "fio": "Милушкин Николай Евгеньевич",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6268,
+                    "fio": "Савченко Никита Константинович",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6997,
+                    "fio": "Шэнь Юэ",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4616,
+                    "fio": "Бронников Семён Викторович",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6754,
+                    "fio": "Хохрина Елена Романовна",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6775,
+                    "fio": "Цзо Юйсюань",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4365,
+                    "fio": "Алья Хэрри",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6884,
+                    "fio": "Чэнь Цзыюэ",
+                    "training_group": "ЭПАб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              },
+              {
+                "speciality_id": 22,
+                "speciality_name": "ЖКб",
+                "candidates": [
+                  {
+                    "candidate_id": 5148,
+                    "fio": "Захарова Анна Александровна",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4595,
+                    "fio": "Борголов Андрей Александрович",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5582,
+                    "fio": "Ли Минюй",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6503,
+                    "fio": "Тань Эньси",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6463,
+                    "fio": "Струглина Мария Максимовна",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4449,
+                    "fio": "Байдраков Илья Максимович",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5493,
+                    "fio": "Кубасова Дарья Антоновна",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5494,
+                    "fio": "Кудрявцев Ярослав Денисович",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5088,
+                    "fio": "Жбанова Анна Андреевна",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 7019,
+                    "fio": "Юй Юхэн",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6295,
+                    "fio": "Сауцкая Алина Евгеньевна",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6772,
+                    "fio": "Цао Мэнтун",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4915,
+                    "fio": "Далал Правеен",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6851,
+                    "fio": "Чжоу Итун",
+                    "training_group": "ЖКб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              },
+              {
+                "speciality_id": 33,
+                "speciality_name": "МДБб",
+                "candidates": [
+                  {
+                    "candidate_id": 4770,
+                    "fio": "Гай Хайян",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5738,
+                    "fio": "Махмуд Амр Мохамед Абделрахман Салех",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6361,
+                    "fio": "Симбиак Рубен Ромарио Рату",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6308,
+                    "fio": "Свени Риф Хервес Гиорифи",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6854,
+                    "fio": "Чжу Юйкунь",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6692,
+                    "fio": "Хайлу Йеэбсира Гэтэхун",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4702,
+                    "fio": "Венда Рифанита Элла",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6491,
+                    "fio": "Сюэ Сян",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6847,
+                    "fio": "Чжао Синькунь",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5583,
+                    "fio": "Ли Мэн",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4466,
+                    "fio": "Балча Мариямавит Йемане",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6751,
+                    "fio": "Хохлов Виктор Александрович",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5838,
+                    "fio": "Мункуева Номина Доржиевна",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5394,
+                    "fio": "Комба Даниел Ан",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6188,
+                    "fio": "Разуваев Даниил Сергеевич",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4149,
+                    "fio": "Сукма Арио Афик",
+                    "training_group": "МДБб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 4,
+            "specialities": [
+              {
+                "speciality_id": 49,
+                "speciality_name": "ЭПАб",
+                "candidates": [
+                  {
+                    "candidate_id": 5952,
+                    "fio": "Нюма Келвин",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 7023,
+                    "fio": "Юргин Роман Андреевич",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6430,
+                    "fio": "Сорокин Артём Павлович",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5889,
+                    "fio": "Неизвестных Константин Дмитриевич",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5729,
+                    "fio": "Масленников Роман Сергеевич",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5830,
+                    "fio": "Мохамед Эзз Амро Габер Абделазиз",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6465,
+                    "fio": "Ступин Илья Александрович",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4311,
+                    "fio": "Абухамада Хамада Али Габер",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6464,
+                    "fio": "Студенников Денис Александрович",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 657,
+                    "fio": "Волыгин Данил Максимович",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6417,
+                    "fio": "Соловых Юрий Алексеевич",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6350,
+                    "fio": "Сержантова Алиса Андреевна",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4752,
+                    "fio": "Всеволодов Денис Александрович",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5829,
+                    "fio": "Мохамед Моханд Амро Габер Абделазиз",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5674,
+                    "fio": "Макарова Анна Владимировна",
+                    "training_group": "ЭПАб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              },
+              {
+                "speciality_id": 22,
+                "speciality_name": "ЖКб",
+                "candidates": [
+                  {
+                    "candidate_id": 4793,
+                    "fio": "Гельвер Сабина Владимировна",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5329,
+                    "fio": "Киселёва Софья Александровна",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5505,
+                    "fio": "Кузнецов Матвей Ильич",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5309,
+                    "fio": "Качкова Донара Алексеевна",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6967,
+                    "fio": "Шкатова Валерия Вениаминовна",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 7022,
+                    "fio": "Юргин Игорь Максимович",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6789,
+                    "fio": "Цыбенова Оюна Баировна",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5112,
+                    "fio": "Жэнь Цзыи",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5410,
+                    "fio": "Кондрашова Полина Павловна",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5770,
+                    "fio": "Минина Инесса Андреевна",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5594,
+                    "fio": "Линь Пэн",
+                    "training_group": "ЖКб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              },
+              {
+                "speciality_id": 33,
+                "speciality_name": "МДБб",
+                "candidates": [
+                  {
+                    "candidate_id": 4421,
+                    "fio": "Ачеампонг Акваси",
+                    "training_group": "МДБб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6825,
+                    "fio": "Чернова Анна Алексеевна",
+                    "training_group": "МДБб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 7004,
+                    "fio": "Щербина Семен Владимирович",
+                    "training_group": "МДБб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5154,
+                    "fio": "Зверев Евгений Дмитриевич",
+                    "training_group": "МДБб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4670,
+                    "fio": "Ван Фэйсюэ",
+                    "training_group": "МДБб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4306,
+                    "fio": "Абдуллах Абубекер Султан",
+                    "training_group": "МДБб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6841,
+                    "fio": "Чжан Цзыхань",
+                    "training_group": "МДБб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5543,
+                    "fio": "Кушнарева Полина Дмитриевна",
+                    "training_group": "МДБб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 5,
+            "specialities": [
+              {
+                "speciality_id": 22,
+                "speciality_name": "ЖКб",
+                "candidates": [
+                  {
+                    "candidate_id": 6038,
+                    "fio": "Перескокова Таисия Александровна",
+                    "training_group": "ЖКб-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "institute_id": 5,
+    "institute_name": "Институт архитектуры, строительства и дизайна",
+    "departments": [
+      {
+        "department_id": 26,
+        "department_name": "Строительное производство",
+        "courses": [
+          {
+            "course": 3,
+            "specialities": [
+              {
+                "speciality_id": 95,
+                "speciality_name": "СУЗ",
+                "candidates": [
+                  {
+                    "candidate_id": 6734,
+                    "fio": "Ходырев Александр Алексеевич",
+                    "training_group": "СУЗ-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              },
+              {
+                "speciality_id": 46,
+                "speciality_name": "ПГСб",
+                "candidates": [
+                  {
+                    "candidate_id": 6926,
+                    "fio": "Шевырев Владислав Александрович",
+                    "training_group": "ПГСб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5883,
+                    "fio": "Наумова Надежда Алексеевна",
+                    "training_group": "ПГСб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4594,
+                    "fio": "Бондарцова Александра Сергеевна",
+                    "training_group": "ПГСб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6209,
+                    "fio": "Рогачев Кирилл Максимович",
+                    "training_group": "ПГСб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6064,
+                    "fio": "Пешков Максим Александрович",
+                    "training_group": "ПГСб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5322,
+                    "fio": "Киркижов Даниил Владимирович",
+                    "training_group": "ПГСб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6258,
+                    "fio": "Рязанов Константин Вадимович",
+                    "training_group": "ПГСб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5480,
+                    "fio": "Кривошеев Валерий Сергеевич",
+                    "training_group": "ПГСб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 5278,
+                    "fio": "Кантонист Анжелика Сергеевна",
+                    "training_group": "ПГСб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 4,
+            "specialities": [
+              {
+                "speciality_id": 46,
+                "speciality_name": "ПГСб",
+                "candidates": [
+                  {
+                    "candidate_id": 4004,
+                    "fio": "Гайсина Дарья Сергеевна",
+                    "training_group": "ПГСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3220,
+                    "fio": "Удаева Дарья Анатольевна",
+                    "training_group": "ПГСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3165,
+                    "fio": "Пискунов Матвей Андреевич",
+                    "training_group": "ПГСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 2903,
+                    "fio": "Усмонжонов Акбарали Шокир угли",
+                    "training_group": "ПГСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3365,
+                    "fio": "Вокин Руслан Сергеевич",
+                    "training_group": "ПГСб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              },
+              {
+                "speciality_id": 95,
+                "speciality_name": "СУЗ",
+                "candidates": [
+                  {
+                    "candidate_id": 3728,
+                    "fio": "Пушкина Анна Игоревна",
+                    "training_group": "СУЗ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3564,
+                    "fio": "Катасонов Никита Денисович",
+                    "training_group": "СУЗ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4073,
+                    "fio": "Ветошкин Никита Сергеевич",
+                    "training_group": "СУЗ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4574,
+                    "fio": "Богатырев Ислам Алиевич",
+                    "training_group": "СУЗ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3786,
+                    "fio": "Самбарова Анастасия Николаевна",
+                    "training_group": "СУЗ-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 6,
+            "specialities": [
+              {
+                "speciality_id": 95,
+                "speciality_name": "СУЗ",
+                "candidates": [
+                  {
+                    "candidate_id": 141,
+                    "fio": "Степанова Дарья Вячеславовна",
+                    "training_group": "СУЗ-19-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 2360,
+                    "fio": "Распутина Мария Максимовна",
+                    "training_group": "СУЗ-19-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 2357,
+                    "fio": "Дубровин Никита Владимирович",
+                    "training_group": "СУЗ-19-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 5,
+            "specialities": [
+              {
+                "speciality_id": 95,
+                "speciality_name": "СУЗ",
+                "candidates": [
+                  {
+                    "candidate_id": 936,
+                    "fio": "Маурер Даниил Андреевич",
+                    "training_group": "СУЗ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 2362,
+                    "fio": "Агафонов Игорь Русланович",
+                    "training_group": "СУЗ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 2384,
+                    "fio": "Котов Роман Алексеевич",
+                    "training_group": "СУЗ-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "department_id": 29,
+        "department_name": "Экспертиза и управление недвижимостью",
+        "courses": [
+          {
+            "course": 4,
+            "specialities": [
+              {
+                "speciality_id": 71,
+                "speciality_name": "ЭУНб",
+                "candidates": [
+                  {
+                    "candidate_id": 4055,
+                    "fio": "Калмынина Анастасия Владимировна",
+                    "training_group": "ЭУНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4059,
+                    "fio": "Сапожникова Марина Александровна",
+                    "training_group": "ЭУНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4058,
+                    "fio": "Ефимов Данил Александрович",
+                    "training_group": "ЭУНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4131,
+                    "fio": "Петров Никита Андреевич",
+                    "training_group": "ЭУНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4148,
+                    "fio": "Черниговский Руслан Викторович",
+                    "training_group": "ЭУНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4144,
+                    "fio": "Кавалик Максим Евгеньевич",
+                    "training_group": "ЭУНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4145,
+                    "fio": "Суярков Тимофей Павлович",
+                    "training_group": "ЭУНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              },
+              {
+                "speciality_id": 28,
+                "speciality_name": "КНб",
+                "candidates": [
+                  {
+                    "candidate_id": 3924,
+                    "fio": "Шоноева Надежда Дмитриевна",
+                    "training_group": "КНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3957,
+                    "fio": "Хахалов Владимир Сергеевич",
+                    "training_group": "КНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3906,
+                    "fio": "Кулакова Мария Александровна",
+                    "training_group": "КНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 3929,
+                    "fio": "Стриевич Стефания Денисовна",
+                    "training_group": "КНб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 3,
+            "specialities": [
+              {
+                "speciality_id": 41,
+                "speciality_name": "УСТб",
+                "candidates": [
+                  {
+                    "candidate_id": 6189,
+                    "fio": "Ралько Татьяна Игоревна",
+                    "training_group": "УСТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6388,
+                    "fio": "Смолянинова Полина Анатольевна",
+                    "training_group": "УСТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4514,
+                    "fio": "Башкурин Владимир Олегович",
+                    "training_group": "УСТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4768,
+                    "fio": "Гаделев Анатолий Альбертович",
+                    "training_group": "УСТб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "institute_id": 3,
+    "institute_name": "Институт высоких технологий",
+    "departments": [
+      {
+        "department_id": 1,
+        "department_name": "Металлургии цветных металлов",
+        "courses": [
+          {
+            "course": 4,
+            "specialities": [
+              {
+                "speciality_id": 34,
+                "speciality_name": "МЦб",
+                "candidates": [
+                  {
+                    "candidate_id": 4224,
+                    "fio": "Бугучиев Улугбек Мирланович",
+                    "training_group": "МЦб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 2099,
+                    "fio": "Ломтиков Глеб Андреевич",
+                    "training_group": "МЦб-20-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 6572,
+                    "fio": "Третьяков Илья Анварович",
+                    "training_group": "МЦб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  },
+                  {
+                    "candidate_id": 4223,
+                    "fio": "Митрачкова Евангелина Алексеевна",
+                    "training_group": "МЦб-21-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "course": 3,
+            "specialities": [
+              {
+                "speciality_id": 34,
+                "speciality_name": "МЦб",
+                "candidates": [
+                  {
+                    "candidate_id": 5735,
+                    "fio": "Матвеев Кирилл Александрович",
+                    "training_group": "МЦб-22-1",
+                    "priority": 5,
+                    "created_at": "2024-10-30 13:19:37"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

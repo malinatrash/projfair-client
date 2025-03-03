@@ -1,5 +1,6 @@
 import { RouteLocationRaw, useRouter } from 'vue-router';
 import { hasHistory } from '@/helpers/history';
+import { RouteNames } from '@/router/types/route-names';
 import { useCheckRole } from './useCheckRole';
 
 export const useUserNavigationRoutes = () => {
@@ -17,6 +18,12 @@ export const useRoledUserNavigationRoutes = () => {
   return routes.filter((route) => {
     return !route.meta.role || useCheckRole(route.meta.role);
   });
+};
+
+export const useArmNavigationRoutes = () => {
+  const router = useRouter();
+
+  return router.getRoutes().find((route) => route.name === RouteNames.ARM);
 };
 
 export const useMainNavigationRoutes = () => {

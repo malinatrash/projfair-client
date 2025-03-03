@@ -1,5 +1,12 @@
-import { RouteRecordRaw } from 'vue-router';
 // P.S. тут раньше были динамические импорты, т.е. "() => import('@/pages/ProjectPage/index.vue')", но они плохо работали на продакшене "projfair.istu.edu", так что было решено оставить обычные импорты для всего приложения
+import { RouteRecordRaw } from 'vue-router';
+// Arm page
+import ArmDebug from '@/pages/ArmPage/ArmDebug.vue';
+import ArmDistributionApprove from '@/pages/ArmPage/ArmDistributionApprove.vue';
+import ArmManualDistribution from '@/pages/ArmPage/ArmManualDistribution.vue';
+import ArmProjects from '@/pages/ArmPage/ArmProjects.vue';
+import ArmStudents from '@/pages/ArmPage/ArmStudents.vue';
+import ArmPage from '@/pages/ArmPage/index.vue';
 // Contact page
 import ContactPage from '@/pages/ContactPage.vue';
 // Create project page
@@ -173,14 +180,6 @@ export const routes: RouteRecordRaw[] = [
                 1,
               ),
             },
-            // {
-            //   name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_ON_YEAR,
-            //   title: 'Одобренные на год',
-            //   location: toInstituteProjectProposals(
-            //     FilterInstituteProjectProposalsBy.ApprovedOnYear,
-            //     1,
-            //   ),
-            // },
             {
               name: RouteNames.INST_DIRECTOR_PROJECT_PROPOSALS_APPROVED_AUTUMN,
               title: 'Одобренные на осень',
@@ -357,32 +356,6 @@ export const routes: RouteRecordRaw[] = [
           ],
         },
       },
-      // {
-      //   path: 'institute_projects/:filterBy?/:page?',
-      //   name: RouteNames.INST_DIRECTOR_PROJECTS,
-      //   component: UserProjects,
-      //   meta: {
-      //     type: ['user-nav'],
-      //     order: 4,
-      //     title: 'Проекты института',
-      //     role: ['is_institute_director'],
-      //     links: [
-      //       {
-      //         name: RouteNames.INST_DIRECTOR_PROJECTS_ACTIVE,
-      //         title: 'Активные проекты',
-      //         location: toInstituteProjects(
-      //           FilterInstituteProjectsBy.Active,
-      //           1,
-      //         ),
-      //       },
-      //       {
-      //         name: RouteNames.INST_DIRECTOR_PROJECTS_ALL,
-      //         title: 'Все проекты',
-      //         location: toInstituteProjects(FilterInstituteProjectsBy.All, 1),
-      //       },
-      //     ],
-      //   },
-      // },
       {
         path: 'projects',
         name: RouteNames.USER_PROJECTS,
@@ -431,6 +404,60 @@ export const routes: RouteRecordRaw[] = [
       </svg>
       `,
     },
+  },
+  {
+    path: '/arm',
+    redirect: '/arm/projects',
+    component: ArmPage,
+    name: RouteNames.ARM,
+    meta: {
+      title: 'Формирование проектных команд',
+      role: ['is_head_project_education_center'],
+      type: ['user-nav'],
+      order: 999,
+    },
+    children: [
+      {
+        path: 'projects',
+        component: ArmProjects,
+        name: RouteNames.ARM_PROJECTS,
+        meta: {
+          title: 'Автоматическое распределение',
+        },
+      },
+      {
+        path: 'students',
+        component: ArmStudents,
+        name: RouteNames.ARM_STUDENTS,
+        meta: {
+          title: 'Нераспределенные студенты',
+        },
+      },
+      {
+        path: 'manual-distribution',
+        component: ArmManualDistribution,
+        name: RouteNames.ARM_MANUAL_DISTRIBUTION,
+        meta: {
+          title: 'Ручное распределение',
+        },
+      },
+      {
+        path: 'distribution-approve',
+        component: ArmDistributionApprove,
+        name: RouteNames.ARM_DISTRIBUTION_APPROVE,
+        meta: {
+          title: 'Итоговое распределение',
+        },
+      },
+      // {
+      //   path: 'debug',
+      //   component: ArmDebug,
+      //   name: RouteNames.ARM_DEBUG,
+      //   meta: {
+      //     title: 'Отладка (4 и 5 приоритеты)',
+      //   },
+      // },
+    ],
   },
   {
     path: '/:pathMatch(.*)*',
