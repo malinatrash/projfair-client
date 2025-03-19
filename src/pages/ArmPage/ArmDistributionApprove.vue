@@ -140,6 +140,14 @@
                         .slice()
                         .sort((a, b) => a.candidate_id - b.candidate_id)"
                       :key="participation.candidate_id"
+                      :class="[
+                        'student-card',
+                        inputProject[participation.candidate_id]
+                          ? 'project-selected'
+                          : '',
+                      ]"
+                      role="region"
+                      :aria-label="`Студент ${participation.fio}`"
                     >
                       <div
                         class="icon-project"
@@ -181,6 +189,41 @@
                           }}</span>
                         </span>
                       </p>
+
+                      <div class="arrow-icon" v-html="arrowIcon"></div>
+
+                      <VMultiselect
+                        v-model="inputProject[participation.candidate_id]"
+                        data-test-id="prevProject"
+                        :class="[
+                          'multiselect',
+                          inputProject[participation.candidate_id]
+                            ? 'selected'
+                            : '',
+                        ]"
+                        placeholder="Выберите проект для распределения"
+                        no-results-text="Проект не найден"
+                        no-options-text="Проекты не найдены"
+                        :searchable="true"
+                        :options="
+                          projects
+                            .filter((projectInner) =>
+                              participation.eligible_projects_ids.includes(
+                                projectInner.project_id,
+                              ),
+                            )
+                            .map((projectInner) =>
+                              getEligibleProjectsForMultiselect(
+                                projectInner,
+                                project.candidates,
+                              ),
+                            )
+                        "
+                        :disabled="
+                          query.isLoading.value || query.isFetching.value
+                        "
+                        aria-label="Выбор проекта"
+                      />
                     </div>
                   </div>
                 </template>
@@ -195,6 +238,8 @@
 
 <script setup lang="ts">
   import { computed } from '@vue/runtime-core';
+  import VMultiselect from '@vueform/multiselect';
+  import { ref } from 'vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
@@ -202,7 +247,16 @@
   import { useGetArmApproveDistributionProjectsListQuery } from '../../api/ArmApi/hooks/useGetArmApproveDistributionProjectsListQuery';
   import { armApi } from '@/api/ArmApi';
   import { useModalsStore } from '../../stores/modals/useModalsStore';
+  import {
+    ArmDistributionApproveEligibleProject,
+    ArmDistributionApproveInstitute,
+  } from '../../models/ArmDistributionApprove';
+  import {
+    ArmDistributionApproveCandidate,
+    ArmDistributionApproveProject,
+  } from '../../models/ArmDistributionApprove';
   import { ArmInstitute } from '@/models/ArmProjects';
+  import arrowIcon from '@/assets/icons/user-role-select-arrow.svg?raw';
 
   const modalsStore = useModalsStore();
 
@@ -242,14 +296,49 @@
 
   const query = useGetArmApproveDistributionProjectsListQuery();
 
-  const institutes = computed<ArmInstitute[]>(
+  const institutes = computed<ArmDistributionApproveInstitute[]>(
     () =>
       query.data.value?.projects
         .slice()
         .sort(
-          (a: ArmInstitute, b: ArmInstitute) => a.institute_id - b.institute_id,
-        ) as ArmInstitute[],
+          (
+            a: ArmDistributionApproveInstitute,
+            b: ArmDistributionApproveInstitute,
+          ) => a.institute_id - b.institute_id,
+        ) as ArmDistributionApproveInstitute[],
   );
+
+  const projects = computed<ArmDistributionApproveEligibleProject[]>(
+    () =>
+      query.data.value?.eligible_projects
+        .slice()
+        .sort(
+          (
+            a: ArmDistributionApproveEligibleProject,
+            b: ArmDistributionApproveEligibleProject,
+          ) => a.project_id - b.project_id,
+        ) as ArmDistributionApproveEligibleProject[],
+  );
+
+  const inputProject = ref<{
+    [x: number]: number | null;
+  }>({});
+
+  const getEligibleProjectsForMultiselect = (
+    project: ArmDistributionApproveEligibleProject,
+    candidates: ArmDistributionApproveCandidate[],
+  ) => ({
+    label: `id: ${project.project_id} | Название: ${
+      project.project_title
+    } | Места: ${project.places} | Кол-во студентов: ${
+      project.candidates_count
+    } (+${
+      candidates.filter(
+        (stud) => inputProject.value[stud.candidate_id] === project.project_id,
+      ).length
+    })`,
+    value: project.project_id,
+  });
 </script>
 
 <style lang="scss" scoped>
@@ -331,6 +420,73 @@
       padding: $padding 0;
       padding-right: 45px;
       border-bottom: 1px solid var(--gray-color-1);
+    }
+
+    & > .student-card {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      padding: 20px 15px;
+      border-bottom: 1px solid var(--gray-color-1);
+      transition: 0.15s ease-in-out;
+
+      &.project-selected {
+        // border-left: 4px solid var(--accent-color-2);
+
+        & .arrow-icon:deep(svg > path) {
+          stroke: var(--accent-color-2);
+        }
+      }
+
+      & .title {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 5px;
+        justify-content: center;
+        font-size: 24px;
+        line-height: normal;
+        color: #4f5569;
+
+        &-description {
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--gray-color-2);
+        }
+      }
+
+      &:deep(.multiselect) {
+        flex: 1;
+        max-width: 400px;
+        transition: 0.15s ease-in-out;
+
+        & .multiselect-single-label {
+          display: flex;
+        }
+
+        & .multiselect-placeholder {
+          padding-right: 2rem;
+          font-size: 16px !important;
+          text-wrap: nowrap;
+        }
+
+        &.selected {
+          box-shadow: 0 0 0 2px var(--accent-color-2);
+        }
+
+        & .multiselect-option:not(:last-child) {
+          border-bottom: 1px solid var(--gray-color-1);
+        }
+      }
+
+      &:deep(.multiselect-dropdown) {
+        max-height: 375px;
+        overscroll-behavior: none;
+
+        & li > span {
+          font-size: 16px !important;
+        }
+      }
     }
   }
 

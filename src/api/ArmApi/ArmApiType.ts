@@ -1,3 +1,4 @@
+import { ArmDistributionApprove } from '@/models/ArmDistributionApprove';
 import {
   ArmManualDistribution,
   ArmManualDistributionCandidate,
@@ -7,7 +8,7 @@ import { ArmInstitute as ArmStudentsInstitute } from '@/models/ArmStudents';
 
 export default interface ArmApiType {
   getArmProjectsList(): Promise<ArmProjects>;
-  getArmApproveDistributionProjectsList(): Promise<ArmProjects>;
+  getArmApproveDistributionProjectsList(): Promise<ArmDistributionApprove>;
   getArmStudentsList(): Promise<ArmStudentsInstitute[]>;
   getArmManualDistribution(): Promise<ArmManualDistribution>;
 

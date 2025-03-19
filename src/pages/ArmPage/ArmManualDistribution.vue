@@ -424,9 +424,14 @@ BaseLabel
       max-width: 400px;
       transition: 0.15s ease-in-out;
 
+      & .multiselect-single-label {
+        display: flex;
+      }
+
       & .multiselect-placeholder {
         padding-right: 2rem;
         font-size: 16px !important;
+        text-wrap: nowrap;
       }
 
       &.selected {

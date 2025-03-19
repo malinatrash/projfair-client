@@ -1,3 +1,4 @@
+import { ArmDistributionApprove } from '@/models/ArmDistributionApprove';
 import {
   ArmManualDistribution,
   ArmManualDistributionCandidate,
@@ -12,7 +13,7 @@ export default class ArmApi implements ProjectApiType {
     return baseKyInstance.get('api/arm/projects').json();
   }
 
-  async getArmApproveDistributionProjectsList(): Promise<ArmProjects> {
+  async getArmApproveDistributionProjectsList(): Promise<ArmDistributionApprove> {
     return baseKyInstance.get('api/arm/approveDistribution').json();
   }
 
