@@ -3,7 +3,9 @@ import { DEFAULT_QUERY_STALE_TIME } from '@/api/baseKy';
 import { armApi } from '../';
 import ArmApiType from '../ArmApiType';
 
-type TQueryFnData = Awaited<ReturnType<ArmApiType['getArmManualDistribution']>>;
+type TQueryFnData = Awaited<
+  ReturnType<ArmApiType['getArmManualDistributionList']>
+>;
 
 export type useGetArmManualDistributionListQueryOptions<T = TQueryFnData> =
   UseQueryOptions<
@@ -21,7 +23,7 @@ export const useGetArmManualDistributionListQuery = <T = TQueryFnData>(
 ) =>
   useQuery(
     USE_GET_ARM_MANUAL_DISTRIBUTION_LIST_QUERY_KEY,
-    () => armApi.getArmManualDistribution(),
+    () => armApi.getArmManualDistributionList(),
     {
       staleTime: DEFAULT_QUERY_STALE_TIME,
       ...options,

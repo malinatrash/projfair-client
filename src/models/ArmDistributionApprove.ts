@@ -1,5 +1,5 @@
 export interface ArmDistributionApprove {
-  all_projects: ArmDistributionApproveInstitute[];
+  projects: ArmDistributionApproveInstitute[];
   eligible_projects: ArmDistributionApproveEligibleProject[];
 }
 
@@ -53,4 +53,16 @@ export interface ArmDistributionApproveEligibleProject {
   places: number;
   candidates_count: number;
   specialities: ArmDistributionApproveSpeciality[];
+  department_id: number;
+  institute_id: number;
+}
+
+export interface UpdateArmDistributionApprove {
+  institute_id: number;
+  department_id: number;
+  project_id: number;
+  candidate_id: number;
+  selected_institute_id: number;
+  selected_department_id: number;
+  selected_project_id: number;
 }

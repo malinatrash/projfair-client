@@ -16,7 +16,7 @@
       <li :class="['item', props.variant]">
         <button
           :class="['action', props.variant]"
-          @click="() => router.push('/profile/info')"
+          @click="openGoBackConfirmModal"
         >
           Вернуться обратно
         </button>
@@ -29,10 +29,26 @@
   import { router } from '@/router';
   import { RouterLink } from 'vue-router';
   import { useArmNavigationRoutes } from '../../hooks/useRoutes';
+  import { useModalsStore } from '../../stores/modals/useModalsStore';
 
   type Props = { variant: 'desktop' | 'mobile' };
   const props = withDefaults(defineProps<Props>(), { variant: 'desktop' });
   const route = useArmNavigationRoutes();
+
+  const modalsStore = useModalsStore();
+
+  const openGoBackConfirmModal = () => {
+    modalsStore.openConfirmModal(
+      'Вы уверены, что хотите выйти из формирования команд?',
+      'Выйти',
+      'Отмена',
+      () => {
+        router.push('/profile/info');
+        modalsStore.closeConfirmModal();
+      },
+      modalsStore.closeConfirmModal,
+    );
+  };
 </script>
 
 <style lang="scss" scoped>

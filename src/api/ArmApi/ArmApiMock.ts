@@ -1,5 +1,8 @@
 import { delayRes } from '@/helpers/promise';
-import { ArmDistributionApprove } from '@/models/ArmDistributionApprove';
+import {
+  ArmDistributionApprove,
+  UpdateArmDistributionApprove,
+} from '@/models/ArmDistributionApprove';
 import {
   ArmManualDistribution,
   ArmManualDistributionCandidate,
@@ -27,8 +30,14 @@ export default class ArmApiMock implements ArmApiType {
     return delayRes(armStudentsList, 300);
   }
 
-  async getArmManualDistribution(): Promise<ArmManualDistribution> {
+  async getArmManualDistributionList(): Promise<ArmManualDistribution> {
     return delayRes(armManualDistribution, 300);
+  }
+
+  async updateArmApproveDistributionProjectsList(
+    data: UpdateArmDistributionApprove[],
+  ): Promise<UpdateArmDistributionApprove[]> {
+    return delayRes(data, 300);
   }
 
   async updateArmProjectsList(data: ArmInstitute[]): Promise<ArmProjects> {

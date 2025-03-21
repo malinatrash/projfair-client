@@ -18,13 +18,17 @@ BaseLabel
           query.isLoading.value ||
           previousDistributionQuery.isLoading.value
         "
-        @click="openConfirmModal"
+        @click="openConfirmGoBackToPreviousArmManualDistributionModal"
       >
         <Previous />
       </BaseButton>
       <BaseButton
-        :disabled="mutation.isLoading.value || query.isLoading.value"
-        @click="apply"
+        :disabled="
+          mutation.isLoading.value ||
+          query.isLoading.value ||
+          previousDistributionQuery.isLoading.value
+        "
+        @click="openConfirmApplyManualDistributionModal"
         >Применить</BaseButton
       >
     </div>
@@ -33,7 +37,11 @@ BaseLabel
       v-model="tumblerValue"
       :options="tumblerOptions"
       :animation="true"
-      :disabled="mutation.isLoading.value || query.isLoading.value"
+      :disabled="
+        mutation.isLoading.value ||
+        query.isLoading.value ||
+        previousDistributionQuery.isLoading.value
+      "
     />
 
     <div class="distribution-wrapper" style="position: relative">
@@ -47,6 +55,13 @@ BaseLabel
             <div class="accordion-title">
               <p class="title" style="font-size: 22px">
                 {{ group }}
+                ({{
+                  (new Date().getMonth() >= 8
+                    ? (new Date().getFullYear() % 100) + 1
+                    : new Date().getFullYear() % 100) -
+                  Number.parseInt(group.split('-')[1])
+                }}
+                курс)
                 <span class="title-description">
                   Кол-во студентов без проекта:
                   <span style="color: var(--accent-color-1)">{{
@@ -283,19 +298,7 @@ BaseLabel
     value: project.project_id,
   });
 
-  const openConfirmModal = () => {
-    console.log(inputProject.value);
-
-    modalsStore.openConfirmModal(
-      'Вы хотите откатиться на предыдущее ручное распределение?',
-      'Откат',
-      'Отмена',
-      agree,
-      disagree,
-    );
-  };
-
-  const apply = () => {
+  const applyManualDistribution = () => {
     const updatedStudents = students.value.map((student) => ({
       ...student,
       selected_project: inputProject.value[student.candidate_id] ?? null,
@@ -312,14 +315,31 @@ BaseLabel
     mutation.mutate(updatedStudents);
   };
 
-  function agree() {
-    goBackToPreviousArmManualDistribution();
-    modalsStore.closeConfirmModal();
-  }
+  const openConfirmApplyManualDistributionModal = () => {
+    modalsStore.openConfirmModal(
+      'Вы хотите применить ручное распределение?',
+      'Да',
+      'Нет',
+      () => {
+        applyManualDistribution();
+        modalsStore.closeConfirmModal();
+      },
+      modalsStore.closeConfirmModal,
+    );
+  };
 
-  function disagree() {
-    modalsStore.closeConfirmModal();
-  }
+  const openConfirmGoBackToPreviousArmManualDistributionModal = () => {
+    modalsStore.openConfirmModal(
+      'Вы хотите откатиться на предыдущее ручное распределение?',
+      'Откат',
+      'Отмена',
+      () => {
+        goBackToPreviousArmManualDistribution();
+        modalsStore.closeConfirmModal();
+      },
+      modalsStore.closeConfirmModal,
+    );
+  };
 </script>
 
 <style lang="scss" scoped>

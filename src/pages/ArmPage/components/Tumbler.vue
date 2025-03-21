@@ -98,13 +98,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .tumbler {
-    position: relative;
-    display: flex;
-    width: 100%;
-    border-radius: 0.3125rem;
-  }
-
   .slider {
     position: absolute;
     height: 100%;
@@ -161,6 +154,27 @@
 
     &.hug-fill {
       flex: none;
+    }
+  }
+
+  .tumbler {
+    position: relative;
+    display: flex;
+    width: 100%;
+    border-radius: 0.3125rem;
+
+    &.disabled {
+      .slider {
+        background-color: var(--gray-color-2);
+      }
+
+      .tumbler-option {
+        border-color: var(--gray-color-2);
+      }
+
+      .radio-label {
+        color: var(--gray-color-2);
+      }
     }
   }
 </style>

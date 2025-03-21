@@ -118,14 +118,13 @@
   </BasePanel>
 
   <!-- Panel -->
-  <BasePanel v-if="project?.skills.length > 0">
+  <BasePanel v-if="project.specialities.length > 0">
     <!-- Information list -->
     <AppList>
       <AppListItem :bold="false" :wide="true">
         <template #title>Специальности</template>
         <template #default>
           <div
-            v-if="project?.specialities.length > 0"
             class="subtitle"
             style="display: flex; flex-direction: column; gap: 15px"
           >
@@ -185,7 +184,7 @@
   </BasePanel>
 
   <!-- Panel -->
-  <BasePanel v-if="project?.skills.length > 0">
+  <BasePanel v-if="project.skills.length > 0">
     <!-- Information list -->
     <AppList>
       <AppListItem :bold="false" :wide="true">

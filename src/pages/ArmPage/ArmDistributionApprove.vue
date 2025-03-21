@@ -2,17 +2,29 @@
   <div style="position: relative">
     <div class="buttons">
       <BaseButton
+        color="red"
         variant="outlined"
         class="previous-btn"
-        :disabled="query.isLoading.value"
+        style="padding: 12px 16px"
+        :disabled="query.isLoading.value || mutation.isLoading.value"
+        aria-label="Отмена переноса в БД"
         @click="openCancelExportConfirmModal"
       >
-        Отмена переноса в БД
+        <RestoreDb />
       </BaseButton>
       <BaseButton
-        :disabled="query.isLoading.value"
+        color="green"
+        style="padding: 12px 16px"
+        :disabled="query.isLoading.value || mutation.isLoading.value"
+        aria-label="Внести в Базу данных"
         @click="openExportConfirmModal"
-        >Внести в Базу данных</BaseButton
+      >
+        <ImportToDb />
+      </BaseButton>
+      <BaseButton
+        :disabled="query.isLoading.value || mutation.isLoading.value"
+        @click="openApplyManualDistributionConfirmModal"
+        >Переместить студентов</BaseButton
       >
     </div>
 
@@ -130,6 +142,13 @@
                         }}</span>
                       </span>
                     </p>
+                    <BaseButton
+                      is="a"
+                      variant="tag-outlined"
+                      style="padding: 2.5px 10px"
+                      @click="goToProject(project.project_id)"
+                      >Перейти на проект ↗</BaseButton
+                    >
                   </div>
                 </template>
 
@@ -171,7 +190,9 @@
                       </div>
 
                       <p class="title" style="font-size: 20px">
-                        {{ participation.fio }}
+                        <span style="font-weight: bold">
+                          {{ participation.fio }}
+                        </span>
                         <span class="title-description">
                           id:
                           <span style="color: var(--accent-color-1)">{{
@@ -190,11 +211,10 @@
                         </span>
                       </p>
 
-                      <div class="arrow-icon" v-html="arrowIcon"></div>
+                      <div class="arrow-icon" v-html="ArrowIcon"></div>
 
                       <VMultiselect
                         v-model="inputProject[participation.candidate_id]"
-                        data-test-id="prevProject"
                         :class="[
                           'multiselect',
                           inputProject[participation.candidate_id]
@@ -206,11 +226,13 @@
                         no-options-text="Проекты не найдены"
                         :searchable="true"
                         :options="
-                          projects
-                            .filter((projectInner) =>
-                              participation.eligible_projects_ids.includes(
-                                projectInner.project_id,
-                              ),
+                          eligibleProjects
+                            .filter(
+                              (projectInner) =>
+                                participation.eligible_projects_ids.includes(
+                                  projectInner.project_id,
+                                ) &&
+                                projectInner.project_id != project.project_id,
                             )
                             .map((projectInner) =>
                               getEligibleProjectsForMultiselect(
@@ -220,9 +242,20 @@
                             )
                         "
                         :disabled="
-                          query.isLoading.value || query.isFetching.value
+                          mutation.isLoading.value ||
+                          query.isLoading.value ||
+                          query.isFetching.value
                         "
                         aria-label="Выбор проекта"
+                        @change="
+                          handleMultiselectChange(
+                            $event,
+                            participation,
+                            project.project_id,
+                            department.department_id,
+                            institute.institute_id,
+                          )
+                        "
                       />
                     </div>
                   </div>
@@ -240,25 +273,31 @@
   import { computed } from '@vue/runtime-core';
   import VMultiselect from '@vueform/multiselect';
   import { ref } from 'vue';
+  import { useToast } from 'vue-toastification';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
   import { useGetArmApproveDistributionProjectsListQuery } from '../../api/ArmApi/hooks/useGetArmApproveDistributionProjectsListQuery';
+  import { useUpdateArmApproveDistributionProjectsListMutation } from '../../api/ArmApi/hooks/useUpdateApproveDistributionProjectsList';
   import { armApi } from '@/api/ArmApi';
   import { useModalsStore } from '../../stores/modals/useModalsStore';
   import {
+    ArmDistributionApproveCandidate,
     ArmDistributionApproveEligibleProject,
     ArmDistributionApproveInstitute,
+    UpdateArmDistributionApprove,
   } from '../../models/ArmDistributionApprove';
-  import {
-    ArmDistributionApproveCandidate,
-    ArmDistributionApproveProject,
-  } from '../../models/ArmDistributionApprove';
-  import { ArmInstitute } from '@/models/ArmProjects';
-  import arrowIcon from '@/assets/icons/user-role-select-arrow.svg?raw';
+  import ImportToDb from '@/assets/icons/import-to-db.svg';
+  import RestoreDb from '@/assets/icons/restore-db.svg';
+  import ArrowIcon from '@/assets/icons/user-role-select-arrow.svg?raw';
 
+  const toast = useToast();
   const modalsStore = useModalsStore();
+
+  const goToProject = (projectId: number) => {
+    window.open(`/project/${projectId}`, '_blank');
+  };
 
   const openExportConfirmModal = () => {
     const agree = () => {
@@ -294,7 +333,24 @@
     );
   };
 
+  const inputProject = ref<{
+    [studentId: number]: number | null;
+  }>({});
+
+  const updatedProjects: {
+    [studentId: number]: UpdateArmDistributionApprove;
+  } = {};
+
   const query = useGetArmApproveDistributionProjectsListQuery();
+  const mutation = useUpdateArmApproveDistributionProjectsListMutation({
+    onSuccess: () => {
+      toast.success('Студенты успешно перемещены по проектам');
+      inputProject.value = {};
+      for (const key of Object.keys(updatedProjects)) {
+        delete updatedProjects[Number.parseInt(key)];
+      }
+    },
+  });
 
   const institutes = computed<ArmDistributionApproveInstitute[]>(
     () =>
@@ -308,7 +364,7 @@
         ) as ArmDistributionApproveInstitute[],
   );
 
-  const projects = computed<ArmDistributionApproveEligibleProject[]>(
+  const eligibleProjects = computed<ArmDistributionApproveEligibleProject[]>(
     () =>
       query.data.value?.eligible_projects
         .slice()
@@ -319,10 +375,6 @@
           ) => a.project_id - b.project_id,
         ) as ArmDistributionApproveEligibleProject[],
   );
-
-  const inputProject = ref<{
-    [x: number]: number | null;
-  }>({});
 
   const getEligibleProjectsForMultiselect = (
     project: ArmDistributionApproveEligibleProject,
@@ -339,9 +391,69 @@
     })`,
     value: project.project_id,
   });
+
+  const handleMultiselectChange = (
+    selectedProjectId: any,
+    participation: ArmDistributionApproveCandidate,
+    currentProjectId: number,
+    currentDepartmentId: number,
+    currentInstituteId: number,
+  ) => {
+    if (selectedProjectId) {
+      const selectedProject = eligibleProjects.value.find(
+        (project) => project.project_id === selectedProjectId,
+      )!;
+
+      updatedProjects[participation.candidate_id] = {
+        candidate_id: participation.candidate_id,
+        project_id: currentProjectId,
+        department_id: currentDepartmentId,
+        institute_id: currentInstituteId,
+        selected_project_id: selectedProjectId,
+        selected_department_id: selectedProject.department_id,
+        selected_institute_id: selectedProject.institute_id,
+      };
+    } else {
+      delete updatedProjects[participation.candidate_id];
+    }
+  };
+
+  const moveStudentsToDifferentProjects = () => {
+    const result: UpdateArmDistributionApprove[] = [];
+
+    for (const key of Object.keys(updatedProjects)) {
+      result.push(updatedProjects[Number.parseInt(key)]);
+    }
+
+    if (result.length === 0) {
+      toast.info('Внесите какие нибудь изменения');
+      return;
+    }
+
+    mutation.mutate(result);
+  };
+
+  const openApplyManualDistributionConfirmModal = () => {
+    const agree = () => {
+      moveStudentsToDifferentProjects();
+      modalsStore.closeConfirmModal();
+    };
+    const disagree = () => {
+      modalsStore.closeConfirmModal();
+    };
+    modalsStore.openConfirmModal(
+      'Вы хотите переместить студентов по другим проектам?',
+      'Да',
+      'Нет',
+      agree,
+      disagree,
+    );
+  };
 </script>
 
 <style lang="scss" scoped>
+  @import '@styles/breakpoints';
+
   $padding: 20px;
 
   .buttons {
@@ -369,7 +481,7 @@
     }
 
     @media (width <= 505px) {
-      flex-direction: column;
+      flex-direction: column-reverse;
     }
   }
 
@@ -385,6 +497,10 @@
     font-size: 24px;
     line-height: normal;
     color: #4f5569;
+
+    @media (width <= $tablet) {
+      font-size: 22px;
+    }
   }
 
   .input {
@@ -395,101 +511,6 @@
     text-align: center;
   }
 
-  .inner-accordion-content {
-    & .title {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      gap: 5px;
-      justify-content: center;
-      font-weight: 700;
-
-      &-description {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--gray-color-2);
-      }
-    }
-
-    & > *:not(.accordion) {
-      display: flex;
-      flex-direction: row;
-      gap: $padding;
-      align-items: center;
-      justify-content: space-between;
-      padding: $padding 0;
-      padding-right: 45px;
-      border-bottom: 1px solid var(--gray-color-1);
-    }
-
-    & > .student-card {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-      padding: 20px 15px;
-      border-bottom: 1px solid var(--gray-color-1);
-      transition: 0.15s ease-in-out;
-
-      &.project-selected {
-        // border-left: 4px solid var(--accent-color-2);
-
-        & .arrow-icon:deep(svg > path) {
-          stroke: var(--accent-color-2);
-        }
-      }
-
-      & .title {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        gap: 5px;
-        justify-content: center;
-        font-size: 24px;
-        line-height: normal;
-        color: #4f5569;
-
-        &-description {
-          font-size: 16px;
-          font-weight: 600;
-          color: var(--gray-color-2);
-        }
-      }
-
-      &:deep(.multiselect) {
-        flex: 1;
-        max-width: 400px;
-        transition: 0.15s ease-in-out;
-
-        & .multiselect-single-label {
-          display: flex;
-        }
-
-        & .multiselect-placeholder {
-          padding-right: 2rem;
-          font-size: 16px !important;
-          text-wrap: nowrap;
-        }
-
-        &.selected {
-          box-shadow: 0 0 0 2px var(--accent-color-2);
-        }
-
-        & .multiselect-option:not(:last-child) {
-          border-bottom: 1px solid var(--gray-color-1);
-        }
-      }
-
-      &:deep(.multiselect-dropdown) {
-        max-height: 375px;
-        overscroll-behavior: none;
-
-        & li > span {
-          font-size: 16px !important;
-        }
-      }
-    }
-  }
-
   .accordion {
     &-title {
       display: flex;
@@ -498,6 +519,12 @@
       width: 100%;
       padding: $padding 0;
       padding-right: 26.5px;
+
+      @media (width <= 700px) {
+        flex-direction: column;
+        gap: 15px;
+        align-items: start !important;
+      }
 
       & .title {
         display: flex;
@@ -546,6 +573,105 @@
 
     &:deep(.content) {
       padding-left: $padding;
+    }
+  }
+
+  .inner-accordion-content {
+    & > *:not(.accordion) {
+      display: flex;
+      flex-direction: row;
+      gap: $padding;
+      align-items: center;
+      justify-content: space-between;
+      padding: $padding 0;
+      padding-right: 45px;
+      border-bottom: 1px solid var(--gray-color-1);
+    }
+
+    & > .student-card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      padding: 20px 15px;
+      border-bottom: 1px solid var(--gray-color-1);
+      transition: 0.15s ease-in-out;
+
+      @media (width <= 700px) {
+        flex-direction: column;
+
+        & .title {
+          width: 100%;
+          text-align: center;
+        }
+
+        & .icon-project {
+          flex-direction: column;
+        }
+
+        & .arrow-icon {
+          rotate: 90deg;
+        }
+      }
+
+      &.project-selected {
+        // border-left: 4px solid var(--accent-color-2);
+
+        & .arrow-icon:deep(svg > path) {
+          stroke: var(--accent-color-2);
+        }
+      }
+
+      & .title {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 5px;
+        justify-content: center;
+        font-size: 24px;
+        line-height: normal;
+        color: #4f5569;
+
+        &-description {
+          font-size: 16px;
+          font-weight: 600;
+          color: var(--gray-color-2);
+        }
+      }
+
+      &:deep(.multiselect) {
+        flex: 1;
+        min-width: 300px;
+        max-width: 400px;
+        transition: 0.15s ease-in-out;
+
+        & .multiselect-single-label {
+          display: flex;
+        }
+
+        & .multiselect-placeholder {
+          padding-right: 2rem;
+          font-size: 16px !important;
+          text-wrap: nowrap;
+        }
+
+        &.selected {
+          box-shadow: 0 0 0 2px var(--accent-color-2);
+        }
+
+        & .multiselect-option:not(:last-child) {
+          border-bottom: 1px solid var(--gray-color-1);
+        }
+      }
+
+      &:deep(.multiselect-dropdown) {
+        max-height: 375px;
+        overscroll-behavior: none;
+
+        & li > span {
+          font-size: 16px !important;
+        }
+      }
     }
   }
 </style>

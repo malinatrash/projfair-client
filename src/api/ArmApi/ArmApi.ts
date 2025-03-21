@@ -1,4 +1,7 @@
-import { ArmDistributionApprove } from '@/models/ArmDistributionApprove';
+import {
+  ArmDistributionApprove,
+  UpdateArmDistributionApprove,
+} from '@/models/ArmDistributionApprove';
 import {
   ArmManualDistribution,
   ArmManualDistributionCandidate,
@@ -21,8 +24,18 @@ export default class ArmApi implements ProjectApiType {
     return baseKyInstance.get('api/arm/candidates').json();
   }
 
-  async getArmManualDistribution(): Promise<ArmManualDistribution> {
+  async getArmManualDistributionList(): Promise<ArmManualDistribution> {
     return baseKyInstance.get('api/arm/manualDistribution').json();
+  }
+
+  async updateArmApproveDistributionProjectsList(
+    data: UpdateArmDistributionApprove[],
+  ): Promise<UpdateArmDistributionApprove[]> {
+    return baseKyInstance
+      .patch('api/arm/approveDistribution', {
+        json: data,
+      })
+      .json();
   }
 
   async updateArmProjectsList(data: ArmInstitute[]): Promise<ArmProjects> {

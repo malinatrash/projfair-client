@@ -56,17 +56,18 @@
 
   const handlerClick = (e: MouseEvent) => {
     const element = e.target as HTMLElement;
-    const currentElement = e.currentTarget as HTMLElement;
+    const currentElement = e.target as HTMLElement;
 
-    setTimeout(() => {
-      if (
-        currentElement?.parentElement?.parentElement?.children[1]?.children[0]
-          ?.childElementCount === 0
-      )
-        _opened.value = false;
-    }, 0);
+    // setTimeout(() => {
+    //   if (
+    //     currentElement?.parentElement?.parentElement?.children[1]?.children[0]
+    //       ?.childElementCount === 0
+    //   )
+    //     _opened.value = false;
+    // }, 0);
 
-    if (element && element.tagName === 'INPUT') return;
+    if (element && (element.tagName === 'INPUT' || element.tagName === 'A'))
+      return;
 
     _opened.value = !_opened.value;
   };

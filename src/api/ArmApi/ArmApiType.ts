@@ -1,4 +1,7 @@
-import { ArmDistributionApprove } from '@/models/ArmDistributionApprove';
+import {
+  ArmDistributionApprove,
+  UpdateArmDistributionApprove,
+} from '@/models/ArmDistributionApprove';
 import {
   ArmManualDistribution,
   ArmManualDistributionCandidate,
@@ -10,8 +13,10 @@ export default interface ArmApiType {
   getArmProjectsList(): Promise<ArmProjects>;
   getArmApproveDistributionProjectsList(): Promise<ArmDistributionApprove>;
   getArmStudentsList(): Promise<ArmStudentsInstitute[]>;
-  getArmManualDistribution(): Promise<ArmManualDistribution>;
-
+  getArmManualDistributionList(): Promise<ArmManualDistribution>;
+  updateArmApproveDistributionProjectsList(
+    data: UpdateArmDistributionApprove[],
+  ): Promise<UpdateArmDistributionApprove[]>;
   updateArmProjectsList(data: ArmInstitute[]): Promise<ArmProjects>;
   updateArmManualDistribution(
     data: ArmManualDistributionCandidate[],
