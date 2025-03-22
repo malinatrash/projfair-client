@@ -193,22 +193,35 @@
                       </div>
 
                       <p class="title" style="font-size: 20px">
+                        <span
+                          v-if="participation.stranger"
+                          style="font-size: 12px"
+                        >
+                          Cтудент участвует в проекте не от своего института
+                        </span>
                         <span style="font-weight: bold">
                           {{ participation.fio }}
                         </span>
                         <span class="title-description">
                           id:
-                          <span style="color: var(--accent-color-1)">{{
+                          <span class="accent-text">{{
                             participation.candidate_id
                           }}</span>
                           <br />
+                          <span v-if="participation.stranger">
+                            Институт:
+                            <span class="accent-text">{{
+                              participation.institute_id
+                            }}</span>
+                            <br />
+                          </span>
                           Группа:
-                          <span style="color: var(--accent-color-1)">{{
+                          <span class="accent-text">{{
                             participation.training_group
                           }}</span>
                           <br />
                           Приоритет:
-                          <span style="color: var(--accent-color-1)">{{
+                          <span class="accent-text">{{
                             participation.priority
                           }}</span>
                         </span>
@@ -598,6 +611,7 @@
       align-items: center;
       padding: 20px 15px;
       border-bottom: 1px solid var(--gray-color-1);
+      border-radius: 12px;
       transition: 0.15s ease-in-out;
 
       @media (width <= 700px) {
@@ -625,12 +639,32 @@
         }
       }
 
+      & .accent-text {
+        color: var(--accent-color-1);
+      }
+
       &.stranger {
+        --accent-stranger-color: var(--accent-color-3);
+
         background-color: color-mix(
           in srgb,
-          var(--accent-color-1) 5%,
+          var(--accent-stranger-color) 5%,
           transparent 100%
         );
+
+        &.project-selected {
+          border-left: 4px solid var(--accent-stranger-color);
+
+          & .arrow-icon:deep(svg > path) {
+            stroke: var(--accent-stranger-color);
+          }
+        }
+
+        &:deep(.multiselect) {
+          &.selected {
+            box-shadow: 0 0 0 2px var(--accent-stranger-color);
+          }
+        }
       }
 
       & .title {
