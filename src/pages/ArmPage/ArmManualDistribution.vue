@@ -46,26 +46,19 @@ BaseLabel
 
     <div class="distribution-wrapper" style="position: relative">
       <BasePanel
-        v-for="group in filteredTrainingGroups.keys()"
-        :key="group"
+        v-for="institute in filteredTrainingGroups.keys()"
+        :key="institute"
         class="institute-card"
       >
         <SimpleAccordion default-opened>
           <template #title>
             <div class="accordion-title">
               <p class="title" style="font-size: 22px">
-                {{ group }}
-                ({{
-                  (new Date().getMonth() >= 8
-                    ? (new Date().getFullYear() % 100) + 1
-                    : new Date().getFullYear() % 100) -
-                  Number.parseInt(group.split('-')[1])
-                }}
-                курс)
+                {{ institute }}
                 <span class="title-description">
                   Кол-во студентов без проекта:
                   <span style="color: var(--accent-color-1)">{{
-                    filteredTrainingGroups.get(group)?.length
+                    getStudentsCountForInstitute(institute)
                   }}</span>
                 </span>
               </p>
@@ -73,80 +66,113 @@ BaseLabel
           </template>
 
           <template #content>
-            <div
-              v-for="student in filteredTrainingGroups.get(group)"
-              :key="student.candidate_id"
-              :class="[
-                'student-card',
-                inputProject[student.candidate_id] ? 'project-selected' : '',
-              ]"
-              role="region"
-              :aria-label="`Студент ${student.fio}`"
+            <SimpleAccordion
+              v-for="[group, students] in filteredTrainingGroups.get(institute)"
+              :key="group"
             >
-              <div class="icon-project">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#4f5569"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-user"
+              <template #title>
+                <div class="accordion-title">
+                  <p class="title" style="font-size: 22px">
+                    {{ group }}
+                    <span style="font-size: 16px">
+                      {{
+                        (new Date().getMonth() >= 8
+                          ? (new Date().getFullYear() % 100) + 1
+                          : new Date().getFullYear() % 100) -
+                        Number.parseInt(group.split('-')[1])
+                      }}
+                      курс
+                    </span>
+                    <span class="title-description">
+                      Кол-во студентов без проекта:
+                      <span style="color: var(--accent-color-1)">{{
+                        students.length
+                      }}</span>
+                    </span>
+                  </p>
+                </div>
+              </template>
+
+              <template #content>
+                <div
+                  v-for="(student, index) in students"
+                  :key="student.candidate_id"
+                  :class="[
+                    'student-card',
+                    inputProject[student.candidate_id]
+                      ? 'project-selected'
+                      : '',
+                  ]"
+                  role="region"
+                  :aria-label="`Студент ${student.fio}`"
                 >
-                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-              </div>
+                  {{ index + 1 }}
+                  <div class="icon-project">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#4f5569"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-user"
+                    >
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                  </div>
 
-              <p class="title">
-                {{ student.fio }}
-                <span class="title-description">
-                  id:
-                  <span style="color: var(--accent-color-1)">
-                    {{ student.candidate_id }}
-                  </span>
-                  | Группа:
-                  <span style="color: var(--accent-color-1)">
-                    {{ student.training_group }}
-                  </span>
-                </span>
-              </p>
+                  <p class="title">
+                    {{ student.fio }}
+                    <span class="title-description">
+                      id:
+                      <span style="color: var(--accent-color-1)">
+                        {{ student.candidate_id }}
+                      </span>
+                      | Группа:
+                      <span style="color: var(--accent-color-1)">
+                        {{ student.training_group }}
+                      </span>
+                    </span>
+                  </p>
 
-              <div class="arrow-icon" v-html="arrowIcon"></div>
+                  <div class="arrow-icon" v-html="arrowIcon"></div>
 
-              <VMultiselect
-                v-model="inputProject[student.candidate_id]"
-                data-test-id="prevProject"
-                :class="[
-                  'multiselect',
-                  inputProject[student.candidate_id] ? 'selected' : '',
-                ]"
-                placeholder="Выберите проект для распределения"
-                no-results-text="Проект не найден"
-                no-options-text="Проекты не найдены"
-                :searchable="true"
-                :options="
-                  projects
-                    .filter((project) =>
-                      student.eligible_projects_ids.includes(
-                        project.project_id,
-                      ),
-                    )
-                    .map((project) =>
-                      getEligibleProjectsForMultiselect(project),
-                    )
-                "
-                :disabled="
-                  mutation.isLoading.value ||
-                  query.isLoading.value ||
-                  query.isFetching.value
-                "
-                aria-label="Выбор проекта"
-              />
-            </div>
+                  <VMultiselect
+                    v-model="inputProject[student.candidate_id]"
+                    data-test-id="prevProject"
+                    :class="[
+                      'multiselect',
+                      inputProject[student.candidate_id] ? 'selected' : '',
+                    ]"
+                    placeholder="Выберите проект для распределения"
+                    no-results-text="Проект не найден"
+                    no-options-text="Проекты не найдены"
+                    :searchable="true"
+                    :options="
+                      projects
+                        .filter((project) =>
+                          student.eligible_projects_ids.includes(
+                            project.project_id,
+                          ),
+                        )
+                        .map((project) =>
+                          getEligibleProjectsForMultiselect(project),
+                        )
+                    "
+                    :disabled="
+                      mutation.isLoading.value ||
+                      query.isLoading.value ||
+                      query.isFetching.value
+                    "
+                    aria-label="Выбор проекта"
+                  />
+                </div>
+              </template>
+            </SimpleAccordion>
           </template>
         </SimpleAccordion>
       </BasePanel>
@@ -156,7 +182,7 @@ BaseLabel
 
 <script setup lang="ts">
   import VMultiselect from '@vueform/multiselect';
-  import { computed, ref } from 'vue';
+  import { computed, ref, watch, watchEffect } from 'vue';
   import { useQuery, useQueryClient } from 'vue-query';
   import { useToast } from 'vue-toastification';
   import Tumbler from './components/Tumbler.vue';
@@ -262,7 +288,7 @@ BaseLabel
     const studentHasNoProjects = (student: ArmManualDistributionCandidate) =>
       student.eligible_projects_ids.length === 0;
 
-    return new Map(
+    const filteredMap = new Map(
       [...trainingGroups.value.entries()].filter(([_, value]) => {
         if (!hasProjects && !noProjects) return false;
 
@@ -281,7 +307,31 @@ BaseLabel
         );
       }),
     );
+
+    const groupedByInstitute = new Map<
+      string,
+      Map<string, ArmManualDistributionCandidate[]>
+    >();
+    for (const institute of filteredMap.entries()) {
+      const group = institute[1];
+      const groupName = institute[1]?.[0].training_group;
+      const instituteName = institute[1]?.[0].institute_name;
+      if (!groupedByInstitute.has(instituteName)) {
+        groupedByInstitute.set(instituteName, new Map());
+      }
+      groupedByInstitute.get(instituteName)?.set(groupName, group);
+    }
+    return groupedByInstitute;
   });
+
+  const getStudentsCountForInstitute = (instituteName: string) => {
+    const group = filteredTrainingGroups.value.get(instituteName);
+    let count = 0;
+    group?.forEach((group) => {
+      count += group.length;
+    });
+    return count;
+  };
 
   const getEligibleProjectsForMultiselect = (
     project: ArmManualDistributionEligibleProjects,

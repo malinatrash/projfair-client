@@ -161,9 +161,12 @@
                       :key="participation.candidate_id"
                       :class="[
                         'student-card',
-                        inputProject[participation.candidate_id]
-                          ? 'project-selected'
-                          : '',
+                        {
+                          'project-selected': Boolean(
+                            inputProject[participation.candidate_id],
+                          ),
+                          stranger: participation.stranger,
+                        },
                       ]"
                       role="region"
                       :aria-label="`Студент ${participation.fio}`"
@@ -559,9 +562,9 @@
       //   border-left: 2px solid var(--accent-color-1);
       // }
 
-      &:has(> .inner-accordion-content) {
-        border-left: 4px solid var(--accent-color-2);
-      }
+      // &:has(> .inner-accordion-content) {
+      //   border-left: 4px solid var(--accent-color-2);
+      // }
     }
 
     &:deep(button.title) {
@@ -615,11 +618,19 @@
       }
 
       &.project-selected {
-        // border-left: 4px solid var(--accent-color-2);
+        border-left: 4px solid var(--accent-color-2);
 
         & .arrow-icon:deep(svg > path) {
           stroke: var(--accent-color-2);
         }
+      }
+
+      &.stranger {
+        background-color: color-mix(
+          in srgb,
+          var(--accent-color-1) 5%,
+          transparent 100%
+        );
       }
 
       & .title {
