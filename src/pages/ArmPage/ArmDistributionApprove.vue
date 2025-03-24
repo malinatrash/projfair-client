@@ -289,12 +289,16 @@
   import { computed } from '@vue/runtime-core';
   import VMultiselect from '@vueform/multiselect';
   import { ref } from 'vue';
+  import { useQueryClient } from 'vue-query';
   import { useToast } from 'vue-toastification';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
-  import { useGetArmApproveDistributionProjectsListQuery } from '../../api/ArmApi/hooks/useGetArmApproveDistributionProjectsListQuery';
+  import {
+    USE_GET_ARM_APPROVE_DISTRIBUTION_PROJECTS_LIST_QUERY_KEY,
+    useGetArmApproveDistributionProjectsListQuery,
+  } from '../../api/ArmApi/hooks/useGetArmApproveDistributionProjectsListQuery';
   import { useUpdateArmApproveDistributionProjectsListMutation } from '../../api/ArmApi/hooks/useUpdateApproveDistributionProjectsList';
   import { armApi } from '@/api/ArmApi';
   import { useModalsStore } from '../../stores/modals/useModalsStore';
@@ -356,7 +360,6 @@
   const updatedProjects: {
     [studentId: number]: UpdateArmDistributionApprove;
   } = {};
-
   const query = useGetArmApproveDistributionProjectsListQuery();
   const mutation = useUpdateArmApproveDistributionProjectsListMutation({
     onSuccess: () => {

@@ -25,12 +25,13 @@ export const useUpdateArmApproveDistributionProjectsListMutation = (
     USE_UPDATE_ARM_APPROVE_DISTRIBUTION_PROJECTS_LIST_MUTATION_KEY,
     (data: TVariables) => armApi.updateArmApproveDistributionProjectsList(data),
     {
-      onSuccess: () => {
+      ...options,
+      onSuccess: (data, variables, context) => {
+        options?.onSuccess && options.onSuccess(data, variables, context);
         client.invalidateQueries(
           USE_GET_ARM_APPROVE_DISTRIBUTION_PROJECTS_LIST_QUERY_KEY,
         );
       },
-      ...options,
     },
   );
 };
