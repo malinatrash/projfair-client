@@ -146,7 +146,7 @@
       <BaseResultTable
         v-if="
           projectData &&
-          sortedParticipants.length > 0 &&
+          sortedAndFilteredParticipants.length > 0 &&
           !isFetching &&
           !isError
         "
@@ -154,6 +154,7 @@
         :headers="['№', 'ФИО', 'Группа', 'Оценка']"
         :rows="tableRows"
         :ids="tableIds"
+        :participations="sortedAndFilteredParticipants"
       />
 
       <BasePanel v-else>
@@ -239,9 +240,7 @@
   import { toProjectRoute } from '@/router/utils/routes';
   import { useAuthStore } from '../../stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
-  import { Candidate } from '@/models/Candidate';
-  import { Project, ProjectSupervisor } from '@/models/Project';
-  import { UserSupervisor } from '@/models/User';
+  import { Participation } from '@/models/Participation';
   import BaseButton from '../ui/BaseButton.vue';
 
   const authStore = useAuthStore();
@@ -314,26 +313,31 @@
     }
   });
 
-  const sortedParticipants = computed<Candidate[]>(() => {
+  const sortedAndFilteredParticipants = computed<Participation[]>(() => {
     if (!projectData.value) return [];
-    const participants = projectData.value.project.participants || [];
-    return [...participants].sort((a, b) =>
-      compareString(a.fio.toLowerCase(), b.fio.toLowerCase()),
-    );
+    const participants = projectData.value.project.participations || [];
+    return [...participants]
+      .filter((part) => part.state.id === 3)
+      .sort((a, b) =>
+        compareString(
+          a.candidate.fio.toLowerCase(),
+          b.candidate.fio.toLowerCase(),
+        ),
+      );
   });
 
   const tableIds = computed<idData[]>(() =>
-    sortedParticipants.value.map(({ id, fio }) => ({
-      key: String(id),
+    sortedAndFilteredParticipants.value.map(({ id, candidate }) => ({
       id: [id],
-      name: [fio],
+      key: String(id),
+      name: [candidate.fio],
     })),
   );
 
   const tableRows = computed<RowData[]>(() =>
-    sortedParticipants.value.map(({ fio, training_group, id }, index) => ({
+    sortedAndFilteredParticipants.value.map(({ candidate, id }, index) => ({
       key: String(id),
-      data: [index + 1, fio, training_group],
+      data: [index + 1, candidate.fio, candidate.training_group],
     })),
   );
 

@@ -5,7 +5,6 @@ import { useResultStore } from '@/stores/resultPage/useResultStore';
 
 export default function useEvaluation() {
   const evaluateStore = useEvaluationModal();
-  // const projectData = useGetSingleProjectQuery(evaluateStore.projectID!);
   const resultStore = useResultStore();
   const modalsStore = useModalsStore();
   const markMutation = useUpdateProjectCandidateMarkMutation();

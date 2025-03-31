@@ -15,7 +15,7 @@
           'lenght-limit': !isValid,
         },
       ]"
-      :style="{ resize: isValid }"
+      :style="{ resize: props.resize }"
       @input="onInput"
     >
     </textarea>
@@ -28,7 +28,7 @@
         },
       ]"
     >
-      {{ props.modelValue.length || 0 }}/{{ maxLength }}
+      {{ props.modelValue?.length || 0 }}/{{ maxLength }}
     </span>
   </label>
 </template>
@@ -158,7 +158,7 @@
     background-color: #fff;
     border: 1px solid var(--gray-color-1);
     border-radius: 0.3125rem;
-    transition: border 100ms ease;
+    transition: 100ms ease;
   }
 
   .input.with-maxlength {
@@ -185,9 +185,11 @@
   }
 
   .input.lenght-limit {
-    margin-top: -4px;
-    margin-left: -1px;
     border: 2px solid var(--red-color-1);
+  }
+
+  .input:user-invalid {
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--red-color-1) 100%, white 35%);
   }
 
   .maxlength.lenght-limit {

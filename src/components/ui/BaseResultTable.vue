@@ -25,9 +25,8 @@
           </td>
           <td>
             <OpenEvaluateStudentModalButton
-              :id="ids[rowIndex].id[0]"
-              :project-i-d="projectId"
-              :name="ids[rowIndex].name[0]"
+              :participation="participations[rowIndex]"
+              :project-id="projectId"
             />
           </td>
         </tr>
@@ -41,7 +40,6 @@
   import { useRoute } from 'vue-router';
   import OpenEvaluateStudentModalButton from '@/components/project-proposal/OpenEvaluateStudentModalButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
-  import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { useResultStore } from '@/stores/resultPage/useResultStore';
   import { Participation } from '@/models/Participation';
   import { StudentsResult } from '@/models/StudentsResult';
@@ -60,6 +58,7 @@
   const projectId = computed(() => Number(route.params.id));
 
   interface Props {
+    participations: Participation[];
     /**
      * Список заголовков таблицы
      */
@@ -77,20 +76,19 @@
   const props = defineProps<Props>();
 
   const resultStore = useResultStore();
-  const projectData = useGetSingleProjectQuery(projectId);
-  const participations = computed(() => {
-    const s = projectData.data.value?.project.participations?.map(
-      (e: Participation) => {
-        return {
-          rating: e.mark,
-          review: e.review,
-          id: e.id,
-        };
-      },
-    );
+
+  const mappedParticipations = computed(() => {
+    const s = props.participations.map((e: Participation) => {
+      return {
+        rating: e.mark,
+        review: e.review === '   ' || !e.review ? '' : e.review, // В БД пустое значение - это строка из 3 пробелов, поэтому если оно пустое, то мы его заменяем на пустую строку
+        id: e.id,
+      };
+    });
+
     return s;
   });
-  resultStore.setResults(participations.value as StudentsResult[]);
+  resultStore.setResults(mappedParticipations.value as StudentsResult[]);
 </script>
 
 <style lang="scss" scoped>

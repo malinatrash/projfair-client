@@ -1,4 +1,5 @@
 import { UseMutationOptions, useMutation, useQueryClient } from 'vue-query';
+import { useToast } from 'vue-toastification';
 import { projectApi } from '@/api/ProjectApi';
 import ProjectApiType from '@/api/ProjectApi/ProjectApiType';
 import { getSingleProjectQueryKey } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
@@ -21,26 +22,27 @@ export const useUpdateProjectCandidateMarkMutation = (
   options?: useUpdateProjectCandidateMarkMutationOptions,
 ) => {
   const client = useQueryClient();
+  const toast = useToast();
 
   return useMutation(
     USE_UPDATE_PROJECT_CANDIDATE_MARK_MUTATION_KEY,
-    (data: TVariables) => {
+    ([projectId, candidateId, mark, review]: TVariables) => {
       return projectApi.updateProjectCandidateMark(
-        data[0],
-        data[1],
-        data[2],
-        data[3],
+        projectId,
+        candidateId,
+        mark,
+        review,
       );
     },
     {
       ...options,
       onSuccess: (data, variables, context) => {
         options?.onSuccess?.(data, variables, context);
+        const participation = data as unknown as Participation;
         client.invalidateQueries(
-          getSingleProjectQueryKey(
-            (data as unknown as Participation).project_id ?? 0,
-          ),
+          getSingleProjectQueryKey(participation.project_id ?? 0),
         );
+        toast.success(`Студент ${participation.candidate.fio} успешно оценен`);
       },
     },
   );

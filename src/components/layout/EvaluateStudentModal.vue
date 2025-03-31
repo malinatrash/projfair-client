@@ -5,7 +5,14 @@
     @close="evaluation.evaluateStore.closeEvaluateStudentModal()"
   >
     <!-- MAIN CONTENT -->
-    <div class="success-modal">
+    <form
+      class="success-modal"
+      @submit="
+        (e) => {
+          e.preventDefault();
+        }
+      "
+    >
       <h1>Оценить студента</h1>
       <h3>
         {{ evaluation.evaluateStore.evaluateStudentModalName }}
@@ -17,34 +24,53 @@
       </div>
       <BaseTextarea
         v-model="evaluation.evaluateStore.review"
+        required
+        class="evaluate-input"
         placeholder="Опишите работу, проделанную студентом..."
+        resize="vertical"
         :max-length="300"
       />
       <div>
-        <BaseButton
-          :full-width="true"
-          case="uppercase"
-          @click="evaluation.evaluate()"
-        >
+        <BaseButton :full-width="true" case="uppercase" @click="applyEvaluate">
           Отправить
         </BaseButton>
       </div>
-    </div>
+    </form>
     <!-- MAIN CONTENT -->
   </BaseModal>
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue';
   import StarRating from 'vue-star-rating';
+  import { useToast } from 'vue-toastification';
   import useEvaluation from '@/hooks/useEvaluation';
   import BaseButton from '../ui/BaseButton.vue';
   import BaseModal from '../ui/BaseModal.vue';
   import BaseTextarea from '../ui/BaseTextarea.vue';
 
+  const toast = useToast();
+
   const evaluation = useEvaluation();
+
+  const applyEvaluate = (value: string) => {
+    if (!evaluation.evaluateStore.rating) {
+      toast.info('Выберите оценку');
+      return;
+    }
+    if (!evaluation.evaluateStore.review) {
+      toast.info('Введите отзыв');
+      return;
+    }
+    evaluation.evaluate();
+  };
 </script>
 
 <style>
+  .evaluate-input {
+    height: 125px;
+  }
+
   .success-modal {
     display: flex;
     flex-direction: column;
