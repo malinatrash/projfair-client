@@ -38,11 +38,8 @@ export const useUpdateProjectCandidateMarkMutation = (
       ...options,
       onSuccess: (data, variables, context) => {
         options?.onSuccess?.(data, variables, context);
-        const participation = data as unknown as Participation;
-        client.invalidateQueries(
-          getSingleProjectQueryKey(participation.project_id ?? 0),
-        );
-        toast.success(`Студент ${participation.candidate.fio} успешно оценен`);
+        client.invalidateQueries(getSingleProjectQueryKey(data.project_id));
+        toast.success(`Студент ${data.candidate.fio} успешно оценен`);
       },
     },
   );

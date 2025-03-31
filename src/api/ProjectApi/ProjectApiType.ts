@@ -1,5 +1,6 @@
 import { DownloadProgress } from 'ky';
 import { Candidate } from '@/models/Candidate';
+import { Participation } from '@/models/Participation';
 import type {
   Project,
   ProjectFilters,
@@ -39,7 +40,7 @@ export default interface ProjectApiType {
     candidateId: number,
     mark: number,
     review: string,
-  ): Promise<Project>;
+  ): Promise<Participation>;
   updateSingleProject(projectId: number): Promise<Project>;
   getProjectParticipants(projectId: number): Promise<Candidate[]>;
   getProjectHistory(projectId: number): Promise<Project[]>;
