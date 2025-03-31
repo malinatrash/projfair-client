@@ -296,15 +296,26 @@
   watchEffect(() => {
     const stateId = projectData.value?.project?.state.id;
     const projectId = projectData.value?.project?.id;
+
     if (projectId && stateId && !canViewParticipants(stateId)) {
       router.replace(toProjectRoute(projectId));
     }
-    if (isProjectStateActive.value) {
+
+    if (
+      isProjectStateActive.value &&
+      !checkCurrentSupervisor(projectData.value?.project, authStore)
+    ) {
+      projectResultForm.projectResultDescription =
+        projectData.value?.project?.project_review ?? 'Результаты не найдены';
+      projectResultForm.projectResultGoal =
+        (projectData.value?.project?.project_goal as ProjectResultGoal) ?? 1;
+    } else if (isProjectStateActive.value) {
       projectResultForm.projectResultDescription =
         projectData.value?.project?.project_review ?? '';
       projectResultForm.projectResultGoal =
         (projectData.value?.project?.project_goal as ProjectResultGoal) ?? 1;
     }
+
     if (isProjectStateArchived.value) {
       projectResultForm.projectResultDescription =
         projectData.value?.project?.project_review ?? 'Результаты не найдены';
