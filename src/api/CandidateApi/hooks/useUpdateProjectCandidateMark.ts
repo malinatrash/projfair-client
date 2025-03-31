@@ -3,7 +3,6 @@ import { useToast } from 'vue-toastification';
 import { projectApi } from '@/api/ProjectApi';
 import ProjectApiType from '@/api/ProjectApi/ProjectApiType';
 import { getSingleProjectQueryKey } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
-import { Participation } from '@/models/Participation';
 
 type TData = Awaited<ReturnType<ProjectApiType['updateProjectCandidateMark']>>;
 type TVariables = Parameters<ProjectApiType['updateProjectCandidateMark']>;
