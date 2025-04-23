@@ -33,15 +33,15 @@ BaseLabel
       >
     </div>
 
-    <Tumbler
+    <BaseTumbler
       v-model="tumblerValue"
       :options="tumblerOptions"
-      :animation="true"
       :disabled="
         mutation.isLoading.value ||
         query.isLoading.value ||
         previousDistributionQuery.isLoading.value
       "
+      animated
     />
 
     <div class="distribution-wrapper" style="position: relative">
@@ -185,10 +185,10 @@ BaseLabel
   import { computed, ref, watch, watchEffect } from 'vue';
   import { useQuery, useQueryClient } from 'vue-query';
   import { useToast } from 'vue-toastification';
-  import Tumbler from './components/Tumbler.vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseStub from '@/components/ui/BaseStub.vue';
+  import BaseTumbler from '@/components/ui/BaseTumbler.vue';
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
   import { USE_GET_ARM_PROJECTS_LIST_QUERY_KEY } from '../../api/ArmApi/hooks/useGetArmProjectsListQuery';
   import { armApi } from '@/api/ArmApi';
@@ -212,20 +212,23 @@ BaseLabel
   const modalsStore = useModalsStore();
 
   enum TumblerType {
-    WITH_PROJECTS = 'С проектами',
-    WITHOUT_PROJECTS = 'Без проектов',
+    WITH_PROJECTS = 'with_projects',
+    WITHOUT_PROJECTS = 'without_projects',
   }
+
   const tumblerOptions = [
     {
-      label: TumblerType.WITH_PROJECTS,
+      value: TumblerType.WITH_PROJECTS,
+      label: 'С проектами',
       prefix: '',
     },
     {
-      label: TumblerType.WITHOUT_PROJECTS,
+      value: TumblerType.WITHOUT_PROJECTS,
+      label: 'Без проектов',
       prefix: '',
     },
   ];
-  const tumblerValue = ref(tumblerOptions[0].label);
+  const tumblerValue = ref(tumblerOptions[0].value);
 
   const query = useGetArmManualDistributionListQuery();
   const mutation = useUpdateArmManualDistributionMutation({

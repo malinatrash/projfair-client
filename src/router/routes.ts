@@ -1,5 +1,10 @@
 // P.S. тут раньше были динамические импорты, т.е. "() => import('@/pages/ProjectPage/index.vue')", но они плохо работали на продакшене "projfair.istu.edu", так что было решено оставить обычные импорты для всего приложения
 import { RouteRecordRaw } from 'vue-router';
+import AdminCreateProject from '@/pages/AdminPage/AdminCreateProject.vue';
+import AdminProjects from '@/pages/AdminPage/AdminProjects.vue';
+import AdminTransferProjects from '@/pages/AdminPage/AdminTransferProjects.vue';
+// Admin page
+import AdminPage from '@/pages/AdminPage/index.vue';
 // Arm page
 import ArmDebug from '@/pages/ArmPage/ArmDebug.vue';
 import ArmDistributionApprove from '@/pages/ArmPage/ArmDistributionApprove.vue';
@@ -414,7 +419,7 @@ export const routes: RouteRecordRaw[] = [
       title: 'Формирование проектных команд',
       role: ['is_head_project_education_center'],
       type: ['user-nav'],
-      order: 999,
+      order: 998,
     },
     children: [
       {
@@ -457,6 +462,44 @@ export const routes: RouteRecordRaw[] = [
       //     title: 'Отладка (4 и 5 приоритеты)',
       //   },
       // },
+    ],
+  },
+  {
+    path: '/admin',
+    redirect: '/admin/projects',
+    component: AdminPage,
+    name: RouteNames.ADMIN,
+    meta: {
+      title: 'Панель администратора',
+      role: ['is_head_project_education_center'],
+      type: ['user-nav'],
+      order: 999,
+    },
+    children: [
+      {
+        path: 'projects',
+        component: AdminTransferProjects,
+        name: RouteNames.ADMIN_PROJECTS,
+        meta: {
+          title: 'Перевод проектов',
+        },
+      },
+      {
+        path: 'students',
+        component: ArmStudents,
+        name: RouteNames.ADMIN_STUDENTS,
+        meta: {
+          title: 'Перевод студентов',
+        },
+      },
+      {
+        path: 'create-project',
+        component: AdminCreateProject,
+        name: RouteNames.ADMIN_CREATE_PROJECT,
+        meta: {
+          title: 'Создать проект',
+        },
+      },
     ],
   },
   {

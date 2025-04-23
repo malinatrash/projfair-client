@@ -463,12 +463,31 @@
 
         <template #default>
           <BaseInput
+            v-if="!isAdmin"
             :model-value="
               props.isLoading ? undefined : props.projectJobDeveloper
             "
             data-test-id="projectJobDeveloper"
             :placeholder="props.isLoading ? 'Загрузка проектной заявки...' : ''"
             disabled
+          />
+          <VMultiselect
+            v-else
+            v-model="props.projectJobDeveloper /*eslint-disable-line*/"
+            class="multiselect"
+            placeholder="Выберите сотрудника"
+            no-results-text="Сотрудник не найден"
+            no-options-text="Сотрудники не найдены"
+            :searchable="true"
+            :options="
+              props.supervisorList.map((supervisor) => ({
+                value: supervisor,
+                label: supervisor.fio,
+              }))
+            "
+            :infinite="true"
+            :limit="10"
+            @change="(payload: unknown) => onJobDeveloperChange(payload as Supervisor)"
           />
         </template>
       </BaseLabel>
@@ -838,7 +857,7 @@
   import { ProjectDifficulty } from '@/models/ProjectDifficulty';
   import { MemberRole, MemberRoleText } from '@/models/ProjectProposal';
   import { Specialty } from '@/models/Specialty';
-  import { Supervisor } from '@/models/Supervisor';
+  import type { Supervisor } from '@/models/Supervisor';
   import { Tag } from '@/models/Tag';
 
   type Props = {
@@ -851,6 +870,7 @@
     specialtyList?: Specialty<number>[];
     themeSourceList?: Tag<number>[];
     projectJobDeveloper?: string;
+    isAdmin?: boolean;
   };
   type Emits = {
     (
@@ -868,6 +888,7 @@
     supervisorList: undefined,
     themeSourceList: undefined,
     projectJobDeveloper: undefined,
+    isAdmin: false,
   });
   const emit = defineEmits<Emits>();
 
@@ -940,6 +961,10 @@
       if (isNewProject) projectProposalForm.prevProjectId = null;
     },
   );
+
+  const onJobDeveloperChange = (supervisor: Supervisor) => {
+    props.projectProposalFormValue.team[0].memberData = supervisor; // eslint-disable-line
+  };
 </script>
 
 <style lang="scss" module>

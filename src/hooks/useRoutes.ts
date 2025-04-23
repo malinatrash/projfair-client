@@ -26,6 +26,12 @@ export const useArmNavigationRoutes = () => {
   return router.getRoutes().find((route) => route.name === RouteNames.ARM);
 };
 
+export const useAdminNavigationRoutes = () => {
+  const router = useRouter();
+
+  return router.getRoutes().find((route) => route.name === RouteNames.ADMIN);
+};
+
 export const useMainNavigationRoutes = () => {
   const router = useRouter();
 
