@@ -35,10 +35,12 @@
 
     <BasePanel class="panel">
       <h2>Проекты ({{ projects.length }})</h2>
+
       <div class="divider"></div>
-      <div v-if="projects.length > 0" class="inner-accordion-content">
-        <div v-for="project in projects" :key="project.id">
-          <div class="icon-project">
+
+      <div v-if="projects.length > 0" class="projects-cards-wrapper">
+        <div v-for="project in projects" :key="project.id" class="project-card">
+          <div class="card-header">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -54,10 +56,12 @@
               <path d="M3 9h18" />
               <path d="M9 21V9" />
             </svg>
+
+            <p class="title" style="font-size: 20px">
+              {{ project.title }}
+            </p>
           </div>
-          <p class="title" style="font-size: 20px">
-            {{ project.title }}
-          </p>
+
           <BaseButton
             is="a"
             variant="tag-outlined"
@@ -67,9 +71,11 @@
           >
         </div>
       </div>
+
       <div v-else-if="isLoading" style="display: flex; justify-content: center">
         <span class="loader" style="margin: 10px 0"></span>
       </div>
+
       <div v-else>Проекты не найдены</div>
     </BasePanel>
   </div>
@@ -213,28 +219,13 @@
 
   ////////////////////////////////////////////
 
-  .inner-accordion-content {
+  .projects-cards-wrapper {
     max-height: 80vh;
     padding: 0 $padding;
     overflow-y: auto;
     border-left: 4px solid var(--accent-color-2);
 
-    & .title {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      gap: 5px;
-      justify-content: center;
-      font-weight: 700;
-
-      &-description {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--gray-color-2);
-      }
-    }
-
-    & > *:not(.accordion) {
+    & .project-card {
       display: flex;
       flex-direction: row;
       gap: $padding;
@@ -245,6 +236,20 @@
 
       @media (width <= 500px) {
         flex-wrap: wrap;
+      }
+    }
+
+    & .card-header {
+      display: flex;
+      gap: $padding;
+      align-items: center;
+
+      & .title {
+        line-height: 1.5rem;
+      }
+
+      & svg {
+        flex: none;
       }
     }
 

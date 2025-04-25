@@ -18,6 +18,14 @@ export const enum ParticipationState {
   Rejected = 4,
 }
 
+export const ParticipationStateName: Record<ParticipationState, string> = {
+  [ParticipationState.All]: 'Все',
+  [ParticipationState.Distribution]: 'Распределённая',
+  [ParticipationState.Active]: 'Активная',
+  [ParticipationState.Archived]: 'Архивная',
+  [ParticipationState.Rejected]: 'Отклонённая',
+};
+
 export interface Participation {
   id: number;
   priority: ParticipationPriority;

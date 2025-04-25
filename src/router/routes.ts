@@ -2,6 +2,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import AdminCreateProject from '@/pages/AdminPage/AdminCreateProject.vue';
 import AdminProjects from '@/pages/AdminPage/AdminProjects.vue';
+import AdminTransferCandidatesParticipation from '@/pages/AdminPage/AdminTransferCandidatesParticipation.vue';
 import AdminTransferProjects from '@/pages/AdminPage/AdminTransferProjects.vue';
 // Admin page
 import AdminPage from '@/pages/AdminPage/index.vue';
@@ -465,8 +466,8 @@ export const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/admin',
-    redirect: '/admin/projects',
+    path: '/admin-panel',
+    redirect: '/admin-panel/transfer-projects',
     component: AdminPage,
     name: RouteNames.ADMIN,
     meta: {
@@ -477,7 +478,7 @@ export const routes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: 'projects',
+        path: 'transfer-projects',
         component: AdminTransferProjects,
         name: RouteNames.ADMIN_PROJECTS,
         meta: {
@@ -485,8 +486,8 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: 'students',
-        component: ArmStudents,
+        path: 'transfer-candidates',
+        component: AdminTransferCandidatesParticipation,
         name: RouteNames.ADMIN_STUDENTS,
         meta: {
           title: 'Перевод студентов',
