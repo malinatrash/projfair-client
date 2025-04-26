@@ -128,6 +128,7 @@
         gap: 10px;
         align-items: center;
         justify-content: space-between;
+        width: 100%;
         font-size: 20px;
 
         .detail {
