@@ -16,6 +16,7 @@ export default interface AdminApiType {
   updateCandidateParticipationToAnotherProject(
     candidate_id: number,
     project_id: number,
+    reasonMessage: string,
   ): Promise<{
     message: string;
     new_participation: {

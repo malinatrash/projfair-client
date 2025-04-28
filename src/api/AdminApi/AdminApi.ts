@@ -21,6 +21,7 @@ export default class AdminApi implements AdminApiType {
   updateCandidateParticipationToAnotherProject(
     candidate_id: number,
     project_id: number,
+    reasonMessage: string,
   ): Promise<{
     message: string;
     new_participation: {
@@ -32,7 +33,9 @@ export default class AdminApi implements AdminApiType {
     };
   }> {
     return baseKyInstance
-      .get(`api/testT?candidate_id=${candidate_id}&project_id=${project_id}`)
+      .get(
+        `api/testT?candidate_id=${candidate_id}&project_id=${project_id}&reason_message=${reasonMessage}`,
+      )
       .json();
   }
 }

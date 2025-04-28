@@ -20,10 +20,10 @@ export const enum ParticipationState {
 
 export const ParticipationStateName: Record<ParticipationState, string> = {
   [ParticipationState.All]: 'Все',
-  [ParticipationState.Distribution]: 'Распределённая',
+  [ParticipationState.Distribution]: 'Активная',
   [ParticipationState.Active]: 'Активная',
-  [ParticipationState.Archived]: 'Архивная',
-  [ParticipationState.Rejected]: 'Отклонённая',
+  [ParticipationState.Archived]: 'В команде',
+  [ParticipationState.Rejected]: 'Архивная',
 };
 
 export interface Participation {

@@ -23,6 +23,9 @@
         v-for="candidate in paginatedCandidates"
         :key="candidate.id"
         class="candidate-card"
+        :class="{
+          'has-participations': !!candidate.participations.length,
+        }"
       >
         <div
           v-if="candidate.participations.length === 0"
@@ -49,33 +52,47 @@
           </BaseButton>
         </div>
 
-        <SimpleAccordion v-else>
+        <SimpleAccordion
+          v-else
+          :default-opened="
+            candidateId === candidate.id && !isFetchingCandidateParticipations
+          "
+        >
           <template #title>
             <CandidateInfo :candidate="candidate" />
           </template>
 
           <template #content>
-            <CandidateParticipations
-              :participations="candidate.participations"
-            />
-            <TransferParticipation
-              :projects="projects ?? []"
-              :current-project-id="candidate.participations[0].project_id"
-              :is-disabled="
-                isTransferDataLoading ||
-                isFetchingCandidateParticipations ||
-                isFetchingTransferCandidateParticipationToProject
-              "
-              :is-transferring="
-                isFetchingTransferCandidateParticipationToProject
-              "
-              @transfer="
-                handleTransferCandidateParticipationToProject(
-                  candidate.id,
-                  $event,
-                )
-              "
-            />
+            <div class="section">
+              <h3 class="section-title">Заявки на проекты</h3>
+              <CandidateParticipations
+                :participations="candidate.participations"
+              />
+            </div>
+            <div class="section">
+              <h3 class="section-title">Перевод студента на другой проект</h3>
+              <TransferParticipation
+                :projects="projects ?? []"
+                :current-candidate-id="candidate.id"
+                :current-project-id="candidate.participations[0].project_id"
+                :reason-message="reasonMessage"
+                :is-disabled="
+                  isTransferDataLoading ||
+                  isFetchingCandidateParticipations ||
+                  isFetchingTransferCandidateParticipationToProject
+                "
+                :is-transferring="
+                  isFetchingTransferCandidateParticipationToProject
+                "
+                style="padding-left: 20px"
+                @transfer="
+                  handleTransferCandidateParticipationToProject(
+                    candidate.id,
+                    $event,
+                  )
+                "
+              />
+            </div>
           </template>
         </SimpleAccordion>
       </BasePanel>
@@ -185,6 +202,9 @@
 
   const selectedCandidateId = ref<number>(-1);
   const selectedProjectId = ref<number>(-1);
+  const reasonMessage = ref<{
+    [candidateId: number]: string;
+  }>({});
 
   const {
     refetch: refetchTransferCandidateParticipationToProject,
@@ -192,6 +212,7 @@
   } = useUpdateAdminCandidateParticipationToAnotherProjectQuery(
     selectedCandidateId,
     selectedProjectId,
+    reasonMessage,
     {
       enabled: false,
       onSuccess: (data: {
@@ -231,11 +252,15 @@
   ) => {
     selectedCandidateId.value = candidate_id;
     selectedProjectId.value = project_id;
+
     refetchTransferCandidateParticipationToProject.value();
   };
 
   function onPageChange(page: number) {
     currentPage.value = page;
+    candidateId.value = -1;
+    selectedCandidateId.value = -1;
+    selectedProjectId.value = -1;
   }
 </script>
 
@@ -247,8 +272,31 @@
     cursor: pointer;
   }
 
+  .section {
+    background-color: white;
+    border-left: 4px solid var(--accent-color-2);
+    border-radius: 12px 0 0;
+
+    &:has(+ &) {
+      margin-bottom: 25px;
+    }
+
+    &-title {
+      padding: 15px 0;
+      padding-left: 20px;
+      color: var(--accent-color-2);
+      background-color: color-mix(in srgb, #ffa500 15%, white 100%);
+      border-radius: 8px 0 0;
+    }
+  }
+
   .candidate-card {
     padding: 0 20px;
+    transition: border-left 0.15s ease-in-out;
+
+    &.has-participations {
+      border-left: 2px solid var(--accent-color-1);
+    }
 
     .candidate-header {
       display: flex;

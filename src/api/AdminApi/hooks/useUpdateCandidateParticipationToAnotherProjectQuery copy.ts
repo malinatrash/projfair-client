@@ -23,6 +23,7 @@ export const USE_UPDATE_ADMIN_CANDIDATE_PARTICIPATION_TO_ANOTHER_PROJECT_QUERY_K
 export const useUpdateAdminCandidateParticipationToAnotherProjectQuery = (
   candidateId: Ref<number>,
   projectId: Ref<number>,
+  reasonMessage: Ref<{ [candidateId: number]: string }>,
   options?: useUpdateAdminCandidateParticipationToAnotherProjectQueryOptions,
 ) =>
   useQuery(
@@ -31,6 +32,7 @@ export const useUpdateAdminCandidateParticipationToAnotherProjectQuery = (
       adminApi.updateCandidateParticipationToAnotherProject(
         candidateId.value,
         projectId.value,
+        reasonMessage.value[candidateId.value],
       ),
     {
       staleTime: DEFAULT_QUERY_STALE_TIME,

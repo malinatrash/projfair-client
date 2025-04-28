@@ -13,9 +13,17 @@
         :disabled="isDisabled"
         aria-label="Выбор проекта"
       />
+      <BaseTextarea
+        v-model="
+          reasonMessage[currentCandidateId] // eslint-disable-line
+        "
+        label="Причина перевода заявки"
+        placeholder="Напишите причину перевода заявки на другой проект"
+        style="min-height: 100px"
+      />
       <BaseButton
         full-width
-        :disabled="!selectedProject || isTransferring"
+        :disabled="selectedProject === -1 || isTransferring"
         @click="handleTransfer"
       >
         Применить
@@ -29,10 +37,13 @@
   import { computed, ref, watch, watchEffect } from 'vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import { Project } from '@/models/Project';
+  import BaseTextarea from '../ui/BaseTextarea.vue';
 
   const props = defineProps<{
     projects: Project[];
+    currentCandidateId: number;
     currentProjectId: number;
+    reasonMessage: { [x: number]: string };
     isDisabled: boolean;
     isTransferring: boolean;
   }>();
@@ -71,25 +82,15 @@
     margin-top: 25px;
 
     .section-title {
-      font-size: 16px;
+      margin-bottom: 10px;
+      font-size: 18px;
     }
 
     .transfer-controls {
       display: flex;
-      gap: 15px;
+      flex-direction: column;
+      gap: 25px;
       margin-top: 5px;
-
-      & > *:last-child {
-        flex: 0;
-      }
-
-      @media (width <= 500px) {
-        flex-wrap: wrap;
-
-        & > *:last-child {
-          flex: 1;
-        }
-      }
     }
   }
 
