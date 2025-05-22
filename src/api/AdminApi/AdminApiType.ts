@@ -27,4 +27,6 @@ export default interface AdminApiType {
       priority: number;
     };
   }>;
+
+  getProjectList(mentor_id: number): Promise<Project[]>;
 }

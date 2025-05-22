@@ -2,12 +2,14 @@
   <ProjectProposalForm
     v-model:project-proposal-form-value="projectProposalFormValue"
     :is-loading="isLoading"
+    :is-projects-fetching="prevUserProjectsQuery.isFetching.value"
     :can-user-edit="canUserEdit"
     :prev-project-list="prevProjectList"
     :specialty-list="specialtyListQuery.data.value"
     :supervisor-list="supervisorListQuery.data.value"
     :project-skill-list="projectSkillsQuery.data.value"
     :theme-source-list="themeSourcesQuery.data.value"
+    :project-job-developer="projectJobDeveloperComputed"
     is-admin
   />
 
@@ -55,11 +57,11 @@
     ProjectDuration,
     ProjectProposalFormValue,
   } from '@/models/components/ProjectProposalForm';
+  import { useGetAdminProjectsQuery } from '@/api/AdminApi/hooks/useGetAdminProjectsQuery';
   import { useGetInstituteProjectProposalsQuery } from '@/api/InstituteDirectorApi/hooks/useGetInstituteProjectProposalsQuery';
   import { useGetProjectSkillsQuery } from '@/api/ProjectApi/hooks/useGetAllProjectTagsQuery';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import { useGetAllSupervisorsQuery } from '@/api/SharedApi/hooks/useGetAllSupervisorsQuery';
-  import { useGetUserProjectsQuery } from '@/api/SharedApi/hooks/useGetUserProjectsQuery';
   import { useCreateProjectProposalMutation } from '@/api/SupervisorApi/hooks/useCreateProjectProposalMutation';
   import { useDeleteProjectProposalMutation } from '@/api/SupervisorApi/hooks/useDeleteProjectProposalMutation';
   import { useGetProjectProposalListQuery } from '@/api/SupervisorApi/hooks/useGetProjectProposalListQuery';
@@ -77,8 +79,6 @@
     projectDurationFromDate,
   } from '@/helpers/project-proposal-form';
   import { isSupervisor } from '@/helpers/typeCheck';
-  import { RouteNames } from '@/router/types/route-names';
-  import { toProjectProposalCreateRoute } from '@/router/utils/routes';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
   import { ProjectDifficulty } from '@/models/ProjectDifficulty';
@@ -156,17 +156,33 @@
       ...(instituteProjectProposalsQuery.data.value || []),
     ]),
   );
+  const currentSelectedMentor = ref<number>(-1);
   const prevProjectId = computed(
     () => currentProjectProposalComputed.value?.prevProjectId || -1,
   );
-  const prevUserProjectsQuery = useGetUserProjectsQuery({
-    onError,
-    select: (projects) =>
-      projects.filter((project) =>
-        [ProjectStateID.ActiveState, ProjectStateID.ArchivedState].includes(
-          project.state.id,
+  const prevUserProjectsQuery = useGetAdminProjectsQuery(
+    currentSelectedMentor,
+    {
+      onError,
+      select: (projects) =>
+        projects.filter((project) =>
+          [ProjectStateID.ActiveState, ProjectStateID.ArchivedState].includes(
+            project.state.id,
+          ),
         ),
-      ),
+    },
+  );
+  watch([projectProposalFormValue.value], () => {
+    const currentMentor = projectProposalFormValue.value.team[0].memberData;
+
+    if (currentSelectedMentor.value != currentMentor?.id) {
+      if (currentMentor) {
+        currentSelectedMentor.value = currentMentor.id;
+      } else {
+        currentSelectedMentor.value = -1;
+      }
+      prevUserProjectsQuery.refetch.value();
+    }
   });
   const enableSingleProjectQuery = computed(
     () => typeof prevProjectId.value === 'number' && prevProjectId.value !== -1,
@@ -177,6 +193,7 @@
   const prevProjectList = computed(() => {
     const projects = prevUserProjectsQuery.data.value;
     const prevProjectId = currentProjectProposalComputed.value?.prevProjectId;
+
     if (!projects) return [];
     if (projects.find((project) => project.id === prevProjectId)) {
       return projects;
@@ -220,8 +237,15 @@
       projectSkillsQuery.isFetching.value ||
       specialtyListQuery.isFetching.value ||
       themeSourcesQuery.isFetching.value ||
-      prevUserProjectsQuery.isFetching.value ||
+      prevUserProjectsQuery.isLoading.value ||
       singleProjectQuery.isFetching.value,
+  );
+
+  const projectJobDeveloperComputed = computed(
+    () =>
+      currentProjectProposalComputed.value?.supervisors.find((member) =>
+        member.roles.find((role) => role.id === MemberRole.JobDeveloper),
+      )?.supervisor.fio || profileData?.value?.fio,
   );
 
   watch(

@@ -58,4 +58,8 @@ export default class AdminApiMock implements AdminApiType {
       300,
     );
   }
+
+  async getProjectList(mentor_id: number): Promise<Project[]> {
+    return delayRes([], 300);
+  }
 }

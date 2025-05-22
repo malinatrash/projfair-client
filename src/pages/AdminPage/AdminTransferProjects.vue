@@ -30,8 +30,25 @@
     <BasePanel class="panel">
       <h2>Краткая статистика</h2>
       <div class="divider"></div>
-      <span>Осуществите перевод проектов для сбора статистики</span>
+      <span v-if="transferedProjectsCount === 0"
+        >Осуществите перевод проектов для сбора статистики</span
+      >
+      <span v-else
+        >Все
+        <span style="font-size: 24px; color: var(--accent-color-1)">
+          {{ transferedProjectsCount }}
+        </span>
+        проектов были успешно переведны в статус “Обработка заявок”</span
+      >
     </BasePanel>
+
+    <BaseButton
+      v-if="transferProjectsStatus === TransferStatus.PROCESSING"
+      color="orange"
+      :disabled="projects.length > 0 || isLoading"
+      @click="goToProjectFormation"
+      >Перейти в Формирование проектных команд</BaseButton
+    >
 
     <BasePanel class="panel">
       <h2>Проекты ({{ projects.length }})</h2>
@@ -83,6 +100,7 @@
 
 <script setup lang="ts">
   import { onMounted, ref, watch } from 'vue';
+  import { useRoute, useRouter } from 'vue-router';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseTumbler from '@/components/ui/BaseTumbler.vue';
@@ -125,20 +143,24 @@
     },
   ];
 
+  const router = useRouter();
+
   const transferProjectsStatus = ref<TransferStatus>(tumblerOptions[0].value);
 
   const projects = ref<Project[]>([]);
+  const transferedProjectsCount = ref(0);
 
   const isLoading = ref(true);
 
   const cancelTransfer = async (status: TransferStatus) => {
     isLoading.value = true;
+    transferedProjectsCount.value = 0;
+
     try {
-      const res = await baseKyInstance
+      await baseKyInstance
         .post(`api/transfer/${status}/cancel`)
         .json<Project[]>();
-      projects.value = res;
-    } catch {
+    } finally {
       projects.value = [];
     }
     isLoading.value = false;
@@ -150,7 +172,8 @@
       projects.value = await baseKyInstance
         .post(`api/transfer/${status}/update`)
         .json<Project[]>();
-    } catch {
+      transferedProjectsCount.value = projects.value.length;
+    } finally {
       projects.value = [];
     }
     isLoading.value = false;
@@ -173,6 +196,7 @@
 
   watch([transferProjectsStatus], async () => {
     isLoading.value = true;
+    transferedProjectsCount.value = 0;
 
     try {
       projects.value = await baseKyInstance
@@ -184,6 +208,10 @@
 
     isLoading.value = false;
   });
+
+  const goToProjectFormation = (projectId: number) => {
+    router.push('/arm');
+  };
 </script>
 
 <style lang="scss" scoped>

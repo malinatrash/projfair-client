@@ -26,7 +26,7 @@
         :disabled="selectedProject === -1 || isTransferring"
         @click="handleTransfer"
       >
-        Применить
+        Перевести заявку
       </BaseButton>
     </div>
   </div>
@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
   import VMultiselect from '@vueform/multiselect';
-  import { computed, ref, watch, watchEffect } from 'vue';
+  import { computed, ref, watchEffect } from 'vue';
   import BaseButton from '@/components/ui/BaseButton.vue';
   import { Project } from '@/models/Project';
   import BaseTextarea from '../ui/BaseTextarea.vue';

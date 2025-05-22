@@ -26,7 +26,7 @@
     | 'rating';
   export type Is = 'button' | 'router-link' | 'a';
   export type Case = 'uppercase' | 'lowercase' | 'none';
-  export type Color = 'red' | 'white' | 'green';
+  export type Color = 'red' | 'white' | 'green' | 'orange';
 
   interface Props {
     /**
@@ -107,6 +107,12 @@
       --background-color: var(--green-color-1);
       --hover-color: var(--green-color-2);
       --active-color: #31c96e;
+    }
+
+    &.orange {
+      --background-color: var(--accent-color-2);
+      --hover-color: var(--orange-color-2);
+      --active-color: var(--orange-color-1);
     }
 
     &:disabled {

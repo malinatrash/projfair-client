@@ -39,11 +39,18 @@ export default class ArmApi implements ProjectApiType {
   }
 
   async updateArmProjectsList(data: ArmInstitute[]): Promise<ArmProjects> {
-    return baseKyInstance
-      .patch('api/arm/projects/distribution', {
+    const updatedProjects = await baseKyInstance.patch(
+      'api/arm/projects/distribution',
+      {
         json: data,
-      })
-      .json();
+      },
+    );
+
+    return {
+      excess_participations: [],
+      projects: [],
+      without_participation: [],
+    };
   }
 
   async updateArmManualDistribution(
