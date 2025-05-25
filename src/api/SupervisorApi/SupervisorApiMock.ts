@@ -1,3 +1,4 @@
+import { formatProjectDate } from '@/helpers/project';
 import { delayRes, sleep } from '@/helpers/promise';
 import { useAuthStore } from '@/stores/auth/useAuthStore';
 import { Project } from '@/models/Project';
@@ -7,6 +8,7 @@ import {
   NewProjectProposal,
 } from '@/models/ProjectProposal';
 import { ProjectReport } from '@/models/ProjectReport';
+import { ProjectStateID } from '@/models/ProjectState';
 import { Specialty } from '@/models/Specialty';
 import { Tag } from '@/models/Tag';
 import { mockProjectList } from '@/models/mock/project';
@@ -16,10 +18,17 @@ import {
 } from '@/models/mock/project-proposal';
 import { mockProjectReportList } from '@/models/mock/project-report';
 import { specialties } from '@/models/mock/specialties';
+import { baseKyInstance } from '../baseKy';
 import SupervisorApiType, {
   UpdateProjectProposalData,
   UpdateProjectResultData,
 } from './SupervisorApiType';
+
+const activeStatuses = [
+  ProjectStateID.ActiveState,
+  ProjectStateID.RecruitingState,
+  ProjectStateID.ProcessingState,
+];
 
 export default class SupervisorApiMock implements SupervisorApiType {
   async getProposalsTime(): Promise<[string, string]> {
@@ -98,5 +107,11 @@ export default class SupervisorApiMock implements SupervisorApiType {
         (supervisor) => supervisor.id === useAuthStore().profileData?.id,
       );
     });
+  }
+
+  async getActiveProjects(): Promise<Project[]> {
+    return mockProjectList.filter((project) =>
+      activeStatuses.includes(project.state.id),
+    );
   }
 }

@@ -102,4 +102,12 @@ export default class SupervisorApi implements SupervisorApiType {
 
     return projectProposals.filter(isProject).map(formatProjectDate);
   }
+
+  async getActiveProjects(): Promise<Project[]> {
+    const projectProposals = await baseKyInstance
+      .get('api/director/projects/active')
+      .json<Project[]>();
+    console.log(projectProposals);
+    return projectProposals;
+  }
 }

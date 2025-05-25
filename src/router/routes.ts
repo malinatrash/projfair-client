@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
+import ActiveProjectPage from '@/pages/ActiveProjectPage.vue';
 // P.S. тут раньше были динамические импорты, т.е. "() => import('@/pages/ProjectPage/index.vue')", но они плохо работали на продакшене "projfair.istu.edu", так что было решено оставить обычные импорты для всего приложения
 // Contact page
 import ContactPage from '@/pages/ContactPage.vue';
@@ -12,7 +13,6 @@ import HomePage from '@/pages/HomePage.vue';
 import NotFoundPage from '@/pages/NotFoundPage.vue';
 // Project page
 import ProjectDetails from '@/pages/ProjectPage/ProjectDetails.vue';
-import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
 import ProjectParticipantsList from '@/pages/ProjectPage/ProjectParticipantsList.vue';
 import ProjectParticipationList from '@/pages/ProjectPage/ProjectParticipationList.vue';
 import ProjectPage from '@/pages/ProjectPage/index.vue';
@@ -25,6 +25,7 @@ import UserProfile from '@/pages/UserPage/UserProfile.vue';
 import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue';
 import UserProjects from '@/pages/UserPage/UserProjects.vue';
 import UserPage from '@/pages/UserPage/index.vue';
+import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
 import { RouteNames } from './types/route-names';
 import {
   FilterInstituteProjectProposalsBy,
@@ -71,7 +72,7 @@ export const routes: RouteRecordRaw[] = [
           title: 'Результаты проекта',
         },
       },
-    
+
       {
         path: 'participations',
         name: RouteNames.PROJECT_PARTICIPATIONS,
@@ -436,5 +437,15 @@ export const routes: RouteRecordRaw[] = [
     path: '/:pathMatch(.*)*',
     component: NotFoundPage,
     name: RouteNames.NOT_FOUND,
+  },
+  {
+    path: '/projects/active',
+    name: RouteNames.ACTIVE_PROJECTS,
+    component: ActiveProjectPage,
+    meta: {
+      title: 'Активные проекты',
+      requiresAuth: true,
+      role: ['is_institute_director'],
+    },
   },
 ];

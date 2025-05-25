@@ -13,7 +13,14 @@
   import { DropdownItem } from '@/models/components/DropdownItem';
   import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
   import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
+  import { RouteNames } from '@/router/types/route-names';
+  import { useAuthStore } from '@/stores/auth/useAuthStore';
   import DropdownList from '../ui/DropdownList.vue';
+
+  const authStore = useAuthStore();
+  const isInstituteDirector =
+    authStore.profileData?.is_institute_director ?? false;
+  const isTeacher = authStore.profileData?.is_teacher ?? false;
 
   type Props = {
     isOpen: boolean;
@@ -40,6 +47,14 @@
     location: { name: route.name },
     type: 'link',
   }));
+
+  if (isInstituteDirector && !isTeacher) {
+    items.push({
+      content: 'Активные проекты',
+      location: { name: RouteNames.ACTIVE_PROJECTS },
+      type: 'link',
+    });
+  }
 
   items.push({
     content: 'Выйти',
