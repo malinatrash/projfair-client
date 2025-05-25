@@ -38,6 +38,7 @@ import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue';
 import UserProjects from '@/pages/UserPage/UserProjects.vue';
 import UserPage from '@/pages/UserPage/index.vue';
 import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
+import ActiveProjectPage from '@/pages/ActiveProjectPage.vue';
 import { RouteNames } from './types/route-names';
 import {
   FilterInstituteProjectProposalsBy,
@@ -507,5 +508,15 @@ export const routes: RouteRecordRaw[] = [
     path: '/:pathMatch(.*)*',
     component: NotFoundPage,
     name: RouteNames.NOT_FOUND,
+  },
+  {
+    path: '/projects/active',
+    name: RouteNames.ACTIVE_PROJECTS,
+    component: ActiveProjectPage,
+    meta: {
+      title: 'Активные проекты',
+      requiresAuth: true,
+      role: ['is_institute_director'],
+    },
   },
 ];

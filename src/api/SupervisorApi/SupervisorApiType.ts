@@ -40,4 +40,5 @@ export default interface SupervisorApiType {
   getProjectReportList(): Promise<ProjectReport[]>;
   getProjectList(): Promise<Project[]>;
   getProposalsTime(): Promise<[string, string]>;
+  getActiveProjects(): Promise<Project[]>;
 }
