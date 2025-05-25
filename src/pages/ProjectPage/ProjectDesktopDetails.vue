@@ -118,7 +118,73 @@
   </BasePanel>
 
   <!-- Panel -->
-  <BasePanel v-if="project?.skills.length > 0">
+  <BasePanel v-if="project.specialities.length > 0">
+    <!-- Information list -->
+    <AppList>
+      <AppListItem :bold="false" :wide="true">
+        <template #title>Специальности</template>
+        <template #default>
+          <div
+            class="subtitle"
+            style="display: flex; flex-direction: column; gap: 15px"
+          >
+            <div
+              v-if="
+                project.project_specialities.some(
+                  (spec) => spec.course === null,
+                )
+              "
+            >
+              {{ project.specialities.map((ins) => ins.name).join(', ') }}
+            </div>
+            <div
+              v-for="(course, index) in [...courses].sort((a: any, b: any) => a - b)"
+              v-else
+              :key="index"
+              style="display: flex; gap: 0.5rem; align-items: center"
+            >
+              <b>
+                <span>{{ course }}</span> курс:
+              </b>
+
+              <TagList
+                :tag-list="
+                  filterSpecialtiesByPriority(project, course).map(
+                    (spec, index) => ({
+                      id: index,
+                      name: spec.name,
+                    }),
+                  )
+                "
+                show-all
+              />
+              <b
+                v-if="
+                  filterSpecialtiesByPriority(project, course, false).length !==
+                  0
+                "
+                >приглашённые:
+              </b>
+              <TagList
+                :tag-list="
+                  filterSpecialtiesByPriority(project, course, false).map(
+                    (spec, index) => ({
+                      id: index,
+                      name: spec.name,
+                    }),
+                  )
+                "
+                show-all
+              />
+            </div>
+          </div>
+        </template>
+      </AppListItem>
+    </AppList>
+  </BasePanel>
+
+  <!-- Panel -->
+  <BasePanel v-if="project.skills.length > 0">
     <!-- Information list -->
     <AppList>
       <AppListItem :bold="false" :wide="true">
@@ -132,6 +198,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed } from 'vue';
   import OpenFeedbackModalButton from '@/components/feedback/OpenFeedbackModalButton.vue';
   import OpenParticipationModalButton from '@/components/participation/OpenParticipationModalButton.vue';
   import ProjectStatus from '@/components/project/ProjectStatus.vue';
@@ -142,6 +209,11 @@
   import BasePanel from '@/components/ui/BasePanel.vue';
   import GridLayout from '@/components/ui/GridLayout.vue';
   import TagList from '@/components/ui/TagList.vue';
+  import {
+    checkCurrentSupervisor,
+    filterSpecialtiesByPriority,
+    getCourses,
+  } from '@/helpers/projectCardUtils';
   import { toProjectResultRoute } from '@/router/utils/routes';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { Project } from '@/models/Project';
@@ -161,9 +233,11 @@
   const props = defineProps<Props>();
   const emit = defineEmits<Emits>();
 
-  const isCurrentSupervisor = props.project.supervisors.some((supervisor) => {
-    return supervisor.supervisor.id === useAuthStore().profileData?.id;
-  });
+  const courses = computed(() => getCourses(props.project));
+
+  const isCurrentSupervisor = computed(() =>
+    checkCurrentSupervisor(props.project, useAuthStore()),
+  );
 </script>
 
 <style lang="scss" scoped>

@@ -14,6 +14,7 @@ export const userCandidate: UserCandidate = {
   is_student: true,
   is_teacher: false,
   is_institute_director: false,
+  is_head_project_education_center: false,
 };
 
 export const activeProjectId = 1;

@@ -1,5 +1,5 @@
 <template>
-  <PageLayout>
+  <PageLayout style="position: relative">
     <header class="header">
       <BaseBreadcrumbs
         class="breadcrumbs"

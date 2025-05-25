@@ -14,7 +14,7 @@ export type ProposalsCount = Record<
   ProjectProposalStateId,
   {
     count: number;
-    maxApproved: number;
+    maxApproved?: number;
   }
 >;
 
@@ -29,6 +29,7 @@ export function useInstituteProposalsMetaData(
 ): UseInstituteProposalsInfoReturn {
   const authStore = useAuthStore();
   const { instituteProjectsQuota } = storeToRefs(authStore);
+
   const projectProposalListQuery =
     useGetInstituteProjectProposalsQuery(options);
 
@@ -36,31 +37,31 @@ export function useInstituteProposalsMetaData(
     const count: ProposalsCount = {
       [ProjectProposalStateId.Approved]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: instituteProjectsQuota.value?.maxApprovedProjects,
       },
       [ProjectProposalStateId.ApprovedOnYear]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: instituteProjectsQuota.value?.maxApprovedProjects,
       },
       [ProjectProposalStateId.ApprovedAutumn]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: instituteProjectsQuota.value?.maxAutumnApprovedProjects,
       },
       [ProjectProposalStateId.ApprovedSpring]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: instituteProjectsQuota.value?.maxSpringApprovedProjects,
       },
       [ProjectProposalStateId.Draft]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: instituteProjectsQuota.value?.maxApprovedProjects,
       },
       [ProjectProposalStateId.Rejected]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: instituteProjectsQuota.value?.maxApprovedProjects,
       },
       [ProjectProposalStateId.UnderReview]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: instituteProjectsQuota.value?.maxApprovedProjects,
       },
     };
     if (!projectProposalListQuery.data.value) return count;
@@ -91,7 +92,7 @@ export function useInstituteProposalsMetaData(
 
   const isProjectsLimitExceeded = (proposalStateId: ProjectProposalStateId) =>
     proposalsCount.value[proposalStateId].count >
-    proposalsCount.value[proposalStateId].maxApproved;
+    (proposalsCount.value[proposalStateId].maxApproved ?? 0);
 
   const isLoading = computed(() => projectProposalListQuery.isFetching.value);
 

@@ -39,68 +39,68 @@ export function useInstituteReportsMetaData(
       },
       [ProjectReportNameId.InstituteOfAircraftEngineeringAndTransportation]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.InstituteOfDistanceAndEveningEducation]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.InstituteOfHighTechnology]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.InstituteOfInformationTechnologyAndDataAnalysis]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.InstituteOfArchitectureConstructionAndDesign]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.SubsoilUseInstitute]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.InstituteOfEconomicsManagementAndLaw]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.BRICSBaikalInstitute]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.InstituteOfLinguisticsAndInterculturalCommunication]:
         {
           count: 0,
-          maxApproved: 100,
+          maxApproved: 0,
         },
       [ProjectReportNameId.EnergyInstitute]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.IRNITUBranchInUsolyeSibirskiy]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.CollegeOfMechanicalEngineering]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.GeologicalExplorationTechnicalSchool]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.InstituteOfQuantumPhysics]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.MRCPC]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
       [ProjectReportNameId.InstituteSiberianSchoolOfGeosciences]: {
         count: 0,
-        maxApproved: 100,
+        maxApproved: 0,
       },
     };
 

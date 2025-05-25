@@ -1,11 +1,7 @@
 <template>
-  <section :class="['accordion', { opened: opened, closed: !opened }]">
+  <section :class="['accordion', { opened: _opened, closed: !_opened }]">
     <header class="header">
-      <button
-        type="button"
-        class="title"
-        @click="emits('update:opened', !props.opened)"
-      >
+      <button type="button" class="title" @click="handlerClick">
         <!-- @slot Слот для заголовка компонента -->
         <slot name="title"></slot>
         <!-- @slot Слот для иконки компонента, по дефолту стоит стрелка -->
@@ -21,7 +17,7 @@
       @leave="(el: Element) => onLeave(el as HTMLElement)"
     >
       <div
-        v-if="props.opened"
+        v-if="_opened"
         ref="contentRef"
         :class="['content', { animated: props.animated }]"
       >
@@ -33,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Transition, onMounted, onUnmounted, ref } from 'vue';
+  import { onMounted, onUnmounted, ref } from 'vue';
 
   interface Props {
     /**
@@ -45,18 +41,36 @@
      */
     animated?: boolean;
   }
-  interface Emits {
-    /**
-     * Событие обновляет props.opened при нажатии на заголовок компонента
-     */
-    (e: 'update:opened', opened: boolean): void;
-  }
+  /**
+   * Событие обновляет props.opened при нажатии на заголовок компонента
+   */
+  type Emits = (e: 'update:opened', opened: boolean) => void;
 
   const props = withDefaults(defineProps<Props>(), {
     opened: false,
     animated: false,
   });
   const emits = defineEmits<Emits>();
+
+  const _opened = ref(props.opened);
+
+  const handlerClick = (e: MouseEvent) => {
+    const element = e.target as HTMLElement;
+    const currentElement = e.target as HTMLElement;
+
+    // setTimeout(() => {
+    //   if (
+    //     currentElement?.parentElement?.parentElement?.children[1]?.children[0]
+    //       ?.childElementCount === 0
+    //   )
+    //     _opened.value = false;
+    // }, 0);
+
+    if (element && (element.tagName === 'INPUT' || element.tagName === 'A'))
+      return;
+
+    _opened.value = !_opened.value;
+  };
 
   const contentRef = ref<HTMLElement | undefined>(undefined);
   const mutationObserver = ref<MutationObserver | undefined>(undefined);
@@ -70,7 +84,7 @@
     const el = contentRef.value;
     function onContentChange() {
       if (el) {
-        setDropdownHeight(el, props.opened);
+        setDropdownHeight(el, _opened.value);
       }
     }
 
@@ -132,8 +146,10 @@
     transform: rotate(180deg);
   }
 
-  .accordion.opened .icon {
-    transform: rotate(0);
+  .accordion.opened {
+    & > .header > button > .icon {
+      transform: rotate(0);
+    }
   }
 
   .dropdown-enter-active,

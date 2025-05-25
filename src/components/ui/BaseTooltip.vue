@@ -72,8 +72,7 @@
     }
 
     &.left {
-      right: 5%;
-      max-width: 100%;
+      right: 100%;
     }
 
     &.right {

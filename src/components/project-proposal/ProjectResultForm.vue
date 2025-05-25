@@ -10,19 +10,35 @@
       <!-- <Project result> -->
       <BaseLabel :required="!isProjectStateArchived" label="Результат проекта">
         <BaseTextarea
+          v-if="!isProjectStateArchived && isCurrentUserSupervisorOfDataProject"
           v-model="projectResultForm.projectResultDescription"
           data-test-id="projectDescription"
           :disabled="!isEditable"
           :showMaxLength="isEditable"
           :class="$style['large-textarea']"
           :placeholder="
-            !isProjectStateArchived || authStore.isStudent
+            !isProjectStateArchived
               ? 'Опишите результат проделанной работы над проектом'
-              : computedProject?.project_review
+              : projectData?.project.project_review
           "
           :maxLength="1200"
           resize="vertical"
         />
+        <span
+          v-else
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{ projectResultForm.projectResultDescription }}
+        </span>
       </BaseLabel>
       <!-- </Project result> -->
     </FormSection>
@@ -31,13 +47,7 @@
       :class="$style['project-data-section']"
       tag="2"
       title="Достижение целей"
-      :divider="
-        !isProjectStateArchived ||
-        projectData?.project.supervisors.some(
-          (supervisor) =>
-            supervisor.supervisor.id === authStore.profileData?.id,
-        )
-      "
+      :divider="!isProjectStateArchived && isCurrentUserSupervisorOfDataProject"
     >
       <!-- <Project name> -->
       <BaseLabel
@@ -46,7 +56,9 @@
         label="Достиг ли проект поставленных целей?"
         :required="!isProjectStateArchived"
       >
-        <template v-if="!isProjectStateArchived || authStore.isStudent">
+        <template
+          v-if="!isProjectStateArchived && isCurrentUserSupervisorOfDataProject"
+        >
           <BaseRadioButton
             v-model="projectResultForm.projectResultGoal"
             data-test-id="projectResultGoalAllGoalsRadioButton"
@@ -80,31 +92,47 @@
             Проект не достиг поставленных целей
           </BaseRadioButton>
         </template>
-        <BaseTextarea
-          v-else-if="!projectResultForm.projectResultGoal"
-          data-test-id="projectDescription"
-          :disabled="!isEditable"
-          :showMaxLength="isEditable"
-          style="width: 28rem"
-          placeholder="Целей нет"
-        />
-        <BaseTextarea
-          v-else
-          data-test-id="projectDescription"
-          :disabled="!isEditable"
-          :showMaxLength="isEditable"
-          style="width: 28rem"
-          :placeholder="
-            ProjectResultGoalName[computedProject?.project_goal as ProjectResultGoal ?? 1]
+        <span
+          v-else-if="isLoading"
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
           "
-        />
+        >
+          Загружаем цели...
+        </span>
+        <span
+          v-else
+          class="label-text--disabled"
+          style="
+            display: inline-block;
+            width: fit-content;
+            padding: 0.25rem;
+            font-size: 16px;
+            color: var(--accent-color-1);
+            background-color: #f1f4fe;
+            border-radius: 6px;
+          "
+        >
+          {{
+            ProjectResultGoalName[
+              projectData?.project.project_goal as ProjectResultGoal
+            ] ?? 'Цели не найдены'
+          }}
+        </span>
       </BaseLabel>
       <!-- </Project name> -->
     </FormSection>
 
     <FormSection
       v-if="
-        !isProjectStateArchived ||
+        !isProjectStateArchived &&
         projectData?.project.supervisors.some(
           (supervisor) =>
             supervisor.supervisor.id === authStore.profileData?.id,
@@ -118,7 +146,7 @@
       <BaseResultTable
         v-if="
           projectData &&
-          sortedParticipants.length > 0 &&
+          sortedAndFilteredParticipants.length > 0 &&
           !isFetching &&
           !isError
         "
@@ -126,23 +154,62 @@
         :headers="['№', 'ФИО', 'Группа', 'Оценка']"
         :rows="tableRows"
         :ids="tableIds"
+        :participations="sortedAndFilteredParticipants"
       />
 
       <BasePanel v-else>
         <BaseStub
+          v-if="isFetching"
+          title="Обновляем список :О"
+          subtitle="Подождите, пока обновится список."
+        />
+        <BaseStub
+          v-else-if="projectData.project.participants"
           title="Нет участников :("
-          subtitle="Пока на этом проекте нет участников, возможно, мы ещё не успели обновить данные."
+          subtitle="Пока на этом проекте нет участников."
         />
       </BasePanel>
       <!-- </Project team> -->
     </FormSection>
+
+    <div v-if="!isProjectStateArchived" :class="$style.actions">
+      <BaseButton
+        v-if="isCurrentUserSupervisorOfDataProject && !isFetching"
+        :disabled="isLoading"
+        color="red"
+        variant="outlined"
+        @click="onCancel"
+      >
+        Отмена
+      </BaseButton>
+
+      <BaseButton
+        v-if="isCurrentUserSupervisorOfDataProject"
+        :disabled="isLoading"
+        @click="onCreateUnderReview"
+      >
+        Сохранить
+      </BaseButton>
+    </div>
+    <div v-if="isProjectStateArchived" :class="$style.actions">
+      <BaseButton
+        v-if="isCurrentUserSupervisorOfDataProject && !isFetching"
+        :disabled="isLoading"
+        color="red"
+        variant="outlined"
+        @click="navigateBack"
+      >
+        Назад
+      </BaseButton>
+    </div>
   </BasePanel>
 </template>
 
 <script setup lang="ts">
-  import { computed, reactive, watch, watchEffect } from '@vue/runtime-core';
+  import { computed, reactive, watchEffect } from '@vue/runtime-core';
   import { onMounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
+  import { useToast } from 'vue-toastification';
   import BasePanel from '@/components/ui/BasePanel.vue';
   import BaseRadioButton from '@/components/ui/BaseRadioButton.vue';
   import BaseResultTable, {
@@ -158,71 +225,35 @@
     ProjectResultGoal,
     ProjectResultGoalName,
   } from '@/models/components/ProjectResultForm';
+  import { useUpdateProjectResultMutation } from '../../api/SupervisorApi/hooks/useUpdateProjectResultMutation';
   import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
+  import { useNavigateBack } from '../../hooks/useRoutes';
   import { isMobile } from '@/helpers/mobile';
   import { canViewParticipants } from '@/helpers/project';
+  import { collectProjectResult } from '@/helpers/project-result-form';
+  import {
+    checkCurrentSupervisor,
+    checkDirectorInstitute,
+  } from '@/helpers/projectCardUtils';
   import { compareString } from '@/helpers/string';
+  import { RouteNames } from '@/router/types/route-names';
   import { toProjectRoute } from '@/router/utils/routes';
   import { useAuthStore } from '../../stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
-  import { Candidate } from '@/models/Candidate';
+  import { Participation } from '@/models/Participation';
+  import BaseButton from '../ui/BaseButton.vue';
 
   const authStore = useAuthStore();
   const modalsStore = useModalsStore();
+  const toast = useToast();
 
-  onMounted(() => {
-    if (isMobile()) {
-      modalsStore.openAlertModal(
-        'Внимание',
-        'Пожалуйста, используйте настольную версию сайта, чтобы использовать эту функцию!',
-      );
-    }
+  const navigateBack = useNavigateBack({
+    name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS,
   });
-
-  type Props = {
-    projectResultFormValue: ProjectResultFormValue;
-    canUserEdit?: boolean;
-    isLoading?: boolean;
-  };
-  type Emits = {
-    (
-      event: 'update:projectResultFormValue',
-      projectResultFormValue: ProjectResultFormValue,
-    ): void;
-  };
-
-  const props = withDefaults(defineProps<Props>(), {
-    canUserEdit: true,
-    isLoading: false,
-  });
-  const emit = defineEmits<Emits>();
-
-  const projectResultForm = reactive<ProjectResultFormValue>(
-    props.projectResultFormValue || {
-      projectResultDescription: '',
-      projectResultGoal: ProjectResultGoalName[1],
-    },
-  );
-
-  watch(
-    () => props.projectResultFormValue,
-    (projectResultFormValue) =>
-      Object.assign<ProjectResultFormValue, ProjectResultFormValue>(
-        projectResultForm,
-        projectResultFormValue,
-      ),
-    { deep: true },
-  );
-  watch(
-    () => projectResultForm,
-    (projectResultForm) =>
-      emit('update:projectResultFormValue', projectResultForm),
-    { deep: true },
-  );
 
   const router = useRouter();
-
   const route = useRoute();
+
   const projectId = computed(() => Number(route.params.id));
   const {
     isFetching,
@@ -230,8 +261,17 @@
     data: projectData,
   } = useGetSingleProjectQuery(projectId);
 
-  const computedProject = computed((isFetching) => {
-    return projectData.value?.project;
+  const isDirectorInstituteOfProject = computed(() =>
+    checkDirectorInstitute(projectData.value?.project, authStore),
+  );
+
+  const isCurrentUserSupervisorOfDataProject = computed(() =>
+    checkCurrentSupervisor(projectData.value?.project, authStore),
+  );
+
+  const isProjectStateActive = computed(() => {
+    if (projectData.value?.project.state.id == 2) return true;
+    return false;
   });
 
   const isProjectStateArchived = computed(() => {
@@ -239,46 +279,217 @@
     return false;
   });
 
+  const projectResultForm = reactive<ProjectResultFormValue>({
+    projectResultDescription: isProjectStateActive.value
+      ? ''
+      : 'Загружаем результаты...',
+    projectResultGoal: null,
+  });
+
   const isEditable = computed(
     () =>
-      !props.isLoading && props.canUserEdit && !isProjectStateArchived.value,
+      !isLoading.value &&
+      isCurrentUserSupervisorOfDataProject.value &&
+      !isProjectStateArchived.value,
   );
 
   watchEffect(() => {
     const stateId = projectData.value?.project?.state.id;
     const projectId = projectData.value?.project?.id;
+
     if (projectId && stateId && !canViewParticipants(stateId)) {
       router.replace(toProjectRoute(projectId));
     }
-    projectResultForm.projectResultDescription =
-      projectData.value?.project?.project_review ?? 'Результата нет';
 
-    projectResultForm.projectResultGoal =
-      (projectData.value?.project?.project_goal as ProjectResultGoal) ?? null;
+    if (
+      isProjectStateActive.value &&
+      !checkCurrentSupervisor(projectData.value?.project, authStore)
+    ) {
+      projectResultForm.projectResultDescription =
+        projectData.value?.project?.project_review ?? 'Результаты не найдены';
+      projectResultForm.projectResultGoal =
+        (projectData.value?.project?.project_goal as ProjectResultGoal) ?? 1;
+    } else if (isProjectStateActive.value) {
+      projectResultForm.projectResultDescription =
+        projectData.value?.project?.project_review ?? '';
+      projectResultForm.projectResultGoal =
+        (projectData.value?.project?.project_goal as ProjectResultGoal) ?? 1;
+    }
+
+    if (isProjectStateArchived.value) {
+      projectResultForm.projectResultDescription =
+        projectData.value?.project?.project_review ?? 'Результаты не найдены';
+      projectResultForm.projectResultGoal =
+        (projectData.value?.project?.project_goal as ProjectResultGoal) ?? null;
+    }
   });
 
-  const sortedParticipants = computed<Candidate[]>(() => {
+  const sortedAndFilteredParticipants = computed<Participation[]>(() => {
     if (!projectData.value) return [];
-    const participants = projectData.value.project.participants || [];
-    return [...participants].sort((a, b) =>
-      compareString(a.fio.toLowerCase(), b.fio.toLowerCase()),
-    );
+    const participants = projectData.value.project.participations || [];
+    return [...participants]
+      .filter((part) => part.state.id === 3)
+      .sort((a, b) =>
+        compareString(
+          a.candidate.fio.toLowerCase(),
+          b.candidate.fio.toLowerCase(),
+        ),
+      );
   });
 
   const tableIds = computed<idData[]>(() =>
-    sortedParticipants.value.map(({ id, fio }) => ({
-      key: String(id),
+    sortedAndFilteredParticipants.value.map(({ id, candidate }) => ({
       id: [id],
-      name: [fio],
+      key: String(id),
+      name: [candidate.fio],
     })),
   );
 
   const tableRows = computed<RowData[]>(() =>
-    sortedParticipants.value.map(({ fio, training_group, id }, index) => ({
+    sortedAndFilteredParticipants.value.map(({ candidate, id }, index) => ({
       key: String(id),
-      data: [index + 1, fio, training_group],
+      data: [index + 1, candidate.fio, candidate.training_group],
     })),
   );
+
+  onMounted(() => {
+    if (
+      isMobile() &&
+      !isProjectStateArchived &&
+      isCurrentUserSupervisorOfDataProject
+    ) {
+      modalsStore.openAlertModal(
+        'Внимание',
+        'Пожалуйста, используйте настольную версию сайта, чтобы использовать эту функцию!',
+      );
+    }
+  });
+
+  watchEffect(() => {
+    if (
+      (isDirectorInstituteOfProject.value ||
+        authStore.isHeadOfProjectEducationCenter) &&
+      isProjectStateActive.value
+    ) {
+      return;
+    }
+    if (
+      !isCurrentUserSupervisorOfDataProject.value &&
+      isProjectStateActive.value
+    ) {
+      router.push({
+        name: RouteNames.HOME,
+      });
+      modalsStore.alertModalTitle = 'Вы не можете просматривать эту страницу';
+      modalsStore.alertModalSubtitle =
+        'Чтобы сформировать результаты данного проекта, Вам необходимо быть руководителем этого проекта';
+    }
+  });
+
+  const updateProjectResultMutation = useUpdateProjectResultMutation({
+    onError,
+  });
+
+  const isLoading = computed(
+    () => updateProjectResultMutation.isLoading.value || isFetching.value,
+  );
+
+  function validateProjectProposal(): string | undefined {
+    if (!projectResultForm.projectResultDescription) {
+      return 'Введите результат проекта';
+    }
+
+    return undefined;
+  }
+
+  function sendProjectResult() {
+    const errorMessage = validateProjectProposal();
+    if (errorMessage) {
+      toast(errorMessage);
+      return;
+    }
+
+    const project = projectData.value?.project;
+    if (project) {
+      const projectResult = collectProjectResult(
+        project ?? {},
+        projectResultForm,
+      );
+      const id = project.id;
+
+      if (id) {
+        updateProjectResultMutation.mutate({ projectResult, id });
+        onSuccessCreateForReview();
+      } else {
+        onError('проблема с обновлением данных проекта');
+      }
+    }
+  }
+
+  function onCreateUnderReview() {
+    function agree() {
+      modalsStore.openConfirmModal();
+      sendProjectResult();
+    }
+
+    function disagree() {
+      modalsStore.openConfirmModal();
+    }
+
+    modalsStore.openConfirmModal(
+      'Сохранить результаты проекта?',
+      'Сохранить',
+      'Отмена',
+      agree,
+      disagree,
+    );
+  }
+
+  function onSuccessCreateForReview() {
+    const title = 'Результаты успешно созданы, вернуться в личный кабинет?';
+    const agreeButtonTitle = 'вернуться в личный кабинет';
+    const disagreeButtonTitle = 'редактировать результаты';
+
+    function agree() {
+      modalsStore.openConfirmModal();
+      router.push({ name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS });
+    }
+
+    function disagree() {
+      modalsStore.openConfirmModal();
+    }
+
+    modalsStore.openConfirmModal(
+      title,
+      agreeButtonTitle,
+      disagreeButtonTitle,
+      agree,
+      disagree,
+    );
+  }
+
+  function onCancel() {
+    function agree() {
+      modalsStore.openConfirmModal();
+      router.push({ name: RouteNames.USER_PROJECTS });
+    }
+
+    function disagree() {
+      modalsStore.openConfirmModal();
+    }
+
+    modalsStore.openConfirmModal(
+      'Последние введенные данные не сохранятся, перейти в личный кабинет?',
+      'отменить и выйти',
+      'остаться',
+      agree,
+      disagree,
+    );
+  }
+
+  function onError(error: unknown) {
+    toast.error('Ошибка: ' + String(error));
+  }
 </script>
 
 <style lang="scss" module>
@@ -374,5 +585,12 @@
       grid-row: 2;
       grid-column: 1 / -1;
     }
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.9375rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
   }
 </style>

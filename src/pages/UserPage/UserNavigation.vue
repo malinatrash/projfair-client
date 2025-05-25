@@ -38,8 +38,7 @@
         <li
           v-if="
             link.name !== RouteNames.INST_DIRECTOR_PROJECTS_REPORTS ||
-            (profileData.id === 27 && // id Чимитова
-              profileData.fio === 'Чимитов Павел Евгеньевич')
+            authStore.isInstDirector
           "
           :class="['item', props.variant]"
         >
@@ -66,6 +65,11 @@
                       :class="['item', props.variant]"
                     >
                       <RouterLink
+                        v-if="(profileData.department.institute.id ==
+                            FilterByToProjectReportNameId[
+                              childLink.location.params
+                                ?.filterBy as FilterInstituteProjectReportsBy
+                            ] || link.name === 'INST_DIRECTOR_PROJECT_PROPOSALS' || authStore.isHeadOfProjectEducationCenter) && getReportCountMaxApproved(childLink.name)"
                         :class="['action', props.variant]"
                         :to="childLink.location"
                       >
@@ -122,173 +126,16 @@
                           :is-compare="true"
                           :is-limit="false"
                         />
+
                         <InstituteProjectReportsQuota
                           v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_AIRCRAFT_ENGINEERING_AND_TRANSPORTATION
+                            childLink.name.includes(
+                              'INST_DIRECTOR_PROJECTS_REPORTS_',
+                            )
                           "
                           :state-id="
                             FilterByToProjectReportNameId[
-                              'institute_of_aircraft_engineering_and_transportation'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_DISTANCE_AND_EVENING_EDUCATION
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'institute_of_distance_and_evening_education'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_HIGH_TECHNOLOGY
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'institute_of_high_technology'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_INFORMATION_TECHNOLOGY_AND_DATA_ANALYSIS
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'institute_of_information_technology_and_data_analysis'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_ARCHITECTURE_CONSTRUCTION_AND_DESIGN
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'institute_of_architecture_construction_and_design'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_SUBSOIL_USE_INSTITUTE
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'subsoil_use_institute'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_ECONOMICS_MANAGEMENT_AND_LAW
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'institute_of_economics_management_and_law'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_BRICS_BAIKAL_INSTITUTE
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'brics_baikal_institute'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_LINGUISTICS_AND_INTERCULTURAL_COMMUNICATION
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'institute_of_linguistics_and_intercultural_communication'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_ENERGY_INSTITUTE
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId['energy_institute']
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_IRNITU_BRANCH_IN_USOLYE_SIBIRSKIY
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'irnitu_branch_in_usolye_sibirskiy'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_COLLEGE_OF_MECHANICAL_ENGINEERING
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'college_of_mechanical_engineering'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_GEOLOGICAL_EXPLORATION_TECHNICAL_SCHOOL
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'geological_exploration_technical_school'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_OF_QUANTUM_PHYSICS
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'institute_of_quantum_physics'
-                            ]
-                          "
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_MRCPC
-                          "
-                          :state-id="FilterByToProjectReportNameId['mrcpc']"
-                        />
-                        <InstituteProjectReportsQuota
-                          v-else-if="
-                            childLink.name ===
-                            RouteNames.INST_DIRECTOR_PROJECTS_REPORTS_INSTITUTE_SIBERIAN_SCHOOL_OF_GEOSCIENCES
-                          "
-                          :state-id="
-                            FilterByToProjectReportNameId[
-                              'institute_siberian_school_of_geosciences'
+                            childLink.name.replace('INST_DIRECTOR_PROJECTS_REPORTS_', '').toLowerCase() as FilterInstituteProjectReportsBy
                             ]
                           "
                         />
@@ -352,14 +199,16 @@
 </template>
 
 <script setup lang="ts">
-  import { title } from 'process';
   import { ref } from 'vue';
   import { RouterLink } from 'vue-router';
   import InstituteProjectsQuota from '@/components/project-proposal/InstituteProjectsQuota.vue';
   import InstituteProjectReportsQuota from '@/components/project-report/InstituteProjectReportsQuota.vue';
   import SimpleAccordion from '@/components/ui/accordion/SimpleAccordion.vue';
   import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
+  import { useInstituteReportsMetaData } from '../../hooks/useInstituteReportsMetaData';
+  import { ReportsCount } from '@/hooks/useInstituteReportsMetaData';
   import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
+  import { FilterInstituteProjectReportsBy } from '../../router/utils/routes';
   import { RouteNames } from '@/router/types/route-names';
   import {
     FilterByToProjectProposalStateId,
@@ -377,6 +226,22 @@
 
   const authStore = useAuthStore();
   const profileData = authStore.profileData as UserSupervisor;
+
+  const { reportsCount } = useInstituteReportsMetaData({
+    enabled: authStore.isInstDirector,
+  });
+
+  const getReportCountMaxApproved = (nameRoute: RouteNames) => {
+    if (!nameRoute.includes('INST_DIRECTOR_PROJECTS_REPORTS_')) return 1;
+
+    const projectReportName = nameRoute
+      .replace('INST_DIRECTOR_PROJECTS_REPORTS_', '')
+      .toLowerCase() as FilterInstituteProjectReportsBy;
+
+    return reportsCount.value[
+      FilterByToProjectReportNameId[projectReportName] as keyof ReportsCount
+    ].maxApproved;
+  };
 
   const { logout } = useLogoutWithModalMutation();
 </script>
@@ -438,6 +303,7 @@
 
   .action {
     display: flex;
+    gap: 15px;
     align-items: center;
     justify-content: space-between;
     width: 100%;
@@ -496,7 +362,9 @@
   }
 
   .item:not(:last-child) {
-    border-bottom: 1px solid var(--gray-color-1);
+    &:has(*) {
+      border-bottom: 1px solid var(--gray-color-1);
+    }
 
     &.mobile {
       border-bottom: none;

@@ -1,7 +1,9 @@
 import { projectFiltersToSearchParams } from '@/helpers/location-query';
 import { formatProjectDate } from '@/helpers/project';
+import { delayRes } from '@/helpers/promise';
 import { compareString } from '@/helpers/string';
 import { Candidate } from '@/models/Candidate';
+import { Participation } from '@/models/Participation';
 import {
   Project,
   ProjectFilters,
@@ -87,21 +89,17 @@ export default class ProjectApi implements ProjectApiType {
     candidateId: number,
     mark: number,
     review: string,
-  ): Promise<Project> {
-    const [project] = await Promise.all([
-      baseKyInstance
-        .patch(
-          `api/supervisor/projects/${projectId}/candidates/${candidateId}`,
-          {
-            json: {
-              mark,
-              review,
-            },
-          },
-        )
-        .json<Project>(),
-    ]);
-    return formatProjectDate(project);
+  ): Promise<Participation> {
+    const participation: Participation = await baseKyInstance
+      .patch(`api/supervisor/projects/${projectId}/candidates/${candidateId}`, {
+        json: {
+          mark,
+          review,
+        },
+      })
+      .json();
+
+    return delayRes(participation, 200);
   }
 
   async getProjectHistory(projectId: number): Promise<Project[]> {

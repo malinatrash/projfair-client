@@ -62,7 +62,7 @@
     const fio = authStore.profileData?.fio;
     if (!fio) return '';
     const [f, ...rest] = fio.split(' ');
-    return `${f} ${rest.map((str) => str[0]).join('. ')}.`;
+    return `${f} ${rest.map((str: string) => str[0]).join('. ')}.`;
   });
 
   function toggleMenu() {

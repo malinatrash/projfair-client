@@ -1,52 +1,77 @@
 <template>
   <div class="wrapper">
     <RouterLink class="project-tab" :to="{ name: RouteNames.PROJECT_DETAILS }">
-      о проекте
+      О проекте
     </RouterLink>
-    
     <RouterLink
-    v-if="canViewParticipants(projectState.id)"
-    class="project-tab"
-    :to="{ name: RouteNames.PROJECT_RESULTS }"
->
-    Результаты проекта
+      v-if="
+        isArchivedState(projectState.id) ||
+        (isActiveState(projectState.id) &&
+          (isCurrentUserSupervisorOfDataProject ||
+            isDirectorInstituteOfProject ||
+            authStore.isHeadOfProjectEducationCenter))
+      "
+      class="project-tab"
+      :to="{ name: RouteNames.PROJECT_RESULTS }"
+    >
+      Результаты проекта
     </RouterLink>
-
-
     <RouterLink
       v-if="canViewParticipations(projectState.id)"
       class="project-tab"
       :to="{ name: RouteNames.PROJECT_PARTICIPATIONS }"
     >
-      список заявок
+      Список заявок
     </RouterLink>
     <RouterLink
       v-if="canViewParticipants(projectState.id)"
       class="project-tab"
       :to="{ name: RouteNames.PROJECT_PARTICIPANTS }"
     >
-      список участников
+      Список участников
     </RouterLink>
-    
   </div>
 </template>
 
 <script setup lang="ts">
-  import { toRefs } from 'vue';
-  import { RouterLink } from 'vue-router';
+  import { computed, toRefs } from 'vue';
+  import { RouterLink, useRoute } from 'vue-router';
+  import { useGetSingleProjectQuery } from '@/api/ProjectApi/hooks/useGetSingleProjectQuery';
   import {
     canViewParticipants,
     canViewParticipations,
+    isActiveState,
+    isArchivedState,
   } from '@/helpers/project';
+  import {
+    checkCurrentSupervisor,
+    checkDirectorInstitute,
+  } from '@/helpers/projectCardUtils';
   import { RouteNames } from '@/router/types/route-names';
+  import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { ProjectState } from '@/models/ProjectState';
-  import { toProjectResultRoute } from '@/router/utils/routes';
-  
+
   interface Props {
     projectState: ProjectState;
   }
   const props = defineProps<Props>();
   const { projectState } = toRefs(props);
+
+  const authStore = useAuthStore();
+
+  const route = useRoute();
+
+  const { data: projectData } = useGetSingleProjectQuery(
+    Number(route.params.id),
+  );
+
+  const isDirectorInstituteOfProject = computed(() =>
+    checkDirectorInstitute(projectData.value?.project, authStore),
+  );
+
+  const isCurrentUserSupervisorOfDataProject = computed(() =>
+    checkCurrentSupervisor(projectData.value?.project, authStore),
+  );
 </script>
 
 <style lang="scss" scoped>

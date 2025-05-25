@@ -4,6 +4,7 @@ import { UseQueryOptions, useQuery } from 'vue-query';
 import { projectApi } from '@/api/ProjectApi';
 import { DEFAULT_QUERY_STALE_TIME } from '@/api/baseKy';
 import { Project } from '@/models/Project';
+import ProjectApiType from '../ProjectApiType';
 
 type TQueryFnData = { project: Project; projectHistory: Project[] };
 
@@ -37,12 +38,18 @@ export const useGetSingleProjectQuery = <T = TQueryFnData>(
 
   return useQuery(
     getSingleProjectQueryKey(projectIdRef),
-    async () => {
-      const projectId = get(projectIdRef);
+    async (data) => {
+      let projectId = get(projectIdRef);
+
+      if (isNaN(projectId)) {
+        projectId = data.queryKey[1] as number;
+      }
+
       const [project, projectHistory] = await Promise.all([
         projectApi.getSingleProject(projectId),
         projectApi.getProjectHistory(projectId),
       ]);
+
       return { project, projectHistory };
     },
     {

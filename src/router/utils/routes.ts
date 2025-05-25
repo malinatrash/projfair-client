@@ -6,8 +6,10 @@ import { ProjectStateID } from '@/models/ProjectState';
 
 export function toProjectResultRoute(projectId: number): RouteLocationRaw {
   return {
-    name: RouteNames.SUPERVISOR_PROJECT_PROPOSAL_RESULT,
-    params: { id: projectId },
+    name: RouteNames.PROJECT_RESULTS,
+    params: {
+      id: projectId,
+    },
   };
 }
 
@@ -149,6 +151,44 @@ export const FilterByToProjectReportNameId: Record<
   [FilterInstituteProjectReportsBy.MRCPC]: ProjectReportNameId.MRCPC,
   [FilterInstituteProjectReportsBy.InstituteSiberianSchoolOfGeosciences]:
     ProjectReportNameId.InstituteSiberianSchoolOfGeosciences,
+};
+
+export const FilterByToProjectReportIdName: Record<
+  ProjectReportNameId,
+  FilterInstituteProjectReportsBy
+> = {
+  [ProjectReportNameId.All]: FilterInstituteProjectReportsBy.All,
+  [ProjectReportNameId.InstituteOfAircraftEngineeringAndTransportation]:
+    FilterInstituteProjectReportsBy.InstituteOfAircraftEngineeringAndTransportation,
+  [ProjectReportNameId.InstituteOfDistanceAndEveningEducation]:
+    FilterInstituteProjectReportsBy.InstituteOfDistanceAndEveningEducation,
+  [ProjectReportNameId.InstituteOfHighTechnology]:
+    FilterInstituteProjectReportsBy.InstituteOfHighTechnology,
+  [ProjectReportNameId.InstituteOfInformationTechnologyAndDataAnalysis]:
+    FilterInstituteProjectReportsBy.InstituteOfInformationTechnologyAndDataAnalysis,
+  [ProjectReportNameId.InstituteOfArchitectureConstructionAndDesign]:
+    FilterInstituteProjectReportsBy.InstituteOfArchitectureConstructionAndDesign,
+  [ProjectReportNameId.SubsoilUseInstitute]:
+    FilterInstituteProjectReportsBy.SubsoilUseInstitute,
+  [ProjectReportNameId.InstituteOfEconomicsManagementAndLaw]:
+    FilterInstituteProjectReportsBy.InstituteOfEconomicsManagementAndLaw,
+  [ProjectReportNameId.BRICSBaikalInstitute]:
+    FilterInstituteProjectReportsBy.BRICSBaikalInstitute,
+  [ProjectReportNameId.InstituteOfLinguisticsAndInterculturalCommunication]:
+    FilterInstituteProjectReportsBy.InstituteOfLinguisticsAndInterculturalCommunication,
+  [ProjectReportNameId.EnergyInstitute]:
+    FilterInstituteProjectReportsBy.EnergyInstitute,
+  [ProjectReportNameId.IRNITUBranchInUsolyeSibirskiy]:
+    FilterInstituteProjectReportsBy.IRNITUBranchInUsolyeSibirskiy,
+  [ProjectReportNameId.CollegeOfMechanicalEngineering]:
+    FilterInstituteProjectReportsBy.CollegeOfMechanicalEngineering,
+  [ProjectReportNameId.GeologicalExplorationTechnicalSchool]:
+    FilterInstituteProjectReportsBy.GeologicalExplorationTechnicalSchool,
+  [ProjectReportNameId.InstituteOfQuantumPhysics]:
+    FilterInstituteProjectReportsBy.InstituteOfQuantumPhysics,
+  [ProjectReportNameId.MRCPC]: FilterInstituteProjectReportsBy.MRCPC,
+  [ProjectReportNameId.InstituteSiberianSchoolOfGeosciences]:
+    FilterInstituteProjectReportsBy.InstituteSiberianSchoolOfGeosciences,
 };
 
 export function toInstituteProjectReports(

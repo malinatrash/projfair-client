@@ -1,5 +1,5 @@
 <template>
-  <BaseAccordion v-model:opened="opened" :animated="animated">
+  <BaseAccordion :opened="opened" :animated="animated">
     <template #title>
       <!-- @slot Слот для заголовка компонента -->
       <slot name="title"></slot>

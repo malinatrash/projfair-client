@@ -65,7 +65,6 @@
 
 <script setup lang="ts">
   import { computed, ref } from '@vue/runtime-core';
-  import { storeToRefs } from 'pinia';
   import { useRoute, useRouter } from 'vue-router';
   import { useToast } from 'vue-toastification';
   import PageLayout from '@/components/layout/PageLayout.vue';
@@ -80,6 +79,7 @@
   import { RouteNames } from '@/router/types/route-names';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
+  import { ProjectSupervisor } from '@/models/Project';
   import { ProjectProposalStateId } from '@/models/ProjectProposal';
 
   useWatchAuthorization();
@@ -88,7 +88,6 @@
   const route = useRoute();
   const authStore = useAuthStore();
   const modalsStore = useModalsStore();
-  const { isInstDirector } = storeToRefs(authStore);
   const projectId = computed(() => Number(route.params.id));
   const navigateBack = useNavigateBack({
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS,
@@ -114,7 +113,7 @@
 
   const isCurrentUserSupervisorOfDataProject = computed(() => {
     return dataProjectQuery.data.value?.project.supervisors.some(
-      (supervisor) => {
+      (supervisor: ProjectSupervisor) => {
         return supervisor.supervisor.id === authStore.profileData?.id;
       },
     );
@@ -136,16 +135,6 @@
       dataProjectQuery.isFetching.value,
   );
 
-  // watch(
-  //   () => currentProjectProposalComputed.value,
-  //   (currentProjectResult, prevCurrentProjectResult) => {
-  //     if (currentProjectResult?.id === prevCurrentProjectResult?.id) return;
-  //     if (!currentProjectResult) return;
-  //     fillFromProjectResult(currentProjectResult);
-  //   },
-  //   { deep: true, immediate: true },
-  // );
-
   function validateProjectProposal(): string | undefined {
     const { projectResultDescription } = projectResultFormValue.value;
 
@@ -155,39 +144,6 @@
 
     return undefined;
   }
-
-  // function fillFromProjectResult(projectProposal: CreatedProjectProposal) {
-  //   setProjectResultFormValue({
-  //     prevProjectId: projectProposal.prevProjectId,
-  //     isNewProject: !projectProposal.prevProjectId,
-  //     projectName: projectProposal.title,
-  //     projectGoal: projectProposal.goal,
-  //     projectCustomer: projectProposal.customer,
-  //     projectThemeSourceId: projectProposal.theme_source?.id || null,
-  //     projectDifficulty: projectProposal.difficulty,
-  //     projectExpectedResult: projectProposal.product_result,
-  //     skillsToBeFormed: projectProposal.study_result,
-  //     projectDescription: projectProposal.description,
-  //     skillList: projectProposal.skills,
-  //     // projectDuration: projectDurationFromDate({
-  //     //   start: projectProposal.date_start,
-  //     //   end: projectProposal.date_end,
-  //     // }),
-  //     specialtyList: mapSpecialtyList(
-  //       projectProposal.project_specialities,
-  //       SpecialtyPriority.High,
-  //     ),
-  //     additionalSpecialtyList: mapSpecialtyList(
-  //       projectProposal.project_specialities,
-  //       SpecialtyPriority.Low,
-  //     ),
-  //     team: mapProjectProposalTeam(
-  //       projectProposal.supervisors,
-  //       projectResultFormValue.value.sharedRoleList,
-  //       projectResultFormValue.value.currentUserRoleList,
-  //     ),
-  //   });
-  // }
 
   function clearAllFields() {
     projectResultFormValue.value = {

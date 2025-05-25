@@ -2,6 +2,7 @@ import { DownloadProgress } from 'ky';
 import { formatProjectDate } from '@/helpers/project';
 import { delayRes, sleep } from '@/helpers/promise';
 import { Candidate } from '@/models/Candidate';
+import { Participation } from '@/models/Participation';
 import type {
   Project,
   ProjectFilters,
@@ -42,6 +43,18 @@ export default class ProjectApiMock implements ProjectApiType {
       filteredList = filteredList.filter((project) =>
         filters.state?.includes(project.state.id),
       );
+    }
+    // SUPERVISORS
+    if (filters.supervisors && filters.supervisors.length > 0) {
+      filteredList = filteredList.filter((project) => {
+        const supervisorIds = project.supervisors.map(
+          (supervisor) => supervisor.supervisor.id,
+        );
+
+        return filters.supervisors.some((supervisorId) =>
+          supervisorIds.includes(supervisorId),
+        );
+      });
     }
     // TITLE
     if (filters.title) {
@@ -160,7 +173,7 @@ export default class ProjectApiMock implements ProjectApiType {
     candidateId: number,
     mark: number,
     review: string,
-  ): Promise<Project> {
+  ): Promise<Participation> {
     const projectToUpdate = projectListResponse.data.find(
       (project) => project.id === projectId,
     );
@@ -169,21 +182,20 @@ export default class ProjectApiMock implements ProjectApiType {
       throw new Error('Проект не найден');
     }
 
-    const updatedProject = {
-      ...projectToUpdate,
+    const participantToUpdate = projectToUpdate.participations?.find(
+      (participation) => participation.id === candidateId,
+    );
+
+    if (!participantToUpdate) {
+      throw new Error('Участник не найден');
+    }
+
+    const updatedParticipation = {
+      ...participantToUpdate,
       mark: mark,
       review: review,
     };
 
-    const updatedProjectList = projectListResponse.data.map((project) => {
-      if (project.id === projectId) {
-        return updatedProject;
-      }
-      return project;
-    });
-
-    await delayRes(updatedProjectList, 200);
-
-    return formatProjectDate(updatedProject);
+    return await delayRes(updatedParticipation, 200);
   }
 }

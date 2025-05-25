@@ -14,6 +14,7 @@ export interface UserRole {
   is_student: boolean;
   is_teacher: boolean;
   is_institute_director: boolean;
+  is_head_project_education_center: boolean;
 }
 
 export type UserRoleKey = keyof UserRole;

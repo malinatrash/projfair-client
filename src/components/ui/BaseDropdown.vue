@@ -71,6 +71,7 @@
     position: absolute;
     top: 80%;
     right: 0;
+    z-index: 1;
     width: 15rem;
     padding: 0.6rem 0 !important;
   }
