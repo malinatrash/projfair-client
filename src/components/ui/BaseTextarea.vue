@@ -10,9 +10,8 @@
       :value="props.modelValue"
       :class="[
         'input',
-        { 'with-maxlength': isValid },
         {
-          'lenght-limit': !isValid,
+          'length-limit': !isValid,
         },
       ]"
       :style="{ resize: props.resize }"
@@ -24,7 +23,7 @@
       :class="[
         'maxlength',
         {
-          'lenght-limit': !isValid,
+          'length-limit': !isValid,
         },
       ]"
     >
@@ -142,11 +141,10 @@
 
   .label-full-text {
     position: relative;
-    padding-bottom: 5px;
-    margin-top: -20px;
     margin-right: 0.25rem;
     font-size: 0.85rem;
-    color: var(--red-color-1);
+    line-height: normal;
+    color: var(--orange-color-1);
     text-align: end;
   }
 
@@ -159,10 +157,6 @@
     border: 1px solid var(--gray-color-1);
     border-radius: 0.3125rem;
     transition: 100ms ease;
-  }
-
-  .input.with-maxlength {
-    padding-bottom: 2.5rem;
   }
 
   .input::placeholder {
@@ -184,16 +178,16 @@
     border: 1px solid var(--accent-color-1);
   }
 
-  .input.lenght-limit {
-    border: 2px solid var(--red-color-1);
+  .input.length-limit {
+    border: 2px solid var(--orange-color-1);
   }
 
   .input:user-invalid {
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--red-color-1) 100%, white 35%);
   }
 
-  .maxlength.lenght-limit {
-    color: var(--red-color-1);
+  .maxlength.length-limit {
+    color: var(--orange-color-1);
   }
 
   @media (max-width: 1000px) {

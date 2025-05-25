@@ -108,12 +108,18 @@
           data-test-id="prevProject"
           class="multiselect"
           :placeholder="
-            props.isLoading
-              ? 'Ваши проекты загружаются...'
+            props.isLoading || props.isProjectsFetching
+              ? !props.isAdmin
+                ? 'Ваши проекты загружаются...'
+                : 'Проекты загружаются...'
               : !props.prevProjectList
-              ? 'Ошибка загрузки ваших проектов'
+              ? !props.isAdmin
+                ? 'Ошибка загрузки ваших проектов'
+                : 'Ошибка загрузки проектов'
               : props.prevProjectList?.length === 0
-              ? 'Ваши старые проекты не найдены'
+              ? !props.isAdmin
+                ? 'Ваши старые проекты не найдены'
+                : 'Старые проекты не найдены'
               : projectProposalFormValue.isNewProject
               ? 'Переключите тип проекта на «Продолжить старый»'
               : 'Выберите проект для продолжения'
@@ -126,7 +132,8 @@
             projectProposalFormValue.isNewProject ||
             props.isLoading ||
             prevProjectsMultiselectItems.length === 0 ||
-            !props.canUserEdit
+            !props.canUserEdit ||
+            props.isProjectsFetching
           "
         />
       </BaseLabel>
@@ -463,9 +470,7 @@
 
         <template #default>
           <BaseInput
-            :model-value="
-              props.isLoading ? undefined : props.projectJobDeveloper
-            "
+            :model-value="props.projectJobDeveloper"
             data-test-id="projectJobDeveloper"
             :placeholder="props.isLoading ? 'Загрузка проектной заявки...' : ''"
             disabled
@@ -838,19 +843,21 @@
   import { ProjectDifficulty } from '@/models/ProjectDifficulty';
   import { MemberRole, MemberRoleText } from '@/models/ProjectProposal';
   import { Specialty } from '@/models/Specialty';
-  import { Supervisor } from '@/models/Supervisor';
+  import type { Supervisor } from '@/models/Supervisor';
   import { Tag } from '@/models/Tag';
 
   type Props = {
     projectProposalFormValue: ProjectProposalFormValue;
     canUserEdit?: boolean;
     isLoading?: boolean;
+    isProjectsFetching?: boolean;
     prevProjectList?: Project[];
     supervisorList: Supervisor[];
     projectSkillList?: Skill[];
     specialtyList?: Specialty<number>[];
     themeSourceList?: Tag<number>[];
     projectJobDeveloper?: string;
+    isAdmin?: boolean;
   };
   type Emits = {
     (
@@ -862,12 +869,14 @@
   const props = withDefaults(defineProps<Props>(), {
     canUserEdit: true,
     isLoading: false,
+    isProjectsLoading: false,
     prevProjectList: undefined,
     projectSkillList: undefined,
     specialtyList: undefined,
     supervisorList: undefined,
     themeSourceList: undefined,
     projectJobDeveloper: undefined,
+    isAdmin: false,
   });
   const emit = defineEmits<Emits>();
 
@@ -940,6 +949,10 @@
       if (isNewProject) projectProposalForm.prevProjectId = null;
     },
   );
+
+  const onJobDeveloperChange = (supervisor: Supervisor) => {
+    props.projectProposalFormValue.team[0].memberData = supervisor; // eslint-disable-line
+  };
 </script>
 
 <style lang="scss" module>

@@ -28,18 +28,18 @@
 <script setup lang="ts">
   import { router } from '@/router';
   import { RouterLink } from 'vue-router';
-  import { useArmNavigationRoutes } from '@/hooks/useRoutes';
+  import { useAdminNavigationRoutes } from '@/hooks/useRoutes';
   import { useModalsStore } from '@/stores/modals/useModalsStore';
 
   type Props = { variant: 'desktop' | 'mobile' };
   const props = withDefaults(defineProps<Props>(), { variant: 'desktop' });
-  const route = useArmNavigationRoutes();
+  const route = useAdminNavigationRoutes();
 
   const modalsStore = useModalsStore();
 
   const openGoBackConfirmModal = () => {
     modalsStore.openConfirmModal(
-      'Вы уверены, что хотите выйти из формирования команд?',
+      'Вы уверены, что хотите выйти из панели администратора?',
       'Выйти',
       'Отмена',
       () => {

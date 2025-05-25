@@ -1,20 +1,20 @@
 <template>
   <div ref="tumblerRef" :class="['tumbler', { disabled: disabled }]">
-    <div ref="sliderRef" class="slider" :class="{ animated: animation }"></div>
+    <div ref="sliderRef" class="slider" :class="{ animated: animated }"></div>
     <label
       v-for="option in options"
-      :key="option.label"
+      :key="option.value"
       :class="['tumbler-option', { 'hug-fill': hugFill }]"
     >
       <input
         v-model="selectedOption"
-        :value="option.label"
+        :value="option.value"
         :name="`tumbler-group-${randomId}`"
         type="radio"
-        :class="['tumbler-radio', { active: selectedOption === option.label }]"
+        :class="['tumbler-radio', { active: selectedOption === option.value }]"
         :disabled="disabled"
       />
-      <span :class="['radio-label', { animated: animation }]"
+      <span :class="['radio-label', { animated: animated }]"
         >{{ option.label
         }}{{ option.prefix !== undefined ? ` ${option.prefix}` : '' }}</span
       >
@@ -30,13 +30,14 @@
 
   const props = defineProps<{
     options: {
-      label: string;
+      value: string;
+      label?: string;
       prefix?: number | string;
     }[];
     modelValue: string;
     hugFill?: boolean;
-    animation?: boolean;
     disabled?: boolean;
+    animated?: boolean;
   }>();
 
   const emit = defineEmits<{
@@ -57,7 +58,7 @@
     const sliderElement = sliderRef.value;
 
     const index = props.options.findIndex(
-      (option) => option.label === selectedOption.value,
+      (option) => option.value === selectedOption.value,
     );
 
     const activeInputElement = inputElements?.item(index)?.parentElement;
@@ -174,6 +175,14 @@
 
       .radio-label {
         color: var(--gray-color-2);
+      }
+
+      .tumbler-radio.active + .radio-label {
+        color: var(--gray-color-1);
+      }
+
+      .tumbler-radio {
+        cursor: default;
       }
     }
   }
