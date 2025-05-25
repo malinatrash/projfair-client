@@ -13,11 +13,11 @@
   import { DropdownItem } from '@/models/components/DropdownItem';
   import { useLogoutWithModalMutation } from '@/api/AuthApi/hooks/useLogoutWithModalMutation';
   import { useRoledUserNavigationRoutes } from '@/hooks/useRoutes';
+  import { RouteNames } from '@/router/types/route-names';
   import { FilterByToProjectReportIdName } from '@/router/utils/routes';
   import { useAuthStore } from '@/stores/auth/useAuthStore';
   import { ProjectReportNameId } from '@/models/ProjectReport';
   import { UserSupervisor } from '@/models/User';
-  import { RouteNames } from '@/router/types/route-names';
   import DropdownList from '../ui/DropdownList.vue';
 
   const authStore = useAuthStore();
@@ -35,7 +35,6 @@
 
   const props = defineProps<Props>();
   const emit = defineEmits<Emits>();
-  const authStore = useAuthStore();
 
   const route = useRoute();
   const routes = useRoledUserNavigationRoutes();
