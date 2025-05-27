@@ -1,5 +1,6 @@
 // P.S. тут раньше были динамические импорты, т.е. "() => import('@/pages/ProjectPage/index.vue')", но они плохо работали на продакшене "projfair.istu.edu", так что было решено оставить обычные импорты для всего приложения
 import { RouteRecordRaw } from 'vue-router';
+import ActiveProjectPage from '@/pages/ActiveProjectPage.vue';
 import AdminCreateProject from '@/pages/AdminPage/AdminCreateProject.vue';
 import AdminProjects from '@/pages/AdminPage/AdminProjects.vue';
 import AdminTransferCandidatesParticipation from '@/pages/AdminPage/AdminTransferCandidatesParticipation.vue';
@@ -38,7 +39,6 @@ import UserProjectProposals from '@/pages/UserPage/UserProjectProposals.vue';
 import UserProjects from '@/pages/UserPage/UserProjects.vue';
 import UserPage from '@/pages/UserPage/index.vue';
 import ProjectResultForm from '@/components/project-proposal/ProjectResultForm.vue';
-import ActiveProjectPage from '@/pages/ActiveProjectPage.vue';
 import { RouteNames } from './types/route-names';
 import {
   FilterInstituteProjectProposalsBy,

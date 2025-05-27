@@ -64,7 +64,7 @@
       return route;
     });
 
-  if (isInstituteDirector && !isTeacher) {
+  if (isInstituteDirector) {
     items.push({
       content: 'Активные проекты',
       location: { name: RouteNames.ACTIVE_PROJECTS },
