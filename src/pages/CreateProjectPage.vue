@@ -196,6 +196,7 @@
     name: RouteNames.SUPERVISOR_PROJECT_PROPOSALS,
   });
 
+  const academicYear = getAcademicYear(new Date().getMonth());
   const defaultProjectProposalFormValue: ProjectProposalFormValue = {
     isNewProject: true,
     prevProjectId: null,
@@ -203,7 +204,11 @@
     projectGoal: '',
     projectCustomer: '',
     projectThemeSourceId: null,
-    projectDuration: getAcademicYear(new Date().getMonth()).isSpring()
+    projectDuration: academicYear.isSpring()
+      ? academicYear.disabledAutumnRadioButton()
+        ? ProjectDuration.SpringSemester
+        : ProjectDuration.FallSemester
+      : academicYear.disabledAutumnRadioButton()
       ? ProjectDuration.SpringSemester
       : ProjectDuration.FallSemester,
     projectDifficulty: ProjectDifficulty.Low,

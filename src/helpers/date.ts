@@ -11,6 +11,7 @@ interface AcademicYear {
   academicYear: () => number;
   isSpring: () => boolean;
   isAutumn: () => boolean;
+  disabledAutumnRadioButton: () => boolean;
 }
 
 /**
@@ -24,8 +25,9 @@ interface AcademicYear {
 export function getAcademicYear(currentMonth: number): AcademicYear {
   const currentYear = new Date(Date.now()).getFullYear();
   return {
-    academicYear: () => (currentMonth <= 3 ? currentYear - 1 : currentYear), // возвращает академический год
+    academicYear: () => (currentMonth >= 4 ? currentYear : currentYear - 1), // возвращает академический год
     isSpring: () => currentMonth >= 0 && currentMonth <= 4, // возвращает true, если сейчас весна
     isAutumn: () => currentMonth >= 8 && currentMonth <= 11, // возвращает true, если сейчас осень
+    disabledAutumnRadioButton: () => currentMonth <= 3 || currentMonth >= 10, // возвращает true, если сейчас осень
   };
 }

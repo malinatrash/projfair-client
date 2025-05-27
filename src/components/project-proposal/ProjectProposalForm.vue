@@ -332,7 +332,8 @@
           v-model="projectProposalForm.projectDuration"
           data-test-id="projectDurationFallRadioButton"
           :disabled="
-            !isEditable || getAcademicYear(new Date().getMonth()).isSpring()
+            !isEditable ||
+            getAcademicYear(new Date().getMonth()).disabledAutumnRadioButton()
           "
           :value="ProjectDuration.FallSemester"
         >
@@ -349,9 +350,7 @@
         <BaseRadioButton
           v-model="projectProposalForm.projectDuration"
           data-test-id="projectDurationFullYearRadioButton"
-          :disabled="
-            !isEditable || getAcademicYear(new Date().getMonth()).isSpring()
-          "
+          :disabled="!isEditable"
           :value="ProjectDuration.FullYear"
         >
           2 семестра ({{ currentYear }} - {{ currentYear + 1 }} год)

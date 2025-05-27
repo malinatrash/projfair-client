@@ -184,6 +184,8 @@ describe('ProjectProposalForm.vue', () => {
 
   describe('@emits', () => {
     it('данные обновляются при обновлении инпутов', async () => {
+      const academicYear = getAcademicYear(new Date().getMonth());
+
       const projectProposalFormValue: ProjectProposalFormValue = {
         isNewProject: true,
         prevProjectId: null,
@@ -191,9 +193,7 @@ describe('ProjectProposalForm.vue', () => {
         projectGoal: 'projectGoal',
         projectCustomer: 'projectCustomer',
         projectThemeSourceId: 1,
-        projectDuration: getAcademicYear(new Date().getMonth()).isSpring()
-          ? ProjectDuration.SpringSemester
-          : ProjectDuration.FallSemester,
+        projectDuration: ProjectDuration.FullYear,
         projectDifficulty: ProjectDifficulty.Low,
         skillsToBeFormed: 'skillsToBeFormed',
         projectExpectedResult: 'projectExpectedResult',
@@ -258,9 +258,7 @@ describe('ProjectProposalForm.vue', () => {
         projectName: 'новый projectName',
         projectGoal: 'новый projectGoal',
         projectCustomer: 'новый projectCustomer',
-        projectDuration: getAcademicYear(new Date().getMonth()).isSpring()
-          ? ProjectDuration.SpringSemester
-          : ProjectDuration.FullYear,
+        projectDuration: ProjectDuration.FullYear,
         projectDifficulty: ProjectDifficulty.High,
         projectExpectedResult: 'новый projectExpectedResult',
         skillsToBeFormed: 'новый skillsToBeFormed',
